@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script type="text/javascript">
+        //见附件《图解原型练习.png》
+        //构造函数Fn体内部定义的带this前缀的属性和方法，是构造函数Fn和实例new Fn的私有方法，Fn和f1、f2都能访问到
+        function Fn() {
+            this.x = 100;
+            this.y = 200;
+            this.getX = function () {
+                console.log(this.x);
+            }
+            //构造函数类通过下面两种方式定义的属性，可以直接忽略，不会进入原型链。
+            cxh=99; //window的属性window.cxh或者cxh直接访问。 其他方式比如f1.cxh，Fn.cxh，Fn.prototye.cxh均为undefined.
+            var kn = 1001;//函数内的私有属性，Fn()普通方式执行函数时，在函数内部可以访问，函数外部无法访问。
+        }
+        //通过Fn.setX方式添加的属性和方法是Fn独有的私有属性和私有访问，只有Fn可以访问，而Fn的实例f1和f2无法访问。
+        Fn.setX = function (num) {
+            this.x = num;
+            console.log(this.x);
+        };
+        //在Fn的原型Fn.prototype上添加的属性和方法，是公有属性和方法。Fn的实例f1和f2可以访问到
+        Fn.prototype = {
+            x: 10,
+            getX: function () {
+                console.log(this.x);
+            },
+            getY: function () {
+                console.log(this.y);
+            }
+        };
+        //通过new Fn方式创建的是Fn的实例f1和f2，自动拥有Fn构造函数内定义的带this前缀的属性和方法this.x、this.y和this.getX。
+        var f1 = new Fn;
+        var f2 = new Fn;
+        //1、please write true or false
+        console.log(f1.getX === f2.getX); //false, f1和f2的getX方法虽然都来源于Fn，但是彼此独立的私有方法，实例上的私有方法一定不相等。
+        console.log(f1.getY === f2.getY); //true，f1和f2上没有getY方法，通过原型链查找访问Fn.prototype上的公有方法getY，原型上公有方法肯定相等
+        console.log(f1.__proto__.getX === f2.__proto__.getX); //true,二者都等价于Fn.prototype.getX,访问的是同一个引用，所以相等
+        console.log(f1.getX === Fn.prototype.getX);  //false，实例f1上存在私有方法getX,所以实例上的私有方法和原型上的公有房不相等
+        console.log(f1.getY === Fn.prototype.getY); //true，因为实例f1上不存在私有方法getY,会基于原型链查找到的是原型上的公有方法getY，故相等
+        console.log(f1.hasOwnProperty("getX")); //true，构造函数Fn内带this前缀this.getX，以及通过f1.attr方法添加的属性，都是f1的私有属性。
+        console.log(f1.hasOwnProperty("getY")); //false，构造函数Fn没有没有this.getY,也没有通过f1.getY=xxx添加过私有属性getY,所有不存在私有属性getY
+        console.log(f1.hasOwnProperty("setX")); //false,Fn.setX方式定义的属性是构造函数Fn的私有属性，不是实例f1的私有属性。
+        console.log(f1 instanceof Fn); //true,因为f1.__proto__===Fn.prototype，所以f1是Fn的实例，通过new Fn方式创建的都是Fn的实例。
+        console.log(f1 instanceof Object); //true，因为f1.__proto__.__proto__===Object.prototype，所以f1也是Object的实例，所有对象类型都是Object的实例。
+
+        //2、please write answer
+        console.log(f1.constructor); //Object，因为f1没有contructor属性，Fn.prototype被重写赋值后失去了contructor属性，最终访问的是Object.prototype.contructor，指向Objecet本身
+        f1.getX();   //100，f1自动拥有其构造函数带this前缀的方法this.getX。 this指向f1，f1.x继承自Fn中的this.x=100，所以输出100
+        f1.__proto__.getX( );  //10，等价于Fn.prototype.getX();访问原型上的getX方法，方法中的this指向Fn.prototype，Fn.prototype.x=10.
+        Fn.prototype.getX(); //10,同上
+        f1.getY();  //200，f1上没有getY方法，向上查找找到原型上的getY,getY方法内的this指向f1,this.y=f1.y=200
+        f1.__proto__.getY(); //undefined,等价于Fn.prototype.getY(),getY方法中的this指向Fn.prototype,但是Fn.prototye.y不存在，所以undefined
+        //f1.setX(1000); // Error, f1上不存在setXf方法，所属类Fn上不存在带this浅醉的方法this.setX,原型链Fn.prototype上也不存在setX方法，执行不存在的方法所有 报错
+        Fn.setX(1000);  //1000，Fn上存在私有方法setX,由于定义setX时不是在构造函数Fn内部且没有前缀this，所以只能Fn访问，实例f1和f2无法访问。
+
+        //3、回顾全局变量和私有变量，与构造函数的实例的私有属性形成对比。
+        console.log(f1.cxh,f1.kn,Fn.cxh,Fn.kn,Fn.prototype.cxh,Fn.prototype.kn);//undefined、undefined、undefined、undefined、undefined、undefined
+        console.log(cxh,window.cxh);//99,99. 函数Fn内部定义的，没有this前缀，也没有var关键字的变量cxh,是全局变量cxh 
+        console.log(window.kn); //undefined,函数Fn内部通过var关键字定义的变量kn，是函数内的私有属性，只有函数内部才能访问。windows不存属性kn，所以为undefined
+        console.log(kn); //报错，kn is not defined       
+    </script>
+</body>
+</html>

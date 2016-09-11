@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>面试题47答案</title>    
+</head>
+<body>
+<h1>46 DOM选择符API有哪些及其用法？如何进行元素遍历？</h1>
+<pre>
+	
+	  一、DOM选择符API有哪些及其用法
+      1、querySelector()方法
+         1.1 获取文档中的第一个p元素
+             参数：标签名
+             返回值：第一个p元素
+             document.querySelector(p)
+         1.2 获取文档中的ID为divq的元素
+             参数：ID名
+             返回值:ID名为div1的元素
+             document.querySelector(#div1)
+         1.3 获取文档中类名为nav的第一个元素
+             参数：.类名
+             返回值：类名为.nav的第一元素 
+             document.querySelector(.nav)
+         1.4 获取类名为selected的第一个div元素。
+             参数：元素名.类名
+             返回值：第一个类名为selected的div元素   
+             document.querySelector(div.selected);
+      2、querySelectorAll()方法
+        1.1 获取文档中的所有p元素
+             参数：标签名
+             返回值：所有p元素组成的nodeList列表
+             document.querySelector(p)
+         1.2 获取文档中的ID为divq的元素
+             参数：ID名
+             返回值:ID名为div1的元素
+             document.querySelector(#div1)
+         1.3 获取文档中类名为nav的第一个元素
+             参数：.类名
+             返回值：ID名为.nav的元素 
+             document.querySelector(.nav)
+         1.4 获取类名为selected的第一个div元素。
+             参数：元素名.类名
+             返回值：所有类名为selected的div元素             
+             document.querySelector(div.selected); 
+      3、matchesSelector()方法
+        <!DOCTYPE html>
+        <html lang="en">
+            <head>
+              <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+              <title>Cities</title>         
+            </head>
+            <body class="cxh">     
+            </body> 
+        </html>
+        3.1 webkitMatchesSelector()
+            支持的浏览器：Chrome浏览器、Safari 5+
+            参数：选择器，比如类名
+            返回值：布尔值，如果存在指定选择器的元素则返回 true,否则返回false
+             document.body.webkitMatchesSelector("body.cxh") //true;
+             document.body.webkitMatchesSelector("body.bill") //false;
+        3.2 msMatchesSelector()
+            支持的浏览器：IE9+
+            参数：选择器，比如类名
+            返回值：布尔值，如果存在指定选择器的元素则返回 true,否则返回false
+             document.body.msMatchesSelector("body.cxh") //true;
+             document.body.msMatchesSelector("body.bill") //false;
+        3.3 mozMatchesSelector()
+            支持的浏览器：Firefox3.6+
+            参数：选择器，比如类名
+            返回值：布尔值，如果存在指定选择器的元素则返回 true,否则返回false
+             document.body.mozMatchesSelector("body.cxh") //true;
+             document.body.mozMatchesSelector("body.bill") //false;
+    二、如何进行元素遍历
+       1 为了解决一些浏览器兼容问题，Element Traversal API为DOM元素添加了5个属性。
+          childElementCount:返回子元素的个数
+          firstElementChild:返回第一个子元素
+          lastElementChild:返回最后一个子元素
+          previousElementSibling:返回前一个同辈元素
+          nextElementSibling:指向后一个同辈元素
+      2 遍历所有元素节点
+        <ul id="tab">
+           <li id="li1"></li>
+           <li id="li2"></li>
+           <li id="li3"></li>
+        </ul>
+        var oUl=document.getElmentById("tab");
+        2.1 在IE9+、Firefox3.5+、Safari 4+、Chrome 和 Opera 10+浏览器中
+            var aLi=[];
+            var child=oUl.firstElementChild //返回第一个元素节点Id为li1的元素li           
+            child?aLi.push(child):null; //如果child存在，则存入数组aLi
+            while(child=child.nextElementSibling){ //如果存在下一个弟弟节点，则复制给child。否则结束循环。
+               li.push(child);
+            }
+            console.log(aLi);
+         2.2 在IE8及其以下、Firefox3.5以下、Safari 4以下、Opera 9及其以下浏览器中
+            var aLi=[];
+            //var child=oUl.firstElementChild //undefined，低版本IE浏览器中元素不存在firstElementChild属性
+            var child=oUl.firstChild;//返回第一个子节点（不一定是元素节点）
+            child&&child.nodeType===1?aLi.push(child):null; //如果child存在其节点类型是1（即为元素节点），则存入数组aLi
+            while(child=child.nextElementSibling){ //如果存在下一个弟弟元素，则复制给child变量并存入数组aLi。否则结束循环。
+               child.nodeType===1?li.push(child):null;
+            }
+            console.log(aLi);

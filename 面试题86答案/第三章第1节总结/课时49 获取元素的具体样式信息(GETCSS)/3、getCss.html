@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>JS盒子模型</title>
+    <style type="text/css">
+        /*写CSS的时候第一步初始化默认样式,避免浏览器之间的差异->不仅如此,而且写的默认样式对于JS以后获取到的结果统一也是有帮助的*/
+        * {
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+            font-family: "\5FAE\8F6F\96C5\9ED1", Helvetica, sans-serif;
+        }
+        #box {
+            margin: 100px;
+            padding: 30px;
+            width: 200px;
+            height: 200px;
+            border: 10px solid green;
+            line-height: 30px;
+            opacity: 0.1; /*透明度,在IE6~8中不兼容*/
+            filter: alpha(opacity=10); /*不兼容的话使用滤镜来进行处理*/
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    要得到你必须要付出,要付出你还需要学会坚持,如果你真的觉得很难,那你就放弃,但是一但放弃就不要在抱怨,我觉得人生就是这样,世界真的是平衡的,每个人都是通过自己的努力,去决定自己生活的样子;
+</div>
+<script type="text/javascript">
+    var box = document.getElementById("box");
+    //    function getCss(curEle, attr) {
+    //        var val = null;
+    //        if ("getComputedStyle" in window) {
+    //            val = window.getComputedStyle(curEle, null)[attr];
+    //        } else {
+    //            val = curEle.currentStyle[attr];
+    //        }
+    //        return parseFloat(val);//->这样写肯定不行,对于某些样式属相的值是不能去单位的,例如:float、position、margin、padding、border这些复合值、background...
+    //    }
+    //第一次升级:把获取到的样式值"单位去掉"
+    //->只有符合"数字+单位/数字"才可以使用parseFloat
+    //    function getCss(curEle, attr) {
+    //        var val = null, reg = null;
+    //        if ("getComputedStyle" in window) {
+    //            val = window.getComputedStyle(curEle, null)[attr];
+    //        } else {
+    //            val = curEle.currentStyle[attr];
+    //        }
+    //        reg = /^(-?\d+(\.\d+)?)(px|pt|rem|em)?$/i;
+    //        return reg.test(val) ? parseFloat(val) : val;
+    //    }
+    //    console.log(getCss(box, "width"));
+    //    console.log(getCss(box, "float"));
+    //    console.log(getCss(box, "border"));
+    //第二次升级：有些样式属性在不同浏览器中是不兼容的,例如:opacity
+    function getCss(curEle, attr) {
+        var val = null, reg = null;
+        if ("getComputedStyle" in window) {
+            val = window.getComputedStyle(curEle, null)[attr];
+        } else {//->IE6~8
+            //->如果传递进来的结果是opacity,说明我想获取到的是透明度,但是在IE6~8下获取透明度需要使用filter
+            if (attr === "opacity") {
+                val = curEle.currentStyle["filter"];//->"alpha(opacity=10)" 把获取到的结果进行剖析,获取里面的数字,让数字乘以100才和标准的浏览器保持了一致
+                reg = /^alpha\(opacity=(\d+(?:\.\d+)?)\)$/i;
+                val = reg.test(val) ? reg.exec(val)[1] / 100 : 1;
+            } else {
+                val = curEle.currentStyle[attr];
+            }
+        }
+        reg = /^(-?\d+(\.\d+)?)(px|pt|rem|em)?$/i;
+        return reg.test(val) ? parseFloat(val) : val;
+    }
+    console.log(getCss(box, "opacity"));
+</script>
+</body>
+</html>

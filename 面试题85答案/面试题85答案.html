@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>85</title>    
+</head>
+<body>
+	<h1>85 按照《面试题84答案》的示范补充举例DOM的兼容性问题？获得一个元素所有子元素的方法（返回数组）？通过类名获取元素的方法（返回数组）？给元素添加类的方法？给元素删除类的方法？判断元素是否有某个类（返回布尔值）？在某个元素之后插入一个元素?在第一元素的的第一个子节点处插入元素？利用兼容的添加类、删除类、获取索引方法实现选项卡？</h1>
+	<pre>	
+一 补充举例DOM的兼容性问题？ 
+   详见《DOM兼容性问题2.html》和<DOM兼容性问题举例2.html》
+   需要验证哪个兼容性问题就去掉哪个例子的注释<!-- -->
+   为避免输出结果干扰，注释掉其他例子。
+
+二 获得一个元素所有子元素的方法（返回数组）
+   <script type="text/javascript">
+		//获得ele指定标签名为tag的子元素。tag参数如果不传，则表示获取ele的所有子元素
+		//如果不考虑注释节点，直接用children属性效率更高
+		DOM.getChildren=function (ele,tag){
+			if(!(ele&&ele.nodeType==1))	throw new Error('第一参数ele需要是一个DOM元素对象');
+			var a=[],children=ele.children?ele.children:ele.childNodes;//先把ele所有子节点取到
+			if(typeof tag=='string'){
+					tag=tag.toUpperCase();					
+					for(var i=0;i<children.length;i++){//做循环
+						var node=children[i];
+						if(node.nodeType==1&&node.nodeName==tag){
+							//如果当前这个子元素的“节点类型"是1 并且 节点名是tag的值
+							a.push(node);//则把此子节点放到数组里			
+						}		
+					}
+					return a;					
+			}else if(typeof tag=='undefined'){				
+					for(var i=0;i<children.length;i++){//做循环
+						var node=children[i];
+						if(node.nodeType==1){
+							a.push(node);//则把此子节点放到数组里			
+						}		
+					}
+					return a;
+			}else{
+				throw new Error('tag参数类型错误！');	
+			}	
+		}
+   </script>
+
+
+        
+三 通过类名获取元素的方法（返回数组）？
+   <script type="text/javascript">
+        //从一组元素eles中选出包含某一个类名strClass的元素
+        function getEle(strClass,eles){//获取只包括一个类的函数
+					var a=[];
+					var reg=new RegExp('\\b'+strClass+'\\b');
+					for(var i=0;i<eles.length;i++){			
+							if(reg.test(eles[i].className)){
+								a.push(eles[i]);			
+							}
+					}
+					return a;
+		}
+   		//通过类名获取一组元素。类名可以是多个，比如第一个参数是"a1 a2 a3",则表示获取类名即是a1,还要是a2,a3的元素（交集）
+		DOM.getElesByClass=function (strClass,contextEle){
+			if(typeof strClass!='string') throw new Error('第一个参数strClass错误!')		
+			contextEle=contextEle||document;
+			if(contextEle.nodeType!=1&&contextEle.nodeType!=9)	throw new Error('第二个参数contextEle错误!');
+			if(contextEle.getElementsByClassName){
+				return contextEle.getElementsByClassName(strClass);	
+			}else{
+				var aClass=[];
+				aClass=strClass.split(' ');		
+				var eles=contextEle.getElementsByTagName('*');
+				for(var i=0;i<aClass.length;i++){	
+						if(aClass[i].replace(/^\s+|\s+$/g,'').length>0)	
+							eles=getEle(aClass[i],eles);
+					}
+				return eles;
+			}
+		}
+   </script>
+
+四 给元素添加类的方法？
+	<script type="text/javascript">
+		//给ele元素增加类样式
+		DOM.addClass=function (ele,strClass){
+			var reg=new RegExp("\\b"+strClass+"\\b");
+			if(!reg.test(ele.className))//如果此类样式不存在，才需要添加			
+				ele.className=ele.className.replace(/^\s+|\s+$/g,'')+" "+strClass;			
+		}
+	</script>
+  
+五 给元素删除类的方法？
+   <script type="text/javascript">
+   		//给ele元素移除类样式
+		DOM.removeClass=function (ele,strClass){
+			if(!(ele&&ele.nodeType==1))	throw new Error('第一参数ele需要是一个DOM元素对象');
+			if(typeof strClass != 'string')	throw new Error('第二参数必须为string类型');			
+			var reg=new RegExp("\\b"+strClass+"\\b",'g');	
+			ele.className=ele.className.replace(reg,'').replace(/^\s+|\s+$/g,'');	
+		}
+   </script>
+
+六 判断元素是否有某个类（返回布尔值）？
+	<script type="text/javascript">
+		//判断某元素上是不是有某个类
+		DOM.hasClass=function(ele,strClass){
+			if(!(ele&&ele.nodeType==1))	throw new Error('第一参数ele需要是一个DOM元素对象');
+			if(typeof strClass != 'string')	throw new Error('第二参数必须为string类型');			
+			var reg=new RegExp("\\b"+strClass+"\\b");
+			return reg.test(ele.className);				
+		}
+	</script>
+
+七 在某个元素之后插入一个元素？
+   <script type="text/javascript">
+        //和DOM方法insertBefore对应，把newEle追加在oldEle的后面
+   		DOM.insertAfter=function (oldEle,newEle){		
+		if(oldEle&&oldEle.nodeType===1&&newEle&&newEle.nodeType===1){
+			oldEle.nextSibling?oldEle.parentNode.insertBefore(newEle,oldEle.nextSibling):oldEle.parentNode.appendChild(newEle)
+		}else{
+			throw new Error('参数错误');
+		}
+	}
+   </script>
+     
+八 在第一元素的的第一个子节点处插入元素？
+   <script type="text/javascript">
+		//此方法和appendChild方法对应，把newNode这个节点，当成第一个子节点追加给parentEle元素。			
+   		DOM.prepend=function(newNode,parentEle){			
+			var child=parentEle.firstChild;	
+				child?parentEle.insertBefore(newNode,child):parentEle.appendChild(newNode);
+		}
+   </script>
+
+九 利用兼容的添加类、删除类、获取索引方法实现选项卡？
+   详见《选项卡.html》
+  
+	</pre>
+  </body>
+</html>

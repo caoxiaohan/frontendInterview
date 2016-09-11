@@ -1,0 +1,1 @@
+[{"img":"img/banner1.jpg","desc":"2016年全新的JavaScript培训"},{"img":"img/banner2.jpg","desc":"2016年全新的JavaScript培训"},{"img":"img/banner3.jpg","desc":"2016年全新的JavaScript培训"}]

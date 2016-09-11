@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>JS盒子模型</title>
+    <style type="text/css">
+        /*写CSS的时候第一步初始化默认样式,避免浏览器之间的差异->不仅如此,而且写的默认样式对于JS以后获取到的结果统一也是有帮助的*/
+        * {
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+            font-family: "\5FAE\8F6F\96C5\9ED1", Helvetica, sans-serif;
+        }
+        #box {
+            margin: 100px;
+            padding: 30px;
+            width: 200px;
+            height: 200px;
+            border: 10px solid green;
+            line-height: 30px;
+        }
+    </style>
+</head>
+<body>
+<div id="box" style="width: 200px;">
+    要得到你必须要付出,要付出你还需要学会坚持,如果你真的觉得很难,那你就放弃,但是一但放弃就不要在抱怨,我觉得人生就是这样,世界真的是平衡的,每个人都是通过自己的努力,去决定自己生活的样子;
+</div>
+<script type="text/javascript">
+    var box = document.getElementById("box");
+    //->获取元素的某一个具体的样式属性值
+    //1、元素.style.属性名
+    //->需要我们把元素的样式都写在行内样式上才可以(写在样式表中是不管用的)
+    //console.log(box.style.height);//->""
+    //console.log(box.style.width);//->"200px"
+    //->在真实项目中,这种方式不常用,因为我不能为了获取值而把所有的样式都写在行内(无法实现CSS和HTML的分离)
+    //2、使用window.getComputedStyle这个方法获取所有经过浏览器计算过的样式
+    //->所有经过浏览器计算过的样式:只要当前的元素标签可以在页面中呈现出来,那么它的所有的样式都是经过浏览器计算过的(渲染过的)->哪怕有些样式你没有写,我们也可以获取到
+    //->window.getComputedStyle(当前要操作的元素对象, 当前元素的伪类[一般我们不用伪类写null])
+    //->获取的结果是CSSStyleDeclaration这个类的一个实例:包含了当前元素的所有样式属性和值
+    //console.log(window.getComputedStyle);//->function getComputedStyle() { [native code] }
+    //console.log(window.getComputedStyle(box, null)["height"]);
+    //3、方法虽然好用,但是在IE6~8下是不兼容的:因为window下没有getComputedStyle这个属性->在IE6~8下执行这个方法会报错
+    //console.log(window.getComputedStyle);//->undefined
+    //->在IE6~8下我们可以使用currentStyle来获取所有经过浏览器计算过的样式
+    //console.log(box.currentStyle.height);
+    //->getCss:获取当前元素所有经过浏览器计算过的样式中的[attr]对应的值
+    //curEle:[object]当前要操作的元素对象
+    //attr:[string]我们要获取的样式属性的名称
+    //1、使用try、catch来处理兼容(只有在不得已的情况下才使用它)
+    //->前提:必须保证try中的代码在不兼容浏览器中执行的时候报错,这样的话我们才可以用catch捕获到异常的信息,进行其它的处理
+    //->不管当前是什么浏览器,都需要先把try中的代码执行一遍,如果当前是IE7,window.getComputedStyle本身是不兼容的,但是我也要先把它执行一遍,报错了,在把curEle.currentStyle执行一遍(消耗性能)
+    //    function getCss(curEle, attr) {
+    //        var val = null;
+    //        try {
+    //            val = window.getComputedStyle(curEle, null)[attr];
+    //        } catch (e) {
+    //            val = curEle.currentStyle[attr];
+    //        }
+    //        return val;
+    //    }
+    //2、判断当前浏览器中是否存在这个属性或者方法,存在就兼容,不存在就不兼容
+    //    function getCss(curEle, attr) {
+    //        var val = null;
+    //        if ("getComputedStyle" in window) {//->如果返回的是true,说明window下有getComputedStyle这个属性,代表兼容
+    //            val = window.getComputedStyle(curEle, null)[attr];
+    //        } else {//->代表不兼容
+    //            val = curEle.currentStyle[attr];
+    //        }
+    //        return val;
+    //    }
+    //    function getCss(curEle, attr) {
+    //        var val = null;
+    //        if (window.getComputedStyle) {//->首先获取属性值,兼容返回的是一个函数,转换为布尔是true,不兼容返回结果是undefined,转换为布尔是false
+    //            val = window.getComputedStyle(curEle, null)[attr];
+    //        } else {
+    //            val = curEle.currentStyle[attr];
+    //        }
+    //        return val;
+    //    }
+    //    function getCss(curEle, attr) {
+    //        var val = null;
+    //        if (typeof window.getComputedStyle === "function") {
+    //            val = window.getComputedStyle(curEle, null)[attr];
+    //        } else {
+    //            val = curEle.currentStyle[attr];
+    //        }
+    //        return val;
+    //    }
+    //3、通过检测浏览器版本和类型来处理兼容
+    //->window.navigator.userAgent
+    //谷歌:"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2679.0 Safari/537.36"
+    //火狐:"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45."
+    //IE10:"Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)"
+    //IE7:"Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1; WOW64; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E)"
+    //->扩展题：自己回去百度也好还是自己写也好,写一个方法,可以检测当前是什么浏览器,也可以获取到浏览器的版本号...
+    //->获取到当前的浏览器是IE6~8
+    //->/MSIE (6|7|8)/.test(navigator.userAgent)
+    //    function getCss(curEle, attr) {
+    //        var val = null;
+    //        if (/MSIE (6|7|8)/.test(navigator.userAgent)) {
+    //            val = curEle.currentStyle[attr];
+    //        } else {
+    //            val = window.getComputedStyle(curEle, null)[attr];
+    //        }
+    //        return val;
+    //    }
+    function getCss(curEle, attr) {
+        var val = null;
+        if ("getComputedStyle" in window) {
+            val = window.getComputedStyle(curEle, null)[attr];
+        } else {
+            val = curEle.currentStyle[attr];
+        }
+        return val;
+    }
+    //    console.log(getCss(box, "border"));
+    //    console.log(getCss(box, "fontFamily"));
+    //->标准浏览器和IE浏览器获取的结果还是不一样的->对于部分样式属性,不同浏览器获取的结果不一样,主要是由于getComputedStyle和currentStyle在某些方面不一样
+    console.log(getCss(box, "marginTop"));
+</script>
+</body>
+</html>

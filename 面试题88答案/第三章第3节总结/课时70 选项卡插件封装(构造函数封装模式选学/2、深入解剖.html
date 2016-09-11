@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>选项卡</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "\5FAE\8F6F\96C5\9ED1", Helvetica, sans-serif;
+            font-size: 14px;
+            -webkit-user-select: none;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        .box {
+            margin: 10px auto;
+            width: 500px;
+        }
+
+        .box ul {
+            position: relative;
+            top: 1px;
+            /*overflow: hidden;*//*清除子元素的浮动对父级元素的影响*/
+        }
+
+        .box ul:after {
+            display: block;
+            content: "";
+            clear: both;
+        }
+
+        .box ul li {
+            float: left;
+            margin-right: 15px;
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border: 1px solid green;
+            cursor: pointer;
+        }
+
+        .box ul li.select {
+            background: lightblue;
+            border-bottom-color: lightblue;
+        }
+
+        .box div {
+            display: none;
+            height: 150px;
+            line-height: 150px;
+            text-align: center;
+            background: lightblue;
+            border: 1px solid green;
+            /*clear: both;*//*清除哥哥元素的浮动对弟弟元素的影响*/
+        }
+
+        .box div.select {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div class="box" id="tabFir">
+    <ul>
+        <li class="select">页卡一</li>
+        <li>页卡二</li>
+        <li>页卡三</li>
+        <li>页卡四</li>
+    </ul>
+    <div class="select">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+    </div>
+    <div>内容二</div>
+    <div>内容三</div>
+    <div>内容四</div>
+</div>
+
+<script type="text/javascript" src="js/utils.js"></script>
+<script type="text/javascript">
+    var tabFir = document.getElementById("tabFir"), tabFirst = utils.firstChild(tabFir), oLis = utils.children(tabFirst);
+    for (var i = 0; i < oLis.length; i++) {
+        oLis[i].onclick = function () {
+            //->在让当前点击这个元素有选中的样式
+            utils.addClass(this, "select");
+
+            //->首先把兄弟元素的选中样式都移除掉
+            var curSiblings = utils.siblings(this);
+            for (var i = 0; i < curSiblings.length; i++) {
+                utils.removeClass(curSiblings[i], "select");
+            }
+
+            //->在让当前点击这个LI父亲元素的所有的弟弟元素中(三个DIV)和当前点击的这个LI索引相同的有选中的样式,其余的移除选中样式
+            var index = utils.index(this), divList = utils.nextAll(this.parentNode);
+            for (i = 0; i < divList.length; i++) {
+                i === index ? utils.addClass(divList[i], "select") : utils.removeClass(divList[i], "select");
+            }
+        }
+    }
+</script>
+</body>
+</html>

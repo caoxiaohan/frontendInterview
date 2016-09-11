@@ -1,0 +1,241 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>面试题46答案</title>    
+</head>
+<body>
+<h1>46 Node类型的节点关系和操作节点的方法？Document类型如何获取文档子节点和查找元素的方法？Element类型如何取得特性和设置特性，以及创建元素的方法？Text类型如何创建文本节点和规范化文本节点？Comment类型如何获取注释的内容？综合比较不同类型的nodeType,nodeName,nodeValue,parentNode,以及子节点。</h1>
+<pre>
+	
+	  1、Node类型的节点关系
+		  1.1 childNodes 所有的子节点
+          1.2 children 所有的元素子节点
+          1.3 parentNode 唯一的父亲节点
+          1.4 firstChild 所有节点中的第一个子节点
+          1.5 lastChild 所有节点中的最后一个子节点
+          1.6 previousSibling 所有节点中的哥哥节点一、Node类型的节点关系和操作节点的方法
+          1.7 nextSibling 所有节点中的弟弟节点
+          1.8 firstElementChild 所有的元素节点中第一个元素子节点(新)只有在标准浏览器中才兼容
+          1.9 lastElementChild 所有的元素节点中最后一个元素子节点(新)
+	  2、操作节点的方法
+	     2.1  添加子节点appendChild()
+	         ele.appendChild("新创建的元素") 
+	         将新创建的元素添加到ele的childNodes列表末尾
+	     2.2 插入节点insertBefore()
+	         oldChild.parentNode.insertBefore("新创建的元素",oldChild) 
+	         将新创建的元素添加到指定老元素之前
+	     2.3 替换节点replaceChild()
+	         someNode.replaceChild(newNode,someNode.childNodes[i])
+	         第一个参数时要替换的新节点，第二个参数时被替换的元素子节点
+	     2.4 删除节点removeChild()
+	         someNode.removeChild()
+	         someNode.removeChild(someNode.childNods[i])
+	         参数为调用removeChild方法的元素的子节点
+	     2.5 克隆节点cloneNode()
+	          不传参数时默认是false
+	          someList.cloneNode(true); //深度克隆，克隆someList及其子节点
+	          someList.cloneNode(false); //浅克隆，克隆someList本身，不可隆子节点 
+    二、Document类型如何获取文档子节点和查找元素的方法
+       1、文档的子节点
+          1.1 document.documentElement
+              取得对<htm>的引用
+              以下语句存在兼容问题，在Safari、Chrome、Opera中可以这样写
+              document.childNodes[0]===document.documentElement //true
+              document.firstChild===document.documentElement //true
+              但在IE和Firefox中第一个子节点也可能是文档声明，所以不推荐获取第一个子节点的写法。
+          1.2 document.body
+              取得对<body>的引用
+          1.3 document.doctype
+              取得对<!DOCTYPE>的引用
+              浏览器对document.doctype的支持差异很大
+              1.3.1 IE8及之前的版本
+                    document.doctype始终为null
+                    如果存在<!DOCTYPE>文档声明，则始终将其解释为一个注释节点Comment
+              1.3.2 IE9+及Firefox
+                    如果存在文档声明<!DOCTYPE>，则将其作为文档的第一个子节点。
+                    document.childNodes[0]===document.doctype //true
+                    document.firstChild===document.doctype //true
+              1.3.4 Safari、Chrome、Opera
+                    会将document.doctype解释为DocumentType节点，但不会出现在docment.childNodes中
+       2、查找元素
+          2.1 document.getElementById   
+              通过元素的ID获取单个元素(重点是在document上获取元素，思考在指定元素上如何的获取)
+              2.1.1 ID如果重复了，找第一个，其余的不在找了；
+              2.1.2 IE6、7不区分ID的大小写;
+              2.1.3 IE7 IE6下，出现INPUT等表单元素，会把表单元素的name当做ID值;
+              2.1.4 可以直接的用ID名当做对象使用
+          2.2 document.getElementsByTagName  
+              通过元素的标签(节点)名称获取一组元素
+              var oDivs=document.getElementsByTagName("div");
+              oDivs.length//获取长度   
+              2.2.1 通过索引访问某个元素
+                   oDivs[0]或者oDivs.item(0)获取第一个元素
+              2.2.2 通过name属性值访问某个元素
+                   oDivs.nameItem(name) //参数name为要查找的元素的name属性值
+                   oDivs[name] //索引name为要查找的元素的name属性值
+          2.3 document.getElementsByName 
+              通过name属性的值来获取一组元素(在IE下只对表单元素起作用)
+          2.4 document.body 
+              获取body中所有的元素
+          2.5 document.documentElement 
+              获取html中所有的元素
+          2.6 document.getElementsByClassName(新) 
+              通过元素的样式属性获取一组元素
+          2.7 document.querySelector(.red  div a)(新) 
+              按照样式或者元素的名称获取一个元素
+          2.8 document.querySelectAll(新) 
+              按照样式或者元素的名称获取一组元素
+          6、7、8是新的方法，只在标准的浏览器中起到作用(谷歌、火狐、IE9及以上) 
+
+    三、Element类型如何取得特性和设置特性，以及创建元素的方法
+       1、取得特性
+          getAttribute()方法。
+          <div id="div1" myId="div2"></div>        
+          var oDiv = document.getElementById("div1");
+          1.1 通过元素.属性名的方式获取内置属性id值
+              oDiv.id //"div1"
+          1.2 通过元素.属性名的方式获取自定义属性myId值
+              oDiv.myId //"undefined" (IE除外)
+          1.3 通过getAttribute()方法获取内置属性id的值
+              oDiv.getAttribute("id") //"div1"
+          1.4 通过getAttribute()方法获取自定义属性myId的值
+              oDiv.getAttribute("myId") //"div2"
+       2、设置特性
+          2.1 设置属性值
+              setAttribute()方法
+              <div id="div1"></div>
+              2.1.1 通过元素.属性名的方式设置内置属性id的值
+	              var oDiv = document.getElementById("div1");
+	              oDiv.id = "div2" //通过元素.属性名的方式设置内置属性id的值
+	              oDiv.id//id变成"div2"
+	              oDiv.getAttribute("id") //"div2"
+	          2.1.2 通过元素.属性名的方式设置自定义属性myId的值
+	              oDiv.myId = "div3" //通过元素.属性名的方式设置自己定义属性myId的值
+	              oDiv.myId//"undefined" (IE除外)              
+	              oDiv.getAttribute("myId") //null (IE除外)
+              2.1.3 通过setAttribute()方法设置内置属性id的值
+	              oDiv.setAttribute("id",'div4') //通过setAttribute()方法设置内置属性id的值
+	              oDiv.id//id变成"div4"
+	              oDiv.getAttribute("id") //"div4"
+	          2.1.4 通过setAttribute()方法设置自定义属性myId的值
+	              oDiv.setAttribute("myId","div5") //"div5"
+	              oDiv.id//id变成"div5"
+	              oDiv.getAttribute("myId") //"div5"
+	      2.2 删除属性
+	          deleteAttribute()方法。
+	          <div id="div1" myId="div2"></div>        
+	          var oDiv = document.getElementById("div1");
+	          1.1 通过元素.属性名的方式获取内置属性id值
+	              delete oDiv.id //"div1"
+	          1.2 通过元素.属性名的方式获取自定义属性myId值
+	              delete oDiv.myId //"undefined" (IE除外)
+	          1.3 通过getAttribute()方法获取内置属性id的值
+	              oDiv.deleteAttribute("id") //"div1"
+	          1.4 通过getAttribute()方法获取自定义属性myId的值
+	              oDiv.deleteAttribute("myId") //"div2"
+	   3、创建元素
+	      document.creatElement()
+          参数：元素名
+          例如，创建一个div元素
+                var oDiv = document.creatElement("div");
+                将创建的元素添加到<body>标签中
+                document.body.appendChild(oDiv);
+                也可以使用insertBefore()、replaceChild()方法添加元素。
+    四、Text类型如何创建文本节点和规范化文本节点
+       1、创建文本节点
+          文本节点通常作为元素节点的子节点添加到元素节点中
+          document.creatTextNode()
+          参数：元素名
+          例如，创建一个div元素
+                var oDiv = document.creatElement("div");
+                将创建的元素添加到<body>标签中
+                document.body.appendChild(oDiv);
+                也可以使用insertBefore()、replaceChild()方法添加元素。
+                创建一个文件节点
+                var oText = document.creatTextNode("Hello world");
+                将文本节点添加到元素节点中
+                oDiv.appendChild(oText);
+      2、规范化文本节点
+         normalize()方法
+         将所有文本节点合并成一个文本节点
+         例如，创建一个div元素
+                var oDiv = document.creatElement("div");
+                将创建的元素添加到<body>标签中
+                document.body.appendChild(oDiv);
+                也可以使用insertBefore()、replaceChild()方法添加元素。
+                创建第一个文件节点
+                var oText1 = document.creatTextNode("a");
+                将第一个文本节点添加到元素节点中
+                oDiv.appendChild(oText1);
+                创建第二个文件节点
+                var oText2 = document.creatTextNode("b");
+                将第二个文本节点添加到元素节点中
+                oDiv.appendChild(oText2);
+                此时oDiv中包含两个文本子节点
+                oDiv.childNodes.length; //2
+                oDiv.firstChild.nodeValue; //"a"
+                规范化文本节点
+                oDiv.normalize();
+                合并文本节点后节点长度变成1
+                oDiv.childNodes.length; //
+                oDiv.firstChild.nodeValue; //"ab"
+    五、comment类型如何创建和获取注释的内容
+      1、创建注释内节点
+         creatComment()方法
+          例如，创建一个div元素
+                var oDiv = document.creatElement("div");
+                将创建的元素添加到<body>标签中
+                document.body.appendChild(oDiv);
+                也可以使用insertBefore()、replaceChild()方法添加元素。
+                创建一个注释节点
+                var comment = document.creatComment("这是一个注释"); 
+                将注释节点添加到元素节点中
+                oDiv.appendChild(comment);
+
+      2、获取注释内容
+         var comment = document.creatComment("这是一个注释"); 
+         comment.data;//"这是一个注释"
+    六、综合比较不同类型的nodeType,nodeName,nodeValue,parentNode,以及子节点
+           nodeType节点类型   nodeName节点(标签)名称	nodeValue节点值     parentNode           子节点
+  元素节点	1	     大写标签名      	           null          document或Element       Document除外的任何类型
+  文本节点	3	      #text	                 文本文字          一个Element           没有子节点
+  注释节点	8	      #comment	                 注释内容        document或Element       没有子节点
+  document	9	      #document	                 null                  null              Document(至多一个）、Element(至多一个）、ProcessingInstruction或Comment
+      注意事项：
+      1在IE8及以下，不会讲空格和Enter当做节点，但是标准浏览器会将其当做文本节点
+      2在HTML中，元素节点的nodeName为标签的大写，但是在XHTML或者XML中，我们写的标签是大写nodeName就是大写，我们写的是小写，nodeName就是小写
+      3文字节点中，我们看到的文字是节点的值，其实他属于逻辑节点，是被套在逻辑节点上的。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+   
+
+
+        
+
+
+  

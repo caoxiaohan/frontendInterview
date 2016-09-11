@@ -1,0 +1,255 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>面试题59案</title>    
+</head>
+<body>
+	<h1>59 typeof 和instanceof方法的应用场景？In 和 hasOwnProperty的用途？写一个方法用来检测某一个属性attr是否为obj这个对象的公有属性？prototype、constructor、__proto__分别是谁的属性？如何批量在原型上设置属性？如何实现基于原型的继承？基于原型获取和设置私有或公有属性的规则？什么是js的重写，与重载有何不同？</h1>
+	<pre>	
+一、typeof 和instanceof方法的应用场景    
+	 1 typeoof用来检测基本数据类型
+	   typeof 能够检测数据出的类型:共七种	   
+       "string"  "number" "boolean" "undefined" "object" "function"  "symbol"
+	    console.log("<-- 2 typeof 检测数据类型: -->");
+	    console.log('typeof "foo" = '+typeof "foo");//"string"
+	    console.log('typeof 1 = '+typeof 1);//"number"
+	    console.log('typeof true = '+typeof true);//"boolean"
+	    console.log('typeof undefined = '+typeof undefined);//"undefined"
+	    console.log('typeof null= '+typeof null);//"object"
+	    console.log('typeof [] = '+typeof []);//"object"
+	    console.log('typeof {} = '+typeof {});//"object"
+	    console.log('typeof /abc/g = '+typeof /abc/g);//"object"
+	    console.log('typeof new Function() = '+typeof new Function());//"function"
+	    console.log('typeof typeof Symbol() = '+typeof Symbol());//"symbol"
+	    引用数据类型只能检测出"object" "function"  "symbol"
+	    []属于Array类的细分，/abc/g属于RegExp类的细分，都被typeof统一检测为Object类，
+	    在引用类型值判断类型的时候，typeof运算符会出现一个问题，无论是什么引用类型的对象，它都返回"object"。
+        因为typeof在判断对象类型的值的时候，有很大的局限性
+	 2 instanceof用来检测引用数据类型的细分
+       instanceof 检测一个对象A是不是另一个对象B的实例，能判断一个值的具体类型。
+       原理是：查看对象B的prototype指向的对象是否在对象A的原型链上。如果在，则返回true,如果不在则返回false。
+       //检测自定义类型
+       function Foo() {};
+		var foo = new Foo();
+		console.log(foo instanceof Foo); // true
+		console.log(foo instanceof Function); // false
+		console.log(foo instanceof Object); // true
+		console.log(Foo instanceof Function); // true
+		console.log(Foo instanceof Object); // true
+		//检测内置对象
+		console.log([] instanceof Array); // true
+		console.log([] instanceof Object); // true
+		console.log(/abc/g instanceof RegExp); // true
+		console.log(/abc/g instanceof Object); // true
+		console.log(/abc/g instanceof Array); // false
+
+二、In 和 hasOwnProperty的用途
+    1 in:检测某一个属性是否能基于原型链找到，如果某个属性能基于原型链找到则返回true,反之返回false.
+      in既可以检测私有的属性，也可以检测公有的属性。
+      此外,in还用在for in语句中用来遍历对象的属性。
+    2 hasOwnProperty用来检测某一个属性是否属于这个对象的私有呼吸，如果某个属性是对象的私有属性则返回true，否则返回false。
+      hasOwnProperty只能检测对象的私有属性
+    3 举例说明如下：
+      function Person(){
+	  }
+	  Person.prototype.name = "public";
+	  Person.prototype.age = 29;
+	  Person.prototype.job = "Software Engineer";
+	  Person.prototype.sayName = function(){
+	      alert(this.name);
+	  };
+	  var person1 = new Person();
+	  var person2 = new Person();
+	  3.1 原型上定义的属性时公有属性，in可以访问到，hasOwnProperty无法访问
+		  alert(person1.name);//"Nicholas"，实例上没有找到name属性，基于原型链查找，获取的name属性值为原型上的公有属性name的值
+		  alert(person1.hasOwnProperty("name"));//false，因为实例上不存在私有属性name，所以返回false
+		  alert("name" in person1);//true,因为实例所属类的原型上存在公有属性name，所以返回true。
+	  3.2 在实例上添加属性name，实例上的属性是私有属性，通过in和hasOwnProperty都能访问到。
+		  person1.name = "private";
+		  alert(person1.name);//"private"，在实例上找到私有属性name的值，直接返回去不再向上查找
+		  alert(person1.hasOwnProperty("name"));//true，因为实例上存在私有name，所以返回true.
+		  alert("name" in person1);//true，因为实例上存在私有name，所以返回true.
+      3.3 实例上不存在，且基于原型链查找在上级原型上也找到的属性，通过in和hasOwnProperty均返回false
+	      alert(person1.hasOwnProperty("hiahia"));//false，因为实例上不存在私有hiahia，所以返回false.
+		  alert("name" in person1);//false，因为实例和原型上均不存在私有属性hiahia，所以返回false.
+	  3.4 使用delete删除的是对象的私有属性，3.2中私有属性覆盖了公有属性的值，删除同名私有属性可以访问到公有属性的值。
+			delete person1.name;
+			alert(person1.name);//"public"，因为删除了私有属性name,就会继续向上查找最终找到原型行的公有属性name的值。
+			alert(person1.hasOwnProperty("name"));//false，进一步说明私有属性已经被删除
+			alert("name" in person1);//true，公有属性并未受影响。
+
+三、写一个方法用来检测某一个属性attr是否为obj这个对象的公有属性
+    function hasPubProperty(attr, obj) {
+        return (attr in obj) && !(obj.hasOwnProperty(attr));
+    }
+
+四、prototype、constructor、__proto__分别是谁的属性
+   1、所有的函数数据类型(普通函数、类)，都天生自带一个属性：prototype(原型)，并且这个属性的值是一个对象数据（Object属性类型)，浏览器默认为这个对象数据类型开辟一个新的堆内存xxxfff000
+     我们在当前类的prototype上定义的属性和方法都是当前类本身的公有属性和方法
+   2、函数类型(Function类型）的protype属性指向的堆内存中，天生自带一个属性：constructor (只有浏览器默认给prototype开辟的那个堆内存才有这个属性)，存储的值是当前类本身
+      console.log(Array.prototype.constructor === Array); -->true    
+   3、所有的对象数据类型(普通对象、类的实例、prototype)，都天生自带一个属性：__proto__，这个属性指向当前实例(对象)所属类的原型(prototype)
+
+五、如何批量在原型上设置属性
+   //只有浏览器天生给Fn.prototype开辟的堆内存里面才有constructor,而我们自己开辟的这个堆内存没有这个属性,这样constructor指向就不在是Fn而是Object了
+   //Fn.prototype={};
+   //console.log(f.constructor);//->没做任何处理之前 Object
+   var pro = Fn.prototype;//在创建新的之前，把原来的保存下来
+    Fn.prototype = {
+        constructor: Fn,//手动添加constructor属性，指向当前类本身
+        //批量设置属性
+        name:"cxh"
+        getName: function () {
+            console.log(name);
+        },
+        setName: function (_name) {
+            name=_name;
+        },
+        //此方法的功能是将原来原型的属性逐个添加到新原型上
+        recover: function () {
+            //this-->Fn.prototype
+            for (var key in pro) {
+                this[key] = pro[key];
+            }
+        }
+    };
+    Fn.prototype.recover();//新的创建完成后，我们在把原来的一个个的添加到新的里面
+
+六、如何实现基于原型的继承
+    基本思想：利用原型让一个引用类型继承另外一个引用类型的属性和方法。
+	构造函数，原型，实例之间的关系：每个构造函数都有一个原型对象，原型对象包含一个指向构造函数的指针，而实例都包含一个指向原型对象的内部指针。
+	原型链实现继承例子：
+	function Father() {
+		this.name = "cng";
+		this.lastName = "cao";
+	}
+	Father.prototype.getFatherName = function() {
+		return this.name;
+	}
+	function Child() {
+		this.name = "cxh";
+	}
+	//Child继承了Father,子类的原型指向父类的实例，这样可以同时继承父类的公有和私有属性方法
+	Child.prototype = new Father();
+	Child.prototype.getChildName = function (){
+		return this.name;
+	}
+	var father = new Father();	
+	father.job = "teacher";
+	var child = new Child();
+	console.log(child.getFatherName());//"cxh",子类可以访问父类的公有方法(原型上定义的方法）,因为.前面是child，所以 this指向child，虽然访问的是父类的方法，但是读取的是子类的属性。
+	console.log(child.lastName);//"cao",子类可以访问父类的私有属性(构造函数内定义的属性）。
+	console.log(child.job);//undefined,子类不可以访问父类实例上的私有属性，因为一个实例不能访问另外一个实例的私有属性。
+
+七、基于原型获取和设置私有或公有属性的规则
+    1 查找属性的规则
+	    当查找一个对象的属性时，JavaScript 会向上遍历原型链，直到找到给定名称的属性为止，到查找到达原型链的顶部（也就是 Object.prototype），如果仍然没有找到指定的属性，就会返回 undefined
+	    var Father = function () {
+		    this.pro = "父类构造函数内的私有属性";
+		}
+		Father.prototype.pro = "父类原型上的公有属性";
+		var Child = function() {
+		    this.pro = "子类构造函数内的私有属性";
+		}
+		Child.prototype = new Father();
+		var child = new Child();
+		console.log(child.pro); //"子类构造函数内的私有属性"，因为子类的实例上没有私有属性pro,继续查找子类构造函数内的私有属性pro;
+		delete child.pro; //删除子类的私有属性
+		console.log(child.pro); // "子类原型的公有属性";，因为子类构造函数内的私有属性已经被删除，继续向上查找子类原型的公有属性pro
+		delete Child.prototype.pro; //删除子类原型上的公有属性（同时也是父类构造函数内的私有属性）
+		console.log(child.pro); //"父类原型上的公有属性",因为子类原型的公有属性已经被删除，继续查找父类原型的公有属性pro
+   2 设置属性的规则
+     2.1 设置值的时候，不管私有是否存在，都是给私有设置值，如果私有上面没有，相当于给私有增加了个属性；
+          child.name = "private_name";//现在给实例添加私有属性name并赋值
+          console.log(child.name); //"private_name"，输出私有属性的值
+     2.2 如果想在公有上设置值，需要指定好前缀 
+          child.__proto__.name="public_name" 或者  Child.prototype.name="public_name";
+          console.log(child.__proto__===Child.prototype.name);//true。
+八、什么是js的重写，与重载有何不同
+    1 重写
+      子类可继承父类中的方法，而不需要重新编写相同的方法。但有时子类并不想原封不动地继承父类的方法，而是想作一定的修改，这就需要采用方法的重写。方法重写又称方法覆盖。
+      <script type="text/javascript">		
+		// 定义Person构造器
+		function Person(name, address) {
+			this.name = name;
+			this.address = address;
+		}
+		// 在Person.property中添加toString方法
+		Person.prototype.toString = function() {
+			console.log(this.name);
+		}
+		// 定义Account构造器
+		function Account(name, address, number, amount) {
+			// 从Person继承
+			this.newObj = Person;
+			this.newObj(name, address);
+			delete this.newObj;
+			// Account特有属性
+			this.number = number;
+			this.amount = amount;
+		}
+		Account.prototype = Object.create(Person.prototype);
+		// 设置"constructor" 属性指向Account
+		Account.prototype.constructor = Account;
+		// 更改Person中toString方法
+		Account.prototype.toString = function() {
+			console.log(this.name + "  " + this.address
+					+ "  " + this.amount);
+		}
+		var acc1 = new Account('cxh', 'hd', '1001', 20000);
+		var acc2 = new Account('kn', 'cy', '1002', 35000);
+		acc1.toString();//cxh  hd  20000,父类的toString方法只输出name一个属性，而子类的toString方法输出多个属性值，说明子类重写了父类的toString方法。
+		acc2.toString();//kn cy  35000
+		var per1 = new Person("god","heaven");
+		var per2 = new Person("king","beijing","110101");
+		per1.toString();//god，子类重写了父类的方法，但是并没有影响父类的实例
+		per2.toString();//king，不管传入几个参数，都是调用父类原有的toString方法，只输出一个属性name的值
+	</script>
+    2 重载      
+      JS函数不支持重载，如果同时定义了多个同名函数，则以最后一个函数为准，因为后定义的函数会覆盖前面的同名函数。 
+      2.1  js不支持重载举例
+        <script type="text/javascript">
+        	//*****************说明js不支持重载***** 
+			  function Person(){ 
+			    this.test=function (a,b){ 
+			      console.log('a,b');  
+			    } 
+			    this.test=function (a){ 
+			      console.log('a'); 
+			    } 
+			  } 
+			  var p=new Person(); 
+			  //js中不支持重载. 
+			  //但是这不会报错，js会默认是最后同名一个函数，可以看做是后面的把前面的覆盖了。 
+			  p.test("a","b"); //function (a)  说明只执行了最后一个而函数
+			  p.test("a");//function (a)  
+        </script>
+      2.2 js虽然不支持重载，但是可以通过判断参数个数或类型不同，在函数类执行不同的操作，从而达到模拟重载功能的目的
+        <script type="text/javascript">
+        	//js怎么实现重载.通过判断参数的个数来实现重载 
+			  function Person(){ 
+			    this.test1=function (){ 
+			      if(arguments.length==1){ 
+			        this.show1(arguments[0]); 
+			      }else if(arguments.length==2){ 
+			        this.show2(arguments[0],arguments[1]); 
+			      }else if(arguments.length==3){ 
+			        this.show3(arguments[0],arguments[1],arguments[2]); 
+			      } 
+			    } 
+			    this.show1=function(a){ 
+			      window.alert("show1()被调用"+a); 
+			    } 
+			    this.show2=function(a,b){ 
+			      window.alert("show2()被调用"+"--"+a+"--"+b); 
+			    } 
+			    function show3(a,b,c){ 
+			      window.alert("show3()被调用"); 
+			    } 
+			  } 
+			  var p1=new Person(); 
+			  //js中不支持重载. 
+			  p1.test1("a","b"); //show2()被调用--a--b
+			  p1.test1("a"); //show1()被调用a，传入参数个数不同执行不同的代码
+        </script>

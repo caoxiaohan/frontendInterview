@@ -1,0 +1,624 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>面试题54答案</title>    
+</head>
+<body>
+	<h1>54 完成20150909文件夹中的《正式课第一周测试题.doc》的第二大题（10道选择题）和第三大题（6道问答题）。选择题要写出分析步骤。</h1>
+	<pre>	
+一、选择题
+    1、 以下代码的执行步骤：
+        1.1 先声明带var和带function关键字的全局变量
+             1.1.1 var a; //声明带var关键字的
+             1.1.2 声明带function关键字的，如果没有等号，则会进行提前定义。
+                     函数虽然提前进行了声明并定义（赋值），但是函数体内存储的是代码字符串。
+		             function fn(){
+		                "
+		                	console.log(a);
+					        var a=13; //声明并定义私有变量a=13	
+		                "				
+					}
+        1.2 从上到下执行代码
+            1.2.1 console.log(a);//undefined  ,  因为1.1.1中var a已经声明过，但是还没开始赋值，所以输出undefined
+            1.2.2 a=12;// 因为1.1.1中已经var a声明过a（变量提升，提前声明），这行代码不需要重复声明，只进行赋值操作a=12;
+            1.2.3 直接跳过fn函数，因为1.1.2中已经声明并定义过了。
+                   function fn(){
+						console.log(a);
+					    var a=13; //声明并定义私有变量a=13	
+					}
+		    1.2.4 执行fn();此时fn函数体内的代码字符串变成可执行的代码
+		          function fn(){
+					console.log(a);
+				    var a=13; //声明并定义私有变量a=13	
+				  } 
+		         1.2.4.1 看函数是否有形参，如果有则声明为私有变量，如果没有则继续下一步。
+		         1.2.4.2 声明函数体内带var和带function关键字的作为私有变量
+		                 var a ;//提前声明函数体内的私有变量a
+		         1.2.4.3 从上到下执行代码
+		                 console.log(a); //undefined, 1.2.4.2已经生过私有变量var a，但是还没有赋值，在私有作用域中先访问同名私有变量，所以输出undefined
+		         1.2.4.3 a=13; // fn函数运行产生的私有作用域中的私有变量a的值变成13
+		    1.2.5 console.log(a); //12 全局作用域中的代码只能访问全局作用域中的变量a，1.2.2中全局变量a的值已经被修改为12，所以输出12.  
+       因此答案为 B、undefined undefined 12   
+        <script type="text/javascript">
+        	console.log(a); /
+	        var a=12; //声明并定义全局变量window.a=12
+		    function fn(){
+				console.log(a);
+			    var a=13; //声明并定义私有变量a=13	
+			}
+			fn();  
+		    console.log(a);  
+        </script>
+       
+	     输出的三次分别是多少
+		 A、undefined  12 13             B、undefined undefined 12   
+		 C、undefined undefined 13         D、有程序报错
+
+	2、以下代码的执行步骤：
+        2.1 先声明带var和带function关键字的全局变量
+             2.1.1 var a; //声明带var关键字的
+             2.1.2 声明带function关键字的，如果没有等号，则会进行提前定义。
+                     函数虽然提前进行了声明并定义（赋值），但是函数体内存储的是代码字符串。
+		             function fn(){
+		                "
+		                	console.log(a);
+					        a=13; //修改全局变量的值，window.a=13	
+		                "				
+					}
+        2.2 从上到下执行代码
+            2.2.1 console.log(a);//undefined  ,  因为1.1.1中var a已经声明过，但是还没开始赋值，所以输出undefined
+            2.2.2 a=12;// 因为2.1.1中已经var a声明过a（变量提升，提前声明），这行代码不需要重复声明，只进行赋值操作a=12;
+            2.2.3 直接跳过fn函数，因为2.1.2中已经声明并定义过了。
+                   function fn(){
+						console.log(a);
+					    var a=13; //声明并定义私有变量a=13	
+					}
+		    2.2.4 执行fn();此时fn函数体内的代码字符串变成可执行的代码
+		          function fn(){
+					console.log(a);
+				    a=13; //修改全局变量的值，window.a=13	
+				  } 
+		         2.2.4.1 看函数是否有形参，如果有则声明为私有变量，如果没有则继续下一步。
+		         2.2.4.2 声明函数体内带var和带function关键字的作为私有变,如果没有则继续下一步		                
+		         2.2.4.3 从上到下执行代码
+		                 console.log(a); //12, 因为fn函数没有形参，函数体内也没有var和function关键字，所以没有私有变量a，上级作用域（全局作用域）找到a的值为12.
+		         2.2.4.3 a=13; // 修改全局变量的值，window.a=13
+		    2.2.5 console.log(a); //13 全局作用域中的代码只能访问全局作用域中的变量a，2.2.4.3 中全局变量a的值已经被修改为13，所以输出13.  
+       因此答案为 A、 undefined  12 13    
+	   <script type="text/javascript">
+	  		console.log(a); 
+		    var a=12;
+			function fn(){
+				console.log(a);
+				a=13;
+			}
+			fn();
+			console.log(a); 
+	   </script>	   
+	A、undefined  12 13             B、undefined undefined 12   
+	C、undefined undefined 13         D、有程序报错
+
+	3、以下代码的执行步骤：
+        3.1 先声明带var和带function关键字的全局变量(此题，全局环境中没有出现var关键字，只需要声明带function关键字的)           
+            声明带function关键字的，如果没有等号，则会进行提前定义。
+            函数虽然提前进行了声明并定义（赋值），但是函数体内存储的是代码字符串。
+		    function fn(){
+                 "
+		          console.log(a);
+				  a=13; //修改全局变量的值，window.a=13	
+		          "			               			
+		     }         
+        3.2 从上到下执行代码
+            console.log(a);//报错，a未定义错误。  执行到这句代码时，变量a没有被声明过，也没开始赋值，所以报错。         
+       因此答案为  D、有程序报错
+       <script type="text/javascript">
+       		console.log(a);
+			a=12;
+			function fn(){
+				console.log(a);
+				a=13;	
+			}
+			fn();
+			console.log(a);
+       </script>
+	  输出的三次分别是多少
+		A、undefined  12 13             B、undefined undefined 12   
+		C、undefined undefined 13         D、有程序报错
+
+	4、以下代码的执行步骤：
+        4.1 先声明带var和带function关键字的全局变量
+             4.1.1 var foo; //声明带var关键字的
+             4.1.2 声明带function关键字的，如果没有等号，则会进行提前定义。
+                     函数虽然提前进行了声明并定义（赋值），但是函数体内存储的是代码字符串。
+		             function bar(){
+		                "
+		                	if(!foo){
+					           var foo=10; 
+					       }
+					       console.log(foo); 	
+		                "				
+					}
+        4.2 从上到下执行代码           
+            4.2.1 foo=1;// 因为4.1.1中已经var foo声明过foo（变量提升，提前声明），这行代码不需要重复声明，只进行赋值操作foo=12;
+            4.2.2 直接跳过bar函数，因为4.1.2中已经声明并定义过了。                   
+		    4.2.3 执行bar();此时fn函数体内的代码字符串变成可执行的代码
+		         function bar(){
+				       if(!foo){
+				           var foo=10; 
+				       }
+				       console.log(foo); 
+				  }
+		         4.2.3.1 看函数是否有形参，如果有则声明为私有变量，如果没有则继续下一步。
+		         4.2.3.2 声明函数体内带var和带function关键字的作为私有变量
+		                 var foo; //不管if条件是否成立，只要有var就会进行声明。条件影响赋值到不影响声明		                
+		         4.2.3.3 从上到下执行代码
+		                 if(!foo){ //4.2.1中foo已经赋值为1,所以foo为true，取反!foo为false，条件不成立
+					          var foo=10; //条件不成立所以不会进行赋值操作。
+					     }
+					     console.log(foo); //undefined，4.2.3.2 私有变量foo已经被声明过，但是还没有赋值，所以为undefined
+	            因为fn函数没有形参，函数体内也没有var和function关键字，所以没有私有变量a，上级作用域（全局作用域）找到a的值为12.
+		         1.2.4.3 a=13; // 修改全局变量的值，window.a=13
+		    1.2.5 console.log(a); //13 全局作用域中的代码只能访问全局作用域中的变量a，1.2.4.3 中全局变量a的值已经被修改为13，所以输出13.  
+       因此答案为 	C、undefined   
+       <script type="text/javascript">
+       		var foo=1; 
+		   function bar(){
+		       if(!foo){
+		           var foo=10; 
+		       }
+		       console.log(foo); 
+		   }
+		   bar();  
+       </script>
+	   输出的结果是多少
+	A、1     B、10     C、undefined    D、报错
+    5、以下代码的执行步骤：
+        详见 1-10.png
+        5.1 先声明带var和带function关键字的全局变量
+             5.1.1 var n; //声明带var关键字的
+             5.1.2 声明带function关键字的，如果没有等号，则会进行提前定义。
+                     函数虽然提前进行了声明并定义（赋值），但是函数体内存储的是代码字符串。
+		              function a(){
+		                  "
+		                   var n=10; 
+						  function b(){
+							  n++; 
+							  alert(n); 
+					      }
+						  b();
+						  return b; 
+		                  "						 
+					   }
+		      5.1.3 var c; //声明带var关键字的
+        5.2 从上到下执行代码           
+            5.2.1 n=0;// 因为5.1.1中已经var n声明过n（变量提升，提前声明），这行代码不需要重复声明，只进行赋值操作n=0;
+            5.2.2 直接跳过a函数，因为5.1.2中已经声明并定义过了。                   
+		    5.2.3 执行a();此时a函数体内的代码字符串变成可执行的代码,并将返回值赋值给变量c
+		         function a(){
+					  var n=10; 
+					  function b(){
+						  n++; 
+						  alert(n); 
+				      }
+					  b();
+					  return b; 
+				 }
+		         5.2.3.1 看函数是否有形参，如果有则声明为私有变量，如果没有则继续下一步。
+		         5.2.3.2 声明函数体内带var和带function关键字的作为私有变量
+		                 var n; //声明私有变量n
+		                  function b(){//声明并定义函数b，此时函数b内的事代码字符串，不是可执行代码
+		                      "
+		                      	n++; 
+							  	alert(n); 
+		                      "							  
+					      }		                
+		         5.2.3.3 从上到下执行代码
+		                 5.2.3.3.1 n=10;//强私有变量n的值赋值为10
+		                 5.2.3.3.2 直接跳过b函数，因为5.2.3.2中已经声明并定义过了。 
+		                 5.2.3.3.2 执行函数b，b中的代码字符串变成可执行代码
+		                           n++; //函数b没有形参，函数体内也没有var关键字，所以不存在私有变量n，上级作用域找到n的值为10，自增变成11.
+		                           alert(n);//弹出11
+		                 5.2.3.3.3 返回函数b的引用地址
+		         最后将函数b的引用地址赋值给全局变量c，函数a执行产生的私有作用域无法释放（因为返回值是引用类型，且被外部全局变量引用）。
+		      5.2.4 执行c(),因为c和b指向同一个函数
+		            n++; //函数c没有形参，函数体内也没有var关键字，所以不存在私有变量n，上级作用域a找到n的值为11(函数a产生的作用域没有释放，保留了上次自增后n的值11），再次自增变成12.
+		            alert(n);//弹出12
+		      5.2.5 alert(n);//弹出0，全局作用域中的n值为0	       
+       因此答案为 	C、11 12 0   
+		<script type="text/javascript">
+			var n=0; 
+			 function a(){
+				  var n=10; 
+				  function b(){
+					  n++; 
+					  alert(n); 
+			      }
+				  b();
+				  return b; 
+			   }
+		   var c=a();
+		   c(); 
+		   alert(n);
+		</script>	
+		弹出三次的结果分别是什么？
+		A、1 1 1   B、11 11 0  C、11 12 0  D、11 12 12
+
+    6、以下代码的执行步骤：
+        6.1 先声明带var和带function关键字的全局变量
+             6.1.1 var a,var b,var c; //声明带var关键字的
+             6.1.2 声明带function关键字的，如果没有等号，则会进行提前定义。
+                     函数虽然提前进行了声明并定义（赋值），但是函数体内存储的是代码字符串。
+		             function test(a){
+		                "
+		                 a=1;v
+				         var b=2;
+				         c=3;
+		                "				       
+				     }
+        6.2 从上到下执行代码          
+            6.2.1 a=10,b=11,c=12;// 因为6.1.1中已经var a,var b, var c声明过a,b,c（变量提升，提前声明），这行代码不需要重复声明，只进行赋值操作
+            6.2.2 直接跳过test函数，因为6.1.2中已经声明并定义过了。		            
+		    6.2.3 执行test(10);此时fn函数体内的代码字符串变成可执行的代码
+					function test(a){
+				        a=1;
+				        var b=2;
+				        c=3;
+				   }		         
+				 6.2.3.1 看函数是否有形参，如果有则声明为私有变量
+				         形成a并声明为私有变量，等价于var a;
+		         6.2.3.2 声明函数体内带var和带function关键字的作为私有变
+		                 var b;//声明私有变量b		                
+		         6.2.3.3 从上到下执行代码
+		                 a=10;//私有变量a的值在传递参数时被赋值为10；
+		                 a=1;//函数内部第一行代码，将私有变量a的值重新赋值为1；
+		                 b=2;//将私有变量b的值赋值为2
+		                 c=3;//将全局变量c的值修改为3.		                
+		    6.2.4  alert(a);//10，全局变量a的值保持不变，函数内部值只操作私有变量a的值  
+			       alert(b);//11，全局变量b的值保持不变，函数内部值只操作私有变量b的值    
+			       alert(c); //3，全局变量c的值在6.2.3.3已结被修改为3. 
+       因此答案为 D、10 11 3
+	   <script type="text/javascript">
+	   		 var a=10,b=11,c=12;
+			   function test(a){
+			        a=1;
+			        var b=2;
+			        c=3;
+			   }
+			   test(10);
+			   alert(a);  
+			   alert(b);   
+			   alert(c); 
+	   </script>
+     弹出的三个值分别是多少？
+	A、1 11 3   B、10 11 12  C、1 2 3   D、10 11 3
+
+   7、以下代码的执行步骤
+       7.1 先声明带var和带function关键字的全局变量(不管if条件是否成立，都会进行var声明)           
+            var a;//忽略条件判断，首先声明全局变量var a  
+       7.2 从上到下执行代码
+           7.2.1 !("a" in window)
+                 "a" in window //true, 7.1 中已经声明过全局变量a，即给window添加了属性a，window.a存在
+                 !("a" in window) //false
+                 条件不成立，if条件语句内的代码不会执行
+           7.2.2 alert(a);  //undefined， a已经声明过但未赋值，所以弹出undefined
+       因此答案为 B undefined  
+     <script type="text/javascript">
+     	 if(!("a" in window)){
+		      var a=1;
+		  }
+		  alert(a);  
+     </script>  
+	弹出的a的值是？
+	A、1   B、undefined   C、报错   D、以上答案都不对
+
+	8、以下代码的执行步骤
+	    //window下的预解释：var a; b = xxxfff000;
+	    //window下的代码执行：
+	    //a = 4;
+	    //a = b函数执行的返回结果 -->b函数执行形成一个私有的作用域-A
+	    //A下的形参赋值 x=1 y=2 a=3  (x、y、a都是私有的变量)
+	    //A下的代码执行：
+	    //    alert(a); -->3
+	    //    arguments[2]=10 -->把传递进来的第三个参数的值改变为10，在非严格模式下，我们通过arguments来修改参数的值，可以映射到我们的形参变量上，例如：当前案例中我们就通过arguments[2]=10可以把形参a的值改变为10
+	    //    alert(a); -->10
+	    //在函数中没有写return，默认的返回值是undefined，而我们是把b函数执行的返回结果赋值给全局作用域下的变量a，所以window.a=undefined
+	    //alert(a);-->undefined
+	    因此答案为 D 3  10  undefined 
+	    <script type="text/javascript">
+	    	var a=4;
+		   function b(x,y,a) {	   
+		        alert(a); 
+		        arguments[2]=10;        
+		        alert(a); 
+		   }
+		   a=b(1,2,3);   alert(a);  
+	    </script>	
+	   三次弹出的结果是 
+		A、3  3  4   B、3  10  4   C、3  10  10   D、3  10  undefined 
+
+	9、以下代码的执行步骤
+	   //window下的预解释:var foo;
+	    //window下的代码执行：
+	    //foo='hello';(这个是全局变量)
+	    //执行自执行函数，形成一个私有的作用域A，然后把全局变量foo的值赋值给形参
+	    //   A下的形参赋值:foo='hello';(这个是私有的变量) 虽然目前值一样，但是是两个不同的变量
+	    //   A下的预解释:形参的赋值的时候，我们A下已经存在foo了，所以不会重新的声明foo了
+	    //   A下的代码执行
+	    //   console.log(foo); -->'hello'
+	    //   foo = foo || 'world'; -->foo='hello'
+	    //   console.log(foo); -->'hello'
+	    //console.log(foo); 这是输出的全局foo的值-->'hello'
+        因此答案为 A、hello hello hello
+	  	<script type="text/javascript">
+		  		var foo='hello'; 
+			   (function(foo){
+			      console.log(foo);
+			      var foo=foo||'world';
+			      console.log(foo);
+			   })(foo);//这是把全局变量foo的值'hello'赋值给形参foo
+			   console.log(foo); 
+		  </script>
+		  三次分别输出什么？
+		A、hello hello hello   B、undefined world  hello   C、hello world world   D、以上答案都不正确
+
+	10、以下代码的执行步骤
+	   详见 1-10.png	   
+        10.1 先声明带var和带function关键字的全局变量
+             10.1.1 var a; //声明带var关键字的
+             10.1.2 声明带function关键字的，如果没有等号，则会进行提前定义。
+                     函数虽然提前进行了声明并定义（赋值），但是函数体内存储的是代码字符串。
+		              function fn(){ 
+			               "
+			               	   a=0; 	   
+					           return function(b){ return b+a++; }   
+			               "				 
+				      }
+		      10.1.3 var f; //声明带var关键字的
+		             var m; //声明带var关键字的
+		             var n; //声明带var关键字的
+		             var x; //声明带var关键字的
+        10.2 从上到下执行代码           
+            10.2.1 a=9;// 因为10.1.1中已经var a声明过a（变量提升，提前声明），这行代码不需要重复声明，只进行赋值操作a=9;
+            10.2.2 直接跳过fn函数，因为10.1.2中已经声明并定义过了。                   
+		    10.2.3 f=fn();//执行fn();此时fn函数体内的代码字符串变成可执行的代码,并将返回值赋值给变量f
+		         function fn(){ 
+				   a=0; 	   
+			       return function(b){ return b+a++; }    
+			     }
+		         10.2.3.1 看函数是否有形参，如果有则声明为私有变量，如果没有则继续下一步。
+		         10.2.3.2 声明函数体内带var和带function关键字的作为私有变量,如果没有则继续下一步
+		                  a=0; //全局变量a的值被修改0，window.a=0
+		                  function (b){//返回匿名函数，此时匿名函数内是代码字符串，不是可执行代码
+		                      "
+		                      	return b+a++; 
+		                      "							  
+					      }		                
+		    10.2.4 m=f(5);//执行f(5);此时f函数体内的代码字符串变成可执行的代码,并将返回值赋值给变量m
+		          return function(b){ return b+a++; }
+		          10.2.4.1 看函数是否有形参，如果有则声明为私有变量
+		                  形参b，生为私有变量b
+		                  b=5; //f(5)；将私有变量b的值赋值为5
+		          10.2.4.2 声明函数体内带var和带function关键字的作为私有变量,如果没有则继续下一步
+		                 b+a++;//5，私有变量b的值为5，全局变量a的值在10.2.3.2已经被赋值为0。 b+a++，a先运算再自增，5+0的值为5故返回5.然后a自增变成1.
+		    10.2.5 alert(m);//弹出5，10.2.4中f(5)执行的返回值为5，赋值给m，m的值为5
+		    10.2.6 n=fn()(5);//执行fn()f(5);并将返回值赋值给变量n  
+		           等价于将10.2.3和10.2.4合并为一步完成，每次fn()执行产生一个新的私有作用域，彼此独立。
+		           因此最终结果跟10-2.4相同
+		    10.2.7  alert(m);//弹出5，10.2.6中fn()f(5)执行的返回值为5，赋值给n，n的值为5
+            10.2.8 x=f(5);//执行f(5);此时f函数体内的代码字符串变成可执行的代码,并将返回值赋值给变量x
+                   f是10.2.3第一次执行fn()时的返回结果，fn()的返回结果是引用类型，且被外部全局变量f引用，因此fn()产生的私有作用域不销毁。
+		          return function(b){ return b+a++; }
+		          10.2.8.1 看函数是否有形参，如果有则声明为私有变量
+		                  形参b，生为私有变量b
+		                  b=5; //f(5)；将私有变量b的值赋值为5
+		          10.2.8.2 声明函数体内带var和带function关键字的作为私有变量,如果没有则继续下一步
+		                 b+a++;//5，私有变量b的值为5，全局变量a的值在10.2.6已经自增为1。 b+a++，a先运算再自增，5+1的值为6故返回6.然后a自增变成2.
+		                 因为10.2.8并没有重新执行fn(),也就不会执行代码a=0，只是再次执行f中的代码a++，10.2.6中全部变量a的值已经变成1，再次自增就变成2.
+		    10.2.9 alert(x);//弹出6，10.2.8中f(5)执行的返回值为6，赋值给x，x的值为6
+            10.2.10 alert(a);//弹出2，10.2.8中全局变量a的值已经自增为2.            
+	   答案为 5 5 6 2  D、以上答案都不正确   
+	   <script type="text/javascript">
+	   		var a=9; 
+			function fn(){ 
+				   a=0; 	   
+			       return function(b){ return b+a++; }    
+			}
+			var f=fn()
+			var m=f(5);
+			alert(m);
+			var n=fn()(5);
+			alert(n); 
+			var x=f(5);
+			alert(x);
+			alert(a);  
+	   </script>
+	弹出的四次结果？
+	A、6 6 7 2   B、5 6 7 3   C、5 5 6 3   D、以上答案都不正确   
+
+二、思考题：
+	1、document.parentNode的值是什么，为什么 
+	   document.parentNode// null, parentNode是获取父亲节点，document是页面中的最顶级了，所以没有父亲节点
+       属性存在，但是找不到值，返回null
+	2、document.parentnode的值是什么，为什么 。
+	   document.parentnode //undefined 中没有这个属性，默认的属性值是undefined
+	   属性不存在，返回undefined
+	3、prototype是谁的属性，它起什么作用？__proto__是谁的属性，它有什么作用？prototype和__proto__有什么联系？
+	   3.1 prototype和__proto__的概念
+		   prototype是函数的一个属性（每个函数都有一个prototype属性），这个属性是一个指针，指向一个对象。它是显示修改对象的原型的属性。
+	       __proto__是一个对象拥有的内置属性（请注意：prototype是函数的内置属性，__proto__是对象的内置属性），是JS内部使用寻找原型链的属性。
+	       用chrome和FF都可以访问到对象的__proto__属性，IE不可以。
+	   3.2 prototype和__proto__有什么联系（仅列举内置构造器，自定义构造器在后续课程会有详细介绍）
+	       3.2.1、所有构造器/函数的__proto__都指向Function.prototype，它是一个空函数（Empty function）
+	                Number.__proto__ === Function.prototype  // true
+					Boolean.__proto__ === Function.prototype // true
+					String.__proto__ === Function.prototype  // true
+					Object.__proto__ === Function.prototype  // true
+					Function.__proto__ === Function.prototype // true
+					Array.__proto__ === Function.prototype   // true
+					RegExp.__proto__ === Function.prototype  // true
+					Error.__proto__ === Function.prototype   // true
+					Date.__proto__ === Function.prototype    // true
+					例外的情况如下：
+					JavaScript中有内置(build-in)构造器/对象共计12个（ES5中新加了JSON），这里列举了可访问的8个构造器。剩下如Global不能直接访问，Arguments仅在函数调用时由JS引擎创建，Math，JSON是以对象形式存在的，无需new。它们的__proto__是Object.prototype。如下
+					Math.__proto__ === Object.prototype  // true
+					JSON.__proto__ === Object.prototype  // true
+		    3.2.2 所有对象的__proto__都指向其构造器的prototype
+		          先看看JavaScript引擎内置构造器
+					var obj = {name: 'jack'}
+					var arr = [1,2,3]
+					var reg = /hello/g
+					var date = new Date
+					var err = new Error('exception') 
+					console.log(obj.__proto__ === Object.prototype) // true
+					console.log(arr.__proto__ === Array.prototype)  // true
+					console.log(reg.__proto__ === RegExp.prototype) // true
+					console.log(date.__proto__ === Date.prototype)  // true
+					console.log(err.__proto__ === Error.prototype)  // true
+
+	4、hasOwnProperty和in都是用来判断对象的属性的，这两个是怎么用的，有什么区别？
+	   4.1 先判断是否有私有属性，如果没有查找是否有公有属性
+	       用“In”来查找是深度查找 查找原型链里  是否有这……属性。
+	       <script type="text/javascript">
+	       	  var a;//声明全局变量a，window.a
+	       	  a in window;//true,window存在属性a
+	       </script>  
+	   4.2 只查找是否有私有属性
+	       平时小项目常用“hasOwnProperty”来查找（查找自身小范围内是否有此属性，可能更快捷高效。而“in”有特殊需求时使用。）
+	       <script type="text/javascript">
+	          var a;//声明全局变量a，window.a
+	       	  console.log("a" in window);//true,window存在属性a
+	       	  function Person(){
+	       	  	this.myName ="cxh";
+	       	  }
+	       	  var p = new Person();
+	       	  console.log(p.hasOwnProperty("myName"));//true
+	       	  console.log(p.hasOwnProperty("a"));//false, hasOwnProperty只能访问私有属性（比如构造函数内的属性）
+	       	  console.log(window.hasOwnProperty("myName"));//false,window不存在属性myName，也无法访问构造函数的私有属性myName.
+	       	  console.log(window.hasOwnProperty("a"));//true
+	       </script>
+	5、什么是闭包，它有什么作用？
+	   函数对象可以通过作用域链相互关联起来，函数体内部的变量都可以保存在函数作用域内，这种特性成为"闭包"。
+	   从技术的角度讲，所有的Javascript函数都是闭包：它们都是对象，他们都关联到作用域链。
+	   作用如下：
+	   5.1 匿名自执行函数避免全局变量污染
+		    所有的变量，如果不加上var关键字，则默认的会添加到全局对象的属性上去，这样的临时变量加入全局对象有很多坏处，
+		    比如：别的函数可能误用这些变量；造成全局对象过于庞大，影响访问速度(因为变量的取值是需要从原型链上遍历的)。
+		    除了每次使用变量都是用var关键字外，我们在实际情况下经常遇到这样一种情况，即有的函数只需要执行一次，其内部变量无需维护，
+		    比如UI的初始化，那么我们可以使用闭包：
+            <script type="text/javascript">
+            	var datamodel = {    
+				    table : [],    
+				    tree : {}    
+				};    
+				     
+				(function(dm){    
+				    for(var i = 0; i < dm.table.rows; i++){    
+				       var row = dm.table.rows[i];    
+				       for(var j = 0; j < row.cells; i++){    
+				           drawCell(i, j);    
+				       }    
+				    }    				       
+				    //build dm.tree      
+				})(datamodel);   
+            </script>     		
+			我们创建了一个匿名的函数，并立即执行它，由于外部无法引用它内部的变量，
+			因此在执行完后很快就会被释放，关键是这种机制不会污染全局对象。
+        5.2 结果缓存
+	        设想我们有一个处理过程很耗时的函数对象，每次调用都会花费很长时间，那么我们就需要将计算出来的值存储起来，当调用这个函数的时候，首先在缓存中查找，如果找不到，则进行计算，然后更新缓存并返回值，如果找到了，直接返回查找到的值即可。
+	        闭包正是可以做到这一点，因为它不会释放外部的引用，从而函数内部的值可以得以保留。
+            <script type="text/javascript">
+            	var CachedSearchBox = (function(){    
+			    var cache = {},    
+			       count = [];    
+			    return {    
+			       attachSearchBox : function(dsid){    
+			           if(dsid in cache){//如果结果在缓存中    
+			              return cache[dsid];//直接返回缓存中的对象    
+			           }    
+			           var fsb = new uikit.webctrl.SearchBox(dsid);//新建    
+			           cache[dsid] = fsb;//更新缓存    
+			           if(count.length > 100){//保正缓存的大小<=100    
+			              delete cache[count.shift()];    
+			           }    
+			           return fsb;          
+			       },    
+			     
+			       clearSearchBox : function(dsid){    
+			           if(dsid in cache){    
+			              cache[dsid].clearSelection();      
+			           }    
+			       }    
+			    };    
+				})();    			     
+				CachedSearchBox.attachSearchBox("input1"); 
+            </script>
+			这样，当我们第二次调用CachedSearchBox.attachSerachBox(“input1”)的时候，
+			我们就可以从缓存中取道该对象，而不用再去创建一个新的searchbox对象。
+		5.3 实现封装
+			可以先来看一个关于封装的例子，在person之外的地方无法访问其内部的变量，而通过提供闭包的形式来访问：
+			<script type="text/javascript">
+				var person = function(){    
+				    //变量作用域为函数内部，外部无法访问    
+				    var name = "default"; 			       
+				    return {    
+				       getName : function(){    
+				           return name;    
+				       },    
+				       setName : function(newName){    
+				           name = newName;    
+				       }    
+				    }    
+				}();    			     
+				print(person.name);//直接访问，结果为undefined    
+				print(person.getName());  //返回  "default"
+				person.setName("abruzzi");    
+				print(person.getName());  //返回 "abruzzi"
+			</script>			   
+			得到结果如下： 			   
+			undefined  
+			default  
+			abruzzi  
+	    5.4 实现类和继承
+			这样不同的对象(类的实例)拥有独立的成员及状态，互不干涉。虽然JavaScript中没有类这样的机制，但是通过使用闭包，
+			我们可以模拟出这样的机制。还是以上边的例子来讲：
+			<script type="text/javascript">
+				function Person(){    
+				    var name = "default";   			       
+				    return {    
+				       getName : function(){    
+				           return name;    
+				       },    
+				       setName : function(newName){    
+				           name = newName;    
+				       }    
+				    }    
+				}; 	     			     
+				var john = Person();    
+				print(john.getName());    
+				john.setName("john");    
+				print(john.getName());			     
+				var jack = Person();    
+				print(jack.getName());    
+				jack.setName("jack");    
+				print(jack.getName()); 	
+		   	由此代码可知，john和jack都可以称为是Person这个类的实例，继承了Person的属性和方法，因为这两个实例对name这个成员的访问是独立的，互不影响的。
+			</script>  
+			运行结果如下：  			   
+			default  
+			john  
+			default  
+			jack  			
+			 
+ 
+	6、你理解的DOM是用来干什么的？（DOM的意义和用途）
+	   DOM即“文档对象模型”。
+	   6.1 DOM的意义
+		   基于语义的逻辑结构，DOM将网页内的元素与内容呈现为一个清晰、易读的树状模型。
+		   在这个理想化的树状模型中，任何一个元素或是内容，都只有自己唯一的一个节点.
+		   即便这个文档拥有巨量的内容与繁复的结构，只要它本身语义逻辑没有错误，那么用DOM都可以轻易地将这个文档中的任意一个元素或内容检索出来。
+		   简言之，对于网页前端开发人员而言，DOM就是一个用于检索网页内任意元素或内容的索引目录.
+		   在网页前端开发中，DOM的存在，无疑是为表现层、行为层甚至内容层面的连接提供了一个绝佳的API，成为热门的Ajax应用中不可或缺的组成部分。
+	   6.2 DOM的用途
+	       首先精准地获取网页上元素及其属性，然后对其进行增、删、改、查相关操作。
+

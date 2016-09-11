@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>补充CSS伪类</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "\5FAE\8F6F\96C5\9ED1", Helvetica, sans-serif;
+            font-size: 14px;
+        }
+        .box {
+            margin: 20px auto;
+            padding: 30px;
+            width: 300px;
+            border: 1px dashed green;
+        }
+        .box p {
+            line-height: 30px;
+        }
+        /*:before :after ->在一个元素标签的前面或者后面,创建一个新的虚拟的标签,我们可以给这个虚拟的标签增加样式,也可以增加内容等...*/
+        .box p:before {
+            display: block;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            content: "珠峰培训";
+            background: lightblue;
+        }
+        .box p:after {
+            display: block;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            content: "珠峰培训";
+            background: lightgreen;
+        }
+        .clear {
+            zoom: 1;
+        }
+        .clear:after {
+            display: block;
+            width: 0;
+            height: 0;
+            content: "";
+            overflow: hidden;
+            clear: both;
+        }
+        ul, li {
+            list-style: none;
+        }
+        .list {
+            margin: 20px auto;
+            padding: 30px;
+            width: 300px;
+            border: 1px solid #000;
+        }
+        .list li {
+            float: left;
+            width: 100px;
+            height: 100px;
+            background: lightyellow;
+        }
+        /*CSS3中新增加的伪类:nth-child*/
+        /*.list li:nth-child(odd){
+            background: lightblue;
+        }
+        .list li:nth-child(even){
+            background: lightgreen;
+        }*/
+        .list li:nth-child(4n+1) {
+            background: red;
+        }
+        .list li:nth-child(4n+2) {
+            background: orange;
+        }
+        .list li:nth-child(4n+3) {
+            background: yellow;
+        }
+        .list li:nth-child(4n+4) {
+            background: green;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <p id="boxP">
+        我们是先学习再考试,考试通过了才交学费;珠峰有完善的教学管理,考试和激励引导制度帮你不但学的会还要学的好!
+        就业是我们的强项，平均就业工资超过12K。不但让你找到工作，还要能胜任工作。郑重承诺:工资低于9K退学费。
+    </p>
+</div>
+
+<ul class="list clear">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+</ul>
+<script type="text/javascript">
+    var boxP = document.getElementById("boxP");
+    console.log(window.getComputedStyle(boxP, "before").content);
+    console.log(window.getComputedStyle(boxP, "after").height);
+</script>
+</body>
+</html>

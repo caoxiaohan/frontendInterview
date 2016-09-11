@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>表格排序</title>
+    <link type="text/css" rel="stylesheet" href="css/tab.css"/>
+</head>
+<body>
+<!--在一个table中,我们的thead只能有一个,而tbody可以有多个-->
+<div class="box">
+    <table id="tab" cellspacing="0" cellpadding="0">
+        <thead>
+        <tr>
+            <!--想让谁排序就给谁加class="cursor"-->
+            <th class="cursor">姓名</th>
+            <th class="cursor">年龄</th>
+            <th class="cursor">分数</th>
+            <th>性别</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--实现奇数偶数行变色,只需要让奇数行的class='bg0' 让偶数行的class='bg1'-->
+        <!--<tr class="bg0">
+            <td>郭靖</td>
+            <td>38</td>
+            <td>83</td>
+            <td>男</td>
+        </tr>-->
+        </tbody>
+    </table>
+</div>
+
+<!--引入JS的顺序要根据之间的依赖关系依次的来引入-->
+<script charset="utf-8" type="text/javascript" src="js/json.js"></script>
+<script charset="utf-8" type="text/javascript" src="js/utils.js"></script>
+<script charset="utf-8" type="text/javascript" src="js/tab.js"></script>
+</body>
+</html>

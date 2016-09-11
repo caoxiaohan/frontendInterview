@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>面试题61案</title>    
+</head>
+<body>
+	<h1>61 什么是可枚举性？Object.create() 的用法？总结书中六种继承方式的原理及优缺点？</h1>
+	<pre>	
+一、什么是可枚举性    
+    1 概念
+	  可枚举性（enumerable）用来控制所描述的属性，是否将被包括在for...in循环之中。
+	  具体来说，如果一个属性的enumerable为false，下面三个操作不会取到该属性：
+		 1.1 for..in循环
+		 1.2 Object.keys方法
+		 1.3 JSON.stringify方法
+    2 举例
+        function Father(){
+            this.f="fater"
+        }
+        Father.prototype.fp = "father_proto";
+        function Child(){
+            this.c1="child1",
+            this.c2="child2"
+        }
+        Child.prototype = new Father();//Child类继承自Father类
+        Child.prototype.cp = "child_proto";
+        var obj = new Child();
+        obj.o1 = "object1";
+        obj.o2 = "object2";
+		obj.o3 = "object3";
+		Object.defineProperty(obj, 'o4', {
+		  value: "object4",
+		  enumerable: false
+		});
+		obj.o4//""object4"
+		for( var key in obj ) {
+		     console.log( key ); //c1 c2 o1 o1 o3 f cp fp
+		     //console.log( obj[key] ); //child1 child2 object1 object1 object3 child father
+		}   
+        console.log(Object.keys(obj));  //["c1", "c2", "o1", "o2", "o3"]
+        console.log(JSON.stringify(obj));// {"c1":"child1","c2":"child2","o1":"object1","o2":"object2","o3":"object3"}
+        console.log(Object.getOwnPropertyNames(obj));//["c1", "c2", "o1", "o2", "o3", "o4"]
+   3 总结
+     3.1 只有for in 可以获取对象所属类原型的属性以及父类原型的属性
+     3.2 只有Object.getOwnPropertyNames()方法可以获取对象的不可枚举属性。
+     
+二、Object.create() 的用法
+    创建一个具有指定原型且可选择性地包含指定属性的对象。
+    1 语法
+      Object.create(prototype, descriptors)
+    2 参数
+      2.1 prototype：必需。  要用作原型的对象。  可以为 null。  
+      2.2 descriptors：可选。  包含一个或多个属性描述符的 JavaScript 对象。
+          2.2.1 数据属性
+				writable:是否可任意写,默认值为true
+				configurable：是否能够删除，是否能够被修改。默认值为true
+				enumerable：是否能用 for in 枚举。默认值为true
+				value：值。属性值
+　		 2.2.2  访问属性：
+				get(): 访问
+				set(): 设置  
+    3 返回值
+      一个具有指定的内部原型且包含指定的属性（如果有）的新对象。
+    4 示例
+      4.1 创建使用 null 原型的对象并添加两个可枚举的属性。
+          <script type="text/javascript">
+               var obj = Object.create(null, {
+		            size: {
+		                value: "large",
+		                enumerable: true
+		            },
+		            shape: {
+		                value: "round",
+		                enumerable: true
+		            }
+		        });
+				console.log(obj.size);// large
+				console.log(obj.shape);// round
+				document.write(Object.getPrototypeOf(obj));// null 		
+          </script>
+      4.2 创建一个具有与 Object 对象相同的内部原型的对象。
+          该对象具有与使用对象字面量方式创建的对象相同的原型。
+           Object.getPrototypeOf 函数可获取原始对象的原型。  
+           若要获取对象的属性描述符，可以使用Object.getOwnPropertyDescriptor函数。
+           <script type="text/javascript">
+	        	var obj1 = { x: 1, y: 2 };
+				var obj2 = Object.create(Object.prototype, {
+				            x: {		               
+				                writable: true, 
+				                configurable: true, 
+				                enumerable: true,		               
+				            },
+				            y: {
+				                value: 4, 
+				                writable: true, 
+				                configurable: true, 
+				                enumerable: true
+				            }
+				});
+				console.log("obj1 prototype = " + Object.getPrototypeOf(firstLine));// obj1 prototype = [object Object]		
+				console.log("obj2 prototype = " + Object.getPrototypeOf(secondLine));// obj2 prototype = [object Object]  
+				console.log(Object.getOwnPropertyDescriptor(obj1,"x"));//Object {value: 1, writable: true, enumerable: true, configurable: true}
+		        console.log(Object.getOwnPropertyDescriptor(obj2,"x"));//Object {value: undefined, writable: true, enumerable: true, configurabl
+           </script>
+    5 异常
+      如果满足下列任一条件，则将引发 TypeError 异常：
+      Object.create(prototype, descriptors),下列prototype表示第一个参数，descriptors表示第二个参数
+      5.1 prototype 参数不是对象且不为 null。
+          Object.create();//报错，VM56:1 Uncaught TypeError: Object prototype may only be an Object or null: undefined(…)
+          Object.create(1);//报错，VM56:1 Uncaught TypeError: Object prototype may only be an Object or null: undefined(…)
+      5.2 descriptors 参数中的描述符具有 value 或 writable 特性，并具有 get 或 set 特性。
+          <script type="text/javascript">
+          //5.2.1 正确写法，就是get或set方法不与value和writeable属性同时出现
+                //以下代码正常通过运行
+          	    var obj1 = Object.create(Object.prototype, {				            
+				            o1: {				                			                
+				                configurable: true, 
+				                enumerable: true,
+				                get:function(){}
+				            }
+				});
+		//5.2.2 错误写法, 是、get或set方法之一与value和writeable属性之一同时出现
+          	    var obj2 = Object.create(Object.prototype, {				            
+				            o2: {
+				                value: 2,				                
+				                configurable: true, 
+				                enumerable: true,
+				                get:function(){}
+				            }
+				});
+				//VM58:1 Uncaught TypeError: Invalid property descriptor. Cannot both specify accessors and a value or writable attribute, #<Object>(…)
+				//报错，不能获取具有value或writable属性的值。
+          </script>
+      5.3 descriptors 参数中的描述符具有不为函数的 get 或 set 特性。
+          <script type="text/javascript">
+                //报错，提示get必须为函数类型
+          		var obj = Object.create(Object.prototype, {				            
+				            o: {				                			                
+				                configurable: true, 
+				                enumerable: true,
+				                get:"hiahia"
+				            }
+				});
+				//VM59:1 Uncaught TypeError: Getter must be a function: hiahia(…)
+          </script>
+   6 兼容性    
+         Chrome5、Firefox4.0(2)、IE9、Opera11.60、Safari5及其以上版本 
+   7 兼容性写法
+     参考《JavaScript高级程序设计第三版》中的原型式继承​
+     <script type="text/javascript">
+     	   Object.prototype.create = function(obj) {  
+			    if(Object.prototype.create){  
+			    	return Object.prototype.create //特性检测，判断浏览器是否兼容  
+			    }else{
+			        function F(){  
+				        F.prototype = obj; //以传入参数为原型构造对象  
+				      	return new F();  
+			        }  
+			    }  
+		   };
+     </script>
+	 7.1 在Object()函数内部，先创建了一个临时性的狗仔函数，然后将传入的对象作为这个构造函数的原型，最后返回了这个临时类型的新实例。
+     7.2 从本质上讲，object()对传入其中的对象执行了一次浅复制。
+
+三、总结书中六种继承方式的原理及优缺点
+    1 简单原型链
+      这是实现继承最简单的方式了，核心就是子类的原型指向父类的实例。
+      1.1 示例
+          <script type="text/javascript">
+	          	function Super(){
+				    this.val = 1;
+				    this.arr = [1];
+				}
+				function Sub(){
+				    // ...
+				}
+				Sub.prototype = new Super();    // 核心				 
+				var sub1 = new Sub();
+				var sub2 = new Sub();
+				sub1.val = 2;
+				sub1.arr.push(2);
+				alert(sub1.val);    // 2
+				alert(sub2.val);    // 1				 
+				alert(sub1.arr);    // 1, 2
+				alert(sub2.arr);    // 1, 2
+          </script>
+      1.2 原理
+          拿父类实例来充当子类原型对象
+      1.3 优缺点
+         1.3.1 优点：简单，易于实现
+		 1.3.2 缺点：
+               1.3.2.1 修改sub1.arr后sub2.arr也变了，因为来自原型对象的引用属性是所有实例共享的。
+						可以这样理解：执行sub1.arr.push(2);先对sub1进行属性查找，找遍了实例属性（在本例中没有实例属性），没找到，就开始顺着原型链向上找，拿到了sub1的原型对象，一搜身，发现有arr属性。于是给arr末尾插入了2，所以sub2.arr也变了
+               1.3.2.2 创建子类实例时，无法向父类构造函数传参
+
+    2 借用构造函数模式（call继承或apply继承）
+      借用构造函数模式的出现为了解决原型链模式的两个缺点。
+      借用构造函数模式跟冒充对象（伪造对象模式）原理及优缺点相同。
+      历史原因：在此前的的浏览器如IE5.01(JScript 5.0)中是没有apply和call的，冒充对象模式实际上是借用构造函数模式（call或appply模式）的兼容写法。
+                如果使用的是标准浏览器或IE6及其以上版本浏览器可以用借用构造函数模式取代冒充对象模式。
+      2.1 示例
+          <script type="text/javascript">
+          	function Super(val){
+			    this.val = val;
+			    this.arr = [1];
+			 
+			    this.fun = function(){
+			        // ...
+			    }
+			}
+			function Sub(val){
+			    Super.call(this, val);   // 核心
+			    // ...
+			}	
+			Super.prototype.pub="pub";		 
+			var sub1 = new Sub(1);
+			var sub2 = new Sub(2);
+			sub1.arr.push(2);
+			alert(sub1.val);    // 1
+			alert(sub2.val);    // 2			 
+			alert(sub1.arr);    // 1, 2
+			alert(sub2.arr);    // 1			 
+			alert(sub1.fun === sub2.fun);   // false
+			alert(sub1.pub);//undefined
+          </script>
+      2.2 原理
+          借父类的构造函数来增强子类实例，等于是把父类的实例属性复制了一份给子类实例装上了（完全没有用到原型）
+      2.3 优缺点
+          2.3.1 优点：
+                2.3.1.1 解决了子类实例共享父类引用属性的问题
+                2.3.1.1 创建子类实例时，可以向父类构造函数传参
+          2.3.2 缺点：
+                2.3.2.1 无法实现函数复用，每个子类实例都持有一个新的fun函数，太多了就会影响性能，内存爆炸。
+                2.3.2.2 子类型只是继承了父类构造函数中定义的属性和方法，无法获取父类原型上属性和方法。
+
+    3 组合继承（最常用）
+      组合继承的出现为了解决构造函数模式无法实现函数复用。
+      注意原型链+构造涵模式(call模式），而不是原型+构造涵模式(call模式)      
+      3.1 示例
+          <script type="text/javascript">
+				function Super(){
+				    // 只在此处声明基本属性和引用属性
+				    this.val = 1;
+				    this.arr = [1];
+				}
+				//  在此处声明函数
+				Super.prototype.fun1 = function(){};
+				Super.prototype.fun2 = function(){};
+				//Super.prototype.fun3...
+				function Sub(){
+				    Super.call(this);   // 核心
+				    // ...
+				}
+				Sub.prototype = new Super();    // 核心 
+				var sub1 = new Sub(1);
+				var sub2 = new Sub(2);
+				alert(sub1.fun === sub2.fun);   // true
+          </script>
+      3.2 原理
+          把实例函数都放在原型对象上，以实现函数复用。同时还要保留借用构造函数方式的优点，通过Super.call(this);继承父类的基本属性和引用属性并保留能传参的优点；通过Sub.prototype = new Super();继承父类函数，实现函数复用
+      3.3 优缺点
+           3.3.1 优点：
+                 3.3.1.1 不存在引用属性共享问题
+                 3.3.1.2 可传参
+                 3.3.1.3 函数可复用
+           3.3.2 缺点:子类原型上有一份多余的父类实例属性，因为父类构造函数被调用了两次，生成了两份，而子类实例上的那一份屏蔽了子类原型上的
+
+    4 原型式
+      ES5提供了Object.create()函数，内部就是原型式继承， Chrome5、Firefox4.0(2)、IE9、Opera11.60、Safari5及其以上版本浏览器支持
+      4.1 示例
+          <script type="text/javascript">
+          	    function beget(obj){   // 生孩子函数 beget：龙beget龙，凤beget凤。
+				    var F = function(){};
+				    F.prototype = obj;
+				    return new F();
+				}
+				function Super(){
+				    this.val = 1;
+				    this.arr = [1,2,3];
+				}				 
+				// 拿到父类对象
+				var sup = new Super();
+				// 生孩子
+				var sub = beget(sup);   // 核心
+				// 增强
+				sub.s = "s";				
+				//sub.attr3...				 
+				alert(sub.val);     // 1
+				alert(sub.arr);     // [1,2,3]
+				alert(sub.s);   // “s"
+          </script>
+      4.2 原理
+         基于已有的对象创建新对象，同时还不必因此创建自定义类型，可以后续再添加属性
+      4.3 优缺点
+         4.3.1 优点：从已有对象衍生新对象，不需要创建自定义类型（更像是对象复制，而不是继承。）
+		 4.3.2 缺点：
+		       4.3.2.1 原型引用属性会被所有实例共享，因为是用整个父类对象来充当了子类原型对象，所以这个缺陷无可避免
+		       4.3.2.2 无法实现代码复用（新对象是现取的，属性是现添的，通过.后续一个个添加属性属于私有属性，都没用函数封装，怎么复用）
+
+    5 寄生式
+      寄生式是一种模式（套路），并不是只能用来实现继承。寄生式继承的思路与寄生构造函数和工厂模式类似，即创建一个仅用于封装继承过程的函数，该函数在内部以某种方式来增强对象，最后再像真地是它做了所有工作一样返回对象。
+      5.1 示例
+          <script type="text/javascript">
+	          	function beget(obj){   // 生孩子函数 beget：龙beget龙，凤beget凤。
+				    var F = function(){};
+				    F.prototype = obj;
+				    return new F();
+				}
+				function Super(){
+				    this.val = 1;
+				    this.arr = [1,2,3];
+				}
+				function getSubObject(obj){
+				    // 创建新对象
+				    var clone = beget(obj); //核心
+				    // 增强，添加自定义属性
+				    clone.c = "c";			   
+				    //clone.attr3...			 
+				    return clone;
+				}			 
+				var sub = getSubObject(new Super());
+				alert(sub.val);     // 1
+				alert(sub.arr);     // [1,2,3]
+				alert(sub.c);   // "c"
+          </script>
+      5.2 原理          
+          给原型式继承穿了个马甲而已，看起来更像继承了（上面介绍的原型式继承更像是对象复制）
+		  注意：创建新对象 -> 添加自定义属性 -> 返回该对象，这样的过程叫寄生式继承，
+		       beget函数并不是必须的，新对象是如何创建的并不重要（用beget方法生的即普通方法的返回值，构造函数new出来的实例，字面量方式创建的对象。都可以）
+      5.3 优缺点
+          5.3.1 优点：还是不需要创建自定义类型
+          5.3.2 缺点：无法实现函数复用（没用到原型，当然不行）
+      
+    6 寄生组合继承（最佳方式）
+      有缺陷的寄生式继承 + 不完美的组合继承 = 完美的寄生组合式继承
+      6.1 示例
+          <script type="text/javascript">
+				function beget(obj){   // 生孩子函数 beget：龙beget龙，凤beget凤。
+				    var F = function(){};
+				    F.prototype = obj;
+				    return new F();
+				}
+				function Super(){
+				    // 只在此处声明基本属性和引用属性
+				    this.val = 1;
+				    this.arr = [1];
+				}
+				//  在此处声明函数
+				Super.prototype.fun1 = function(){};
+				Super.prototype.fun2 = function(){};
+				//Super.prototype.fun3...
+				function Sub(){
+				    Super.call(this);   // 核心
+				    // ...
+				}
+				var proto = beget(Super.prototype); // 核心
+				proto.constructor = Sub;            // 核心
+				Sub.prototype = proto;              // 核心				 
+				var sub = new Sub();
+				alert(sub.val);
+				alert(sub.arr);
+          </script>
+       6.2 原理
+            用beget(Super.prototype);切掉了原型对象上多余的那份父类实例属性。
+            基本思路：不必为了指定子类的原型而调用超类型的构造函数，我们所需要的无非是超类型的一个副本而已。
+            本质上就是使用寄生式继承来继承超类型的原型，然后再将结果指定给子类型的原型。
+       6.3 优缺点
+           6.3.1 优点：完美了
+           6.3.2 缺点：理论上没有了（如果用起来麻烦不算缺点的话)
+
+四、《Javascript高级程序设计第3版》和珠峰培训中的六种继承方式对比分析
+     1 共同点：都有4中继承方式
+       1.1 原型链继承
+       1.2 借用构造函数继承（call继承或apply继承）
+           《Javascript高级程序设计第3版》叫做借用构造函数。
+            珠峰培训叫做call继承，实际上与借用构造是同一种继承方法。
+       1.3 组合继承（混合继承）
+           《Javascript高级程序设计第3版》叫做组合函数。
+            珠峰培训叫做混合继承，实际上与组合继承是同一种继承方法。
+            但是珠峰培训的“混合继承  原型+call”这句话错误，组合继承是“原型链+call”继承的组合，而不是“原型+call”继承的组合。
+            原型链继承和原型继承是两种完全不同的继承方式，由于珠峰培训只讲过原型链继承却没有讲过原型继承，不知道一字之差造成的巨大区别。
+       1.4 寄生组合式继承方法。
+     2 Javascript高级程序设计第3版》讲到，但珠峰培训没有讲到的2中继承方式
+       2.1 原型继承
+       2.2 寄生式继承  
+     3 珠峰培训讲到，但Javascript高级程序设计第3版》没有提过的两种继承
+       3.1 冒充对象继承
+           所谓的冒充对象继承，其实是借用构造函数继承（call继承或apply继承）的兼容写法，冒充对象继承和构造函数继承的原理及优缺点一样。
+           现在所有浏览器(只要IE5以上版本)都内置call或apply方法，因此完全可以用借用构造函数继承（call继承或apply继承）取代冒充对象继承。
+           3.1.1 示例
+	             <script type="text/javascript">
+						function Father(x){
+					        this.x = x;
+					        this.y = 200;
+					    }
+					    Father.prototype.getX = function (){}
+					    function Child(){
+					        var fa = new Father(100); //f.x = 100;
+					        for(var attr in fa){ //for in可以遍历到原型上的公有自定义属性
+					            //attr = x
+					            if(fa.hasOwnProperty(attr)){ //如果这个判断不加，那么无论是公有的还是私有的都拿过来当私有的
+					                this[attr] = fa[attr];//???  c['x'] = fa['x'] ==> c.x = 100;
+					            }
+					            // fa.propertyIsEnumerable() //可枚举属性  ==> 可以拿出来一一列举的属性
+					        }
+					    }
+					    var f = new Father();
+					    var c = new Child();
+					    console.log(f.x,f.y);//undefined,200,父类没有传参，第一个参数值时undefined,因此fa.x的值时undefined
+					    console.log(c.x,c.y);//100,200,子类的构造函数中已经传入值100赋值给了fa.x，fa.x的值又赋值给了c.x.
+	             </script>
+	      3.1.2 原理
+	          循环遍历父类实例，然后父类实例的私有方法全部拿过来添加给子类实例,如果不做hasOwnProperty判断那么就是把父类的公有的和私有的都拿过来当私有的
+	      3.1.3 优缺点
+	          3.1.3.1 优点：
+	                  3.1.3.1.1 解决了子类实例共享父类引用属性的问题
+	                  3.1.3.1.2 创建子类实例时，可以向父类构造函数传参
+	                  3.1.3.1.3 比借用构造函数(call或apply继承)兼容性好，兼容IE5版本以下老古董浏览器（现在几乎没人用，所以此优点可以忽略）
+	          3.1.3.2 缺点：
+	                  3.1.3.2.1 无法实现函数复用，每个子类实例都持有一个新的fun函数，太多了就会影响性能，内存爆炸。
+	                  3.1.3.2.2 子类型只是继承了父类构造函数中定义的属性和方法，无法获取父类原型上属性和方法。
+	                  3.1.3.2.2 比借用构造函数(call或apply继承)繁琐，重写内置方法效率不如直接调用内置方法call或apply效率高。
+       3.2 中间件继承（周氏继承）
+           所谓的中间件继承，官方以及历史中根本没有这种继承方法，而是周啸天自己起的名字。
+           中间件继承只有IE11版本浏览器才支持，这意味着使用此方法后导致大部分IE用户都会抛出异常，兼容性太差不能用，除非所有人都不用IE了。
+           中间件继承可以完全用原型链继承取代，因为优点跟原型链继承相同，缺点却比原型链继承多。
+           3.2.1 示例
+           	    <script type="text/javascript">           	
+	           		function Father(){//定义父类构造函数
+				        this.pri_cons = "父类构造函数内定义的私有属性pri_cons";//构造函数内定义的私有属性
+				    }
+				    Father.prototype.pub_pro = "父类的原型上定义的公有属性pub_pro";
+				    function Child(){}//定义子类构造函数
+				    Child.prototype.__proto__ = Father.prototype; //本来默认直接指向Object.prototype。从Father的原型上的__proto__也可以到Object.prototype==> 在Father.prototype上停留了下，Father.prototype就是一个中间件  父类的公有当作子类的公有
+				    var f = new Father();
+				    f.pri_ins="父类的实例f上定义的私有属性pri_ins";//父类的实例上添加的私有属性
+				    console.log(f.pri_cons);//"父类构造函数内定义的私有属性pri_cons"
+				    console.log(f.pub_pro);//"父类的原型上定义的公有属性pub_pro"
+				    console.log(f.pri_ins);//"父类的实例f上定义的私有属性pri_ins"
+				    var c = new Child();
+				    console.log(c.x);//
+				    console.log(c.getX());
+				    console.log(c.y);
+                </script>	
+           3.2.2 原理
+                中间件继承  Child.prototype.__proto__ = Father.prototype;  把父类的公有属性方法当作子类的公有的          
+	       3.2.3 优缺点
+	             3.2.3.1 优点
+	                     简单，跟第1种原型链继承优点一样。
+	             3.2.2.2 缺点：
+	                     比第1种继承原型链继承多了2中缺点
+			            3.2.2.2.1 IE不兼容()
+					              只有IE11才可以访问__proto__属性，IE11以下版本浏览器中访问__proto__值都为undefined
+					              <script type="text/javascript">
+					             	 var obj = {}
+					            	 obj.__proto__;//IE11以及标准浏览器返回Object类，而IE11以下浏览器中返回undefined。
+					              </script>					            
+			            3.2.2.2.2 只能访问父类原型上的公有属性，无法访问父类构造函数内定义的私有属性
+			            3.2.2.2.3 创建子类实例时，无法向父类构造函数传参
+   4 总结
+     4.1 最常用的继承方法时组合继承
+     4.2 最完美的继承方法是寄生组合继承
+     4.3 六种继承方式以Javascript高级程序设计第3版》为准，珠峰培训的有些继承方法叫法不官方或者过时或者兼容性太差，仅作为拓展
+
+   

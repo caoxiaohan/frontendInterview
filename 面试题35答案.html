@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>面试题35答案</title>    
+</head>
+<body>
+<h1>35 逻辑与、或、非的规则？</h1>
+<pre>
+  一、逻辑非的规则？
+      任何数据类型的逻辑非，即前面加！，返回值都为布尔类型。   
+      1 偶数个逻辑非！，等价于其他数据类型转换成Boolean类型的规律。
+          1.1 其他数据类型只5有种情况为false: 0 NaN null undefined ""(空字符串，字符串中间没有空格)
+          1.2 注意" "(字符串中间有空格) [] {} 转换为boolean类型结果为ture
+          1.3 !!两个逻辑非，Boolean(),以及条件语句三者等价
+              !![] //结果为true,此行等价于Boolean([])
+              Boolean([]) //结果为true
+              if([]){    //弹出true,此行等价于Boolean([])
+                 alert(true);
+              }else{
+                 alet(false);
+              }
+         1.4 !!!![] //偶数个逻辑非的结果等价于Boolean([]),结果为true
+      2 奇数个逻辑非！，等价于先将其他数据类型转换成Boolean类型再取反。
+         1.1 其他数据类型前面加奇数个逻辑非！只5有种情况为true: 0 NaN null undefined ""(空字符串，字符串中间没有空格)
+         1.2 注意" "(字符串中间有空格) [] {} 转换为boolean类型结果为ture，再取反！的结果为false.
+         1.3 !一个逻辑非，!Boolean(),以及条件语句前面加上!三者等价
+              ![] //结果为false,此行等价于!Boolean([])
+              !Boolean([]) //结果为false
+              if(![]){    //弹出false,此行等价于!Boolean([])
+                 alert(true);
+              }else{
+                 alert(false);
+              }
+         1.4 !!![] //奇数个逻辑非的结果等价于!Boolean([]),结果为false.
+
+  二、逻辑与的规则
+    1 逻辑与的真值表
+      两个值都为true,结果才为true，只要有一个值为false，结果为false
+      true&&true   结果 true
+      true&&false  结果 false
+      false&&true  结果 false
+      false&&false 结果 false
+    2 逻辑与的规则
+      逻辑与可应用于任何数据类型，当有一个操作数不是布尔值时，返回结果不一定是布尔值
+      2.1 如果第一操作数转换成Boolean类型后结果为true,则返回第二个操作数。
+         {name:"cxh"}&&{name:"zhangsan"}; //结果为 name:"zhangsan"}，因为第一个操作数转换成布尔值为true,所以返回第二个操作数
+         []&&{name:"zhangsan"}; //结果为 name:"zhangsan"}，因为第一个操作数转换成布尔值为true,所以返回第二个操作数
+         "    "&&{name:"zhangsan"}; //结果值为 name:"zhangsan"}，因为第一个操作数转换成布尔值为true,所以返回第二个操作数
+         3===3&&{name:"zhangsan"}; //结果为 name:"zhangsan"}，因为第一个操作数转换成布尔值为true,所以返回第二个操作数
+      2.2  如果第一操作数转换成Boolean类型后结果为false,则返回第一个操作数，且不再对第二个操作数进行求值
+         0&&{name:"jobs"};//结果为0，因为第一个操作数转换成布尔值为false，所以直接返回第一个操作数。
+         ""&&{name:"jobs"};//结果为""，因为第一个操作数转换成布尔值为false，所以直接返回第一个操作数。
+         NaN&&{name:"jobs"};//结果为NaN，因为第一个操作数转换成布尔值为false，所以直接返回第一个操作数。
+         undefined&&{name:"jobs"};//结果为undefined，因为第一个操作数转换成布尔值为false，所以直接返回第一个操作数。
+         null&&{name:"jobs"};//结果为null，因为第一个操作数转换成布尔值为false，所以直接返回第一个操作数。
+         3===5&&{name:"jobs"};//结果为false，因为第一个操作数转换成布尔值为false，所以直接返回第一个操作数。比较运算符===的结果为布尔值。 
+    3 短路与
+       如果第一操作数前置转换成Boolean类型后结果为false,则返回第一个操作数，且不再对第二个操作数进行求值
+       下面的例子可以证明，当第第一个操作数转换成布尔值为false时，第二个操作数没有机会计算到，相当于被短路。
+       false&&cxh;//result结果为false，没有报错，说明第二个操作并没有执行直接被忽略
+       true&&cxh;//这行直接报错，cxh未定义错误
+
+  三、逻辑或的规则
+    1 逻辑或的真值表
+      两个值都为false,结果才为false，只要有一个值为true，结果为true
+      true||true   结果 true
+      true||false  结果 true
+      false||true  结果 true
+      false||false 结果 false
+    2 逻辑或的规则
+      逻辑或可应用于任何数据类型，当有一个操作数不是布尔值时，返回结果不一定是布尔值
+      2.1 如果第一操作数转换成Boolean类型后结果为false,则返回第二个操作数。
+         0||{name:"jobs"};//结果为 name:"jobs"}，因为第一个操作数转换成布尔值为false,所以返回第二个操作数
+         ""||{name:"jobs"};//结果为 name:"jobs"}，因为第一个操作数转换成布尔值为false,所以返回第二个操作数
+         NaN||{name:"jobs"}; //结果值为 name:"jobs"}，因为第一个操作数转换成布尔值为false,所以返回第二个操作数
+         undefined||{name:"jobs"}; //结果为 name:"jobs"}，因为第一个操作数转换成布尔值为false,所以返回第二个操作数
+         null||{name:"jobs"};//结果值为 name:"jobs"}，因为第一个操作数转换成布尔值为false,所以返回第二个操作数
+         3===5||{name:"jobs"};//结果为 name:"jobs"}，因为第一个操作数转换成布尔值为false,所以返回第二个操作数
+      2.2  如果第一操作数转换成Boolean类型后结果为true,则返回第一个操作数，且不再对第二个操作数进行求值
+         {name:"cxh"}||{name:"zhangsan"}; //结果为{name:"cxh"}，因为第一个操作数转换成布尔值为false，所以直接返回第一个操作数。
+         []||{name:"zhangsan"};//结果为[]，因为第一个操作数转换成布尔值为false，所以直接返回第一个操作数。
+         "    "||{name:"zhangsan"};//结果为"    "，因为第一个操作数转换成布尔值为false，所以直接返回第一个操作数。
+         3===3||{name:"zhangsan"};//结果为ture，因为第一个操作数转换成布尔值为false，所以直接返回第一个操作数。比较运算符===的结果为布尔值。  
+ 
+    3 短路或
+       如果第一操作数前置转换成Boolean类型后结果为true则返回第一个操作数，且不再对第二个操作数进行求值
+       下面的例子可以证明，当第第一个操作数转换成布尔值为false时，第二个操作数没有机会计算到，相当于被短路。
+       true||cxh;//result结果为true，没有报错，说明第二个操作并没有执行直接被忽略
+       false&&cxh;//这行直接报错，cxh未定义错误
+     
+</pre>
+
+</body>
+</html>

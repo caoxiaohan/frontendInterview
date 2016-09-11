@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #box {
+            /* position: absolute;
+             top: 0;
+             left: 0;*/
+            width: 100px;
+            height: 100px;
+            background: lightblue;
+        }
+    </style>
+</head>
+<body>
+<div id="box"></div>
+
+
+<script type="text/javascript" src="js/utils.js"></script>
+<script type="text/javascript">
+    var box = document.getElementById("box");
+
+    var curLeft = utils.css(box, "width");
+    console.log(curLeft);
+
+    //->在JS中给元素设置样式属性值,我们只能通过curEle.style[attr]=value这种方式给当前元素设置行内样式
+    //    box.style.left = 100 + "px";
+    //    box.style.width = 200 + "px";
+
+    //->setCss:给当前元素的某一个样式属性设置值(增加在行内样式上的)
+    //    function setCss(curEle, attr, value) {
+    //        //->在JS中设置float样式值的话也需要处理兼容
+    //        if (attr === "float") {
+    //            curEle["style"]["cssFloat"] = value;
+    //            curEle["style"]["styleFloat"] = value;
+    //            return;
+    //        }
+    //
+    //        //->如果打算设置的是元素的透明度,我们需要设置两套样式来兼容所有的浏览器
+    //        if (attr === "opacity") {
+    //            curEle["style"]["opacity"] = value;
+    //            curEle["style"]["filter"] = "alpha(opacity=" + value * 100 + ")";
+    //            return;
+    //        }
+    //
+    //        //->对于某些样式属性,如果传递进来的值没有加单位,我们需要把单位默认的补充上,这样的话,这个方法就会人性化一些
+    //        var reg = /^(width|height|top|bottom|left|right|((margin|padding)(Top|Bottom|Left|Right)?))$/;
+    //        if (reg.test(attr)) {
+    //            if (!isNaN(value)) {//->在判断传递进来的value值是否是一个有效的数字,如果是有效数字的话,证明当前传递进来的值没有加单位,我们给补充单位
+    //                value += "px";
+    //            }
+    //        }
+    //        curEle["style"][attr] = value;
+    //    }
+
+    //    utils.setCss(box, "width", 200);
+    //    utils.setCss(box, "backgroundColor", "red");
+    //    //utils.setCss(box, "opacity", 0.1);
+    //    utils.setCss(box, "float", "right");
+    //    utils.setCss(box, "borderTop", "10px solid #000");
+    ////    utils.setCss(box, "padding", "10px 20px 30px 40px");
+    //    utils.setCss(box, "padding", 10);
+
+    utils.css(box, {
+        width: 200,
+        backgroundColor: "red",
+        opacity: 0.1,
+        float: "right",
+        padding: 10
+    });
+
+    utils.css(box, "borderTop", "10px solid #000");
+
+
+    //->jQuery中提供了这样的一个方法：css,这个方法既可以实现获取，也可以实现单独的设置，也可以实现批量的设置
+    //    $("#box").css("width");//->获取
+    //    $("#box").css("width",200);//->单独设置
+    //    $("#box").css({
+    //        width:200,
+    //        height:200
+    //    });//->批量设置
+</script>
+</body>
+</html>

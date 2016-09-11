@@ -1,0 +1,37 @@
+  <!DOCTYPE html>
+	<html>
+	<head>
+	    <meta charset="UTF-8">
+	    <title>测试appendChild方法添加页面中不存在的新元素</title>
+	    <style type="text/css">
+	        body, ul, li {
+	            margin: 0;
+	            padding: 0;
+	            list-style: none;
+	        }
+
+	        #ul1 {
+	            margin: 20px auto;
+	            width: 300px;
+	        }
+
+	        #ul1 li {
+	            height: 35px;
+	            line-height: 35px;
+	            border-bottom: 1px dashed #008000;
+	        }
+	    </style>
+	</head>
+	    <body>
+	        <ul id="ul1"></ul>	       
+	        <script type="text/javascript">
+	            var oUl = document.getElementById("ul1");
+	            //测试oU1调用appendChild方法之前的子节点个数。
+	            console.log(oUl.children.length);//0，此时ul中确实没有子元素。
+	            var newLi=document.createElement("li");
+                oUl.appendChild(newLi);
+	            //测试oU1调用appendChild方法后的子节点个数
+	            console.log(oUl.children.length);//1            
+	        </script>
+	    </body>
+	</html>

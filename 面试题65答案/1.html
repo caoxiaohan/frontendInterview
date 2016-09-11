@@ -1,0 +1,37 @@
+   	<!DOCTYPE html>
+		<html>
+		<head>
+		    <meta charset="UTF-8">
+		    <title></title>		  
+		    <style type="text/css">
+		    	 .hover {
+		            background: #FFE0E9;
+		        }
+		    </style>  
+		</head>
+		    <body>
+				<ul id="ul1">
+				    <li>html</li>
+				    <li>css</li>
+				    <li>javascript</li>				    
+				</ul>      
+		        <script type="text/javascript">
+		            var oUl = document.getElementById("ul1");
+		            var oLis = oUl.getElementsByTagName("li");
+				    for (var i = 0; i < oLis.length; i++) {
+				        oLis[i].onmouseover = function () {
+				            this.className = "hover";
+				        };
+				        oLis[i].onmouseout = function () {
+				            this.className = "";
+				        };
+				    }
+		            var str = "";
+		            var data = ["node","react","angular"];
+			        for (var i = 0; i < data.length; i++) {
+			            str += "<li>" + data[i] + "</li>";
+			        }
+			        oUl.innerHTML += str;		                  
+		        </script>
+		    </body>
+		 </html>

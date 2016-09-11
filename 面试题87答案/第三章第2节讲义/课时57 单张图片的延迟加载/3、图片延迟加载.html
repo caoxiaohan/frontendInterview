@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>图片延迟加载/图片懒加载</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "\5FAE\8F6F\96C5\9ED1", Helvetica, sans-serif;
+            font-size: 14px;
+        }
+
+        img {
+            display: block;
+            border: none;
+        }
+
+        .banner {
+            margin: 1000px auto;
+            width: 350px;
+            height: 200px;
+            border: 1px solid green;
+            background: url("../img/default.gif") no-repeat center center #e1e1e1;
+        }
+
+        .banner img {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="banner" id="banner">
+    <img src="" trueImg="../img/jd.jpg"/>
+</div>
+
+<script type="text/javascript" src="../js/utils.js"></script>
+<script type="text/javascript">
+    var banner = document.getElementById("banner"), imgFir = banner.getElementsByTagName("img")[0];
+
+    window.onscroll = function () {
+        if (banner.isLoad) {//->已经加载过了
+            return;
+        }
+        var A = banner.offsetHeight + utils.offset(banner).top;
+        var B = utils.win("clientHeight") + utils.win("scrollTop");
+        if (A < B) {
+            //->当条件成立,我们加载真实的图片,第一次加载完成后,我们在让页面继续滚动的过程中,A<B一直成立,又从新的执行了下面的操作,导致了重复给一个容器中的图片进行加载
+            var oImg = new Image;
+            oImg.src = imgFir.getAttribute("trueImg");
+            oImg.onload = function () {
+                imgFir.src = this.src;
+                imgFir.style.display = "block";
+                oImg = null;
+            };
+            banner.isLoad = true;//->设置一个自定义属性,告诉浏览器我已经把图片加载完了(不管是否正常的加载,只要处理过一次以后都不在处理了)
+        }
+    };
+</script>
+</body>
+</html>

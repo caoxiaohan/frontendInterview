@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>多组选项卡</title>
+<style type="text/css">
+.tabbedPanel{ width:800px; margin:10px auto;}
+.tabbedPanel h1{ text-align:center; color:gray;}
+.tabbedPanel ul{ padding:0; margin:0; overflow:hidden; list-style:none;}
+.tabGroup li{ float:left; width:130px; height:30px; text-align:center; line-height:30px; font-size:16px; background:#9C9;  margin-left:10px; cursor:pointer;}
+.tabGroup li.selectedLi{ background:pink; font-weight:bold;}
+/*  内容部分的样式 */
+.contentGroup div{ clear:both; height:400px; padding:10px;background:pink; display:none; }
+.contentGroup div.selectedDiv{  font-size: 24px; text-align: center; color:blue; display:block;}
+</style>
+</head>
+<body>
+<div class="tabbedPanel">
+    <h1>第1组选项卡面板</h1>
+	<ul class="tabGroup">
+        <li class="tab selectedLi">选项一</li>
+        <li class="tab">选项二</li>
+        <li class="tab">选项三</li>
+        <li class="tab">选项四</li>
+        <li class="tab">选项五</li>
+    </ul>   
+    <div class="contentGroup">
+    	<div class="content selectedDiv" >内容一</div>
+	    <div class="content">内容二</div>
+	    <div class="content">内容三</div>
+	    <div class="content">内容四</div>
+	    <div class="content">内容五</div>
+    </div>  
+</div>
+<div class="tabbedPanel">
+ 	<h1>第2组选项卡面板</h1>
+	<ul class="tabGroup">
+        <li class="tab selectedLi">选项A</li>
+        <li class="tab">选项B</li>
+        <li class="tab">选项C</li>
+        <li class="tab">选项D</li>
+        <li class="tab">选项E</li>
+    </ul>   
+    <div class="contentGroup">
+    	<div class="content selectedDiv" >内容A</div>
+	    <div class="content">内容B</div>
+	    <div class="content">内容C</div>
+	    <div class="content">内容D</div>
+	    <div class="content">内容E</div>
+    </div>  
+</div>
+</body>
+</html>
+<script type="text/javascript" src="dom.js"></script>
+<script>
+var oTabs=DOM.getElesByClass("tab");
+var tabs=DOM.getElesByClass("tabGroup");
+for(var i=0;i<tabs.length;i++) tabs[i].pre=0; //给每组选项卡面板添加一个pre属性，记录上一次选中的li在兄弟元素中的
+//var pre=0;
+function changeTab(){	
+	var n=DOM.getIndex(this);//获取当前元素在兄弟元素中的排行
+	var oLis=DOM.getChildren(this.parentNode);//获取当前元素的父元素的所有子元素,即同一组tabGroup类下的所有li
+	var oDivs=DOM.getChildren(DOM.nextEle(this.parentNode));//获取当前元素的父元素的弟弟元素的所有子元素,即同一组同一组tabGroup的弟弟contentGroup类下所有的div
+	DOM.removeClass(oLis[this.parentNode.pre],"selectedLi");
+	DOM.removeClass(oDivs[this.parentNode.pre],"selectedDiv");  
+	//上边计算的n，用在了这里
+	DOM.addClass(oLis[n],"selectedLi");
+	DOM.addClass(oDivs[n],"selectedDiv"); 	
+	this.parentNode.pre=n;
+}
+for(var j=0;j<oTabs.length;j++)	oTabs[j].onclick=changeTab;//给所有的li绑定事件
+</script>

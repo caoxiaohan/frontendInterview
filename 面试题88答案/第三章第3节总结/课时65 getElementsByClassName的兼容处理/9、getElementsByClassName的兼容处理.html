@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>getElementsByClassName的兼容处理</title>
+</head>
+<body>
+<div class="w1 w2 w3"></div>
+<div class="w2 w3"></div>
+<div class="w1 w2"></div>
+<div class="w1 w3"></div>
+<div class="w3"></div>
+
+<script type="text/javascript" src="../js/utils.js"></script>
+<script type="text/javascript">
+    //console.log(document.getElementsByClassName("w1"));//->写一个样式类名:只要包含这个样式类名就可以
+    //console.log(document.getElementsByClassName("w3    w1"));//->必须同时包含w1&&w3才可以,但是和样式的顺序以及中间有多少个空格是没有关系的
+    //console.log(document.getElementsByClassName("w4"));//->空集合
+
+    //->getElementsByClass:通过元素的样式类名获取一组元素集合
+    //->className:要获取的样式类名(可能是一个也可能是多个)
+    //->context:获取元素的上下文->如果这个值不传递的话,默认document
+    //    function getElementsByClass(className, context) {
+    //        context = context || document;
+    //
+    //        //->把传递进来的样式类名的首尾空格先去掉,然后在按照中间的空格把它里面的每一项拆分成数组
+    //        var classNameAry = className.replace(/(^ +| +$)/g, "").split(/ +/g);
+    //        //console.log(classNameAry);//->["w3", "w1"]
+    //
+    //        var ary = [];
+    //        //->获取指定上下文中的所有的元素标签,循环这些标签,获取每一个标签的className样式类名的字符串
+    //        var nodeList = context.getElementsByTagName("*");//->获取指定上下文中的所有的元素标签
+    //        for (var i = 0, len = nodeList.length; i < len; i++) {
+    //            var curNode = nodeList[i];
+    //
+    //            //->判断curNode.className是否即包含"w3"也包含"w1",如果两个都包含的话,curNode就是我想要的,否则就不是我想要的
+    //            //->在循环["w3", "w1"]
+    //            var isOk = true;//->我们假设curNode中包含了所有的样式
+    //            for (var k = 0; k < classNameAry.length; k++) {
+    //                var reg = new RegExp("(^| +)" + classNameAry[k] + "( +|$)");
+    //                //->都一次"w3" /(^| +)w3( +|$)/
+    //                //->都一次"w1" /(^| +)w1( +|$)/
+    //                if (!reg.test(curNode.className)) {
+    //                    isOk = false;
+    //                    break;
+    //                }
+    //            }
+    //            if (isOk) {//->拿每一个标签分别和所有样式类名比较后,如果结果还是true的话,说明当前元素标签包含了所有的样式,也是我们想要的
+    //                ary.push(curNode);
+    //            }
+    //        }
+    //        return ary;
+    //    }
+    console.log(utils.getElementsByClass(" w3 ").length);
+</script>
+</body>
+</html>

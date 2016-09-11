@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>86</title>    
+</head>
+<body>
+	<h1>86 跟着视频练习一遍自己总结？写一个跑马灯效果？举例说明同步编程和异步编程的不同？完成《第一周考试题.zip》,第二大题求运行结果要给出分析过程？</h1>
+	<pre>	
+一 跟着视频练习一遍自己总结？ 
+   见《第三章第1节总结》
+
+二 写一个跑马灯效果？   
+   见<跑马灯.html>
+   之前已经写过一个纵向文字循环滚动，原理相同。
+        
+三 举例说明同步编程和异步编程的不同？
+  见《异步编程思想.html》
+  区别：同步按顺序立刻执行，即使前面的代码非常耗费时间比如死循环，后面的代码也必须等着前面的代码执行完成后才能执行。
+        异步代码不立刻执行，异步后面的代码可以先执行，不需要等待前面的异步代码执行完才执行。
+  已学过的异步编程例子有：
+  1 定时器
+    <script type="text/javascript">
+        console.log("setTimeout方法前")
+    	setTimeout(function(){
+    		console.log("setTimeout方法中");
+    	},0);
+    	console.log("setTimeout方法后");
+    	/*
+    	"setTimeout方法前"
+    	"setTimeout方法后"
+    	"setTimeout方法中"
+    	*
+    </script>
+  2 事件
+    <input type="button" id="aEvent" value="点我">
+    <script type="text/javascript">
+    	console.log("事件前");
+    	aEvent.onclick=function(){
+    		console.log("事件中");
+    	}
+    	console.log("事件后");
+    	//1 如果不点击按钮
+    	/*
+    	"事件前"
+    	"事件后"
+    	*/
+    	//2 如果点击按钮
+    	/*
+    	"事件前"
+    	"事件后"
+    	“事件中”
+    	*/
+    </script>
+  将要学习的异步编程：
+  3 回调函数
+  4 事件监听
+  5 发布订阅模式
+  6 ajax
+  7 promise
+
+四 完成《第一周考试题.zip》,第二大题求运行结果要给出分析过程？？
+	见《第一周考试题答案.html》  
+	</pre>
+  </body>
+</html>

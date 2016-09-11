@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>表格排序</title>
+   
+</head>
+<body>
+ <script type="text/javascript">
+                        var reg1 = null;
+                        for(var i=0;i<3;i++){
+                            reg1 = /cxh/g;
+                            console.log("字面量方式创建的正则第"+i+"次匹配索引为："+reg1.lastIndex);
+                            console.log(reg1.test("cxhknly"));                          
+                        }
+                        /*
+                            字面量方式创建的正则第0次匹配索引为：0
+                            字面量方式创建的正则第1次匹配索引为：0
+                            字面量方式创建的正则第2次匹配索引为：0
+                        */
+                        var reg2 = null;
+                        for(var j=0;j<3;j++){
+                            reg2 = new RegExp("cxh","g");
+                            console.log("构造函数方式创建的正则第"+j+"次匹配索引为："+reg2.lastIndex);
+                            console.log(reg2.test("cxhknly"));                          
+                        }
+                   </script>
+</body>
+</html>

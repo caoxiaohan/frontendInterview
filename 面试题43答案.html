@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>面试题43答案</title>    
+</head>
+<body>
+<h1>43 什么是执行环境以及执行环境的类型？什么是作用域链，如何延长作用域链？声明变量时变量被添加到执行环境中的规则？在作用域链中查找标识符的过程？</h1>
+<pre>
+  一、什么是执行环境以及执行环境的类型
+	  1 执行环境
+	    执行环境是JS中最重要的一个概念；它定义了变量和函数有权访问的其他数据。
+	  2 执行环境的类型
+	     2.1 全局执行环境
+	         最外围的一个执行环境，根据ECMAScript实现所在的宿主环境不同而不同，在Web浏览器中，全局执行环境被认为是window对象；
+	     2.2 局部执行环境
+	         局部执行环境，即函数执行环境，局部环境内声明的变量只能在当前环境及其内部访问。
+	         2.2.1 函数内部
+	             <script type="text/javascript">
+		       	     function add (num1,num2) {
+					       var sum = num1 + num2; //在函数内部用var声明变量sum则sum为局部变量,sum添加到最接近的函数内部环境
+					       return sum;
+					  }
+					  var result=add(1,2);
+					  console.log(result); //3 result为全局变量，在全局环境中可以正常访问到。
+					  alert(sum);// 报错，sum未定义错误，sum is not defined  sum在函数内部定义为局部变量，在函数外部无法访问。
+		         </script>  
+	         2.2.2 with语句块内部，仅仅针对with参数对象的属性
+	              在下列with代码块内部，变量name是person.wife的属性与代码块外部变量name没有任何关系。
+	              而变量job不是person.wife的属性与代码块外部的变量job是同一个全局变量job。
+	              <script type="text/javascript">
+                      name="globalName";
+                      job="cto";
+		              person={name:"许仙",age:28,height:168,wife:{name:"白素贞",age:1800}};  
+			          with(person.wife){ 
+			              var job="ceo"; 
+			              console.log(name); //白素贞
+			              console.log(job);  //ceo 
+			          } 
+			          console.log(name);  //globalName  
+			          console.log(job);  //ceo    
+                   </script>
+	         2.2.3 catch语句块内部，仅仅针对catch同名参数
+	               在下列catch代码块内部，变量e为catch(e)的同名参数，初始值为try语句抛出的内容，catch代码块内部的变量e跟代码块外部的变量e没有任何关系，修改代码块内部的e值对代码块外部的e没有影响。
+                   而变量x不是catch的参数，catch代码块内部的变量x和代码块外部的x为同一个全局变量x，按从上到小的顺序执行代码赋值，最后一次对x进行赋值是x被修改为123。
+	              <script type="text/javascript">   
+			          e="default"; //给全局变量赋值，等价于window.e="default"
+			          x="456"; // 给全局变量赋值，等价于window.x="456"
+			          try{
+			            throw "test";
+			          }catch(e){//try语句抛出内容"test"被catch的参数e接收,e被赋值为"test"
+			            var e;//变量e和catch(e)参数e是同一个局部变量e，但都是局部环境中的e。因为参数已经声明过局部变量e,此句话是废话不需要重复声明。
+			            //除了catch同名参数e是局部变量，catch语句块中声明的变量都是全局变量，跟大括号外的变量属于同级作用域可以互相访问。
+			            var x=123; //变量x和catch外部的x处在同级作用域下，是同一个x，即都是全局环境中的window.e。
+			            console.log(e); //test   输出局部变量e的值为test      
+			            e="event"; //将局部变量e的值修改为"event"
+			            console.log(e); //event 输出局部变量e的值为event
+			          };
+			          console.log(x); //123
+			          console.log(window.x); //123
+			          console.log(e); //default
+			          console.log(window.e); 
+			       </script>
+	  3 变量对象
+	    每个执行环境都有一个与之关联的变量对象；环境中定义的所有变量和函数都保存在这个对象中；
+	  4 执行环境的销毁
+	    在某个执行环境的所有代码都执行完毕后，环境将被销毁，意味着其中所有变量和函数定义也都随之销毁；全局执行环境的销毁是在网页或浏览器关闭时执行的；
+	  5 执行流
+	    每个函数都有自己的执行环境；当执行流进入一个函数时，函数的环境就被推入到一个环境栈中；在函数执行完成，栈会将其环境弹出，再把控制权返还给之前的执行环境；
+  二、什么是作用域链，如何延长作用域链
+        1.作用域链
+           当代码在环境中执行时，会创建变量对象的一个作用链；作用域链的作用是保证对执行环境有权访问的所有变量和函数的有序访问；
+           1.1 作用域链的前端
+               前端，始终都是当前执行代码所在环境的变量对象；
+           1.2 作用域链的后端
+               后端，作用域中的下一个变量对象来自外部环境，全局执行环境的变量对象始终都是作用域链中的最后一个对象；
+           1.3 标识符（变量、函数、参数）的解析
+               是沿着作用域链一级一级地搜索过程；搜索的过程，始终都是从作用域链的前端开始，逐级向后，直到找到标识符为止；搜索到最后一个环境(全局环境window)还是找不到的话，就会导致错误发生；
+               <script type="text/javascript">
+               	var globalVar = "golobal";
+				function outer(){
+				    var outerVar = "outer";
+				    function inner(){
+				        var innerVar = outerVar;
+				        outerVar = golobalVar;
+				        golbalVar = innerVar;
+				        // 这里可以访问 globalVar、outerVar 和 innerVar
+				    }
+				    // 这里可以访问 globalVar、outerVar,但不能访问 innerVar
+				    inner();
+				}
+				// 这里可以访问 globalVar,但不能访问 innerVar、outerVar
+				outer();
+               </script>
+               以上代码共涉及 3 个执行环境:全局环境、 outer()的局部环境和 inner()的局部环境。
+               全局环境中有一个变量 globalVar 和一个函数 outer 。
+               outer()的局部环境中有一个名为 outerVar 的变量和一个名为 inner的函数,但它也可以访问全局环境中的变量 globalVar 。
+               inner()的局部环境中有一个变量 innerVar ,该变量只能在这个环境中访问到。
+         2. 延长作用域链
+            2.l try-catch 语句的catch块
+                把catch(e)中的e单独放入一个作用域，然后把这个作用域加入作用域链的最前端。
+                <script type="text/javascript">   
+			          e="default"; //给全局变量赋值，等价于window.e="default"
+			          x="456"; // 给全局变量赋值，等价于window.x="456"
+			          try{
+			            throw "test";
+			          }catch(e){//try语句抛出内容"test"被catch的参数e接收,e被赋值为"test"
+			            var e;//变量e和catch(e)参数e是同一个局部变量e，但都是局部环境中的e。因为参数已经声明过局部变量e,此句话是废话不需要重复声明。
+			            //除了catch同名参数e是局部变量，catch语句块中声明的变量都是全局变量，跟大括号外的变量属于同级作用域可以互相访问。
+			            var x=123; //变量x和catch外部的x处在同级作用域下，是同一个x，即都是全局环境中的window.e。
+			            console.log(e); //test   输出局部变量e的值为test      
+			            e="event"; //将局部变量e的值修改为"event"
+			            console.log(e); //event 输出局部变量e的值为event
+			          };
+			          console.log(x); //123
+			          console.log(window.x); //123
+			          console.log(e); //default
+			          console.log(window.e); //default       
+			    </script> 
+			    在IE8及之前的版本的JavaScript实现中，存在一个与标准不一致的地方，即在catch语句中捕获的错误对象会被添加到执行环境的变量对象，而不是catch语句的变量对象中。换句话说，即使在catch块的外部也可以访问到错误对象。IE9修复了这个问题。
+            2.2 with 语句
+               with语句主要用来临时扩展作用域链，将语句中的对象添加到作用域的头部。
+               对with语句来说，其变量对象中包含该with参数对象的所有属性和方法所作的变量声明。
+              <script type="text/javascript">
+                   name="globalName";
+	               person={name:"许仙",age:28,height:168,wife:{name:"白素贞",age:1800}};  
+					with(person.wife){  
+					    console.log(name); //白素贞
+					} 
+					console.log(name);  //globalName      
+              </script>
+             with语句将person.wife添加到当前作用域链的头部，所以输出的就是：“白素贞".
+             with语句结束后，作用域链恢复正常。
+             注意：with参数中一定要是对象类型数据才有意义
+  三、声明变量时变量被添加到执行环境中的规则
+     1 省略var声明的变量，会被自动添加到全局环境中
+       1.1 在全局环境中省略var声明的变量，会自动添加到全局环境中
+	       <script type="text/javascript">
+	       	  name="cxh";
+	       	  console.log(name);//cxh
+	       	  console.log(widow.name);//cxh
+	       </script>   
+	   1.2 在局部环境中省略var声明的变量，也会自动添加到全局环境中 
+	       <script type="text/javascript">
+	       	  function add (num1,num2) {
+			       sum = num1 + num2; //sum前面省略了var，则sum变成全局变量，等价于window.sum=sum1+sum2
+			       return sum;
+			  }
+			  var result=add(1,2);
+			  alert(sum);// 输出3
+	       </script>     
+     2 使用var声明的变量，会自动被添加到最接近的环境中
+       2.1 在全局环境中，最接近的环境是全局环境
+           <script type="text/javascript">
+	       	  var name="cxh";
+	       	  console.log(name);//cxh
+	       	  console.log(widow.name);//cxh
+	       </script>  
+	   2.2 在函数内部，最接近的环境是函数内部环境
+	       <script type="text/javascript">
+	       	  function add (num1,num2) {
+			       var sum = num1 + num2; //在函数内部用var声明变量sum则sum为局部变量,sum添加到最接近的函数内部环境
+			       return sum;
+			  }
+			  var result=add(1,2);
+			  alert(sum);// 报错，sum未定义错误，sum is not defined
+	       </script>  
+	   2.3 在with语句中，最接近的环境是函数环境
+	        对with语句来说，其变量对象中包含该with参数对象person.wife的所有属性和方法所作的变量声明。
+              <script type="text/javascript">
+                   name="globalName";
+	               person={name:"许仙",age:28,height:168,wife:{name:"白素贞",age:1800}};  
+					with(person.wife){  
+					    console.log(name); //白素贞
+					    var name="紫微星"; //紫微星
+					    console.log(name); 
+					} 
+					console.log(name);  //globalName  
+					console.log(person.wife.name);  //紫微星     
+              </script>
+       2.4 在catch语句中，catche参数同名变量最接近的环境是函数局部环境，catch非同名参数最接近的环境是catch外部环境。
+            把catch(e)中的e单独放入一个作用域，然后把这个作用域加入作用域链的最前端。
+                <script type="text/javascript">   
+			          e="default"; //给全局变量赋值，等价于window.e="default"
+			          x="456"; // 给全局变量赋值，等价于window.x="456"
+			          try{
+			            throw "test";
+			          }catch(e){//try语句抛出内容"test"被catch的参数e接收,e被赋值为"test"
+			            var e;//变量e和catch(e)参数e是同一个局部变量e，但都是局部环境中的e。因为参数已经声明过局部变量e,此句话是废话不需要重复声明。
+			            //除了catch同名参数e是局部变量，catch语句块中声明的变量都是全局变量，跟大括号外的变量属于同级作用域可以互相访问。
+			            var x=123; //变量x和catch外部的x处在同级作用域下，是同一个x，即都是全局环境中的window.e。
+			            console.log(e); //test   输出局部变量e的值为test      
+			            e="event"; //将局部变量e的值修改为"event"
+			            console.log(e); //event 输出局部变量e的值为event
+			          };
+			          console.log(x); //123
+			          console.log(window.x); //123
+			          console.log(e); //default
+			          console.log(window.e); //default       
+			    </script> 
+  四、 在作用域链中查找标识符的过程
+       1 搜索过程从作用域链的前端开始，向上（外部环境）逐级查询与给定名字匹配的标识符。         
+       2 如果在局部环境中找到了该标识符。搜索过程停止，变量就绪。
+          <script type="text/javascript">               
+				function outer(){				  
+				    function inner(){
+				       var innerVar="inner";
+				       console.log(innerVar); //inner 在当前作用域(作用域前端）中找到变量名innerVar
+				    }				    
+				    inner();
+				}				
+				outer();
+         </script>
+       3 如果在局部环境中没有找到该变量名，则继续沿作用域链向上搜索。
+         <script type="text/javascript">             
+				function outer(){
+				    var outerVar = "outer";
+				    function inner(){
+				       console.log(outerVar); //outer  在上级作用域中找到变量名outerVar
+				    }				    
+				    inner();
+				}				
+				outer();
+         </script>
+       4 如果局部环境中一直没有找到该变量名，在搜索过程一直追溯到全部环境的变量对象。
+         <script type="text/javascript">
+               	var globalVar = "global";
+				function outer(){				   
+				    function inner(){
+				       console.log(globalVar); //global 在全局环境中找到变量名globalVar
+				    }				    
+				    inner();
+				}				
+				outer();
+         </script>
+       5 如果在全部环境中也没有找到该标识符，则意味着该变量尚未声明。
+         <script type="text/javascript">            
+				function outer(){				   
+				    function inner(){
+				       console.log(globalVar); //报错“globalVar is not defined” 从前端到全局环境整个作用域链中都没有找到变量名globalVar
+				    }				    
+				    inner();
+				}				
+				outer();
+         </script>

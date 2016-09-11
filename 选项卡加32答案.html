@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<style type="text/css">
+	body,div,ul,li{
+		magrin:0px;
+		padding:0px;
+		font-weight:bold;
+		font-size:16px;
+		-webkit-user-select:none;
+		}
+	#outTo{
+		width:600px;
+		margin:30px auto;
+		}
+	ul, li{
+		list-style:none;
+		}
+	#outTo ul li{
+		float:left;
+		width:100px;
+		height:45px;
+		text-align:center;
+		cursor:pointer;
+		line-height:45px;
+		margin-right:20px;
+		border:1px yellow solid;
+		position: relative;l
+		top:1px;
+		}
+	#outTo div{
+		clear:both;
+		width:500px;
+		height:300px;
+		border:1px red solid;
+		text-align:center;
+		line-height:300px;
+		display:none;
+		}
+	#outTo ul li.select{
+		border-color:#F93;
+		background:#F93;
+		}
+	#outTo div.select{
+		border-color:#F93;
+		background:#F93;
+		display:block;
+		}
+</style>
+</head>
+
+<body>
+<div id="outTo">
+	<ul>
+    	<li class="select">电影</li>
+        <li>综艺</li>
+        <li>电视</li>
+    </ul>
+ <div class="select">111</div>
+ <div>222</div>
+ <div>333</div>
+</div>
+</body>
+<script type="text/javascript">
+	var oDiv=document.getElementById("outTo");
+	var oList=oDiv.getElementsByTagName("li");
+	var oDivs=oDiv.getElementsByTagName("div");
+function change(n){
+		for(var i=0;i<oList.length;i++){
+			oList[i].className="null";
+			oDivs[i].className="null";
+			}
+			oList[n].className="select";
+			oDivs[n].className="select";
+		};
+	for(var i=0;i<oList.length;i++){
+		oList[i].Index=i;
+		oList[i].onclick=function(){
+		change(this.Index);
+			}
+		}
+		
+	function createComparisonFunction(propertyName) {
+		return function(object1, object2){
+			var value1 = object1[propertyName];
+			var value2 = object2[propertyName];
+			if (value1 < value2){
+				return -1;
+			} else if (value1 > value2){
+				return 1;
+				} else {
+				return 0;}
+				};
+					};
+	var ary=[{name:"wzq",age:20},{name:"qwz",age:21},{name:"awz",age:11}];
+	ary.sort(createComparisonFunction("name"));
+	console.log(ary[0].name);
+	ary.sort(createComparisonFunction("age"));
+	console.log(ary[0].age);
+	
+	//arguments和arguments.callee
+	//arguments它是一个类数组对象，包含着传入函数的所有参数主要用途是保存函数参数；
+	//argunets.callee是一个指针，指向拥有这个arguments对象的函数。
+	function fac(num){
+		console.log(arguments);
+		if(num<=1){
+			return 1;
+			}else{
+				return num*arguments.callee(num-1);
+				}
+		};
+		console.log(fac(5));
+	//caller属性保存着调用当前函数的函数索引，如果是全局作用域调用这个函数这这个属性为null
+	//IE、Firefox、Chrome和Safari的所有版本以及Opera9.6都支持caller属性。
+
+     /* 当函数在严格模式下运行时，访问arguments.callee会导致错误。
+	  ECMASscript 5还定义了arguments.caller属性，但在严格模式下访问它会导致错误，
+	  而在非严格模式下这个属性始终是undefined。
+	  定义这个属性是为了分清arguments.caller和函数的caller属性。
+      严格模式还有一个限制：不能为函数的caller属性赋值，否则会导致错。
+*/
+</script>
+</html>

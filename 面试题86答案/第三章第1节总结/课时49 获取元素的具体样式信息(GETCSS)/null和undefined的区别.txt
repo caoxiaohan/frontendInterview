@@ -1,0 +1,81 @@
+null和undefined都代表没有,但是null是属性存在但是值不存在,undefined是连这个属性都不存在
+例如：
+document.parentNode(浏览器天生自带的一个属性:父亲节点的属性) ->null(因为一个页面中的document已经是最顶级元素了,它没有父亲)
+document.parentnode ->undefined(因为没有parentnode属性)
+
+
+null:空对象指针->没有具体的值 ->一般都是我们手动设置初始的值为null,后期的话会给其赋值
+undefined:未定义->连东西都没有 ->一般都是浏览器默认的值
+耿大大的女朋友是null,耿大大的男朋友undefined
+
+null:
+1、我们设定一个变量,后期需要使用,那么前期我们设置默认值为null
+  var timer=null;
+  function move(){
+     window.clearTimeout(timer);
+     <js code>
+     timer=window.setTimeout(move,1000);
+  }
+  move();
+
+2、在JS内存释放中，我们想释放一个堆内存，就让其值变为null即可
+   var obj={name:"珠峰培训"};
+   obj=null;->刚开始开辟的这个堆内存没有被占用,浏览器会在空闲的时候把它销毁掉
+
+3、我们通过DOM中提供的属性和方法获取页面中的某一个元素标签，如果当前这个标签不存在，获取的结果是null，而不是undefined
+   document.getElementById("div1") ->如果页面中没有#div1,获取的结果就是null
+
+4、在正则的exec/字符串的match捕获中,如果当前要捕获的字符串和正则不匹配的话，捕获到的结果为null
+   var reg=/\d+?/g;
+   var str="zhufengpeixun";
+   reg.exec(str) ->null
+   str.match(reg) ->null
+
+
+undefined:
+1、在JS预解释的时候，只声明未定义，默认的值是undefined
+   console.log(num); ->undefined
+   var num=13;
+
+2、在一个函数中，如果没有写return,或者return后啥都没返回，默认的返回值是undefined
+   function fn(){
+
+   }
+   var res=fn();
+   console.log(res);->undefined
+
+3、函数中设置了形参，但是执行的时候如果没有传递参数值，那么形参默认值是undefined
+   function fn(a,b,c){
+      a->10
+      b->20
+      c->undefined  ->arguments[2]=30 : 让形参c的值变为30,因为在非严格模式下我们的arguments和形参存在映射关系，但是在严格模式("use strict")中是不存在映射关系，改变的话互不影响;
+   }
+   fn(10,20);
+
+4、获取一个对象的属性名对应的属性值，如果当前的这个属性名不存在的话，属性值默认是undefined
+   var obj={};
+   console.log(obj.name); ->undefined
+
+   ->我们也应用这个道理来检测当前的浏览器是否兼容某一个方法
+      window.getComputedStyle ->获取当前元素经过浏览器计算过的样式
+      在谷歌中：我们获取的结果是 function getComputedStyle() { [native code] }
+      在IE6~8中：我们获取的结果是undefined,因为在这个浏览器中不兼容getComputedStyle
+
+      function getCss(curEle,attr){
+         var val=null,reg=null;
+         if(window.getComputedStyle){
+            //->兼容
+            val=window.getComputedStyle(curEle,null)[attr];
+         }else{
+            //->不兼容
+            if(attr==="opacity"){
+               val=curEle.currentStyle["filter"]; ->'alpha(opacity=12.345)';
+               reg=/^alpha\(opacity=(\d+(?:\.\d+)?)\)$/;
+               val=reg.test(val)?reg.exec(val)[1]/100:1;
+            }else{
+               val=curEle.currentStyle[attr];
+            }
+         }
+         reg=/^-?\d+(\.\d+)?(px|pt|em|rem)?$/;
+         return reg.test(val)?parseFloat(val):val;
+      }

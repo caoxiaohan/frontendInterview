@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>面试题53答案</title>    
+</head>
+<body>
+	<h1>53 什么是this？如何区分this？什么是标记清除？什么是引用计数？总结基本数据类型和引用数据类型的特点？总结执行环境（作用域）？Js的垃圾收集机制？</h1>
+	<pre>	
+一、什么是this？
+    this是Javascript语言的一个关键字它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用
+
+二、如何区分this
+	1：纯粹的函数调用
+       这是函数的最通常用法，属于全局性调用，因此this就代表全局对象Global，浏览器环境中代表window。
+       　var x = 1; //全局变量，window.x=1
+	　　function test(){
+	        var x = 2;
+	　　　　console.log(this.x);
+	　　}
+	　　test(); // 1 this指向window
+	2 作为对象的方法调用（方法前面有.)
+	   函数还可以作为某个对象的方法调用，这时this就指这个上级对象。
+	   .前面是谁，this就是谁。
+	   var x = 1; //全局变量，window.x=1
+	   function test(){
+	      var x = 2; //私有变量, x=2
+　　　　  alert(this.x);
+	　 }
+	　　var obj = {};
+	　　obj.x = 3; //obj的属性，obj.x=3
+	　　obj.m = test;
+	　　obj.m(); // 3   说明this指向对象obj
+	    console.log(x); //1 全局变量没有受影响
+
+	3 作为构造函数调用
+      所谓构造函数，就是通过这个函数生成(关键字new来生成对象)一个新对象（object）。这时，this就指这个新对象。
+      var x = 1; //全局变量，window.x=1
+      function Test(){ //构造函数首字符大写，这是规范不强制
+　　　　var x = 2; //私有变量, x=2
+        this.x = 3; //未来new出来的对象（构造函数的实例）的属性x=3
+　　  }
+　　  var obj1 = new Test();
+      var obj2 = new Test();
+　　  console.log(obj1.x); // 3 this指向obj1
+      console.log(obj2.x); // 3 this指向obj2, 说明构造函数中的this指向new出来的新对象。
+      console.log(x); //1 全局变量没有受影响
+    4 call/apply调用
+      call()和apply()是函数对象的一个方法，它的作用是改变函数的调用对象，它的第一个参数就表示改变后的调用这个函数的对象。因此，this指的就是这第一个参数。
+      4.1 call()和apply()方法的第一个参数为null/undefined或者没有参数时，this指向全局变量global(node后台运行环境)或者window(浏览器前端运行环境)。
+          我们目前学习的B模块只涉及浏览器环境还不涉及node服务器端运行环境，所以目前阶段所指的全局变量都是window。
+          　var x = 1;  //全局变量，window.x=1
+		　　function test(){
+		        var x = 2;  //私有变量, x=2
+		　　　　console.log(this.x);
+		　　}
+		　　var obj={};
+		　　obj.x = 3; //obj的属性，obj.x=3
+		　　obj.fn = test; //将函数test的引用地址xxxfff111赋给obj的属行fn
+　		　　test(); //1 this指向window
+            obj.fn(); //3 this指向obj
+		    obj.fn.apply(); //1 this指向window
+	        obj.fn.apply(null); //1 this指向window
+	        obj.fn.apply(undefined); //1 this指向window
+	        obj.fn.apply(window); //1 this指向window
+	  4.2 call()和apply()方法的第一个参数不是null也不是undefined时，this指向第一个参数	
+	        var x = 1;  //全局变量，window.x=1
+		　　function test(){
+		        var x = 2;  //私有变量, x=2
+		　　　　console.log(this.x);
+		　　}
+		　　var obj={};
+		　　obj.x = 3; //obj的属性，obj.x=3
+		　　obj.fn = test; //将函数test的引用地址xxxfff111赋给obj的属行fn
+　		　　test(); //1 this指向window
+            obj.fn(); //3 this指向obj
+            var person={x:4};
+            var animal={x:5};
+		    obj.fn.apply(person); //4 this指向person
+	        obj.fn.apply(animal); //5 this指向animal	
+	        test.apply(person); //4 this指向person
+	        test.apply(animal); //5 this指向animal  
+	 5 自执行函数this指向window	 
+	   var x = 1;  //全局变量，window.x=1
+	   ;(function(){
+	        var x = 2;  //私有变量, x=2
+	       console.log(this.x); //2 this指向window
+	    }());
+        
+
+三、什么是标记清除
+    标记清除的思想就是给当前不使用的值加上标记，然后再回收其内存。
+    标记清除是目前主流的垃圾收集算法。
+    通过一个案例分析标记清除的步骤：
+    1 垃圾收集器会给存储在内存中的所有变量都加上标记。
+      var obj1={name:"cxh"}; //垃圾收集器给变量obj1对应的值{name:"cxh"}加上标记aaa1
+      var obj2={name:"bill"}; //垃圾啊收集器给变量obj2对应的值{name:"bill"}加上标记aaa2
+      var obj3={name:"jobs"}; //垃圾啊收集器给变量obj3对应的值{name:"jobs"}加上标记aaa3
+      obj2=null;
+      obj3={name:"mayun"}; //垃圾啊收集器给变量obj3对应的值{name:"mayun"}加上标记aaa4
+    2 去掉环境中的变量已经被环境中的变量引用的变量的标记。
+      obj1引用了对象{name:"cxh"}对应的存储地址xxxfff111,去掉变量{name:"cxh"}的标记aaa1,此时{name:"cxh"}没有标记。
+      obj2=null；指向空引用，{name:"bill"}对象对应的堆内存空间此时没有被任何变量引用，所以垃圾收集器会保留{name:"bill"}的标记aaa2
+      obj3={name:"mayun"}; 解除对{name:"jobs"}的引用，指向新的{name:"mayun"}引用，导致此时{name:"jobs"}没有被任何变量名引用，所以垃圾收集器会保留{name:"jobs"}的标记aaa3。
+    3 垃圾收集完成内存清除工作，销毁那些带标记的值并回收它们所占用的内存空间。   
+      {name:"bill"}的标记aaa2由于保留下来视为准备删除的对象，因为没有变量引用所以环境中的变量已经无法访问{name:"bill"}
+      {name:"jobs"}的标记aaa2由于保留下来视为准备删除的对象，因为没有变量引用所以环境中的变量已经无法访问{name:"jobs"}
+      垃圾收集器会清除{name:"bill"}和{name:"jobs"}两个对象，回收它们占用的堆内存空间。
+
+四、引用计数   
+	引用计数的思想就是跟踪记录所有值被引用的次数，垃圾收集器运行时会释放哪些引用次数为0的值所占用的内存。
+	目前的Javascritp引擎都不再使用这种算法。
+	但是IE的部分对象并不是原生Javascript对象，例如BOM和DOM中的对象就是使用C++以COM对象的形式实现的，而COM对象的垃圾收集机制采用的就是引用计数策略。
+	即使IE的Javascript引擎是使用标记清除策略来实现的，但Javascript访问的COM对象依然是基于引用计数策略的。
+    IE9把BOM和DOM对象都转化成了真正的Javascript对象，统一使用标记清除法进行垃圾回收。
+    了解一下引用计数的弊端：循环引用问题。
+    var oDiv=document.getElementById("div1");
+    var obj={name:"cxh"};
+    oDiv.o = obj;
+    obj.div  = oDiv;
+    两个对象直接互相指向造成循环引用，即使删除一个对象，也不会被回收。在不使用的时候应该手工断开连接：
+    oDiv.o = null;
+    obj.div = null;
+    一但数据不再有用，通过将其值设置为null来释放其引用，这种做法叫做解除引用，这是良好的编程习惯利于内存优化。
+
+五、总结基本数据类型和引用数据类型的特点
+    
+    1、数据类型的分类：
+      ECMAScript第5版中js一共6种数据类型。
+      5种基本数类型：Undefined  Null Boolean Number String
+      1种引用数据类型：Object
+      es6（ECMAScript6的缩写，ECMAScript2015）新增了第7种数据类型(第6种基本数据类型）：Symbols
+    2、基本数据类型和引用数据类型的特点？
+     2.1 基本数据类型
+       基本数据类型按值访问的，因为可以操作保存在变量中的实际的值。
+       基本类型值在内存中占据固定大小的空间，因此被保存在栈内存中。
+       从一个变量向另一个变量赋值基本类型的值，会创建这个值得一个副本。
+     2.2 引用类型的值时按引用访问的，在操作对象时是加上是在操作对象的引用而不是实际的对象。
+       引用类型的值是保存在内存中的对象。与其他语言不同，JavaScript不允许直接访问内存中的位置，也就是说不能直接操作对象的内存空间。
+       引用类型的值时对象，保存在堆内存中。
+       包含引用类型值得变量时机山更包含的并不是对象本身，而是指向该对象的指针。
+       从一个变量项另另一个变量复制引用类型的值，复制的其实是指针，因此两个变量最终都指向同一个对象。
+    3  如何检测数据类型
+      3.1 typeof 检测数据类型的运算符（有局限性，只能检测基础数据类型，无法区分具体的引用数据类型）
+        typeof 检测数据类型:共七种
+       "string"  "number" "boolean" "undefined" "object" "function"  "symbol"
+	    console.log("<-- 2 typeof 检测数据类型: -->");
+	    console.log('typeof "foo" = '+typeof "foo");//"string"
+	    console.log('typeof 1 = '+typeof 1);//"number"
+	    console.log('typeof true = '+typeof true);//"boolean"
+	    console.log('typeof undefined = '+typeof undefined);//"undefined"
+	    console.log('typeof null= '+typeof null);//"object"
+	    console.log('typeof [] = '+typeof []);//"object"
+	    console.log('typeof {} = '+typeof {});//"object"
+	    console.log('typeof /abc/g = '+typeof /abc/g);//"object"
+	    console.log('typeof new Function() = '+typeof new Function());//"function"
+	    console.log('typeof typeof Symbol() = '+typeof Symbol());//"symbol"
+      3.2 instanceof   
+      3.3 constructor
+      3.4 Object.prototype.toString.call() 
+六、总结执行环境（作用域）
+    所有变量都存在于一个执行环境（作用域）中，这个执行环境决定了变量的生命周期，以及哪一部分代码可以访问其中的变量。
+    1 执行环境有全局执行环境和函数执行环境之分
+      <script type="text/javascript">
+           //全局执行环境
+           //通常直接在script脚本内部，函数体外部的代码执行环境就是全局执行环境。
+      </script>
+       <script type="text/javascript">
+           funtion fn (){
+           	   //函数体内部，就是函数执行环境。
+           }
+      </script>
+    2 每次进入一个新执行环境，都会创建一个用于搜索变量和函数的作用域链。
+    3 函数的局部环境不仅有权访问函数作用域中的变量，而且有权访问其所有上级作用域（父环境，或包含环境），乃至全局环境。
+    4 全局变量只能访问在全局环境中定义的变量和函数，而不腻直接访问局部环境中的私有变量和函数。
+    5 变量的执行环境有助于确定应该何时释放内存。
+      5.1 局部环境中的变量，当函数执行完毕，私有变量会自动解除引用，垃圾收集是清除占用内存。
+          <script type="text/javascript">
+	           funtion fn (){
+	           	   var obj={name:"lcq"}
+	           	   return obj;
+	           }
+         </script>
+         上述函数执行完毕时obj离开了执行环境，自动解除obj对{name:"lcq"}的引用，垃圾收集时清除{name:"lcq"}对象并释放其占用的堆内存空间。
+      5.2 全局对象，只有关闭浏览器或者停止node服务时，才会离开执行环境。因此需要手动解除引用
+           <script type="text/javascript">           
+           	   var obj={name:"lcq"}
+           	   console.log(obj.name);//访问变量obj或其属性。
+           	   obj = null; // 由于后续代码中不需要访问{name:"lcq"}对象，所以可以将obj的值赋值为null,垃圾收集器会自动清除{name:"lcq"}及其占用的堆内存。         	   
+         </script>
+     5.3 全局对象的属性，也需要手动解除引用
+         <script type="text/javascript">           
+           	   var obj={name:"lcq",boyFriend:{name:"gl"},girlFriend:{name:"zdd"}}
+           	   console.log(obj.grilFriend);//访问变量obj或其属性。
+           	   obj.boyFriend = null; // 由于后续代码中不需要访问obj对象的boyFriend，obj对象只需要grilFriend永远也不需要boyFriend，所以可以将obj.boyFriend的值赋值为null,垃圾收集器会自动清除obj.boyFriend引用的对象{name:"gl"}及其占用的堆内存。         	   
+         </script>
+     5.4 循环引用变量的引用，更有必要手动解除引用，优化低版本IE垃圾收集问题。
+         <script type="text/javascript">
+         	 var oDiv=document.getElementById("div1"); //div元素被变量oDiv引用，div元素的引用计数加1变成1
+		      var obj={name:"cxh"};//{name:"cxh"}对象被变量obj引用，{name:"cxh"}对象的引用计数加1变成1
+		      //同一个值name:"cxh"}第一次被赋值给变量obj，第二次被赋值给另外一个变量oDiv.o
+		      oDiv.o = obj;//{name:"cxh"}对象被oDiv的属性oDiv.o引用，{name:"cxh"}对象的引用计数再加1变成2，同时被obj变量和oDiv.o变量引用。
+		      //同一个值document.getElementById("div1")第一次被赋值给变量oDiv，第二次被赋值给另外一个变量obj.div.
+		      obj.div  = oDiv; //div元素被obj的属性obj.div引用，div元素的引用计数再加1变成2，同时被oDiv变量和obj.div变量引用。
+		       //最后，同时手动解除所有循环引用。
+		       oDiv.o = null;
+              obj.div = null;     
+         </script>
+
+
+七、Js的垃圾收集机制？
+    Javascript语言是一门具有自动垃圾收集机制的编程语言。
+    1 离开作用域的值将被自动标记为可以回收，因此将在垃圾收集期间被删除。
+    2 “标记清除”是目前主流的垃圾收集算法，这种算法的思想是给当前不使用的值加上标记后再回收其内存。
+    3 另一个种垃圾收集算法是“引用计数”，这种算法的思想是跟踪记录所有值被引用的次数。
+      Javascript引擎目前都不再使用这种算法，但在IE8及其以下版本浏览器中访问非元素Javascrtipt对象（如DOM和BOM对象）时，仍然使用这种算法，可能会导致循环引用问题。
+    4 当代码中存在循环引用现象时，引用计数算法就会导致问题。
+      function fn(){
+      	  var oDiv=document.getElementById("div1"); //div元素被变量oDiv引用，div元素的引用计数加1变成1
+	      var obj={name:"cxh"};//{name:"cxh"}对象被变量obj引用，{name:"cxh"}对象的引用计数加1变成1
+	      //同一个值name:"cxh"}第一次被赋值给变量obj，第二次被赋值给另外一个变量oDiv.o
+	      oDiv.o = obj;//{name:"cxh"}对象被oDiv的属性oDiv.o引用，{name:"cxh"}对象的引用计数再加1变成2，同时被obj变量和oDiv.o变量引用。
+	      //同一个值document.getElementById("div1")第一次被赋值给变量oDiv，第二次被赋值给另外一个变量obj.div.
+	      obj.div  = oDiv; //div元素被obj的属性obj.div引用，div元素的引用计数再加1变成2，同时被oDiv变量和obj.div变量引用。      
+      }
+      //上述两个对象和对象的属性之间互相引用，而且造成引用计数加1.
+      在IE8以低版本浏览器中，由于涉及DOM元素，所以会采用引用计数算法，
+      即使在代码在局部环境中，但fn执行完成离开执行环境，私有变量obj和私有变量oDiv依然无法释放。
+      即使手动删除一个，另外一个也不会被回收，因此我们应该将两个的值同时赋值为null.
+      oDiv.o = null; //{name:"cxh"}对象的引用计数减1
+      obj.div = null; //div元素引用计数减1
+    5 解除变量的引用不仅有助于消除循环引用现象，而且对垃圾收集也有好处。
+    为了确保有效地回收内存，应该及时解除不再使用的全局对象，全局对象属性以及循环引用变量的引用。

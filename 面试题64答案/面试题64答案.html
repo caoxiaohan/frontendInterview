@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>面试题64时答案</title>    
+</head>
+<body>
+	<h1>64 图解20150916目录下的《原型练习.html》？写一个求平均值方法？自定义方法mySlice实现数组元素slice的功能？</h1>
+	<pre>	
+一、图解20150916目录下的《原型练习.html》    。
+    1 回顾构造函数Fn、Fn.prototype、Function、Function.protype、Object、Object.prototype      
+      根据附件中的《原型链关系图.jpg》，将Foo换成Fn，可以看出：
+      console.log(Fn.__proto__===Function.protoytpe);//true
+      console.log(Fn.protype.__proto__===Object.prototype);//true.
+      console.log(Function.__proto__==Function.prototype);//true
+      console.log(Function.prototype.__proto__==Object.prototype);//true
+      console.log(Object.__proto__==Function.prototype);//true
+      console.log(Object.prototype.__proto__);//null
+    2 图解普通构造函数Fn、构造函数Fn的实例new Fn、构造函数的原型Fn.prototype三者之间的关系。
+      为避免混乱省略了原型链更上级的Object.prototype和Function.prototype.
+      根据附件中的《原型练习.html》画出了《图解原型练习.png》
+      <script type="text/javascript">
+        //见附件《图解原型练习.png》
+        //构造函数Fn体内部定义的带this前缀的属性和方法，是构造函数Fn和实例new Fn的私有方法，Fn和f1、f2都能访问到
+        function Fn() {
+            this.x = 100;
+            this.y = 200;
+            this.getX = function () {
+                console.log(this.x);
+            }
+            //构造函数类通过下面两种方式定义的属性，可以直接忽略，不会进入原型链。
+            cxh=99; //window的属性window.cxh或者cxh直接访问。 其他方式比如f1.cxh，Fn.cxh，Fn.prototye.cxh均为undefined.
+            var kn = 1001;//函数内的私有属性，Fn()普通方式执行函数时，在函数内部可以访问，函数外部无法访问。
+        }
+        //通过Fn.setX方式添加的属性和方法是Fn独有的私有属性和私有访问，只有Fn可以访问，而Fn的实例f1和f2无法访问。
+        Fn.setX = function (num) {
+            this.x = num;
+            console.log(this.x);
+        };
+        //在Fn的原型Fn.prototype上添加的属性和方法，是公有属性和方法。Fn的实例f1和f2可以访问到
+        Fn.prototype = {
+            x: 10,
+            getX: function () {
+                console.log(this.x);
+            },
+            getY: function () {
+                console.log(this.y);
+            }
+        };
+        //通过new Fn方式创建的是Fn的实例f1和f2，自动拥有Fn构造函数内定义的带this前缀的属性和方法this.x、this.y和this.getX。
+        var f1 = new Fn;
+        var f2 = new Fn;
+        //1、please write true or false
+        console.log(f1.getX === f2.getX); //false, f1和f2的getX方法虽然都来源于Fn，但是彼此独立的私有方法，实例上的私有方法一定不相等。
+        console.log(f1.getY === f2.getY); //true，f1和f2上没有getY方法，通过原型链查找访问Fn.prototype上的公有方法getY，原型上公有方法肯定相等
+        console.log(f1.__proto__.getX === f2.__proto__.getX); //true,二者都等价于Fn.prototype.getX,访问的是同一个引用，所以相等
+        console.log(f1.getX === Fn.prototype.getX);  //false，实例f1上存在私有方法getX,所以实例上的私有方法和原型上的公有房不相等
+        console.log(f1.getY === Fn.prototype.getY); //true，因为实例f1上不存在私有方法getY,会基于原型链查找到的是原型上的公有方法getY，故相等
+        console.log(f1.hasOwnProperty("getX")); //true，构造函数Fn内带this前缀this.getX，以及通过f1.attr方法添加的属性，都是f1的私有属性。
+        console.log(f1.hasOwnProperty("getY")); //false，构造函数Fn没有没有this.getY,也没有通过f1.getY=xxx添加过私有属性getY,所有不存在私有属性getY
+        console.log(f1.hasOwnProperty("setX")); //false,Fn.setX方式定义的属性是构造函数Fn的私有属性，不是实例f1的私有属性。
+        console.log(f1 instanceof Fn); //true,因为f1.__proto__===Fn.prototype，所以f1是Fn的实例，通过new Fn方式创建的都是Fn的实例。
+        console.log(f1 instanceof Object); //true，因为f1.__proto__.__proto__===Object.prototype，所以f1也是Object的实例，所有对象类型都是Object的实例。
+
+        //2、please write answer
+        console.log(f1.constructor); //Object，因为f1没有contructor属性，Fn.prototype被重写赋值后失去了contructor属性，最终访问的是Object.prototype.contructor，指向Objecet本身
+        f1.getX();   //100，f1自动拥有其构造函数带this前缀的方法this.getX。 this指向f1，f1.x继承自Fn中的this.x=100，所以输出100
+        f1.__proto__.getX( );  //10，等价于Fn.prototype.getX();访问原型上的getX方法，方法中的this指向Fn.prototype，Fn.prototype.x=10.
+        Fn.prototype.getX(); //10,同上
+        f1.getY();  //200，f1上没有getY方法，向上查找找到原型上的getY,getY方法内的this指向f1,this.y=f1.y=200
+        f1.__proto__.getY(); //undefined,等价于Fn.prototype.getY(),getY方法中的this指向Fn.prototype,但是Fn.prototye.y不存在，所以undefined
+        //f1.setX(1000); // Error, f1上不存在setXf方法，所属类Fn上不存在带this浅醉的方法this.setX,原型链Fn.prototype上也不存在setX方法，执行不存在的方法所有 报错
+        Fn.setX(1000);  //1000，Fn上存在私有方法setX,由于定义setX时不是在构造函数Fn内部且没有前缀this，所以只能Fn访问，实例f1和f2无法访问。
+
+        //3、回顾全局变量和私有变量，与构造函数的实例的私有属性形成对比。
+        console.log(f1.cxh,f1.kn,Fn.cxh,Fn.kn,Fn.prototype.cxh,Fn.prototype.kn);//undefined、undefined、undefined、undefined、undefined、undefined
+        console.log(cxh,window.cxh);//99,99. 函数Fn内部定义的，没有this前缀，也没有var关键字的变量cxh,是全局变量cxh 
+        console.log(window.kn); //undefined,函数Fn内部通过var关键字定义的变量kn，是函数内的私有属性，只有函数内部才能访问。windows不存属性kn，所以为undefined
+        console.log(kn); //报错，kn is not defined       
+    </script>
+
+二、写一个求平均值方法    
+    <script type="text/javascript">
+        function toArray(arr){
+            var ary = [];
+            try {
+                ary = Array.prototype.slice.call(arr, 0);//如果浏览器支持call方法，则直接用原call方法转换
+            } catch (e) { //如果浏览器不支持call方法，调用不存在的call方法则会抛出异常，进入下面流程，手动实现将类数组转换成数组
+                for (var i = 0; i < arr.length; i++) {
+                    ary[ary.length] = arr[i];
+                }
+            }
+            return ary;
+        }
+        function avgFn() {
+            //1 第一步将传入的实参类数组arguments转换成数组
+                var args = toArray(arguments);
+            //2 第二步将转换后的参数数组args进行排序（如按照从小到大排序）
+                args.sort(function (a, b) {
+                    return a-b;//return a-b按照从小到大排序，return b-a按照从大到小排序
+                });
+            //3 第三步删除第一个元素（去掉一个最小值）
+                args.shift();
+            //4 第四步删除最后一元素(去掉一个最大值)
+                args.pop();
+            //5 第五步求去掉最大值最小值后的剩下元素的总和。
+                var total =(eval(args.join("+")));
+            //6 第六步求平均值并保留2位小数点
+                var avg = (total/args.length).toFixed(2);
+            //7 最后返回平均值
+                return avg;
+        }
+        console.log(avgFn(8, 7, 33, 22, 3, 1, 4, 2,0));//6.71, (1+2+3+4+7+8+22)/7=6.714285714285714 保留2位小数得6.71
+    </script>
+  
+
+三、自定义方法mySlice实现数组元素slice的功能s
+    slice(n,m)  slice(n) slice() slice里面的索引可以传负数   
+    假设数组中没有slice这个方法，我们自己在Array.prototype上编写一个mySlice，要求实现的功能个slice一致  
+    3.1 自定义mySlice方法
+        <script type="text/javascript">        
+            Array.prototype.mySlice = function () {
+                var len = this.length,lens = arguments.length,ary = [];           
+                var n = Math.floor(Number(arguments[0]) || 0), m = Math.floor(lens <= 1 ? len : Number(arguments[1]) || 0);            
+                n = n<-len?0:(n>=0?n:n+len);          
+                m = m>len?len:(m>=0?m:m+len);
+                for (var i = n; i < m; i++) ary.push(this[i]);
+                return ary;
+            }
+        </script> 
+    3.2 自定义mySclice方法带详细注释，和所有情况下的测试结果
+        <script type="text/javascript">       
+            //模仿Array.prototype上的slice方法，自定义mySlice方法
+            Array.prototype.mySlice = function () {
+                var len = this.length;  //调用该方法的数组实例所含数组元素的个数。
+                var lens = arguments.length;  //实际传入的参数个数。
+                var ary = [];
+                //当第一个参数的值没有传递或者不是有效数字时，n当做0来处理，将最后的结果向下取整，返回索引范围为[0,m-1]。
+                var n = Math.floor(Number(arguments[0]) || 0);
+                //当没有传递第二个参数时，m当做len来处理，返回索引范围为[n,len-1]. 当传递了第二个参数且不是有效数字时m=0,即返回空数组。
+                var m = Math.floor(lens <= 1 ? len : Number(arguments[1]) || 0);
+                //当n<-len时n=0;当-len<=n<0时，n=n+len;否则当n>=0时，n=n。
+                n = n<-len?0:(n>=0?n:n+len);//(经过右侧处理使得n>=0，当n>=len时n>=m永远成立，则不执行循环体，返回空数组)
+                //当m>len时m=len;当0<=m<=len时，m=m;否则当m<0时m=m+len。
+                m = m>len?len:(m>=0?m:m+len);//(经过左侧处理使得m<=len，当m<=-len时(m=m+len)<=n永远成立，则不执行循环体，返回空数组)
+
+                //Array.portotype默认的slice方法中,在n和m经过上述负数和越界处理后再比较n和m的大小。
+                // 若n>=m则不执行循环体，直接返回空数组，不需要交换顺序。
+                /*if(n>m){
+                     var temp = null;
+                     temp=n;
+                     n=m;
+                     m=temp;
+                }*/
+                for (var i = n; i < m; i++) ary.push(this[i]);
+                return ary;
+            }
+
+            var arr = [1, 2, 3, 4, 5];
+            //控制台输出，验证各种情形下，数组的事例调用slice方法和mySlice方法返回结果的对比。
+            //下述n指传入的第一个参数，m指传入的第二个参数，len指arr所含元素的个数，非有效数字指Number强转后为NaN的参数。
+            console.log("调用mySclie方法前原数组为：" + arr);
+            //不传参数时，返回原数组
+            console.log("arr.slice()=" + arr.slice(), "<==> arr.mySlice()=" + arr.mySlice());
+            //传一个参数值为数字0或小于等于-len的负数时，返回原数组
+            console.log("arr.slice(0)=" + arr.slice(0), "<==> arr.mySlice(0)=" + arr.mySlice(0));
+            console.log("arr.slice(-7)=" + arr.slice(-7), "<==> arr.mySlice(-7)=" + arr.mySlice(-7));
+            //当传递一个参数为字符串"0"或不是有效数字时时，返回原数组。
+            console.log("arr.slice('3a')=" + arr.slice('3a'), "<==> arr.mySlice('3a')=" + arr.mySlice('3a'));
+            //传一个[0,len-1]之间的参数n时，返回索引在[n,len-1]之间的数组。
+            console.log("arr.slice(2)=" + arr.slice(2), "<==> arr.mySlice(2)=" + arr.mySlice(2));
+            //传一个[-len,-1]之间的参数n时，返回索引在[n+len,len-1]之间的数组。
+            console.log("arr.slice(-2)=" + arr.slice(-2), "<==> arr.mySlice(-2)=" + arr.mySlice(-2));
+            //传两个[0,len]之间的参数n,m且n<m时，返回索引在[n,m-1]之间的数组。
+            console.log("arr.slice(1,3)=" + arr.slice(1, 3), "<==> arr.mySlice(1,3)=" + arr.mySlice(1, 3));
+            //传两个[-len,0]之间的参数n,m且n<m时，返回索引在[n+len,m-1+len]之间的数组。
+            console.log("arr.slice(-3,-1)=" + arr.slice(-3, -1), "<==> arr.mySlice(-3,-1)=" + arr.mySlice(-3, -1));
+            //当传递的第一个参数n在[0,len]之间，第二个参数m的值大于len时，把第二个参数转换成len处理，返回索引在[n,len-1]之间的数组
+            console.log("arr.slice(0,6)=" + arr.slice(0, 6), "<==> arr.mySlice(0,6)=" + arr.mySlice(0, 6));
+            console.log("arr.slice(2,6)=" + arr.slice(2, 6), "<==> arr.mySlice(2,6)=" + arr.mySlice(2, 6));
+            //当传递的第一个参数小于-len，第二个参数m的值在[0,len]之间时，把第一个参数转换成0处理，返回索引在[0,m-1]之间的数组
+            console.log("arr.slice(-7,3)=" + arr.slice(-7, 3), "<==> arr.mySlice(-7,3)=" + arr.mySlice(-7, 3));
+            console.log("arr.slice(-7,6)=" + arr.slice(-7, 6), "<==> arr.mySlice(-7,6)=" + arr.mySlice(-7, 6));
+            //当传递的第一个参数n在[0,len]之间，第二个参数m在[-len,-1]之间，则m=m+len，若n<m，则返回索引在[n,m-1+len]之间的数组
+            console.log("arr.slice(1,-2)=" + arr.slice(1, -2), "<==> arr.mySlice(1，-2)=" + arr.mySlice(1, -2));
+            //当传递的第一个参数n在[-len,-1]之间，第二个参数m在[0,len]之间，则n=n+len，若n<m，则返回索引在[n+len,m-1]之间的数组
+            console.log("arr.slice(-4,3)=" + arr.slice(-4, 3), "<==> arr.mySlice(-4，3)=" + arr.mySlice(-4, 3));
+            //当传递传两个[0,len]之间的纯数字字符串类型参数n,m,且n<m时，返回索引在返回索引在[Number(n),Number(m-1)]之间的数组。
+            console.log("arr.slice('1','3')=" + arr.slice("1", "3"), "<==> arr.mySlice('1','3')=" + arr.mySlice("1", "3"));
+            //当传递两个参数，第一个参数时不是有效数字，第二个参数是有效数字时，把第一个参数转换成数字0来处理。返回索引在[0,m-1]范围内的数组。
+            console.log("arr.slice('a',3)=" + arr.slice('a', 3), "<==> arr.mySlice('a',3)=" + arr.mySlice('a', 3));
+            //当传递两个以上参数时，忽略后面的参数，只处理前两个参数。
+            console.log("arr.slice(1,3,5)=" + arr.slice(1, 3, 5), "<==> arr.mySlice(1,3,5)=" + arr.mySlice(1, 3, 5));
+            console.log("arr.slice('a',3,'c')=" + arr.slice('a', 3, 'c'), "<==> arr.mySlice('a',3,'c')=" + arr.mySlice('a', 3, 'c'));
+            //但传递的参数为小数时，向下取整。
+            console.log("arr.slice(0.7,2.2)=" + arr.slice(0.7, 2.2), "<==> arr.mySlice(0.7,2.2)=" + arr.mySlice(0.7, 2.2));
+            //不管第一个参数是否是有效数字，当传递的第二个参数不是有效数字时，返回空数组。
+            console.log("arr.slice(1,'a')=" + arr.slice(1, 'a'), "<==> arr.mySlice(1,'a')=" + arr.mySlice(1, 'a'));
+            //遵循上一条，不管第一个参数是否是有效数字，当第二个参数不是有效数字时返回空数组。
+            console.log("arr.slice('a','2b')=" + arr.slice('a', '2b'), "<==> arr.mySlice('a','2b')=" + arr.mySlice('a', '2b'));
+            //当传入的两个参数都为数字且已经将负数加上len后，若第一个参数不小于第二个参数时，返回空数组。
+            console.log("arr.slice(3,3)=" + arr.slice(3, 3), "<==> arr.mySlice(3,3)=" + arr.mySlice(3, 3));
+            console.log("arr.slice(3,1)=" + arr.slice(3, 1), "<==> arr.mySlice(3,1)=" + arr.mySlice(3, 1));
+            console.log("arr.slice(-3,1)=" + arr.slice(-3, 1), "<==> arr.mySlice(-3,1)=" + arr.mySlice(-3, 1));
+            console.log("arr.slice(3,-4)=" + arr.slice(3, -4), "<==> arr.mySlice(3,-4)=" + arr.mySlice(3, -4));
+            console.log("arr.slice(-3,-4)=" + arr.slice(-3, -4), "<==> arr.mySlice(-3,-4)=" + arr.mySlice(-3, -4));
+            console.log("调用mySlice方法后原数组不变：" + arr);
+        </script>
+    3.3 自定义Myslice方法与sclice各种情况下的测试结果对比，完全一致
+        //控制台输出的结果为：
+        /*
+             调用mySclie方法前原数组为：[1,2,3,4,5]
+             arr.slice()=[1,2,3,4,5] <==> arr.mySlice()=[1,2,3,4,5]
+             arr.slice(0)=[1,2,3,4,5] <==> arr.mySlice(0)=[1,2,3,4,5]
+             arr.slice(-7)=[1,2,3,4,5] <==> arr.mySlice(-7)=[1,2,3,4,5]
+             arr.slice('3a')=[1,2,3,4,5] <==> arr.mySlice('3a')=[1,2,3,4,5]
+             arr.slice(2)=[3,4,5] <==> arr.mySlice(2)=[3,4,5]
+             arr.slice(-2)=[4,5] <==> arr.mySlice(-2)=[4,5]
+             arr.slice(1,3)=[2,3] <==> arr.mySlice(1,3)=[2,3]
+             arr.slice(-3,-1)=[3,4] <==> arr.mySlice(-3,-1)=[3,4]
+             arr.slice(0,6)=[1,2,3,4,5] <==> arr.mySlice(0,6)=[1,2,3,4,5]
+             arr.slice(2,6)=[3,4,5] <==> arr.mySlice(2,6)=[3,4,5]
+             arr.slice(-7,3)=[1,2,3] <==> arr.mySlice(-7,3)=[1,2,3]
+             arr.slice(-7,6)=[1,2,3,4,5] <==> arr.mySlice(-7,6)=[1,2,3,4,5]
+             arr.slice(1,-2)=[2,3] <==> arr.mySlice(1，-2)=[2,3]
+             arr.slice(-4,3)=[2,3] <==> arr.mySlice(-4，3)=[2,3]
+             arr.slice('1','3')=[2,3] <==> arr.mySlice('1','3')=[2,3]
+             arr.slice('a',3)=[1,2,3] <==> arr.mySlice('a',3)=[1,2,3]
+             arr.slice(1,3,5)=[2,3] <==> arr.mySlice(1,3,5)=[2,3]
+             arr.slice('a',3,'c')=[1,2,3] <==> arr.mySlice('a',3,'c')=[1,2,3]
+             arr.slice(0.7,2.2)=[1,2] <==> arr.mySlice(0.7,2.2)=[1,2]
+             arr.slice(1,'a')=[] <==> arr.mySlice(1,'a')=[]
+             arr.slice('a','2b')=[] <==> arr.mySlice('a','2b')=[]
+             arr.slice(3,3)=[] <==> arr.mySlice(3,3)=[]
+             arr.slice(3,1)=[] <==> arr.mySlice(3,1)=[]
+             arr.slice(-3,1)=[] <==> arr.mySlice(-3,1)=[]
+             arr.slice(3,-4)=[] <==> arr.mySlice(3,-4)=[]
+             arr.slice(-3,-4)=[] <==> arr.mySlice(-3,-4)=[]
+             调用mySlice方法后原数组不变：[1,2,3,4,5]
+        */

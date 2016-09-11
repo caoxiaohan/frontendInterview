@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>京东导航索引</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "\5FAE\8F6F\96C5\9ED1", Helvetica, sans-serif;
+            font-size: 12px;
+            -webkit-user-select: none;
+        }
+
+        img {
+            display: block;
+            border: none;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        .box {
+            margin: 0 auto;
+            width: 1360px;
+        }
+
+        .box .top {
+            height: 1804px;
+            background: url("img/jd/1_01.jpg") no-repeat;
+        }
+
+        .box .oneFloor {
+            height: 765px;
+            background: url("img/jd/1_02.jpg") no-repeat;
+        }
+
+        .box .twoFloor {
+            height: 751px;
+            background: url("img/jd/1_03.jpg") no-repeat;
+        }
+
+        .box .threeFloor {
+            height: 608px;
+            background: url("img/jd/1_04.jpg") no-repeat;
+        }
+
+        .box .fourFloor {
+            height: 606px;
+            background: url("img/jd/1_05.jpg") no-repeat;
+        }
+
+        .box .fiveFloor {
+            height: 749px;
+            background: url("img/jd/1_06.jpg") no-repeat;
+        }
+
+        .box .sixFloor {
+            height: 606px;
+            background: url("img/jd/1_07.jpg") no-repeat;
+        }
+
+        .box .sevenFloor {
+            height: 607px;
+            background: url("img/jd/1_08.jpg") no-repeat;
+        }
+
+        .box .eightFloor {
+            height: 609px;
+            background: url("img/jd/1_09.jpg") no-repeat;
+        }
+
+        .box .nineFloor {
+            height: 748px;
+            background: url("img/jd/1_10.jpg") no-repeat;
+        }
+
+        .box .tenFloor {
+            height: 607px;
+            background: url("img/jd/1_11.jpg") no-repeat;
+        }
+
+        .box .elevenFloor {
+            height: 1441px;
+            background: url("img/jd/1_12.jpg") no-repeat;
+        }
+
+        .floorIndex {
+            display: none;
+            position: fixed;
+            left: 40px;
+            top: 50%;
+            margin-top: -30px;
+            width: 30px;
+        }
+
+        .floorIndex li {
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-bottom: 1px dashed #ccc;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <div class="top"></div>
+    <div class="oneFloor" id="oneFloor"></div>
+    <div class="twoFloor" id="twoFloor"></div>
+    <div class="threeFloor" id="threeFloor"></div>
+    <div class="fourFloor" id="fourFloor"></div>
+    <div class="fiveFloor" id="fiveFloor"></div>
+    <div class="sixFloor" id="sixFloor"></div>
+    <div class="sevenFloor" id="sevenFloor"></div>
+    <div class="eightFloor" id="eightFloor"></div>
+    <div class="nineFloor" id="nineFloor"></div>
+    <div class="tenFloor" id="tenFloor"></div>
+    <div class="elevenFloor" id="elevenFloor"></div>
+</div>
+<ul class="floorIndex" id="floorIndex"></ul>
+
+
+<script charset="utf-8" type="text/javascript" src="js/utils.js"></script>
+<script charset="utf-8" type="text/javascript" src="js/tween.js"></script>
+<script type="text/javascript">
+    var floorAry = [
+        {id: "oneFloor", text: "服装", top: null},
+        {id: "twoFloor", text: "美妆", top: null},
+        {id: "threeFloor", text: "手机", top: null},
+        {id: "fourFloor", text: "家电", top: null},
+        {id: "fiveFloor", text: "数码", top: null},
+        {id: "sixFloor", text: "运动", top: null},
+        {id: "sevenFloor", text: "居家", top: null},
+        {id: "eightFloor", text: "母婴", top: null},
+        {id: "nineFloor", text: "食品", top: null},
+        {id: "tenFloor", text: "图书", top: null},
+        {id: "elevenFloor", text: "服务", top: null}
+    ];
+
+    var floorIndex = document.getElementById("floorIndex"), oLis = null;
+    //1、把对应的左侧楼层索引动态的绑定
+    ~function () {
+        var str = "";
+        for (var i = 0, len = floorAry.length; i < len; i++) {
+            var curFloor = floorAry[i];
+            var curFloorEle = document.getElementById(curFloor["id"]);
+            curFloor["top"] = utils.offset(curFloorEle).top;
+
+            str += "<li zhufengText='" + curFloor["text"] + "' zhufengTop='" + curFloor["top"] + "'>" + (i + 1) + "F</li>";
+        }
+        floorIndex.innerHTML = str;
+
+        //->重新计算楼层索引距离页面的高度
+        utils.css(floorIndex, "marginTop", -len * 31 / 2);
+
+        //->获取容器下的所有的LI
+        oLis = utils.children(floorIndex);
+    }();
+
+    //2、给所有的LI绑定鼠标滑过的事件
+    ~function () {
+        for (var i = 0, len = oLis.length; i < len; i++) {
+            var curLi = oLis[i];
+            curLi.index = i;
+            curLi.onmouseover = function () {
+                utils.css(this, {
+                    background: "orangered",
+                    color: "#fff"
+                });
+                this.innerHTML = this.getAttribute("zhufengText");
+            };
+            curLi.onmouseout = function () {
+                if (this.getAttribute("isLoad") === "true") {
+                    utils.css(this, {
+                        background: "",
+                        color: "red"
+                    });
+                    return;
+                }
+                utils.css(this, {
+                    background: "",
+                    color: "#000"
+                });
+                this.innerHTML = (this.index + 1) + "F";
+            };
+        }
+    }();
+
+    //3、控制楼层的显示隐藏
+    function showFloor() {
+        var curTop = utils.win("scrollTop"), curHeight = utils.win("clientHeight");
+
+        floorIndex.style.display = curTop + curHeight > oLis[0].getAttribute("zhufengTop") ? "block" : "none";
+
+        for (var i = 0, len = oLis.length; i < len; i++) {
+            var curLi = oLis[i], curLiTop = curLi.getAttribute("zhufengTop"), curLiText = curLi.getAttribute("zhufengText"), curLiF = (i + 1) + "F";
+            curLi.index = i;
+
+            var aa = i === 0 ? curHeight : (curHeight / 2);
+            if (curTop + aa > curLiTop) {
+                utils.css(curLi, "color", "red");
+                curLi.setAttribute("isLoad", true);
+                curLi.innerHTML = curLiText;
+
+                //->让其兄弟元素没有选中的样式
+                var curSiblings = utils.siblings(curLi);
+                for (var k = 0; k < curSiblings.length; k++) {
+                    utils.css(curSiblings[k], "color", "#000");
+                    curSiblings[k].setAttribute("isLoad", false);
+                    curSiblings[k].innerHTML = (curSiblings[k].index + 1) + "F";
+                }
+            }
+        }
+    }
+    window.onscroll = showFloor;
+
+    //4、点击每一个楼层索引,实现让其滚动到指定的区域
+    var timer = null;
+    for (var i = 0; i < oLis.length; i++) {
+        var curLi = oLis[i];
+        curLi.onclick = function () {
+            window.onscroll = null;
+            var target = this.getAttribute("zhufengTop");
+            move(target);
+        }
+    }
+    function move(target) {
+        var begin = utils.win("scrollTop"), duration = 500;
+        var step = Math.abs((target - begin) / duration * 10);
+        _move();
+        function _move() {
+            window.clearTimeout(timer);
+            var cur = utils.win("scrollTop");
+            if (target > begin) {//->向下
+                if (cur + step >= target) {
+                    window.onscroll = showFloor;
+                    utils.win("scrollTop", target);
+                    return;
+                }
+                utils.win("scrollTop", cur + step);
+            } else if (target < begin) {//->向上
+                if (cur - step <= target) {
+                    window.onscroll = showFloor;
+                    utils.win("scrollTop", target);
+                    return;
+                }
+                utils.win("scrollTop", cur - step);
+            } else {//->不动
+                window.onscroll = showFloor;
+                return;
+            }
+            timer = window.setTimeout(_move, 10);
+        }
+    }
+</script>
+</body>
+</html>

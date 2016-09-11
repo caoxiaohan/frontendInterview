@@ -1,0 +1,73 @@
+@charset "utf-8";
+
+body, div, table, thead, tbody, tr, th, td {
+    margin: 0;
+    padding: 0;
+    font-family: "\5FAE\8F6F\96C5\9ED1", Helvetica, sans-serif;
+    font-size: 14px;
+    -webkit-user-select: none;
+}
+
+.box {
+    margin: 10px auto;
+    padding: 20px;
+    width: 400px;
+    border: 1px solid #008000;
+
+    /*以下都是CSS3中新增加的样式属性:在IE6~8下不兼容,对于不兼容我们采用优雅降级方案(不管)*/
+    border-radius: 10px;
+    box-shadow: 3px 3px 10px 0 #999;
+}
+
+#tab {
+
+}
+
+#tab thead tr {
+    height: 35px;
+    line-height: 35px;
+    background: #008000;
+    color: #fff;
+}
+
+#tab thead tr th {
+    width: 100px;
+}
+
+#tab thead tr th.cursor {
+    cursor: pointer;
+}
+
+#tab tbody tr {
+    height: 30px;
+    line-height: 30px;
+}
+
+#tab tbody tr td {
+    text-align: center;
+}
+
+#tab tbody tr.bg0 {
+
+}
+
+#tab tbody tr.bg1 {
+    background: #ffe470;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

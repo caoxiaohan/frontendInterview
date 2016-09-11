@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>87</title>    
+</head>
+<body>
+	<h1>珠峰培训第二周作业答案</h1>
+	<pre>	
+一、JSON是什么？
+    JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式，主要用于传送数据。
+    JSON 可以将 JavaScript 对象中表示的一组数据转换为字符串，然后就可以在函数之间轻松地传递这个字符串，或者在异步应用程序中将字符串从 Web 客户机传递给服务器端程序。
+    易于人阅读和编写，同时也易于机器解析和生成(一般用于提升网络传输速率)
+
+二、(JSON和JavaScript对象有什么区别？)如何把JS对象转化为JSON字符串？又如何把JSON字符串转化为JavaScript对象？
+    1 JSON和JavaScript对象的区别
+      JSON中没有变量的概念也没有末尾分号
+      JSON对象要求给属性加双引号，Javascript字面量属性可以没有引号，也可以是单引号或双引号。
+      1.1 Javscript对象字面量的属性表示形式有3种
+	      var obj1 = {name:"cxh"};
+	      var obj2 = {'name':"cxh"};
+	      var obj3 = {"name":"cxh"};
+	  1.2 JSON对象属性的表示形式只有一种
+	      {"name":"cxh"}
+	2 JSON.stringty()方法把JS对象转化为JSON字符串
+	     <script type="text/javascript">
+			var obj = {id:1,name:"cxh",gf:"kn"};				 
+			var jsonText = JSON.stringify(obj);
+			console.log(jsonText);//{"id":1,"name":"cxh","gf":"kn"}
+	     </script>       
+    3 JSON.parse()方法把JSON字符串转化为JavaScript对象串
+	    <script type="text/javascript">
+			JSON.parse('{}');              // {}
+			JSON.parse('true');            // true
+			JSON.parse('"foo"');           // "foo"
+			JSON.parse('[1, 5, "false"]'); // [1, 5, "false"]
+			JSON.parse('null');            // null
+	    </script>
+
+三、数组和对象之间的关系是什么？
+    1 区别
+       数组表示有序数据的集合，而对象表示无序数据的集合。如果数据的顺序很重要，就用数组，否则就用对象。
+    2 关系
+       2.1 数组(Array)是一种内建(built-in)的, 或者说是javascript自带的对象(Object). 除此之外, 字符串(String), 数值(Number)等也是Javascript内建(built-in)的对象(Object).
+       拓展：
+       2.2 在javascript中, 所有的东西(除了undefined和null)都是对象(Object), 包括基本数据类型的包装类字符串(String), 数值(Number), 数组(Array), 函数(function)等等. 
+       2.3 特殊情况: undefined和null不是对象. 这里想要补充的是: 虽然typeof null的结果是'object', 但是null仍然不是一个对象. 任何变量可以被赋值为null, 但是用户不能给null添加任何属性  
+    3 Array.prototype继承自Object.prototype
+      console.log(Array.prototype.__proto__===Object.prototype);//true
+    4 Array类的实例是对象类型
+      <script type="text/javascript">
+      	 var arr1 = [1,2];
+         var arr2 = new Array(1,2);
+         console.log(typeof arr1);//"object"
+         console.log(typeof arr2);//"object"
+         console.log(arr1 instanceof Array);//true
+         console.log(arr2 instanceof Array);//true
+         console.log(arr1 instanceof Object);//true
+         console.log(arr2 instanceof Object);//true
+      </script>
+   5 Array.prototype重写了toString()方法，不再继承Object.prototype上toString()方法。
+     <script type="text/javascript">
+       var obj={cxh:1};
+       var arr=[1,2,3];
+       console.log(obj.toString());//[object Object]
+       console.log(Object.prototype.toString.call(obj));//[object Object]
+       console.log(Array.prototype.toString.call(obj));//[object Object]
+       console.log(arr.toString());"1,2,3"
+       console.log(Array.prototype.toString.call(arr));//"1,2,3"
+       console.log(Object.prototype.toString.call(arr));//[object Array]
+     </script>
+     
+四、call和apply的作用的区别是什么？
+     <script type="text/javascript">
+            var name = "god";
+          var obj = {
+          name:"cxh"
+      };        
+      var fn = {
+          getName: function(major,job) {
+              return this.name+","+major+","+job;
+          }
+      }   
+      console.log(fn.getName.call(obj,"computer","architect"));    //cxh,computer,architect
+      console.log(fn.getName.apply(obj,["computer","architect"]));   //cxh,computer,architect
+    </script>
+    call和apply的第二个参数不同：
+         call方法第二个参数接收的是一个参数列表，
+         apply第二个参数接收的是一个包含多个参数的数组（或者类数组）。
+
+五、eval的作用是什么?   
+    将一个JavaScript代码字符串求值成特定的对象。
+    1 语法
+      eval(string)
+    2 参数
+      string
+      一个字符串表示了一个JavaScript表达式，声明， 或声明的序列。表达式可以包括变量和已存在对象的属性。
+    3 描述
+      eval()是一个顶级函数并且跟任何对象无关。
+      eval()的参数是一个字符串。如果字符串表示了一个表达式，eval()会对表达式求值。
+      3.1 如果参数表示了一个或多个JavaScript声明， 那么eval()会执行声明。不要调用eval()来为算数表达式求值； JavaScript 会自动为算数表达式求值。
+          1+2+3;//6
+      3.2 如果要将算数表达式构造成为一个字符串，你可以用eval()在随后对其求值。比如，你有一个变量 x ，你可以通过一个字符串表达式来对涉及x的表达式延迟求值，将 "3 * x + 2"，当作变量，通过在脚本中调用eval()，随后求值。
+          var x =5;
+          eval("3+x+2");10
+      3.3 如果参数不是字符串，eval()将会将参数原封不动的返回。在下面的例子中，字符串构造器是指定的，eval()返回了字符串对象而不是对字符串求值。
+          eval(new String("2 + 2")); // 返回了包含"2 + 2"的字符串对象
+          eval("2 + 2");             // returns 4
+      3.4 eval仅计算第一个参数的值
+          eval(1,2,3) //返回1，因为eval函数仅操作第一个参数的值
+          eval("1,2,3") //返回3，因为字符串"1,2,3"算作一个整体是第一个参数，对第一个参数运用逗号表达式的规则只返回最后一个值3 
+          eval("1,2,3",4) //返回3，规则如上，4时第二个参数直接忽略。   
+
+六、alert({})弹出的结果是什么，为什么？
+    alert({})弹出[object Object]。
+    alert会自动调用参数的toString()方法然后弹出去掉引号的值。
+    ({}).toString();会调用Object原型上的toString方法，返回"[object 类]"，{}的所属的类是Object所以返回"[object Object]"
+
+七、如何严格的判断一个数据是数组（Array）类的实例 
+    1 instanceOf
+      [1,2] intanceof Array;//true
+    2 constructor
+      [1,2].constructor===Array;//true
+    3 Object.prototype.toString.call()
+      Object.prototype.toString.call([1,2])==="[object Array]";//true
+    4 __prot__ (兼容性太差不推荐，IE11以下版本浏览器不兼容)
+      [1,2].__proto__==Array.prototype
+
+八、说一说JS中异常捕获是用什么代码实现的？
+     1 try 语句测试代码块的错误。
+      try{
+        //可能出错的代码
+        alert(cxh);//弹出一个未定义的变量
+      }
+    2 捕捉块（The catch Block）
+    可以使用捕捉块来处理所有可能在try代码块中产生的异常。
+    try和catch必须成对出现，不单独存在。当try代码块中出现异常时，catch代码块才会执行。
+    catch(e){
+       console.log(e);//输出捕获到的异常
+    }
+  3 终结块（The finally Block）
+      终结块包含了在try和catch块完成后、下面接着的try...catch语句之前执行的语句。
+      终结块无论是否抛出异常都会执行。如果抛出了一个异常，就算没有异常处理，终结块里的语句也会执行。
+    4 使用throw语句抛出一个异常。
+      当抛出异常，规定一个含有值的表达式要被抛出。
+      可以自定义抛出任意表达式而不是特定一种类型的表达式
+      一般写在条件语句或者try catch语句中
+        throw "Error2";   // String type
+    throw 42;         // Number type
+    throw true;       // Boolean type
+    throw {toString: function() { return "I'm an object!"; } };
+    throw expression;
+    5 示例
+      1 当try语句块中存在异常时，catch和finally语句都执行。
+      <script type="text/javascript">     
+      try {
+         //可能出错的代码
+          console.log("try代码块内产生异常前的语句");//正常输出
+          console.log(cxh); //未定义的变量，有异常不会输出也不报错，因为错误被catch语句捕获
+          console.log("try代码块内产生异常后的语句");//前面产生异常，该条语句不会执行
+      }catch(e){
+          console.log("catch的参数e是：",e); // catch的参数e接收捕获到的异常
+      }finally {
+          console.log("finally语句"); // 不管是否有异常都会执行
+      }
+      /*
+      try代码块内参数异常前的语句
+      catch的参数e是： ReferenceError: cxh is not defined(…)
+      finally语句
+      */
+      </script>
+   2 当try语句块中不存在异常时，catch不会执行，finally语句依然执行。
+      <script type="text/javascript">     
+      try {
+         //可能出错的代码
+          console.log("try内的正常语句");//正常输出        
+      }catch(e){
+          console.log("catch的参数e是：",e); // catch的参数e接收捕获到的异常
+      }finally {
+          console.log("finally语句"); // 不管是否有异常都会执行
+      }
+      /*
+      try内的正常语句
+      finally语句
+      */
+      </script>
+   3 当try语句中存在异常时，我们可以在catch语句中抛出自定义异常
+      <script type="text/javascript">     
+      try {
+         //可能出错的代码
+          console.log(aaa);//未定义的变量，有异常不会输出.   
+      }catch(e){
+           throw "aaa未定义"; //输出中文红色字体错误提示 
+      }finally {
+          console.log("finally语句"); // 不管是否有异常都会执行
+      }
+      /*      
+      finally语句
+      Uncaught aaa未定义
+      */
+      </script>
+    4 try和catch语句必须成对出现，finally和throw语句可有可无
+      <script type="text/javascript">
+        try {
+         //可能出错的代码
+          console.log(aaa);//未定义的变量，有异常不会输出.   
+      }catch(e){
+           console.log("catch的参数e是：",e); // catch的参数e接收捕获到的异常
+      }
+      //catch的参数e是： ReferenceError: aaa is not defined(…)
+      </script>
+
+九、用什么方法实现对函数内置的arguments对象进行排
+序？为什么文档集合不能直接借用数组类的sort方法进行排序呢？
+   1 排序
+    function istToArray(likeArray) {
+        var ary = [];
+        try {
+            ary = Array.prototype.slice.call(likeArray, 0);
+        } catch (e) {
+            for (var i = 0; i < likeArray.length; i++) {
+                ary[ary.length] = likeArray[i];
+            }
+        }
+        return ary;
+    }; 
+    function argsSort(){
+        listToArray(arguments).sort();
+    }
+   2 因为sort是定义在Array类原型上的方法，只有数组类的实例才能直接调用
+     文档集合不会Array类的实例，无法继承Array类上的方法。所以不会用sort进行排序。
+  
+
+十、function fn1(){alert(1)};function fn2(){alert(2)};
+ fn3=fn2.call;   
+fn2.call(fn1);//请问输出什么结果，为什么
+fn3.call(fn1);
+  1 第一次输出2
+      fn2.call(fn1);
+      相当于将fn2函数体中的this变成fn1，执行fn2()
+      因为fn2函数体中没有带this前缀的变量，所以不论this是谁，输出结果都是一样。
+      执行fn2，只弹出2
+    2 第二次输出1
+       fn3=fn2.call--->fn3.call(fn1)等价于fn2.call.call(fn1)
+       fn2.call====Fn.prototype.call--->fn2.call.call(fn1)等价于Fn.prototype.call.call(fn1).
+       Fn.prototype.call.call(fn1)等价于fn1();
+      当出现call方法调用call方法时，即出现两个及两个以上call时，则执行第一个不为Fn.prototype.call的参数。
+      因为第一个参数是fn1，不等于Fn.prototype.call,所以执行执行fn1.
+      最终fn3.call(fn1);等价于fn1();//输出1.
+	</pre>
+  </body>
+</html>

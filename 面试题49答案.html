@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>面试题49答案</title>    
+</head>
+<body>
+	<h1>49 setTimeout()和setInterval()的区别？二者如何等价转换？如何清除定时器？写一个倒计时应用。</h1>
+	<pre>	
+		 一、setTimeout()和setInterval()的区别？
+	         1、window.setTimeout([function],[interval]) 
+	            ->设置一个定时器,interval是我们设置的等待的时间(ms),当到达时间后执行对应的[function],执行完成后定时器停止
+	            ->执行一次
+	            var count = 0;
+	            window.setTimeout(function () {
+	              count++;
+	              console.log(count); //1 仅输出一次
+	            }, 1000);
+	         2、 window.setInterval([function],[interval]) 
+	            ->设置一个定时器,interval是我们设置的等待的时间(ms),当到达时间后执行对应的[function],执行完成后,以后每隔这么长的时间,都会重新的执行[function] 
+	            ->执行多次
+	            var count = 0;
+	            window.setInterval(function () {
+	              count++;
+	              console.log(count);//1 2 3 ... 每隔1秒输出一次，每次数字累加1
+	          }, 1000);
+	     二、二者如何等价转换
+	         1 用setTimeout实现每隔1秒循环输出"cxh";
+	            function test(){
+	             console.log("cxh");
+	             window.setTimeout(test,1000); //test方法内执行test,递归调用test
+	           }
+	           window.setTimeout(test,1000);
+	         2 用setInterval实现每隔1秒循环输出"cxh"
+	            function test(){
+	             console.log("cxh");	             
+	           }
+	           window.setInterval(test, 1000);
+		 三、如何清除定时器
+		     //->设置一个定时器它是有返回值的,是一个number类型的值,代表当前是第几个定时器
+	          var timer=window.setTimeout(function(){},1000);
+	          console.log(timer);//->1    
+	          var timer2=window.setTimeout(function(){},1000);
+	          console.log(timer2);//->2    
+	          var timer3=window.setInterval(function(){},1000);
+	          console.log(timer3);//->3
+	        //->如何清除定时器
+	         window.clearTimeout(timer);
+	         window.clearInterval(timer3);   
+	     四、写一个倒计时应用   
+	        <!DOCTYPE html>
+			<html>
+			<head lang="en">
+			    <meta charset="UTF-8">
+			    <title></title>
+			    <style type="text/css">
+			        #timeDiv {
+			            background: pink;
+			            color: blue;
+			            padding: 10px;
+			            border: 1px dashed #ccc;
+			            font-size: 50px;
+			            text-align: center;
+
+			        }
+			        #timeSpan {
+			            color: red;
+			        }
+			    </style>
+			</head>
+			<body>
+			<div id="timeDiv">距离到达北京还有: <span id="timeSpan">00:00:00</span></div>
+			</body>
+			</html>
+			<script>
+			    var oSpan = document.getElementById("timeSpan");
+			    function getCountTime() {
+			        var now = new Date();//以当前时间为基准创建的时间对象
+			        var cur = new Date("2016/7/9 10:00:00");//以参数时间为基准创建的时间对象
+			        //1.创建这两个时间对象相差多少毫秒数
+			        var spanTime = cur.getTime() - now.getTime();
+			        console.log(spanTime);
+			        //1小时 = 60*60*1000 毫秒
+			        //1分钟 = 60*1000  毫秒
+			        //1秒 = 1000 毫秒
+			        //2.相差的毫秒数里有多少小时
+			        var hour = Math.floor(spanTime / (60 * 60 * 1000));
+			        spanTime = spanTime - hour * 60 * 60 * 1000;//除了小时毫秒数外剩余有多少毫秒数
+			        //3.剩余的毫秒数里有多少分钟
+			        var minute = Math.floor(spanTime / (60 * 1000));
+			        spanTime = spanTime - minute * 60 * 1000;//除了分钟毫秒数外剩余有多少毫秒数
+			        //4.剩余的毫秒数里有多少秒
+			        var second = Math.floor(spanTime / 1000);
+
+			        oSpan.innerHTML = addZero(hour) + "时" + addZero(minute) + "分" + addZero(second) + "秒";
+			    }
+			    function addZero(num) {
+			        return num > 9 ? num : "0" + num;
+			    }
+			    getCountTime();
+			    window.setInterval(getCountTime,1000);
+			</script>
+	</pre>
+  </body>
+</html>
+  

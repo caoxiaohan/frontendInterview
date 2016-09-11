@@ -1,0 +1,380 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>面试题44答案</title>    
+</head>
+<body>
+<h1>44 自执行函数有哪些写法？数组有哪些方法，写出数组方法的参数，数组方法的返回值，执行数组方法后数组的值是否发生改变？</h1>
+<pre>
+  一、自执行函数有哪些写法
+	  1 先在函数后面加括号，然后在最外面加括号
+	    <script type="text/javascript">
+	    	(function(){
+	    		alert(1);
+	    	}());  
+	    	为避免括号与前面代码粘连，建议括号前加分号，写法如下：
+	    	;(function(){
+	    		alert(1);
+	    	}());  
+	    </script>
+	  2 现在函数外面加括号，然后在后面加括号
+	    <script type="text/javascript">
+	    	(function(){
+	    		alert(2);
+	    	})(); 
+	    	为避免括号与前面代码粘连，建议括号前加分号，写法如下：
+	    	;(function(){
+	    		alert(2);
+	    	})(); 
+	    </script>
+	  3 function前面加运算符
+	    3.1 function前面加void
+	        <script type="text/javascript">
+	        	void function(){
+	        		alert(3);
+	        	}(); 
+	        </script>
+	     3.2 function前面加~
+	        <script type="text/javascript">
+	        	~function(){
+	        		alert(3);
+	        	}(); 
+	        </script>
+	     3.3 function前面加!
+	        <script type="text/javascript">
+	        	!function(){
+	        		alert(3);
+	        	}(); 
+	        </script>
+	     3.4 function前面加+
+	        <script type="text/javascript">
+	        	&&function(){
+	        		alert(3);
+	        	}(); 
+	        </script>
+	     3.5 function前面加-
+	        <script type="text/javascript">
+	        	!function(){
+	        		alert(3);
+	        	}(); 
+	        </script>	    	  
+  二、数组的方法
+      1.检测数组
+        Array.isArray();
+          1.1 参数：参数中传入需要验证的数组。
+          1.2 返回值：返回值为布尔类型，如果是数组则返回true,否则返回false。
+          1.3 原数组是否发生改变：不变
+          <script type="text/javascript">
+          	   var str="cxh";
+               var arr=[1,2];
+               console.log(Array.isArray(str));//false
+               console.log(Array.isArray(arr));//true
+               console.log(arr);//[1,2]
+          </script>         
+      2. 转换方法
+            2.l valueOf()方法
+                2.1.1 参数：不需要传入参数，由数组直接调用valueOf()方法
+                2.1.2 返回值：返回原数组。
+                2.1.3 原数组是否发生改变：不变
+                <script type="text/javascript">   
+			        var arr=[1,2];
+                    console.log(arr.valueOf());//[1,2]
+                    console.log(arr);//[1,2]
+			    </script> 			   
+             2.2 toString()方法
+                2.2.1 参数：不需要传入参数，由数组直接调用toString()方法
+                2.2.2 返回值：返回字符串，分别调用数组中每个元素的toString()方法，然后将转换后的字符串，用逗号分隔进行字符串拼接返回。
+                2.2.3 原数组是否发生改变：不变
+                <script type="text/javascript">   
+			        var arr=[1,2];
+                    console.log(arr.toString());//"1,2"
+                    console.log(arr);//[1,2]
+			    </script> 	
+			 2.3 toLocaleString()方法
+                2.3.1 参数：不需要传入参数，由数组直接调用toLocaleString()方法
+                2.3.2 返回值：返回字符串，分别调用数组中每个元素的toLocaleString()方法，然后将转换后的字符串，用逗号分隔进行字符串拼接返回。
+                2.3.3 原数组是否发生改变：不变
+                例1：大部分情况下，toLocaleString()返回与toString()方法相同的值
+                <script type="text/javascript">   
+			        var arr=[1,2];
+                    console.log(arr.toLocaleString());//"1,2"
+                    console.log(arr);//[1,2]
+			    </script> 	
+			    例2：当toLocaleString()方法和toString()方法不同时，调用数组中每个元素的toLocaleString()方法，然后以逗号分隔进行字符串拼接。
+			    <script type="text/javascript">
+			    	var obj1={
+			    		toString:function(){
+			    			return "ts1";
+			    		},
+			    		toLocaleString:function(){
+			    			return "tls1";
+			    		}
+			    	}
+			    	var obj2={
+			    		toString:function(){
+			    			return "ts2";
+			    		},
+			    		toLocaleString:function(){
+			    			return "tls2";
+			    		}
+			    	}
+			    	var arr=[obj1,obj2];
+			    	console.log(arr);//[obj1,obj2]   控制台显示[Object,Object]，对应obj1,obj2所指向的对象       
+                    console.log(arr.toLocaleString());//"tls1,tls2"
+                    console.log(arr);//[obj1,obj2]                    
+			    </script>
+			 2.4 join()方法
+                2.4.1 参数：参数代表分隔符，当不传参数时默认分隔符是","
+                2.4.2 返回值：返回字符串，分别调用数组中每个元素的toString()方法，然后将转换后的字符串，用分隔符分隔进行字符串拼接返回。
+                2.4.3 原数组是否发生改变：不变
+                例1 不传参数时，用逗号进行字符串拼接,跟toString()方法的等价
+                <script type="text/javascript">   
+			        var arr=[1,2];
+                    console.log(arr.join());//"1,2"
+                    console.log(arr);//[1,2]
+			    </script> 	
+			    例2 传入参数undefined时，用逗号进行字符串拼接,跟toString()方法的等价
+                <script type="text/javascript">   
+			        var arr=[1,2];
+                    console.log(arr.join(undefined));//"1,2"
+                    console.log(arr);//[1,2]
+			    </script> 	
+			    例3 传入参数不是undefined时，用分隔符进行字符串拼接
+                <script type="text/javascript">   
+			        var arr=[1,2];
+                    console.log(arr.join("+"));//"1+2"
+                    console.log(arr);//[1,2]
+			    </script> 				
+      3 栈方法
+       3.1 push()方法
+	       3.1.1 参数：传入参数，依次被添加到数组末尾
+           3.1.2 返回值：返回push的最后一个参数
+           3.1.3 原数组是否发生改变：改变
+                <script type="text/javascript">   
+			        var arr=[1,2,3];
+                    console.log(arr.push(4,5));//5
+                    console.log(arr);//[1,2,3,4,5]
+			    </script> 	 
+	   3.2 pop()方法
+	       3.1.1 参数：不需传入参数，删除原数组的最后一项
+           3.1.2 返回值：返回原数组的最后一项
+           3.1.3 原数组是否发生改变：改变
+                <script type="text/javascript">   
+			        var arr=[1,2,3];
+                    console.log(arr.pop());//3
+                    console.log(arr);//[1,2]
+			    </script> 	   
+      4 队列方法
+       3.1 unshift()方法
+	       3.1.1 参数：传入参数，依次被添加到数组头部
+           3.1.2 返回值：返回unshift的最后一个参数
+           3.1.3 原数组是否发生改变：改变
+                <script type="text/javascript">   
+			        var arr=[1,2,3];
+                    console.log(arr.unshift(4,5));//5
+                    console.log(arr);//[4,5,1,2,3]
+			    </script> 	 
+	   3.2 shift()方法
+	       3.1.1 参数：不需传入参数，删除原数组的第一项
+           3.1.2 返回值：返回原数组的第一项
+           3.1.3 原数组是否发生改变：改变
+                <script type="text/javascript">   
+			        var arr=[1,2,3];
+                    console.log(arr.shift());//1
+                    console.log(arr);//[2,3]
+			    </script> 	   
+      5 重排序方法
+        5.1 reverse()方法
+	       5.1.1 参数：不需要参数，反转数组的顺序
+           5.1.2 返回值：返回反转顺序后的数组
+           5.1.3 原数组是否发生改变：改变
+                <script type="text/javascript">   
+			        var arr=[1,2,3];
+                    console.log(arr.reverse());//[3,2,1]
+                    console.log(arr);//[3,2,1]
+			    </script> 	
+	     5.2 sort()方法
+	       5.2.1 参数：参数传入函数定义排序规则，如果不传参数则按照默认规则将数字进行排序。
+           5.2.2 返回值：返回排序后的数组
+           5.2.3 原数组是否发生改变：改变
+                例1：默认排序规则：
+                     小于10的正整数按从小到大排序，大于等于10的正整数按字符编码顺序排序。
+                     负数永远小于整数，绝对值小于10的负整数按从大到小排序，绝对值大于等于10的负整数按绝对值的字符编码顺序排序。
+	                 <script type="text/javascript">   
+				        var arr=[-21,2,-13,-5,4,16,8,27,1,0];
+	                    console.log(arr.sort());//[-13, -21, -5, 0, 1, 16, 2, 27, 4, 8]
+	                    console.log(arr);//[-13, -21, -5, 0, 1, 16, 2, 27, 4, 8]
+				     </script> 	
+			    例2：自定义排序规则：
+			         将数字按照从小到大的顺序排序
+			          <script type="text/javascript">   
+				        var arr=[-21,2,-13,-5,4,16,8,27,1,0];
+				        function compare(a,b){
+                            return a-b;
+				        }
+	                    console.log(arr.sort(compare));//[-21, -13, -5, 0, 1, 2, 4, 8, 16, 27]
+	                    console.log(arr);//[-21, -13, -5, 0, 1, 2, 4, 8, 16, 27]
+	                   </script> 
+	  6 操作方法
+	    6.1 slice()方法
+	        6.1.1 参数：两个参数、数字类型，slice(n,m)代表从索引为n处开始，取到索引为m处(不包括m)
+            6.1.2 返回值：新取出来的数组
+            6.1.3 原数组是否发生改变：不变
+                <script type="text/javascript">   
+			        var arr=[1,2,3,4,5];
+                    console.log(arr.slice(0,3));//[1,2,3]
+                    console.log(arr);//[1,2,3,4,5]
+			    </script> 	
+	    6.2 splice()方法
+	        6.2.1 参数：两个参数、数字类型、splice(n,m,x)代表从索引n开始，移除m个元素,用x替换       
+            6.2.2 返回值：移除的元素数组 
+            6.2.3 原数组是否发生改变：改变
+                <script type="text/javascript">   
+			        var arr=[1,2,3,4,5];
+                    console.log(arr.splice(0,3));//[1,2,3]
+                    console.log(arr);//[4,5]
+                    var ary=[1,2,3,4,5];
+                    console.log(ary.splice(0,3,6,7));//[1,2,3]
+                    console.log(ary);//[6,7,4,5]
+			    </script> 
+	  7 位置方法
+	    EmacScript5为数组实例添加了两个位置方法：indexOf和lastIndexOf()
+	    7.1 indexOf()
+			7.1.1 参数：两个参数、数字类型，indexOf(x,n)代表从索引为n处开始查找x，n为可选参数，当省略n时代表从数组第0项开始查找x。
+            7.1.2 返回值：从数组第n项开始往后查找，x在数组中跟第一次出现的位置。
+            7.1.3 原数组是否发生改变：不变
+                <script type="text/javascript">   
+			        var arr=[0,1,2,3,4,5,1,2,3,4,5];
+                    console.log(arr.indexOf(3));//3
+                    console.log(arr);//[0,1,2,3,4,5,1,2,3,4,5]          
+                    console.log(arr.indexOf(3,5));//8  从数组第6项开始向后查找,只能找到arr[7]=3, 返回索引8
+                    console.log(arr.indexOf(3,9));//-1  从数组第9项也就是倒数第二项开始向后查找，最后两项都不是3，没找到所以返回-1
+                    console.log(arr.indexOf(6));//-1 从数组第0项开始向后查找，没有找等于6的元素，所以返回-1
+			    </script> 		     
+        7.2 lastIndexOf()
+			7.2.1 参数：两个参数、数字类型，lastIndexOf(x,n)代表从索引为n处开始查找x，n为可选参数，当省略n时代表从数组第0项开始查找x。
+            7.2.2 返回值：从数组第n项开始往后查找，x在数组中跟第一次出现的位置。
+            7.2.3 原数组是否发生改变：不变
+                <script type="text/javascript">   
+			        var arr=[0,1,2,3,4,5,1,2,3,4,5];
+                    console.log(arr.lastIndexOf(3));//8
+                    console.log(arr);//[0,1,2,3,4,5,1,2,3,4,5]            
+                    console.log(arr.lastIndexOf(3,5));//8  从数组第5项开始向前只能找到arr[3]=3, 返回索引3
+                    console.log(arr.lastIndexOf(3,9));//8  从数组第8项也就是倒数第二项开始查找，往前查找找到首先找到arr[8]=3，返回索引8
+                    console.log(arr.lastIndexOf(6));//-1 从数组最后一项开始向前找到，没有找找等于6的元素，所以返回-1
+			    </script> 		 
+	   8 迭代方法
+	     EmacScript5为数组定义了5个迭代方法
+	     8.1 every()方法
+	         8.1.1 参数：参数为函数。
+             8.1.2 返回值：对数组中的每一项运行参数中的函数，如果该函数对每一项都返回true，则返回true,否则返回false
+             8.1.3 原数组是否发生改变：不变
+                <script type="text/javascript">   
+			        var arr=[1,2,3,4,5];
+			        function fn(item,index,array){//item表示数组中的每一项元素，index表示元素对应的索引，array表示原数组。			        	
+			        	return item===3;
+			        }
+                    console.log(arr.every(fn));//false
+                    console.log(arr);//[1,2,3,4,5]                
+			    </script>  
+		 8.2 some()方法
+	         8.2.1 参数：参数为函数。
+             8.2.2 返回值：对数组中的每一项运行参数中的函数，如果该函数只要对其中一项都返回true，则返回true,如果每一项都返回false才最终返回false
+             8.2.3 原数组是否发生改变：不变
+                <script type="text/javascript">   
+			        var arr=[1,2,3,4,5];
+			        function fn(item,index,array){//item表示数组中的每一项元素，index表示元素对应的索引，array表示原数组。			        	
+			        	return item===3;
+			        }
+                    console.log(arr.some(fn));//true
+                    console.log(arr);//[1,2,3,4,5]                
+			    </script>  
+	     8.3 filter()方法
+	         8.3.1 参数：参数为函数。
+             8.3.2 返回值：对数组中的每一项运行参数中的函数，如果该函数会返回true的项组成的数组
+             8.3.3 原数组是否发生改变：不变
+                <script type="text/javascript">   
+			        var arr=[1,2,3,4,5];
+			        function fn(item,index,array){//item表示数组中的每一项元素，index表示元素对应的索引，array表示原数组。			        	
+			        	return item>3;
+			        }
+                    console.log(arr.filter(fn));//[4,5]
+                    console.log(arr);//[1,2,3,4,5]                
+			    </script> 
+		 8.4 map()方法
+	         8.4.1 参数：参数为函数。
+             8.4.2 返回值：对数组中的每一项运行参数中的函数，返回函数每次调用的结果组成的数组
+             8.4.3 原数组是否发生改变：不变
+                <script type="text/javascript">   
+			        var arr=[1,2,3,4,5];
+			        function fn(item,index,array){//item表示数组中的每一项元素，index表示元素对应的索引，array表示原数组。			        	
+			        	return item-1;
+			        }
+                    console.log(arr.map(fn));//[0,1,2,3,4]
+                    console.log(arr);//[1,2,3,4,5]                
+			    </script>   
+		 8.5 forEach()方法
+	         8.4.1 参数：参数为函数。
+             8.4.2 返回值：没有返回值，对数组中的每一项运行给定函数
+             8.4.3 原数组是否发生改变：不变
+                <script type="text/javascript">   
+			        var arr=[1,2,3,4,5];
+			        function fn(item,index,array){//item表示数组中的每一项元素，index表示元素对应的索引，array表示原数组。			        	
+			        	console.log(item,index,array);
+			        }
+			        /* 循环迭代数组的中的每一项
+			         元素   索引    数组
+			          1      0      [1, 2, 3, 4, 5]
+					  2      1      [1, 2, 3, 4, 5]
+					  3      2      [1, 2, 3, 4, 5]
+					  4      3      [1, 2, 3, 4, 5]
+	                  5      4      [1, 2, 3, 4, 5]
+			        */
+                    console.log(arr.forEach(fn));//undefined 没有返回值
+                    console.log(arr);//[1,2,3,4,5]                
+			    </script>   
+	  9 归并方法
+	     EmacScript5为数组实例添加了两个归并方法：reduce()和reduceRight()
+	     8.1 reduce()方法
+	         8.1.1 参数：参数为函数。
+             8.1.2 返回值：数组的中的每一项从前往后递归计算的结果
+             8.1.3 原数组是否发生改变：不变
+                <script type="text/javascript">   
+			        var arr=[1,2,3,4,5];
+			        function fn(pre,cur,index,array){//item表示数组中的每一项元素，index表示元素对应的索引，array表示原数组。
+			            console.log(pre,cur)			        	
+			        	return pre+cur;
+			        }
+			        /* 函数的返回值传给下一项的第一个参数
+			         pre    cur    
+			          1      2     
+					  3      3     
+					  6      4     
+					 10      5    
+	                 15            
+			        */
+                    console.log(arr.reduce(fn));//15
+                    console.log(arr);//[1,2,3,4,5]                
+			    </script>  
+		  8.2 reduceRight()方法
+	         8.2.1 参数：参数为函数。
+             8.2.2 返回值：数组的中的每一项从后往前递归计算的结果
+             8.2.3 原数组是否发生改变：不变
+                <script type="text/javascript">   
+			        var arr=[1,2,3,4,5];
+			        function fn(pre,cur,index,array){//item表示数组中的每一项元素，index表示元素对应的索引，array表示原数组。
+			            console.log(pre,cur)			        	
+			        	return pre+cur;
+			        }
+			        /* 函数的返回值传给下一项的第一个参数
+			         pre    cur    
+			          5      4     
+					  9      3     
+					 12      2     
+					 14      1    
+	                 15            
+			        */
+                    console.log(arr.reduceRight(fn));//15
+                    console.log(arr);//[1,2,3,4,5]                
+			    </script>  

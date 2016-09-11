@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>第三周考试题</title>    
+</head>
+<body>
+	<h1>第三周考试题答案</h1>
+	<pre>	
+一、简述offsetParent和parentNode的区别？什么情况下可以让一个元素的offsetParent和parentNode相同？
+    1 默认情况下所有的元素的offsetParent是body,即document.body
+   2 offsetParent和parentNode之间没有关系
+     2.1 body是最顶级的offsetParent,document.body.offsetParent为null
+     2.2 document是最顶级的parentNode,document.parentNode为null
+         docment.body.parentNode===document.documentElement;//true
+         document.documentElement.parentNode===document;//true
+         document.parentNode;//null
+     2.3 当设置parentNode对应的元素的position属性值为relative/absolute/fixed时，
+         offsetParent和parentNode相同.
+         inner.offetParent===inner.parentNode;//true
+         <body><div id="outer" style="position:relative;"><div id="inner"></div></div></body>
+  
+二、下面代码的输出结果是什么？为什么？
+    var count = 0;
+    var timer = window.setTimeout(function(){
+          count++;
+    },0);
+    console.log(count);//0
+    输出0.
+    因为定时器是异步的，先执行后面的代码，即使时间间隔是0也存在延迟。
+
+三、一个HTML页面中存在这样的一个div(#div1)元素：没有在页面的第一屏显示，背景图片时一个默认图；
+    接下来我们要实现这一个功能：
+    1 当我们滚动页面左侧的滚动条，当前这个#div1已经完全出现在我们的视野中的时候，我们让#div1中增加一个图片，并且图片的地址是zhuFengLogo.png;
+    2 如果加载过一次，以后即使符合条件都不需要重新的进行加载了
+    3 最好可以实现，图片时透明度逐步增大，100ms内渐现出来的。
+    见附件《单张图片延迟加载.html》
+     
+四、编写一个方法(getElmentsByClass),可以通过样式类名来获取一组元素集合(array),要求兼容所有浏览器？
+     <script type="text/javascript">
+        //从一组元素eles中选出包含某一个类名strClass的元素
+        function getEle(strClass,eles){//获取只包括一个类的函数
+              var a=[];
+              var reg=new RegExp('\\b'+strClass+'\\b');
+              for(var i=0;i<eles.length;i++){     
+                  if(reg.test(eles[i].className)){
+                    a.push(eles[i]);      
+                  }
+              }
+              return a;
+        }
+      //通过类名获取一组元素。类名可以是多个，比如第一个参数是"a1 a2 a3",则表示获取类名即是a1,还要是a2,a3的元素（交集）
+       function getElesByClass(strClass,contextEle){
+          if(typeof strClass!='string') throw new Error('第一个参数strClass错误!')   
+          contextEle=contextEle||document;
+          if(contextEle.nodeType!=1&&contextEle.nodeType!=9)  throw new Error('第二个参数contextEle错误!');
+          if(contextEle.getElementsByClassName){
+            return contextEle.getElementsByClassName(strClass); 
+          }else{
+            var aClass=[];
+            aClass=strClass.split(' ');   
+            var eles=contextEle.getElementsByTagName('*');
+            for(var i=0;i<aClass.length;i++){ 
+                if(aClass[i].replace(/^\s+|\s+$/g,'').length>0) 
+                  eles=getEle(aClass[i],eles);
+              }
+            return eles;
+          }
+      }
+   </script>
+	</pre>
+  </body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>珠峰培训轮播图</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "\5FAE\8F6F\96C5\9ED1", Helvetica, sans-serif;
+            font-size: 14px;
+            -webkit-user-select: none;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        img {
+            display: block;
+            border: none;
+        }
+
+        a {
+            display: block;
+            color: #000;
+            text-decoration: none;
+        }
+
+        a:hover, a:active, a:visited, a:target {
+            display: block;
+            color: #000;
+            text-decoration: none;
+        }
+
+        .banner {
+            position: relative;
+            margin: 0 auto;
+            width: 1000px;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .banner .inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1000px; /*在JS数据绑定结束后根据请求回来数据的多少在动态调整我们的宽度*/
+            height: 300px;
+        }
+
+        .banner .inner div {
+            float: left;
+            width: 1000px;
+            height: 300px;
+            background: url("img/default.gif") no-repeat center center #e1e1e1;
+        }
+
+        .banner .inner img {
+            display: none;
+            width: 100%;
+            height: 100%;
+
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+
+        .banner .bannerTip {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            height: 18px;
+        }
+
+        .banner .bannerTip li {
+            float: left;
+            margin-left: 10px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: lightblue;
+            cursor: pointer;
+        }
+
+        .banner .bannerTip li.bg {
+            background: red;
+        }
+
+        .banner a {
+            display: none;
+            position: absolute;
+            top: 50%;
+            margin-top: -22.5px;
+            width: 30px;
+            height: 45px;
+            background-image: url("img/pre.png");
+
+            opacity: 0.5;
+            filter: alpha(opacity=50);
+        }
+
+        .banner a:hover {
+            opacity: 1;
+            filter: alpha(opacity=100);
+        }
+
+        .banner a.bannerLeft {
+            left: 20px;
+            background-position: 0 0;
+        }
+
+        .banner a.bannerRight {
+            right: 20px;
+            background-position: -45px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="banner" id="banner">
+    <div class="inner"></div>
+    <ul class="bannerTip"></ul>
+    <a class="bannerLeft" href="javascript:;"></a>
+    <a class="bannerRight" href="javascript:;"></a>
+</div>
+
+<script charset="utf-8" type="text/javascript" src="js/utils.js"></script>
+<script charset="utf-8" type="text/javascript" src="js/tween.js"></script>
+<script charset="utf-8" type="text/javascript" src="js/banner.js"></script>
+</body>
+</html>

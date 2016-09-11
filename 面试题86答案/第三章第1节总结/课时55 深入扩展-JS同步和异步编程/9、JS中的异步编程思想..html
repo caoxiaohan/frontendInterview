@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>JS异步编程思想</title>
+</head>
+<body>
+<script type="text/javascript">
+    //JS是单线程的->JS就是个傻子,脑子一根筋,做着当前的这件事情,没有完成之前,绝对不会做下一件是事情
+    //JS中的两种编程思想:同步、异步
+    //1、同步->上一件事情没有完成,继续处理上一件事情,只有上一件事情完成了,才会做下一件事情(JS中大部分都是同步编程的)
+    //    for (var i = 0; i < 100000; i++) {
+    //        if (i == 99999) {
+    //            console.log("循环结束了~~");//->(1)
+    //        }
+    //    }
+    //    console.log("ok");//->(2)
+    //->for循环就是同步编程的,只有循环结束后,才会继续执行下面的代码
+    //    while (1) {
+    //
+    //    }
+    //    console.log("ok");//->永远都不会执行的,因为上面的循环是死循环,循环永远都不会结束
+    //2、异步->规划要做一件事情,但是不是当前立马去执行这件事情,需要等一定的时间,这样的话,我们不会等着它执行,而是继续执行下面的操作,"只有当下面的事情都处理完成了,才会返回头处理之前的事情;如果下面的事情并没有处理完成,不管之前的事情有没有到时间,都踏踏实实的给我等着"
+    //->在JS中异步编程只有四种情况:定时器都是异步编程的、所有的事件绑定都是异步编程的、Ajax读取数据的时候,我们一般都设置为异步编程、回调函数也是异步编程的
+    //    var n = 0;
+    //    window.setTimeout(function () {
+    //        n++;
+    //        console.log(n);//->1 (2)
+    //    }, 1000);
+    //    console.log(n);//->0 (1)
+    //->每一个浏览器对于定时器的等待时间都有一个最小的值,谷歌:5~6ms IE:10~13ms,如果设置的等待时间小于这个值,不起作用,还是需要等到最小时间才执行的;尤其是写0也不是立即执行;
+    //    var n = 0;
+    //    window.setTimeout(function () {
+    //        n++;
+    //        console.log(n);//->1 (2)
+    //    }, 0);
+    //    console.log(n);//->0 (1)
+    //->我们定时器设置的等待时间不一定就是最后执行的时间,如果定时器之后还有其他的事情正在处理中,不管定时器的时间有没有到,都是不会执行定时器的
+    //    var n = 0;
+    //    window.setTimeout(function () {
+    //        n++;
+    //        console.log(n);//->不执行的
+    //    }, 0);
+    //    console.log(n);//->0 (1)
+    //    while (1) {//->死循环
+    //        n++;
+    //    }
+    //    console.log(n);//->不执行的
+    //    var n = 0;
+    //    window.setTimeout(function () {
+    //        n += 2;
+    //        console.log(n); //->7 (4)
+    //    }, 20);
+    //    window.setTimeout(function () {
+    //        n += 5;
+    //        console.log(n); //->5 (3)
+    //    }, 5);
+    //    console.log(n);//->0 (1)
+    //    for (var i = 0; i < 10000000; i++) {}
+    //    console.log(n);//->0 (2)
+    for(var i=0;i<oLis.length;i++){
+        oLis[i].onclick=function(){
+            tabChange(i);
+        }
+    }
+</script>
+</body>
+</html>

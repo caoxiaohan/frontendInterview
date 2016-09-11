@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "\5FAE\8F6F\96C5\9ED1", Helvetica, sans-serif;
+            font-size: 14px;
+            -webkit-user-select: none;
+        }
+        html, body {
+            width: 100%;
+            height: 500%;
+            background: #11c900;
+            /*CSS3背景颜色渐变效果*/
+            background: -webkit-linear-gradient(top, #11c900, lightblue, lightcoral, lightcyan, lightgoldenrodyellow, lightgreen, lightpink, lightsalmon, lightseagreen);
+            background: linear-gradient(top, #11c900, lightblue, lightcoral, lightcyan, lightgoldenrodyellow, lightgreen, lightpink, lightsalmon, lightseagreen);
+        }
+        a {
+            text-decoration: none;
+            color: #000;
+        }
+        a:hover, a:active, a:target, a:visited {
+            text-decoration: none;
+            color: #000;
+        }
+        #goLink {
+            position: fixed;
+            bottom: 200px;
+            right: 50px;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            background: red;
+            opacity: 0.2;
+            filter: alpha(opacity=20);
+            /*CSS3盒子圆角*/
+            border-radius: 50%;
+        }
+        #goLink:hover {
+            opacity: 1;
+            filter: alpha(opacity=100);
+        }
+        #target {
+            margin: 1000px auto;
+            height: 50px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+<!--
+    A标签本身是跳转页面的,把跳转的地址写在href这个属性中
+    1)不写值的话是刷新本页面
+    2)写的如果是#target,是锚点定位,定位到当前页面ID为target这个位置
+    3)"javascript:;",这样写是取消A标签默认跳转的行为
+-->
+<a href="javascript:;" id="goLink">GO</a>
+<!--<div id="target"></div>-->
+
+<script type="text/javascript">
+    var goLink = document.getElementById("goLink");
+    //->回到顶部:
+    //总时间(duration):500ms
+    //频率(interval):多长时间走一步 10ms
+    //总距离(target):当前的位置(当前的scrollTop值)-目标的位置(0)
+    //->步长(step):每一次走的距离  target/duration->每1ms走的距离*interval->每一次走的距离
+    goLink.onclick = function () {
+        //->当点击GO的时候,首先把每一步要走的步长计算出来
+        var duration = 500, interval = 10, target = document.documentElement.scrollTop || document.body.scrollTop;
+        var step = (target / duration) * interval;
+        //->计算完成步长后,让当前的页面每隔interval这么长的时间走一步:在上一次的scrollTop的基础上-步长
+        var timer = window.setInterval(function () {
+            var curTop = document.documentElement.scrollTop || document.body.scrollTop;
+            if (curTop === 0) {//->已经到头了
+                window.clearInterval(timer);
+                return;
+            }
+            curTop -= step;
+            document.documentElement.scrollTop = curTop;
+            document.body.scrollTop = curTop;
+        }, interval);
+    }
+</script>
+</body>
+</html>

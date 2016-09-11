@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>图片延迟加载/图片懒加载</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "\5FAE\8F6F\96C5\9ED1", Helvetica, sans-serif;
+            font-size: 14px;
+        }
+
+        img {
+            display: block;
+            border: none;
+        }
+
+        .banner {
+            margin: 10px auto;
+            width: 350px;
+            height: 200px;
+            border: 1px solid green;
+            background: url("../img/default.gif") no-repeat center center #e1e1e1; /*给当前的区域在加一个默认图占位,告诉用户此处的图片正在加载中*/
+        }
+
+        .banner img {
+            display: none; /*在开始的时候IMG的SRC属性没有地址,这样的话在IE浏览器中容器中会显示一张碎图,不美观,所以我们让其默认是隐藏的,当真实的图片加载完成后在显示*/
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<!--
+    作用:保证页面打开的速度(3s之内如果首页打不开就已经算是死亡页面了)
+    原理:
+    1)对于首屏内容中的图片:首先给对应的区域一张默认图片占着位置(默认图需要非常的小,一般可以维持在5kb以内),当首屏内容都加载完成后(或者也可以给一个延迟的时间),我在开始加载真实的图片
+    2)对于其它屏中的图片:也是给一张默认的图片占位,当滚动条滚动到对应区域的时候,我们在开始加载真实的图片
+
+    扩展:数据的异步加载,开始只把前两屏的数据加载绑定出来,后面的数据不进行处理,当页面滚动到对应区域的时候在从新请求数据然后绑定渲染数据
+-->
+<div class="banner" id="banner">
+    <!--trueImg是当前IMG标签的自定义属性,存储的是真实图片的地址-->
+    <img src="" trueImg="../img/jd.jpg"/>
+</div>
+
+<script type="text/javascript">
+    var banner = document.getElementById("banner"), imgFir = banner.getElementsByTagName("img")[0];
+
+    //window.onload
+    window.setTimeout(function () {
+        //imgFir.src = imgFir.getAttribute("trueImg");
+        //imgFir.style.display = "block";
+        //->以上处理还是不完整的：如果我们获取的真实图片地址是错误的，当赋值给IMG的SRC属性的时候,不仅控制台会报错,而且页面中会出现碎图/叉子图,影响视觉效果
+
+        //->获取图片的地址,验证地址的有效性,是有效的才赋值,不是有效的是不进行赋值处理的
+        //var oImg = document.createElement("img");
+        var oImg = new Image;//->创建一个临时的IMG标签
+        oImg.src = imgFir.getAttribute("trueImg");
+        oImg.onload = function () {//->当图片能够正常的加载
+            imgFir.src = this.src;
+            imgFir.style.display = "block";
+            oImg = null;
+            //console.log("图片加载完成....");
+            //var nowTime = new Date;
+            //console.log(nowTime - time);
+        };
+        //console.log("图片正在加载中....");
+        //var time = new Date;
+    }, 500);
+</script>
+</body>
+</html>

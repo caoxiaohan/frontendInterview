@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>面试题65案</title>    
+</head>
+<body>
+	<h1>65 实现表格排序？通过appendChild方法在父元素的末尾追加页面已经存在（比如通过getElemenByXXX[index]获取的元素）的元素时实现元素的复制还是移动，页面中元素总数是否发生改变？通过appendChild方法在父元素的末尾追加页面不存在（比如通过creatElement新创建的元素）的元素时实现元素的复制还是移动，页面中元素总数是否发生改变？实现按对象的某个属性排序或实现按多维数组的某一维度排序？实现按汉字排序？String类的内置方法localeCompare的用法？</h1>
+	<pre>	
+一、实现表格排序
+    见附件《简单表格排序.html》
+二、通过appendChild方法在父元素的末尾追加页面已经存在的元素时实现元素的复制还是移动，页面中元素总数是否发生改变？    
+    通过appendChild方法在父元素的末尾追加页面已经存在的元素实现元素的移动，页面中元素的总数不变。
+    以简单表格排序.html》为例，在ul元素执行appendChild方法之前子元素个数为5，执行appendChild元素之后子元素个数依然为5.
+    结论：当appendChild的参数是页面中已经存的元素的引用时，只是执行了元素的移动，既不会复制元素也不会增加元素个数。
+    <body>
+        <ul id="ul1">
+            <li>98</li>
+            <li>99</li>
+            <li>96</li>
+            <li>95</li>
+            <li>90</li>
+        </ul>
+        <script charset="utf-8" type="text/javascript" src="js/utils.js"></script>
+        <script type="text/javascript">
+            var oUl = document.getElementById("ul1");
+            //测试oU1调用appendChild方法之前的子节点个数。
+            console.log(oUl.children.length);//5，ul中原本包含5个子元素li
+            var oLis = oUl.getElementsByTagName("li");
+            //1、先把元素集合类数组转换为数组
+            var ary = utils.listToArray(oLis);
+            //2、给数组进行排序:按照每一个li中的内容大小进行排序
+            ary.sort(function (a, b) {
+                return parseFloat(a.innerHTML) - parseFloat(b.innerHTML);
+            });
+            //3、按照ary中存储的最新顺序依次的把对应的LI添加到页面中
+            var frg = document.createDocumentFragment();
+            for (var i = 0; i < ary.length; i++) {
+                frg.appendChild(ary[i]);
+            }
+            oUl.appendChild(frg);
+            //测试oU1调用appendChild方法后的子节点个数
+            console.log(oUl.children.length);//5,由于appendChild中传入的是已经存在的li的引用只发生了元素移动，所以ul的子元素个书仍然为5
+            frg = null;
+        </script>
+    </body>
+
+三、通过appendChild方法在父元素的末尾追加页面不存在（比如通过creatElement新创建的元素）的元素时实现元素的复制还是移动，页面中元素总数是否发生改变？
+    通过appendChild方法在父元素的末尾追加页面不存在的元素时实现元素的创建并添加，页面中元素总数加1。
+    <!DOCTYPE html>
+	<html>
+	<head>
+	    <meta charset="UTF-8">
+	    <title>简单表格排序</title>
+	    <style type="text/css">
+	        body, ul, li {
+	            margin: 0;
+	            padding: 0;
+	            list-style: none;
+	        }
+
+	        #ul1 {
+	            margin: 20px auto;
+	            width: 300px;
+	        }
+
+	        #ul1 li {
+	            height: 35px;
+	            line-height: 35px;
+	            border-bottom: 1px dashed #008000;
+	        }
+	    </style>
+	</head>
+	    <body>
+	        <ul id="ul1"></ul>	       
+	        <script type="text/javascript">
+	            var oUl = document.getElementById("ul1");
+	            //测试oU1调用appendChild方法之前的子节点个数。
+	            console.log(oUl.children.length);//0，此时ul中确实没有子元素。
+	            var newLi=document.createElement("li");
+                oUl.appendChild(newLi);
+	            //测试oU1调用appendChild方法后的子节点个数
+	            console.log(oUl.children.length);//1， 子元素个数加1            
+	        </script>
+	    </body>
+	</html>
+       
+四、实现按对象的某个属性排序或实现按多维数组的某一维度排序
+    <script type="text/javascript">
+    	 var ary = [
+	        {name: "郭军贺", age: 78},
+	        {name: "姜章涛", age: 13},
+	        {name: "王梦缘", age: 107},
+	        {name: "陈旭", age: 256}
+	    ];
+	    //1 按照属性name排序，汉语拼音对应的字母字符从小到大排序
+	    ary.sort(function (a, b) {
+	        return a.name.localeCompare(b.name);
+	    });
+    	console.log(ary);//[{name: "陈旭", age: 256},{name: "郭军贺", age: 78},{name: "姜章涛", age: 13},{name: "王梦缘", age: 107}]
+    	//2 按照属性age排序
+    	 ary.sort(function (a, b) {
+	        return a.age-b.age;
+	    });
+    	console.log(ary);//[{name: "姜章涛", age: 13},{name: "郭军贺", age: 78},{name: "王梦缘", age: 107},{name: "陈旭", age: 256}]
+    </script> 
+   
+五、实现按汉字排序,String类的内置方法localeCompare的用法
+    1 实现按汉子排序使用localeCompare结合sort方法。
+      <script type="text/javascript">
+      		var arr = ["张三","李四","王五","赵六"]; 
+			document.write(arr+"<br/>"); 
+			arr.sort(function(a,b){ 
+				return a.localeCompare(b); 
+			}); 
+			document.write(arr);
+      </script>
+      
+    2  String类的内置方法localeCompare的用法
+       2.1 localeCompare()方法比较两个字符串，并返回下列值中的一个：
+	       2.1.1 如果字符串在字母表中在字符串参数之前，则返回一个负数（大多数情况下是-1，具体的值要视实现而定）。
+	       2.1.2 如果字符串等于字符串参数，则返回0；
+	       2.1.3 如果字符串在字母表中应该排在字符串参数之后，则返回一个正数（大多数情况下是1，具体的值要视实现而定）。
+	       <script type="text/javascript">
+	       		var str = "cxh";
+	       		console.log(str.localeCompare("jobs")); //-1       		
+	       		console.log(str.localeCompare("cxh")); //0
+	       		console.log(str.localeCompare("bill")); //1
+	       </script>
+       2.2 注意：
+           localeCompare()实现所支持的地区决定了这个方法的行为。
+           比如美国地区，localeCompare()是区分大小写的，大写字母在字母表中排在小写字母牵头。
+           <script type="text/javascript">
+           	   console.log("A".localeCompare("a")); //-1, 大写字母排在所有小写字母前面，所以返回-1
+           	   console.log("Y".localeCompare("a")); //-1
+           	   console.log("y".localeCompare("a")); //1
+           </script>

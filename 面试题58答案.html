@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>面试题58案</title>    
+</head>
+<body>
+	<h1>58 写一个惰性单例，对比简单单例模式有何优点？面向对象的特性有哪些，工厂模式利用了面向对象的哪些特性，js语言是否存在重载？举例说明构造函数模式的用法和书写规范，构造函数模式和工厂模式有何区别，调用构造函数经历哪些步骤，以及构造函数模式的优缺点？</h1>
+	<pre>	
+一、写一个惰性单例，对比简单单例模式有何优点    
+	    单例模式的定义：保证一个类仅有一个实例，并提供一个访问他的全局访问点。
+	    在JavaScript里，单例作为一个命名空间提供者，从全局命名空间里提供一个唯一的访问点来访问该对象。
+	 1  简单单例模式
+	    var obj=xxx;
+	    最简单的的方法时使用对象字面量的方式：
+	    var attr=3;
+	    var attr=4;
+	    var singleton1 = {
+	        attr : 1,
+	        method : function(){ return this.attr; }
+	    }
+	     var singleton2 = {
+	        attr : 2,
+	        method : function(){ return this.attr; }
+	    }
+	    console.log(attr);//4, 全部变量被最后一次赋值覆盖
+	    console.log(singleton1.attr);//1，对象的属性虽然同名，但在不同的命名空间内，彼此独立，互不影响。
+	    console.log(singleton2.attr);//2，对象的属性虽然同名，但在不同的命名空间内，彼此独立，互不影响。
+	    作用：模拟类，把变量和方法作为对象的属性和方法归类到不同的命名空间中，减少全局变量污染
+	    弊端：使用同一个接口创建很多个对象（创建多个相似对象，具有相同的属性和方法），会产生大量重复代码。
+     2  惰性单例模式
+        var obj;
+        if(!obj){
+        	obj=xxx;
+        }        
+        1.1 惰性单例模式
+            Signleton.getInstance = (function(name) {
+				var instance;
+				return function(name){
+					if (!instance) {
+						instance = new Signleton(name);
+					}
+					return instance;
+				}
+			})();
+		    var createGod = (function() {
+				var instance;
+				return function(){
+					if (!instance) {
+						instance =  {
+			        	    name:"god",
+			        	    method:function(){//编程语言中万事万物皆对象，上帝也是一个对象，我们可以用创建对象的方法创建一个上帝。
+			                           console.log("Dominate the universe");//上帝具有统治宇宙的功能。
+			                }
+			            };
+					};
+					return instance;
+				}
+			})();
+			var createLogin= (function() {
+				var instance;
+				return function(){
+					if (!instance) {
+						instance = document.createElement("div");
+		        		div.innerHTML = "我是登录窗口"；
+		        		document.body.appendChild(oDiv);
+						return instance;
+					};
+			    }
+		    })();
+		    var god1 = createGod();
+		    var god2 = createGod();
+		    console.log(god1==god2);//true
+		    var login1 = createLogin();
+		    var login2 = createLogin();
+		    console.log(login1==login2);//true
+        1.2 通用的惰性单例(进一步提高代码复用)
+	        var getSingle = function(fn){
+	             var obj;
+	             return function(){
+	             	if(!obj){
+	             		obj=fn.apply(this,arguments);
+	             	}
+	             }
+	        }
+	        把创建对象的方法fn当成参数动态传入getSigle函数
+	        //创建god对象的方法
+	        var createGod = function(){//创建上帝的方法，上帝是唯一的
+	        	var god={
+	        	    name:"god",
+	        	    method:function(){//编程语言中万事万物皆对象，上帝也是一个对象，我们可以用创建对象的方法创建一个上帝。
+	                           console.log("Dominate the universe");//上帝具有统治宇宙的功能。
+	                }
+	            };
+	            return god;
+	        }
+	        //创建登录元素的方法
+	        var createLogin = function(){//创建页面登录窗口，很显然这个登录窗口在页面中是唯一的。
+	        	var oDiv = document.createElement("div");
+	        	div.innerHTML = "我是登录窗口"；
+	        	document.body.appendChild(oDiv);
+	        	return oDiv;
+	        }
+	        //getSingle方法执行会开辟堆内存空间xxxfff000
+	        var createSingleGod = getSingle(createGod);//返回内部涵数的引用地址xxxfff111，返回的内部函数地址被外部全局变量接收作用域不销毁。//内部函
+	        var god1 = createSingleGod();//返回god对象的引用地址xxxfff222，xxxfff111()，第一次obj不存在，执行createGod()创建god对象;
+	        var god2 = createSingleGod();//返回同一个god对象的引用地址xxxfff222，xxxfff111()，第二次obj已经存在，直接返回第一次创建的god对象;
+	        console.log(god1==god2);//true
+            //getSingle方法再次执行会开辟新的堆内存空间xxxfffaaa，方法内部的代码会被重新初始化，obj回归未赋值状态。
+	        var createSingleLogin = getSingle(createLogin);//内部涵数的引用地址xxxfff333，返回的内部函数地址被外部全局变量接收作用域不销毁。
+	        var login1 = createSingleLogin();//god对象的引用地址xxxfff444，xxxfff333()的返回值;
+	        var login2 = createSingleLogin();////同一个god对象的引用地址xxxfff444，xxxfff333();
+	        console.log(login1==login2);//true
+	 3 惰性单例模式（懒汉模式）对比简单单例模式（饿汉模式）有何优点。
+	   3.1 惰性单例模式（懒汉模式）延迟加载，需要使用的时候才会创建对象。
+	       简单单例模式（饿汉模式）在没有使用对象时就已经实例化了，占用堆内存空间。
+	   3.2 惰性单例模式可以确保特殊对象的唯一性，避免重复实例化对象，同一个对象指向对一个引用地址。
+	       简单单利模式当创建相同的对象时，会重复创建，分别指向不同的引用地址。
+
+二、面向对象的特性有哪些？
+    面向对象的三大特性：封装、继承、多态。
+    1 封装性
+      封装就是把抽象出来的数据和对数据的操作封装在一起，数据被保护在内部，程序的其它部分只有通过被授权的操作(成员方法)，才能对数据进行操作。
+      <script type="text/javascript"> 
+	      function Person(name, age, salary ){ 
+	        // 公开 
+	        this.name = name; 
+	        // 私有 
+	        var _age = age; 
+	        var _salary = salary ;
+	        this.getAge=function (){  //只能通过成员方法访问私有变量
+	        	return age; //不标准写法，返回形成
+	        }
+	       this.getSalary=function (){  //只能通过成员方法访问私有变量
+	        	return _salary； //标准写法，返回内部var声明的私有变量
+	        }
+	      } 
+	      var p1 = new Person('bill', 100, 100000000); 
+	      console.log(p1.name); //bill
+	      console.log(p1._age);//undefined
+	      console.log(p1.age); //undefined
+	      console.log(p1.getAge()); //100
+	      console.log(p1.getSalary()); //100000000
+      </script>
+      JS封装只有两种状态，一种是公开的，一种是私有的。 
+   2 继承性
+     当多个类存在相同的属性(变量)和方法时，可以从这些类中抽象出父类，在父类中定义这些相同的属性和方法，所有的子类不需要重新定义这些属性和方法，只需要通过继承父类中的属性和方法。
+     继承的6中方式：
+     1 原型链继承
+     2 借用构造函数继承(又叫伪造对象或经典继承)
+     3 组合继承(又叫伪经典继承)
+     4 原型式继承
+     5 寄生式继承
+     6 寄生组合式继承
+     参见文档:http://www.cnblogs.com/xiaohuochai/p/4803084.html
+     参见视频：http://www.zhufengpeixun.cn/course/22/lesson/list
+               课时18：深入扩展-原型链模式(常用的六种继承方式)
+
+   3 多态性
+     JS的函数重载
+     JS函数不支持多态，如果同时定义了多个同名函数，则以最后一个函数为准，因为后定义的函数会覆盖前面的同名函数。 
+     3.1  js不支持重载举例
+        <script type="text/javascript">
+        	//*****************说明js不支持重载***** 
+			  function Person(){ 
+			    this.test=function (a,b){ 
+			      console.log('a,b');  
+			    } 
+			    this.test=function (a){ 
+			      console.log('a'); 
+			    } 
+			  } 
+			  var p=new Person(); 
+			  //js中不支持重载. 
+			  //但是这不会报错，js会默认是最后同名一个函数，可以看做是后面的把前面的覆盖了。 
+			  p.test("a","b"); //function (a)  说明只执行了最后一个而函数
+			  p.test("a");//function (a)  
+        </script>
+     3.2 js虽然不支持重载，但是可以通过判断参数个数或类型不同，在函数类执行不同的操作，从而达到模拟重载功能的目的
+        <script type="text/javascript">
+        	//js怎么实现重载.通过判断参数的个数来实现重载 
+			  function Person(){ 
+			    this.test1=function (){ 
+			      if(arguments.length==1){ 
+			        this.show1(arguments[0]); 
+			      }else if(arguments.length==2){ 
+			        this.show2(arguments[0],arguments[1]); 
+			      }else if(arguments.length==3){ 
+			        this.show3(arguments[0],arguments[1],arguments[2]); 
+			      } 
+			    } 
+			    this.show1=function(a){ 
+			      window.alert("show1()被调用"+a); 
+			    } 
+			    this.show2=function(a,b){ 
+			      window.alert("show2()被调用"+"--"+a+"--"+b); 
+			    } 
+			    function show3(a,b,c){ 
+			      window.alert("show3()被调用"); 
+			    } 
+			  } 
+			  var p1=new Person(); 
+			  //js中不支持重载. 
+			  p1.test1("a","b"); //show2()被调用--a--b
+			  p1.test1("a"); //show1()被调用a，传入参数个数不同执行不同的代码
+        </script>
+
+三、工厂模式利用了面向对象的哪些特性，js语言是否存在重载
+    工厂模式利用了函数的封装性，避免了页面中的冗余代码，提高了代码的重复利用率。
+    函数的封装性和面向对象的封装性不同，函数的封装性是为了提高代码重复利用率，而面向对象的封装性是为了保护私有数据。
+    多态是面向对象的特征之一，重载可以理解为多态的具体表现形式。
+    重载：是指允许存在多个同名方法，而这些方法的参数不同（参数个数或者参数类型不同），执行方法时根据传入参数个数不同来实现多种不同功能。
+    js不存在重载，js方法名一但相同，就会把之前的都覆盖掉，只能保留最后一个。详见3多态性举例
+
+四、举例说明构造函数模式的用法和书写规范，构造函数模式和工厂模式有何区别，调用构造函数经历哪些步骤，以及构造函数模式的优缺点？
+    1 构造函数模式的用法：
+      function Person(name){
+      		this.name = name;p
+      		this.sayName = function(){
+      			console.log(this.name);
+      		};
+      }
+      var person1 = new Person("cxh");
+      person1.sayName();//cxh;
+      var person2 = new Person("bill");
+      person2.sayName();//bill;
+   2 书写规范：
+     构造函数名首字母大写
+     将属性名和方法赋值给了this
+     创建实例时，方法名前要加new关键字。
+   3 构造函数摸和工厂模式的区别
+     没有显示地窗对象
+     直接将属性和方法赋给了this对象；
+     没有return语句
+   4 调用构造函数经历的步骤
+     4.1 创建一个新对象（隐式创建，不需要写出来）
+     4.2 将构造函数的作用域赋给新对象，this指向这个新对象。
+     4.3 执行构造函数中的代码，为这个新对象添加属性
+     4.4 返回新对象
+   5 构造函数的优缺点
+     优点：解决了实例标识问题。
+           工作模式创建的对象都是Object类型
+           构造函数创建的对象实例时属于构造函数的实例，细分为构造函数类型，例如上描述例子中的person1和person2都是Person类型。
+     缺点：每个方法都要在每个实例上重新创建一遍，创建多个完成统一任务的方法没有必要，而且方法是引用数据类型占用堆内存空间。
+   6 注意事项
+     构造函数默认没有return语句
+     如果手动添加return语句，return语句后面为空或者为基本属性类型，返回值仍然为当前实例
+     如果return语句后跟引用数据类型，返回值会被该引用数据类型覆盖，不再返回当前实例。

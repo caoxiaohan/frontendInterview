@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>第二周考试题</title>    
+</head>
+<body>
+	<h1>第二周考试题答案</h1>
+	<pre>	
+一、说出call和apply的用途和区别？
+     <script type="text/javascript">
+            var name = "god";
+          var obj = {
+          name:"cxh"
+      };        
+      var fn = {
+          getName: function(major,job) {
+              return this.name+","+major+","+job;
+          }
+      }   
+      console.log(fn.getName.call(obj,"computer","architect"));    //cxh,computer,architect
+      console.log(fn.getName.apply(obj,["computer","architect"]));   //cxh,computer,architect
+    </script>
+    call和apply的第二个参数不同：
+         call方法第二个参数接收的是一个参数列表，
+         apply第二个参数接收的是一个包含多个参数的数组（或者类数组）。
+
+二、写一个方法listToArray,要求兼容所有的浏览器，实现将类数组转化成数组
+    <script type="text/javascript">
+      function istToArray(likeArray) {
+        var ary = [];
+        try {
+            ary = Array.prototype.slice.call(likeArray, 0);
+        } catch (e) {
+            for (var i = 0; i < likeArray.length; i++) {
+                ary[ary.length] = likeArray[i];
+            }
+        }
+        return ary;
+    }; 
+    </script>
+
+三、有一个字符串如下：
+    '[{"name":"张三","age":25},{"name":"王五","age":18},{"name":"李四","age":32},{"name":"赵六","age":23}]'
+    1 要求先把这个JSON格式的字符串转化成JSON格式的对象（兼容所有浏览器）
+    2 然后再按照年龄由小到大排序
+    <script type="text/javascript">
+       function toJSON(jsonStr) {
+          var jsonObj = null;
+          try {
+              jsonObj = JSON.parse(jsonStr);
+          } catch (e) {
+              jsonObj = eval("(" + jsonStr + ")");
+          }
+          return jsonObj;
+      };
+      var str='[{"name":"张三","age":25},{"name":"王五","age":18},{"name":"李四","age":32},{"name":"赵六","age":23}]'
+      var arr=toJSON(str);
+      arr.sort(function(a,b){
+        return a.age-b.age;
+      });//[{"name":"王五","age":18},{"name":"赵六","age":23},{"name":"李四","age":32},{"name":"张三","age":25}]
+    </script>
+     
+四、请描述检测数据类型常用的几种方式，以及这几种方式的用途和优缺点？
+     见附件《JS中检测数据类型的5种方式.html》
+
+五、function fn1(){alert(1)};
+    function fn2(){alert(2)};
+    fn3=fn2.call;   
+    fn2.call(fn1);//2
+    fn3.call(fn1);//1
+    1 第一次输出2
+      fn2.call(fn1);
+      相当于将fn2函数体中的this变成fn1，执行fn2()
+      因为fn2函数体中没有带this前缀的变量，所以不论this是谁，输出结果都是一样。
+      执行fn2，只弹出2
+    2 第二次输出1
+       fn3=fn2.call--->fn3.call(fn1)等价于fn2.call.call(fn1)
+       fn2.call====Fn.prototype.call--->fn2.call.call(fn1)等价于Fn.prototype.call.call(fn1).
+       Fn.prototype.call.call(fn1)等价于fn1();
+      当出现call方法调用call方法时，即出现两个及两个以上call时，则执行第一个不为Fn.prototype.call的参数。
+      因为第一个参数是fn1，不等于Fn.prototype.call,所以执行执行fn1.
+      最终fn3.call(fn1);等价于fn1();//输出1.
+
+六、如下一个字符串"54389",要求将字符串中的阿拉伯数字替换成我们的中文大写数字"伍肆叁捌玖"，请使用正则方法进行处理？ 
+    <script type="text/javascript">
+        var str="54389";
+        var arr=["零","壹","贰","叁","肆","伍","陆","柒","捌","玖"]
+        str=str.replace(/\d/g,function(){  
+          return arr[arguments[0]]         
+        });//"伍肆叁捌玖"
+    </script>
+
+	</pre>
+  </body>
+</html>
