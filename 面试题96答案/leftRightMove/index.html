@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        body, div {
+            margin: 0;
+            padding: 0;
+        }
+
+        #box {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            box-shadow: 0 0 30px 1px #0000BB;
+            background: #0fb200; /*在不兼容的浏览器中采用纯色作为背景*/
+            background: -webkit-linear-gradient(top left, #0fb200, #ff3333, #000);
+            /*
+            border-radius是css3中设定的盒子圆角属性，值是50%的话，如果盒子是正方形，它就变为了一个圆
+            background:gradient是css3中新增加的背景颜色渐变的样式：linear(线性渐变)、radial(放射性渐变)
+            box-shadow是css3中新增加的盒子阴影属性:inset(内阴影，第一个参数值不写默认是外阴影)、x轴偏移、y轴偏移、阴影的模糊度、阴影的模糊半径、阴影的颜色
+            -webkit-:谷歌、safari
+            -moz-:火狐
+            -ms-:IE
+            -o-:opera
+            */
+        }
+
+        #btnLeft, #btnRight {
+            position: absolute;
+            top: 280px;
+            left: 0;
+            width: 100px;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid #0fb200;
+            border-radius: 5px;
+        }
+
+        #btnRight {
+            left: 150px;
+        }
+    </style>
+</head>
+<body>
+<div id="box"></div>
+<div id="btnLeft">向左走</div>
+<div id="btnRight">向右走</div>
+<script type="text/javascript" src="js/utils.min.js"></script>
+<script type="text/javascript">
+    //flash动画
+    //JS动画(原生的JS、动画插件、canvas、svg)
+    //CSS3实现动画
+    var box = document.getElementById("box"), btnLeft = document.getElementById("btnLeft"), btnRight = document.getElementById("btnRight");
+    var tar = utils.win("clientWidth") - box.offsetWidth;   
+    function move() {
+        window.clearTimeout(box.timer);
+        var curL = utils.getCss(box, "left"); 
+        console.log(this.step); 
+        if(this.step>0&&curL>=tar||this.step<0&&curL<=0) return; //当点击向右走且到大右边界时结束运动，或者当点击向左走且到达左边界时结束运动。         
+        utils.setCss(box, "left", curL+this.step);
+        box.timer=window.setTimeout(move.bind(this),10);//bind可以修改move方法中的this，并且不执行move方法。
+    }  
+    btnRight.onclick = function () {
+        this.step=10;
+        move.call(this);//call可以修改move方法中的this，并且立刻执行move方法。
+    };
+    btnLeft.onclick = function () {
+        this.step=-10;
+        move.call(this);
+    }  
+    //动画优化的黄金法则(setTimeout)：
+    //1、在每一次执行方法之前，首先把之前创建的无效的定时器进行销毁
+    //2、为了防止使用全局变量，也为了避免一个元素同时出现多个动画，我们把timer这个用来接收定时器返回值的变量设置为当前元素的自定义属性:box.timer=...
+</script>
+</body>
+</html>

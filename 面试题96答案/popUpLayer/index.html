@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        body, div {
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #layer {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: 0;
+            width: 0;
+            height: 0;
+            background: #FFF38F;
+            z-index: 10;
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+        #bg {        
+            display: none;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* background: rgba(0, 0, 0, 0.5);*/
+            background: #000;
+            opacity: 0.5;
+            filter: alpha(opacity=50);
+        }
+         #btnOpen, #btnClose {
+            position: absolute;
+            top: 0;
+            left: 0;          
+            width: 100px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid #0fb200;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<input type="button" name="open" id="btnOpen" value="打开弹出层">
+<div id="bg"></div>
+<div id="layer"><input type="button" name="close" id="btnClose" value="关闭弹出层"></div>
+<script type="text/javascript" src="js/utils.min.js"></script>
+<script type="text/javascript">
+    var layer = document.getElementById("layer");
+    var bg = document.getElementById("bg");
+    var btnOpen = document.getElementById("btnOpen"), btnClose = document.getElementById("btnClose");
+    btnOpen.onclick = function () {
+        utils.setCss(layer, "display", "block");
+        utils.setCss(bg, "display", "block");
+        utils.setCss(btnOpen, "display", "none");
+        move(1000);
+    };
+    btnClose.onclick = function () {
+        utils.setCss(layer, "display", "none");
+        utils.setCss(bg, "display", "none");
+        utils.setCss(btnOpen, "display", "block");
+        move(1000);
+    };
+
+    //规定时间的动画:求出步长即可
+    //width:0-500 height:0-400  opacity:0-1  margin:时时计算
+    function move(duration) {
+        var stepW = (500 / duration) * 10, stepH = (400 / duration) * 10, stepO = (1 / duration) * 10;
+        _move();
+        function _move() {
+            window.clearTimeout(layer.timer);
+            var curW = utils.getCss(layer, "width");
+            var curH = utils.getCss(layer, "height");
+            var curO = utils.getCss(layer, "opacity");
+            if (curW + stepW >= 500) {
+                utils.setGroupCss(layer, {
+                    width: 500,
+                    height: 400,
+                    opacity: 1,
+                    marginLeft: -250,
+                    marginTop: -200
+                });
+                return;
+            }
+            utils.setGroupCss(layer, {
+                width: curW + stepW,
+                height: curH + stepH,
+                opacity: curO + stepO,
+                marginLeft: -((curW + stepW) / 2),
+                marginTop: -((curH + stepH) / 2)
+            });
+            layer.timer = window.setTimeout(_move, 10);
+        }
+    }
+</script>
+</body>
+</html>
