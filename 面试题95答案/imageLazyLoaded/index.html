@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>多张图片延迟加载</title>
+<style type="text/css">
+body{background:pink;text-align: center;font-size: 28px}
+img{ height:300px; line-height:300px; background:black; color:orange; font-size:36px; text-align:center; }
+</style>
+</head>
+
+<body style="height:3500px;">
+<p>a</p>
+	<p>b</p><p>c</p><p>d</p><p>e</p><p>f</p><p>g</p><p>h</p><p>i</p><p>j</p><p>k</p>l<br>
+	m<br>o<br>p<br>q<br>r<br>s<br>t<br>u<br>v<br>w<br>x<br>y<br>z<br>A<br>B<br>C<br>D<br>E<br>F<br>G<br>H<br>I<br>J<br>K<br>L<p>M</p>N<br>O<br>P<br>Q<br>R<br>S<br>T<br>U<br>V<br>W<br>X<br>Y<br>Z<br>0<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>
+	<br>9<br>8<br>7<br>6<br>5<br>4<br>3<br>2<br>1<br>0<br>
+
+
+<img width="300" tempAttr="abcd" realImg="http://pic1.win4000.com/pic/9/8c/0a08466924.jpg" height="300" src="default.jpg">
+<img width="300" realImg="http://pic1.win4000.com/pic/9/8c/0a08466925.jpg" height="300" src="default.jpg">
+<img width="300" realImg="http://pic1.win4000.com/pic/9/8c/0a08466926.jpg" height="300" src="default.jpg">
+<img width="300" realImg="http://pic1.win4000.com/pic/9/8c/0a08466927.jpg" height="300" src="default.jpg"><img width="300" realImg="http://pic1.win4000.com/pic/9/8c/0a08466928.jpg" height="300" src="default.jpg">
+
+</body>
+</html>
+<script type="text/javascript" src="utils.js"></script>
+<script>
+
+var oImgs=document.getElementsByTagName("img");
+for(var i=0;i<oImgs.length;i++){
+	var oImg=oImgs.item(i);
+	oImg.ot=utils.offset(oImg).top+oImg.offsetHeight;
+}
+
+window.onscroll=function(){
+	var dt=(document.documentElement.scrollTop||document.body.scrollTop)+(document.documentElement.clientHeight||document.body.clientHeight);
+	for(var i=0;i<oImgs.length;i++){
+		var oImg=oImgs.item(i);
+		
+		if(oImg.ot<dt){
+			loadImg(oImg);
+		}		
+	}
+}
+
+function loadImg(oImg){
+		if(oImg.loaded)return;
+			oImg.src="loading.gif";			
+			var tempImg=new Image;
+			//tempImg.src=oImg.getAttribute("realImg")//这句话如果写在onload方法前面，本地图片在IE8及其以下版本浏览器存在兼容问题
+			//凡是自定义的、自已扩展在HTML标签上的属性，都要用getAttribute去操作。如果是W3C规定的标准属性，那我们直接ele.属性名就可以了
+            oImg.loaded=true;
+			tempImg.onload=function(){              
+				oImg.src=this.src;	
+				console.log(oImg.src);//测试图片是否有重复加载				
+			}
+			tempImg.src=oImg.getAttribute("realImg")+"?"+Math.random();//解决浏览器缓存问题，可以让已经加载过的图片及时刷新
+	
+}
+
+//我们经常去计算一些元素的高或宽，在以下两种情况，你是计算不出来的
+//1、这个元素没有被添加到文档中
+//2、如果这个元素是一个图片元素，当这个元素onload没有触发之前，计算出来的结果是错的
+
+</script>

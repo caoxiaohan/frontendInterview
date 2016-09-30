@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        body, div {
+            margin: 0;
+            padding: 0;
+        }
+        #box {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            box-shadow: 0 0 30px 1px #0000BB;
+            background: #0fb200;
+            background: -webkit-linear-gradient(top left, #0fb200, #ff3333, #000);
+        }
+    </style>
+</head>
+<body>
+<div id="box"></div>
+<script type="text/javascript" src="js/utils.min.js"></script>
+<script type="text/javascript">
+    var box = document.getElementById("box");
+    var tar = utils.win("clientHeight") - box.offsetHeight;
+    box.step=10;
+    function move() {        
+        var curT = utils.getCss(box, "top")+box.step;
+        utils.setCss(box, "top", curT);
+        if(curT>=tar||curT<=0) box.step=box.step*-1;       
+    }
+    window.setInterval(move,10);    
+</script>
+</body>
+</html>
