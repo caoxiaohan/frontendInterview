@@ -39,17 +39,19 @@
             opacity: 0.5;
             filter: alpha(opacity=50);
         }
-         #btnOpen, #btnClose {
-            position: absolute;
-            top: 0;
-            left: 0;          
-            width: 100px;
-            height: 40px;
-            line-height: 40px;
+        #btnOpen, #btnClose {
+            position: absolute;            
+            left: 40%;   
+            top: 45%;       
+            width: 20%;
+            height: 10%;
+            line-height: 10%;
             text-align: center;
             cursor: pointer;
-            border: 1px solid #0fb200;
-            border-radius: 5px;
+            border: 1px solid gray;
+            border-radius: 10%;
+            color:red;
+            font-size:16px;
         }
     </style>
 </head>
@@ -71,21 +73,21 @@
     btnClose.onclick = function () {
         utils.setCss(layer, "display", "none");
         utils.setCss(bg, "display", "none");
-        utils.setCss(btnOpen, "display", "block");
-        move(1000);
+        utils.setCss(btnOpen, "display", "block");      
     };
 
     //规定时间的动画:求出步长即可
     //width:0-500 height:0-400  opacity:0-1  margin:时时计算
-    function move(duration) {
-        var stepW = (500 / duration) * 10, stepH = (400 / duration) * 10, stepO = (1 / duration) * 10;
-        _move();
-        function _move() {
-            window.clearTimeout(layer.timer);
+ 
+    function move(duration){
+           layer.setpW = (500 / duration) * 10, layer.setpH = (400 / duration) * 10, layer.stepO = (1 / duration) * 10;    
+           layer.timer = window.setInterval(pop, 10);
+    } 
+    function pop() {               
             var curW = utils.getCss(layer, "width");
             var curH = utils.getCss(layer, "height");
             var curO = utils.getCss(layer, "opacity");
-            if (curW + stepW >= 500) {
+            if (curW + layer.setpW >= 500) {
                 utils.setGroupCss(layer, {
                     width: 500,
                     height: 400,
@@ -96,15 +98,14 @@
                 return;
             }
             utils.setGroupCss(layer, {
-                width: curW + stepW,
-                height: curH + stepH,
-                opacity: curO + stepO,
-                marginLeft: -((curW + stepW) / 2),
-                marginTop: -((curH + stepH) / 2)
-            });
-            layer.timer = window.setTimeout(_move, 10);
-        }
+                width: curW + layer.setpW,
+                height: curH + layer.setpH,
+                opacity: curO + layer.stepO,
+                marginLeft: -((curW + layer.setpW) / 2),
+                marginTop: -((curH + layer.setpH) / 2)
+            });        
     }
+   
 </script>
 </body>
 </html>

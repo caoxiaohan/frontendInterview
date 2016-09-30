@@ -11,8 +11,8 @@
 
         #box {
             position: absolute;
-            top: 0;
-            left: 0;
+            top: 0px;
+            left: 0px;
             width: 200px;
             height: 200px;
             border-radius: 50%;
@@ -32,26 +32,31 @@
 
         #btnLeft, #btnRight {
             position: absolute;
-            top: 280px;
-            left: 0;
-            width: 100px;
-            height: 35px;
-            line-height: 35px;
+            top: 300px;
+            width: 20%;
+            height: 100px;
+            line-height: 100px;
             text-align: center;
             cursor: pointer;
-            border: 1px solid #0fb200;
-            border-radius: 5px;
+            border: 1px solid gray;
+            border-radius: 10%;
+            font-size:16px;
+            color:red;
+            background-color: #ccc;
         }
 
         #btnRight {
-            left: 150px;
+            left: 0;
+        }
+        #btnLeft {
+            left: 80%;
         }
     </style>
 </head>
 <body>
 <div id="box"></div>
-<div id="btnLeft">向左走</div>
-<div id="btnRight">向右走</div>
+<div id="btnRight">向右走>>></div>
+<div id="btnLeft"><<<向左走</div>
 <script type="text/javascript" src="js/utils.min.js"></script>
 <script type="text/javascript">
     //flash动画
