@@ -1,0 +1,50 @@
+body{ 
+	width:700px; margin:0 auto; margin-top:10px;
+}
+.runLine{ 
+	width:3px; height:3px; overflow:hidden; position:absolute;top:0;left:0; background:red;
+}
+#play{
+	background:lightpink; padding:10px; margin:30px 0 0 0; width:630px;
+}
+#ar{ 
+	width:500px; border:1px #FF3300 solid; font-size:12px; line-height:1.8em; padding:10px; height:400px; overflow:hidden;top:-210px;left:-260px;position:absolute; 
+}
+#outerAr{
+    width:0;height:0;position:absolute; top:0; left:0; overflow:hidden; background:#fff; z-index:10;    }
+#closed,.closed{ display:block; width:20px; height:20px; position:absolute; top:0; right:0; background:url(figure_layer_close.png); z-index:100
+}
+#demo{ 
+	width:400px; border:1px #FF3300 solid; font-size:12px; line-height:1.8em; padding:10px; height:300px; overflow:hidden;top:-160px;left:-210px;position:absolute; text-indent:2em; 
+}
+#demo *{ 
+	text-indent:0em;
+} 
+#outerDemo{ 
+	width:0;height:0;position:absolute; top:0; left:0; overflow:hidden; background:#fff; z-index:9   
+}
+#idRun{ 
+	color:red; font-weight:bold;font-size: 36px;text-align: center;cursor: pointer;border: 1px solid gray;border-radius: 10%;
+}
+#video{ float:right;}
+#header{
+	position:relative; border:1px solid #000000; width:650px; height:50px;
+}
+#idMove{
+	width:50px; height:50px; background:blue; position:absolute;
+}
+#idMath{
+	margin-top:10px; display:block;
+}
+#idMap{
+	position:relative;width:650px;height:200px;
+}
+#idLine{
+	position:absolute;top:0;left:0;height:200px;width:1px;background:#000;
+}
+#idCode{
+	height:60px; padding:10px; width:630px; background:gray; margin-top:30px;
+}
+#runCode{
+	width:80%; margin-top:10px; margin-left:2em;
+}

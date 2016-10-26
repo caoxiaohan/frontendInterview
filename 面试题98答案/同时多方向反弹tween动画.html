@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>同时多方向动画(直接调用tween方法)</title>
+<style type="text/css">
+</style>
+</head>
+
+<body>
+<div id="div1" style="width:100px; height:100px; background:red; position:absolute; top:100px; left:100px;-opacity:0.8; -filter:alpha(opacity=50)"></div>
+<input type="button" id="btn" value="开始" style=" width:100px; height:50px; background:lightskyblue;border-radius: 5px; position:absolute; top:220px; left:90px; margin:10px; cursor:pointer; font-size: 36px">
+</body>
+</html>
+<script src="js/utils.min.js"></script>
+<script src="js/tween.js"></script>
+<script>
+var begin={left:100,top:100,width:100,height:100,opacity:0.8};
+var recover={left:500,top:300,width:200,height:200,opacity:0.2};
+var obj;
+btn.onclick=function(){
+	btn.value=="开始"?(obj=recover,btn.value="恢复"):(obj=begin,btn.value="开始") ;
+	animate(div1,obj,1000,4);//div1是运动的元素，obj运动的维度的集合，1000是规定的时间
+}
+
+</script>
+

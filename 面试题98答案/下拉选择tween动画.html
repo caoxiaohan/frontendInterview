@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>下拉选择方向动画</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1, minimal-ui" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site__header">
+  <div id="div1" class="wrap"> 
+  </div>
+</header><!-- /.site__header -->
+
+<main class="site__content island" role="content">
+  <div class="wrap">
+      <select id="direction" class="input input--dropdown">
+          <optgroup label="Tween animation">
+            <option value='0'>匀速运动</option>
+            <option value="1">椭圆运动</option>
+            <option value="2">弹性运动</option>
+            <option value="3">折返运动</option>
+            <option value="4">反弹运动</option>
+            <option value="5">指数运动</option>
+          </optgroup>
+      </select>
+      <button id="btn" class="butt">开始</button>
+  </div>
+</main><!-- /.site__content -->
+</body>
+</html>
+<script src="js/utils.min.js"></script>
+<script type="text/javascript" src="js/tween.js"></script>
+<script>
+    btn.onclick=function(e){
+        //animate(div1,"opacity",0,1000);
+        //animate(div1,"left",1000,1000);
+        //只能让ele在一个方向做动画
+        var dire = Number(direction.value);
+        var objBegin = {left:100,top:100,width:100,height:100,backgroundColor:"#f00",borderRadius:0,opacity:0.8};
+        var objEnd ={left:500,top:300,width:200,height:200,backgroundColor:"#00f",borderRadius:"50%",opacity:0.2};;
+          animate(div1,objEnd,1000,dire,function(){
+             animate(div1,objBegin,2000,dire);
+          });//div1是运动的元素，obj运动的维度的集合，1000是规定的时间
+    }
+
+</script>
