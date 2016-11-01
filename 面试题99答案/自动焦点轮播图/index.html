@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>焦点轮播图</title>		
+		<style>
+			*{margin:0px;padding:0px;}
+			li{list-style:none;}
+			img{border:0;}
+			a{text-decoration:none;}
+			#slide{
+				width:930px;
+				height:330px;
+				box-shadow:0px 0px 5px #c1c1c1;
+				margin:20px auto;
+				position:relative;
+				overflow: hidden;
+			}
+			#slide ul{
+				position:absolute;
+				left:0px;
+				top:0px;
+				height:330px;
+				width:12930px;
+				
+			}
+			#slide ul li{
+				width:930px;
+				height:330px;
+				overflow:hidden;
+				float:left;
+			}
+			#slide .ico{
+				width:930px;
+				height:20px;
+				overflow:hidden;
+				text-align:center;
+				position:absolute;
+				left:0px;
+				bottom:10px;
+				z-index:1;
+			}
+			#slide .ico a{
+				display:inline-block;
+				width:10px;
+				height:10px;
+				background:url(./images/out.png) no-repeat 0px 0px;
+				margin:0px 5px;
+			}
+			#slide .ico a.active{
+				background:url(./images/hover.png) no-repeat 0px 0px;
+			}
+			#btnLeft{
+				width:60px;
+				height:330px;
+				left:0px;
+				top:0px;
+				background:url(./images/left.png) no-repeat 0px 0px;
+				position:absolute;
+				z-index:2;
+			}
+			#btnLeft:hover{
+				background:url(./images/left_hover.png) no-repeat 0px 0px;
+			}
+			#btnRight{
+				width:60px;
+				height:330px;
+				right:0px;
+				top:0px;
+				background:url(./images/right.png) no-repeat 0px 0px;
+				position:absolute;
+				z-index:2;
+			}
+			#btnRight:hover{
+				background:url(./images/right_hover.png) no-repeat 0px 0px;
+			}
+		</style>
+		<script type="text/javascript" src="move.js"></script>
+		<script type="text/javascript">
+			window.onload=function(){
+				var oIco = document.getElementById('ico');
+				var aBtn = oIco.getElementsByTagName('a');
+				var oSlide = document.getElementById('slide');
+				var oUl = oSlide.getElementsByTagName('ul')[0]
+				var aLi = oUl.getElementsByTagName('li');
+				var oBtnLeft = document.getElementById('btnLeft');
+				var oBtnRight = document.getElementById('btnRight');
+				var baseWidth = aLi[0].offsetWidth;		//一个li的宽度
+				//复制
+				var oImgList = aLi[0].cloneNode(true);
+				oUl.appendChild(oImgList);
+				oUl.style.width = baseWidth * aLi.length + 'px';
+				var iNow = 0;
+				var t=null;
+				//20 * 5
+				for(var i=0;i<aBtn.length;i++){
+					aBtn[i].index = i;
+					aBtn[i].onclick=function(){
+						//oUl.style.left = -this.index * baseWidth + 'px';
+						move(this.index)
+					}
+				}
+				time();
+				function time(){
+					t=setInterval(function(){
+						iNow++
+						move(iNow)
+					},2000)
+				}
+				oSlide.onmouseover=function(){
+					clearInterval(t);
+				}
+				oSlide.onmouseout=function(){
+					time()
+				}
+				oBtnLeft.onclick=function(){
+					iNow ++;
+					
+					move(iNow)
+				}
+				oBtnRight.onclick=function(){
+					iNow --;
+					move(iNow)
+				}
+				function move(index){
+					//拉到第一个  
+					//运动到第二
+
+					if(index >aLi.length-1){	
+						oUl.style.left = 0 + 'px'; //拉到第一个  
+						index=1;
+						iNow=index;
+					}
+					//拉到最后一个
+					//运动到倒数第二
+					if(index <0){	
+						oUl.style.left =-(aLi.length-1)*baseWidth + 'px';	//拉到最后一个
+						index=aLi.length-2;
+						iNow=index;
+					}
+					for(var i=0;i<aBtn.length;i++){
+						aBtn[i].className = '';
+					}
+					document.title = index;
+					if(index == aBtn.length){
+						aBtn[0].className = 'active';
+					}else{
+						aBtn[index].className = 'active';
+					}
+					//oUl.style.left = -index * baseWidth + 'px';
+					buffer(oUl,{
+						left:-index * baseWidth
+					},8)
+					
+				}
+
+
+
+			}
+		</script>
+	</head>
+	<body>
+		<div id="slide">
+			<a id="btnLeft" href="javascript:void(0);"> </a>
+			<a id="btnRight" href="javascript:void(0);"> </a>
+			 <!-- -0*930px -->
+			 <!-- -1*930px -->
+			 <!-- -2*930px -->
+			<ul style="left:0px;">
+				<li><a href="javascript:void(0);"><img src="./images/1.jpg"/></a></li>
+				<li><a href="javascript:void(0);"><img src="./images/2.jpg"/></a></li>
+				<li><a href="javascript:void(0);"><img src="./images/3.jpg"/></a></li>
+				<li><a href="javascript:void(0);"><img src="./images/4.jpg"/></a></li>
+				<li><a href="javascript:void(0);"><img src="./images/5.jpg"/></a></li>
+				
+				<li><a href="javascript:void(0);"><img src="./images/6.jpg"/></a></li>
+				<li><a href="javascript:void(0);"><img src="./images/7.jpg"/></a></li>
+				<li><a href="javascript:void(0);"><img src="./images/8.jpg"/></a></li>
+				<li><a href="javascript:void(0);"><img src="./images/9.jpg"/></a></li>
+				<li><a href="javascript:void(0);"><img src="./images/10.jpg"/></a></li>
+				<li><a href="javascript:void(0);"><img src="./images/11.jpg"/></a></li>
+				<li><a href="javascript:void(0);"><img src="./images/12.jpg"/></a></li>
+				<li><a href="javascript:void(0);"><img src="./images/13.jpg"/></a></li>
+				<li><a href="javascript:void(0);"><img src="./images/14.jpg"/></a></li>
+				
+			</ul>
+			<div id="ico" class="ico">
+				<a class='active' href="javascript:void(0);"> </a>
+				<a href="javascript:void(0);"> </a>
+				<a href="javascript:void(0);"> </a>
+				<a href="javascript:void(0);"> </a>
+				<a href="javascript:void(0);"> </a>
+				
+				<a href="javascript:void(0);"> </a>
+				<a href="javascript:void(0);"> </a>
+				<a href="javascript:void(0);"> </a>
+				<a href="javascript:void(0);"> </a>
+				<a href="javascript:void(0);"> </a>
+				<a href="javascript:void(0);"> </a>
+				<a href="javascript:void(0);"> </a>
+				<a href="javascript:void(0);"> </a>
+				<a href="javascript:void(0);"> </a>
+		
+			</div>
+		</div>
+	</body>
+</html>
+
