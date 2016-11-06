@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{margin: 0; padding: 0;}
+        #div{position: relative; width: 1200px; height: 500px; margin: 30px auto; background: #ccc; }
+        #div div{
+            position: absolute;
+            background: url("banner1.jpg") no-repeat;
+        }
+    </style>
+</head>
+<body>
+    <div id="div">
+    </div>
+</body>
+</html>
+<script src="utils.min.js"></script>
+<script src="tween.js"></script>
+<script>
+    var rows = 5; //数值小方格行数
+    var cols = 12;//设置小方格列数
+    var oDiv = document.getElementById('div');//获取最外层的大盒子
+    var width = oDiv.clientWidth/cols; //，每个最小盒子的宽度=大盒子的宽度/列数=1200/12=100
+    var height = oDiv.clientHeight/rows;//每个最小盒子的高度=大盒子的高度/行数=500/5-100
+    var ary = [];
+    for(var i=0; i<rows*cols; i++ ){
+        var div = document.createElement('div');
+        div.style.width = width + 'px';//设置每个最小div的宽度为100px
+        div.style.height = height + 'px';//设置每个最小div的高度为100px
+        var l = (i%cols)*width; //设置所取图片局部左上角距离整体左上角的横向距离
+        var t = Math.floor(i/cols)*height;//设置所取图片局部左上角距离整体左上角的纵向距离
+        div.l = l;
+        div.t = t;
+        div.style.top = -500+'px';//默认隐藏图片，因为图片向上移出了可视范围。     
+        var tempL = i%cols*width*2-1200; //为了让图像碎片呈现从上下两侧外围溢出部分向中间移动飞来的效果，默认前6列的小div中背景图片左移，第7列d小div中背景图片保持原来位置，后5列右边移动。     
+        div.style.left = l +tempL+"px";//设置小div的背景图片水平方向默认定位    
+        div.style.backgroundPosition = -l + 'px -'+t + "px"; //甚至60个小div的背景图片定位
+        ary.push(div);
+        oDiv.appendChild(div); //将60个小div追加进大div
+    }
+   
+    //行的百叶窗效果
+      for(var i=0; i<ary.length; i++){
+        (function (i){
+            window.setTimeout(function (){
+                animate(ary[i],{left: ary[i].l, top: ary[i].t},1000);
+            },Math.floor(i/cols)*500);
+        })(i);
+
+    }
+</script>

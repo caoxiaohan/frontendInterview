@@ -1,0 +1,55 @@
+@charset "UTF-8";  
+/* CSS reset */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{ margin: 0; padding: 0; }
+fieldset,img{ border: 0; }
+:focus{ outline: 0; }
+h1{text-align: center;color:blue;}
+address,caption,cite,code,dfn,em,strong,th,var,optgroup{ font-style: normal; font-weight: normal; }
+h1,h2,h3,h4,h5,h6{ font-size: 100%; font-weight: normal; font-family: "Microsoft YaHei"; }
+abbr,acronym{ border: 0; font-variant: normal; }
+code,kbd,samp,tt{ font-size: 100%; }
+input,button,textarea,select{ *font-size: 100%; border:none;}
+body{ background: #e9e9e9; color:#5e5e5e; font: 14px/2em Microsoft YaHei,SimSun,Arial;}
+ol,ul{ list-style: none; }
+table{ border-collapse: collapse; border-spacing: 0; }
+caption,th{ text-align: left; }
+sup,sub{ font-size: 100%; vertical-align: baseline; }
+:link, :visited, ins{ text-decoration: none; }
+blockquote,q{ quotes: none; }
+blockquote:before, blockquote:after, q:before, q:after{ content: ''; content: none; }
+a:link, a:visited{ color: #5e5e5e;}
+a:hover { color:#c9394a;}
+a:active { color: #666;}
+.clearfix:after{content:'\0020';display:block;height:0;clear:both;visibility:hidden;}
+.clearfix{*zoom:1;}
+.l{float:left;}
+.r{float:right;}
+.clear{ height:0; overflow:hidden; clear:both}
+	.layout{
+		width: 750px;
+		height: 300px;
+		margin: 50px auto;
+		border: 1px solid #ccc;
+		border-top: 0;
+		overflow: hidden;
+	}
+	.layout li{
+		width: 20%;
+		height: 150px;
+		line-height: 150px;
+		float: left;
+		text-align: center;
+	}
+	.layout li a{
+		background-color: #f4f4f4;
+		color: #888;
+		height: 150px;
+		border-top: 1px solid #ccc;
+		border-left: 1px solid #ccc;
+		margin-left: -1px;
+		display: block;
+	}
+	.layout li a:hover{
+		background-color: #fff;
+		color: red;
+	}
