@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #box {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 0;
+            width: 100px;
+            height: 100px;
+            background: lightblue;
+        }
+    </style>
+</head>
+<body>
+<div id="box"></div>
+
+<script type="text/javascript" src="js/utils.js"></script>
+<script type="text/javascript">
+    //->实现一个匀速运动,在指定时间内完成动画:计算出总距离\总时间,根据总距离和总时间求出对应的步长(每10ms走一步的话需要走多远)
+    //->设置一个定时器,让元素每一次都在当前的基础上累加步长即可
+    //    var oBox = document.getElementById("box");
+    //    var maxLeft = utils.win("clientWidth") - oBox.offsetWidth;
+    //    var duration = 2000, step = (maxLeft / duration) * 10;
+    //    var timer = window.setInterval(function () {
+    //        var curLeft = utils.css(oBox, "left");
+    //        if (curLeft >= maxLeft) {
+    //            window.clearInterval(timer);
+    //            return;
+    //        }
+    //        curLeft += step;
+    //        utils.css(oBox, "left", curLeft);
+    //    }, 10);
+
+
+    //->实现一个匀速运动,在指定时间内完成动画:自己写一个动画公式,根据当前走的时间t、总时间d、起始位置b、总距离c,计算出我们当前元素应该在的位置,让当前的元素运动到这个位置即可
+    function Linear(t, b, c, d) {
+        return c * t / d + b;
+    }
+    var oBox = document.getElementById("box");
+    var target = utils.win("clientWidth") - oBox.offsetWidth, begin = utils.css(oBox, "left"), change = target - begin;
+    var duration = 2000, time = null;
+    var timer = window.setInterval(function () {
+        time += 10;
+        if (time >= duration) {
+            utils.css(oBox, "left", target);
+            window.clearInterval(timer);
+            return;
+        }
+        var curPos = Linear(time, begin, change, duration);
+        utils.css(oBox, "left", curPos);
+    }, 10);
+</script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>选项卡</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "\5FAE\8F6F\96C5\9ED1", Helvetica, sans-serif;
+            font-size: 14px;
+            -webkit-user-select: none;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        .box {
+            margin: 10px auto;
+            width: 500px;
+        }
+
+        .box ul {
+            position: relative;
+            top: 1px;
+        }
+
+        .box ul:after {
+            display: block;
+            content: "";
+            clear: both;
+        }
+
+        .box ul li {
+            float: left;
+            margin-right: 15px;
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border: 1px solid green;
+            cursor: pointer;
+        }
+
+        .box ul li.select {
+            background: lightblue;
+            border-bottom-color: lightblue;
+        }
+
+        .box div {
+            display: none;
+            height: 150px;
+            line-height: 150px;
+            text-align: center;
+            background: lightblue;
+            border: 1px solid green;
+        }
+
+        .box div.select {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div class="box" id="box1">
+    <ul>
+        <li class="select">页卡一</li>
+        <li>页卡二</li>
+        <li>页卡三</li>
+        <li>页卡四</li>
+    </ul>
+    <div class="select">内容一</div>
+    <div>内容二</div>
+    <div>内容三</div>
+    <div>内容四</div>
+</div>
+
+<div class="box">
+    <ul>
+        <li>页卡一</li>
+        <li class="select">页卡二</li>
+        <li>页卡三</li>
+    </ul>
+    <div>内容一</div>
+    <div class="select">内容二</div>
+    <div>内容三</div>
+</div>
+
+<div class="box">
+    <ul>
+        <li>页卡一</li>
+        <li>页卡二</li>
+        <li class="select">页卡三</li>
+        <li>页卡四</li>
+    </ul>
+    <div>内容一</div>
+    <div>内容二</div>
+    <div class="select">内容三</div>
+    <div>内容四</div>
+</div>
+
+<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+    function tabChange() {
+        var $boxUl = $(this).children("ul"), $boxLi = $boxUl.children("li");
+        $boxLi.on("click", function () {
+            var _index = $(this).index();
+            $(this).addClass("select").siblings().removeClass("select");
+            $(this).parent().nextAll().each(function (index, item) {
+                index === _index ? $(item).addClass("select") : $(item).removeClass("select");
+            });
+        });
+    }
+
+    jQuery.fn.extend({
+        tabChange: tabChange
+    });
+
+    $(".box").tabChange();
+</script>
+</body>
+</html>

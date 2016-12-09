@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>珠峰培训第二版轮播图</title>
+    <link type="text/css" rel="stylesheet" href="css/banner.css"/>
+</head>
+<body>
+<div class="banner" id="banner">
+    <div class="bannerInner"></div>
+    <ul class="bannerTip"></ul>
+    <a href="javascript:;" class="bannerLeft"></a>
+    <a href="javascript:;" class="bannerRight"></a>
+</div>
+
+<div class="banner" id="banner2" style="margin-top: 50px;">
+    <div class="bannerInner"></div>
+    <ul class="bannerTip"></ul>
+    <a href="javascript:;" class="bannerLeft"></a>
+    <a href="javascript:;" class="bannerRight"></a>
+</div>
+
+<script charset="utf-8" type="text/javascript" src="js/utils.min.js"></script>
+<script charset="utf-8" type="text/javascript" src="js/tween.min.js"></script>
+<script charset="utf-8" type="text/javascript" src="js/AutoBanner.js"></script>
+<script type="text/javascript">
+    var banner1 = new AutoBanner("banner", "json/banner.txt", 1000);
+    var banner2 = new AutoBanner("banner2", "json/banner2.txt", 3000);
+</script>
+</body>
+</html>

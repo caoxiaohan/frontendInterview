@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery的选择器</title>
+</head>
+<body>
+<div id="div1" zhufeng="珠峰培训">
+    <div class="w100">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div></div>
+    <ul id="ul1">
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <div id="div3">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <div id="div4"></div>
+    <ul id="ul2">
+        <li>珠峰</li>
+        <li></li>
+        <li>珠峰培训</li>
+    </ul>
+    <ul id="ul3">
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+
+<!--以后使用jQuery一定切记标明我们使用的版本号-->
+<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+    //->jQuery选择器
+    //通过传递对应规则的内容(ID、标签名、样式类名...),获取到页面中指定的元素/元素集合
+
+    //->jQuery选择器获取到的结果是一个jQuery对象,可以使用jQuery中提供的那些属性和方法,但是不能直接的使用浏览器内置的属性和方法
+    var $oDiv = jQuery("#div1");//==> $oDiv = $("#div1")  -> $===jQuery
+    //    console.log($oDiv.innerWidth());
+    //    console.log($oDiv.attr("zhufeng"));
+
+    //    console.log($oDiv.clientWidth);//->undefined $oDiv没有这个属性
+    //    console.log($oDiv.getAttribute("zhufeng"));//->$oDiv.getAttribute is not a function
+
+    //->JS获取到的结果是属于元素对象/元素集合/节点集合...它们可以使用浏览器为其提供的那些天生自带的属性和方法
+    var oDiv = document.getElementById("div1");
+    //    console.log(oDiv.clientWidth);
+    //    console.log(oDiv.getAttribute("zhufeng"));
+
+    //    console.log(oDiv.innerWidth());//->oDiv.innerWidth is not a function 原生的JS对象是不能直接的使用jQuery中提供的属性和方法的
+    //    console.log(oDiv.attr("zhufeng"));
+
+    //2、关于原生JS对象和jQuery对象之间的转换
+
+    //->原生转变为jQuery: $(原生JS对象)
+    //console.log($(oDiv).attr("zhufeng"));
+
+    //->jQuery转变为原生：直接通过索引获取对应的元素对象即可
+    //console.log($oDiv[0].getAttribute("zhufeng"));
+    //$oDiv.get(0); <==> $oDiv[0] 都是通过索引来获取指定位置的元素对象(JS原生对象)
+
+    //3、更多的jQuery选择器
+    //$("#div1")
+    //$("div")
+    //$(".w100")
+    //$("*")
+    //$("#div1,div,.w100") 把每一个选择器获取到的jQuery对象最后融合在一起,一起获取到
+
+    //$("#div1 li") 在子子孙孙级中进行查找
+    //$("#div1>li") 在子集中进行查找
+    //$("#div3+") 获取它的下一个弟弟
+    //$("#div3+ul") 获取它的下一个弟弟并且标签名是ul的
+    //$("#div3~") 获取它的所有弟弟元素
+    //$("#div3~ul") 在所有的弟弟元素中查找标签名为ul的
+
+    //$("#div1>div:not(.w100)") #div1下所有子集DIV中样式类名不包含w100的
+    //$("#div1>div:eq(0)") 通过索引获取集合中的某一个,但是获取的结果依然是一个jQuery对象(而之前讲到的get方法,虽然也是通过索引来获取,但是获取到的结果是一个JS原生对象)
+    //$("#div1>div:gt(1)") 大于索引1的(不包含索引1这一项)
+    //$("#div1>div:lt(1)") 小于索引1的(不包含索引1这一项)
+
+    //$("#div1 li:contains('珠峰')") 获取的所有LI中内容包含珠峰的
+    //$("#div1 div:has(ul)") 在所有DIV中包含UL的
+
+    //$("#div1>*:nth-child(1)") 获取集合中的第一个  $("#div1>*:eq(1)") 获取集合中的第二个(索引为1)
+</script>
+</body>
+</html>

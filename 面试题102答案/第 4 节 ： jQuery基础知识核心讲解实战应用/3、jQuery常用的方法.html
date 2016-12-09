@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery常用方法</title>
+</head>
+<body>
+<div id="box">
+    <div id="div1"></div>
+    <div id="div2"></div>
+    <ul id="ul1">
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <div id="div3">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <div id="div4"></div>
+    <ul id="ul2">
+        <li>珠峰</li>
+        <li></li>
+        <li>珠峰培训</li>
+    </ul>
+    <ul id="ul3">
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+
+<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+    //->http://jquery.cuishifeng.cn/
+    //1、jQuery的回调函数
+    //    function fn1(value) {
+    //        console.log("fn1:" + value);
+    //    }
+    //    function fn2(value) {
+    //        console.log("fn2:" + value);
+    //    }
+    //    var $call = $.Callbacks();//->创建一个回调函数的列表集合
+    //    $call.add(fn1);//->向集合中增加一个叫做fn1的函数
+    //    $call.fire(100);//->触发fire方法的时候,把调函数集合中的方法执行,并且把对应的参数值传递给对应的方法 ->"fn1:100"
+    //    $call.add(fn2);
+    //    $call.fire(200);//->"fn1:200" "fn2:200"
+    //    $call.remove(fn1);//->在集合中移除我们的fn1这个方法
+    //    $call.fire(200);//->"fn2:200"
+
+    //2、
+    //->$(document).ready(function () {}); <==> $(function () {}); 和原生JS中的window.onload对应
+    //window.onload的意思是:当页面中的HTML结构、图片、文字等多有资源都加载完成才会触发这个行为，并且在一个页面中它只能执行一次，后面编写的会把前面的覆盖掉
+    //$(document).ready(function () {}):只要HTML结构加载完成就会触发对应的行为,而且在一个页面中可以使用多次
+
+    //->所有的HTML都加载完成了,形成了一个闭包
+    //$(function () {});
+
+    //3、属性
+    //->attr:获取和设置元素的自定义属性,等价于原生JS中的set/getAttribute
+    //->removeAttr
+    //    var $box = jQuery("#box");
+    //    $box.attr("zhufeng", 100);
+    //    console.log($box.attr("zhufeng"));
+    //    $box.attr("zhufeng", 1000);
+    //    $box.attr({
+    //        index: 1,
+    //        name: "zhufeng"
+    //    });
+    //    $box.removeAttr("zhufeng");
+
+    //->prop:获取和设置元素的属性(和attr是不同的两套方式,两者之间不能相互混用:用attr设置的只能用attr删除或者修改或者获取,同理用prop设置的,也只能用prop操作)
+    //->removeProp
+    //->prop内置的属性可以在HTML结构中体现出来,但是不是内置的属性是体现不出来的(但是可以获取到值)
+    //    var $box = jQuery("#box");
+    //    $box.prop({
+    //        index: 100,
+    //        class: "w100"
+    //    });
+
+    //attr和prop的区别:attr一般都是用来设置和操作元素的自定义属性的,而prop一般都是用来操作元素的内置属性的(尤其是表单元素的操作我们大部分都在使用prop)
+
+    //->addClass/removeClass/toggleClass (toggle系列都是之前有就是移除,没有就是新增)
+    //    var $box = jQuery("#box");
+    //    $box.addClass("w100");
+    //    $box.removeClass("w100");
+    //    $box.toggleClass("w100");
+    //    $box.toggleClass("w100");
+
+
+    //4、关于jQuery内置遍历机制和手动循环的方法
+    //var $box = $("#box"), $boxDivList = $("div", $box);//->jQuery(selector,context) context一般不需要传递,默认是document,但是我们也可以指定具体的上下文来获取需要的元素 $("div", $box) <==> $("#box div")  ->$("#box>div") <==>$box.children("div")
+    //$boxDivList.addClass("w1"); ->通过jQuery选择器获取到一个集合,然后让集合直接的调用jQuery中提供的方法,相当于给集合中的每一个元素都调取了对应的方法(jQuery内置循环操作)
+    //    for (var i = 0; i < $boxDivList.length; i++) {
+    //        //->$boxDivList[i] 都是JS原生的对象
+    //        $($boxDivList[i]).addClass("w2");
+    //    }
+
+    //->each:可以遍历jQuery集合中的每一项(和数组的forEach类似)
+    //    $boxDivList.each(function (index, item) {
+    //        //this->就是我们当前遍历的这一项的内容:item
+    //        //$(item).addClass("w2");
+    //        $(this).addClass("w2");
+    //    });
+</script>
+</body>
+</html>

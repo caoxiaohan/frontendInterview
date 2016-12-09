@@ -1,0 +1,68 @@
+    (1)基本
+     #id
+     element
+     .class
+     *
+     selector1,selector2,selectorN
+
+     (2)层次选择器：
+     ancestor descendant
+     parent > child
+     prev + next
+     prev ~ siblings
+
+     (3)基本过滤器选择器
+     :first
+     :last
+     :not
+     :even
+     :odd
+     :eq
+     :gt
+     :lt
+     :header
+     :animated
+
+     (4)内容过滤器选择器
+     :contains
+     :empty
+     :has
+     :parent
+
+     (5)可见性过滤器选择器
+     :hidden
+     :visible
+
+     (6)属性过滤器选择器
+     [attribute]
+     [attribute=value]
+     [attribute!=value]
+     [attribute^=value]
+     [attribute$=value]
+     [attribute*=value]
+     [attrSel1][attrSel2][attrSelN]
+
+     (7)子元素过滤器选择器
+     :nth-child
+     :first-child
+     :last-child
+     :only-child
+
+     (8)表单选择器
+     :input
+     :text
+     :password
+     :radio
+     :checkbox
+     :submit
+     :image
+     :reset
+     :button
+     :file
+     :hidden
+
+     (9)表单过滤器选择器
+     :enabled
+     :disabled
+     :checked
+     :selected

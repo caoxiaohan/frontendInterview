@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #box {
+            position: absolute;
+            top: 0;
+            left: 500px;
+            padding: 0;
+            width: 100px;
+            height: 100px;
+            background: lightblue;
+        }
+
+        .btn {
+            position: absolute;
+            top: 200px;
+            left: 100px;
+            height: 50px;
+        }
+
+        .btn input {
+            display: inline-block;
+            margin-left: 50px;
+            outline: none;
+            width: 100px;
+            height: 50px;
+            border: 1px solid green;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="box"></div>
+<div class="btn">
+    <input type="button" value="向左" id="btnLeft"/>
+    <input type="button" value="向右" id="btnRight"/>
+</div>
+
+<script type="text/javascript" src="js/utils.js"></script>
+<script type="text/javascript">
+    var oBox = document.getElementById("box");
+    var minLeft = 0, maxLeft = utils.win("clientWidth") - oBox.offsetWidth;
+
+
+    //->为了让当前的元素在同一个时间只运行一个动画(下一个动画开始的时候首先把上一个动画的定时器清除掉):保证当前元素所有动画接收定时器返回值的那个变量需要共享(把这个值放在当前元素的自定义属性上)
+    function move(target) {
+        _move();
+        function _move() {
+            window.clearTimeout(oBox.timer);
+            var curLeft = utils.css(oBox, "left");
+            if (curLeft < target) {
+                if (curLeft + 5 >= target) {
+                    utils.css(oBox, "left", target);
+                    return;
+                }
+                curLeft += 5;
+                utils.css(oBox, "left", curLeft);
+            } else if (curLeft > target) {
+                if (curLeft - 5 <= target) {
+                    utils.css(oBox, "left", target);
+                    return;
+                }
+                curLeft -= 5;
+                utils.css(oBox, "left", curLeft);
+            } else {
+                return;
+            }
+            oBox.timer = window.setTimeout(_move, 10);
+        }
+    }
+
+    document.getElementById("btnLeft").onclick = function () {
+        move(minLeft);
+    };
+    document.getElementById("btnRight").onclick = function () {
+        move(maxLeft);
+    };
+</script>
+</body>
+</html>

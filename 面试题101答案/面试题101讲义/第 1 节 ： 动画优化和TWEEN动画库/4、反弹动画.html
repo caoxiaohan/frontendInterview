@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #box {
+            position: absolute;
+            top: 0;
+            left: 500px;
+            padding: 0;
+            width: 100px;
+            height: 100px;
+            background: lightblue;
+        }
+
+        .btn {
+            position: absolute;
+            top: 200px;
+            left: 100px;
+            height: 50px;
+        }
+
+        .btn input {
+            display: inline-block;
+            margin-left: 50px;
+            outline: none;
+            width: 100px;
+            height: 50px;
+            border: 1px solid green;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="box"></div>
+<div class="btn">
+    <input type="button" value="向左" id="btnLeft"/>
+    <input type="button" value="向右" id="btnRight"/>
+</div>
+
+<script type="text/javascript" src="js/utils.js"></script>
+<script type="text/javascript">
+    var oBox = document.getElementById("box");
+    var minLeft = 0, maxLeft = utils.win("clientWidth") - oBox.offsetWidth;
+
+    var timer = null;
+    function move(target) {//->target:告诉我要运动的目标位置
+        window.clearTimeout(timer);
+        var curLeft = utils.css(oBox, "left");
+        if (curLeft < target) {//->向右走
+            if (curLeft + 5 >= target) {
+                utils.css(oBox, "left", target);
+                return;
+            }
+            curLeft += 5;
+            utils.css(oBox, "left", curLeft);
+        } else if (curLeft > target) {//->向左走
+            if (curLeft - 5 <= target) {
+                utils.css(oBox, "left", target);
+                return;
+            }
+            curLeft -= 5;
+            utils.css(oBox, "left", curLeft);
+        } else {//->不需要运动
+            return;
+        }
+        //->这样写性能不好,因为每一次到达时间的时候,都需要先执行一次匿名函数(形成一个私有的作用域),在匿名函数中再执行move,但是move中需要用到的数据值在第一次执行的move方法中呢,需要把匿名函数形成的这个私有的作用域作为跳板找到之前的,这样就导致了匿名函数形成的这个私有的作用域不能销毁....
+        timer = window.setTimeout(function(){
+            move(target);
+        }, 10);
+    }
+
+    document.getElementById("btnLeft").onclick = function () {
+        move(minLeft);
+    };
+    document.getElementById("btnRight").onclick = function () {
+        move(maxLeft);
+    };
+</script>
+</body>
+</html>

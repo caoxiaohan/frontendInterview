@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery动画</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #box {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            margin-left: -10px;
+            width: 20px;
+            height: 30px;
+            background: red;
+
+            opacity: 1;
+            filter: alpha(opacity=100);
+        }
+
+        input {
+            display: block;
+            margin: 5px auto;
+            width: 200px;
+            height: 35px;
+            border: 1px solid green;
+            cursor: pointer;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+<input type="button" value="操作" id="submit"/>
+
+<div id="box"></div>
+
+<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var $submit = $("#submit"), $box = $("#box");
+        $submit.on("click", function () {
+            //$box.stop().hide(500);
+            //$box.stop().hide("slow"); //->"fast" 时间ms
+
+            //$box.stop().slideUp(500);
+            //$box.stop().fadeOut(500);
+
+            //$box.stop().delay(1000).slideToggle(500);
+
+            //$box.slideUp(500).stop().hide(500);//->stop的意思是:结束上一个动画,下一个动画是紧接着当前位置开始运动的
+            //$box.slideUp(500).finish().toggle(500);//->finish的意思是:结束上一个动画,并且让元素快速的到达目标位置,在开始下一个动画
+
+            $box.stop().animate({
+                top: 600
+            }, 1000, function () {
+                $(this).css("background", "#000");
+            });
+        });
+    });
+
+
+    //->Ajax
+    //    $.ajax({
+    //        url: "json/test.txt?_=" + Math.random(),
+    //        type: "get",
+    //        dataType: "json",//->"text"、"html"、"jsonp"...
+    //        success: function (data) {
+    //            console.log(data);
+    //        }
+    //    });
+
+    //->事件
+    //    var $box = $("#box");
+    //    $box.on("click", function () {
+    //        console.log(1);//->this:当前元素(JS原生对象) $(this)
+    //    });
+    //    $box.on("click", function () {
+    //        console.log(2);
+    //    });
+    //    $box.on("mouseover", function () {
+    //        console.log(3);
+    //    });
+    //    $box.on("mouseout", function () {
+    //        console.log(4);
+    //    });
+
+    //->工具
+    //->each:jQuery中有两个each(也有两个map,和each的原理一样,只是可以支持返回值)
+    //1)循环选择器获取的到的jQuery集合中的每一项
+    //    $("div").each(function (index, item) {
+    //        console.log(item);
+    //    });
+
+    //2)循环数组、类数组、对象中的每一项
+    //    $.each([12, 23, 34], function (index, item) {
+    //        console.log(item);
+    //    });
+    //    $.each(document.getElementsByTagName("*"), function (index, item) {
+    //        console.log(item);
+    //    });
+    //    $.each({name: "珠峰", age: 7}, function (index, item) {
+    //        console.log(item);
+    //    });
+
+    //->$.makeArray ==> listToArray
+
+
+    //->动画
+    //->stop:结束之前正在运行的动画，开启下一个新的动画
+    //->delay:延迟
+    //->finish
+
+    //->$("#box").animate({left:xxx,top:xxx,...},duration,"linear/swing",function(){});
+    //$("#box").stop().animate({},1000,function(){});
+
+    //->fadeIn(淡入)、fadeOut(淡出)、fadeToggle
+    //->show、hide、toggle
+    //->slideUp、slideDown、slideToggle
+</script>
+</body>
+</html>

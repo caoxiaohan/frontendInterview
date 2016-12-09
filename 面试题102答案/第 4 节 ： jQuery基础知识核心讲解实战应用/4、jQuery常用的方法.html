@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery常用方法</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+    </style>
+</head>
+<body>
+<div id="box">
+    <div id="div1" class="w1"></div>
+    <div id="div2"></div>
+    <ul id="ul1">
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <div id="div3" class="w1">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <div id="div4"></div>
+    <ul id="ul2" name="zhufeng">
+        <li>珠峰</li>
+        <li></li>
+        <li>珠峰培训</li>
+    </ul>
+    <ul id="ul3">
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+
+<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+    var $box = $("#box");
+    //1、CSS
+    //->css:获取或者设置(批量设置)当前元素的样式值
+    //    console.log($box.css("width"));
+    //    $box.css({
+    //        background: "red",
+    //        opacity: 0.5
+    //    });
+    $box.css({
+        margin: 50,
+        padding: 30,
+        width: 200,
+        height: 200,
+        border: "10px solid #000"
+    });
+
+    //->offset:不管父级参照物是谁,获取当前元素距离BODY的偏移距离(top/left)/position:获取当前元素距离父级参照物的偏移(top/left)
+
+    //->scrollTop/scrollLeft:获取或者设置元素的卷去高度/宽度
+
+    //->width/height:获取或者设置元素的width/height
+
+    //->innerWidth/innerHeight:获取或者设置元素可视区域的宽高(获取的时候等价于clientWidth/clientHeight),设置的时候,保留padding的值,把width值进行改变(width的值最小是0)
+
+    //->outerWidth/outerHeight:获取或者设置元素可视区域的宽高(包含边框),设置具体的值的时候和上面的效果是一样的
+    //->如果传递进来的参数是true,默认的把margin的值也计算在内了
+
+    //2、jQuery非常强大的地方在于它的链式写法(执行完成一个方法后返回的结果依然是一个jQuery对象,这样就可以继续的调用下一个方法执行了)
+    //->$box.css("background","lightblue").width()
+    //->$box.css("background","lightblue").width().position() ->Uncaught TypeError: $box.css(...).width(...).position is not a function
+
+    //3、文档处理
+    //->append:向指定元素的末尾位置追加一个新的元素 容器.append(元素)
+    //->appendTo:元素.appendTo(容器)
+    //    var oDiv = document.createElement("div");
+    //    oDiv.id = "div5";
+    //    $box.append(oDiv);
+    //    $(oDiv).appendTo($box);
+
+    //->prepend/prependTo:向指定元素的开头位置追加一个新的元素
+    //->after/before:在当前元素的后面/前面追加新的元素
+    //->insertAfter/insertBefore:把选择器获取到的元素追加到指定元素的前面或者后面
+    //    var oDiv = document.createElement("div");
+    //    oDiv.id = "div5";
+    //    $(oDiv).insertBefore($box);
+    //    $(oDiv).insertAfter($box);//->把创建的oDiv追加到$box的后面（和$box是同级的）
+
+    //->replaceAll(selector):用匹配的结果替换所有selector匹配的元素
+    //    var oDiv = document.createElement("div");
+    //    oDiv.id = "div5";
+    //    $(oDiv).replaceAll("ul");//->页面中所有的UL都用oDiv给替换了
+
+    //->remove:把匹配的结果在页面中移除掉
+    //$box.remove();
+    //$("ul").remove("#ul2");
+
+    //4、筛选
+    //->eq(index)、first()、last()
+    //->hasClass(strClass)检测当前的元素中是否包含某一个样式类名 ->$box.hasClass("w1")
+
+    //->filter、children、find:常用的三个筛选的方法
+    //filter:同级过滤 首先通过选择器获取一个集合,在获取的内容中在进行二次筛选
+    //    console.log($("*", $box).filter("ul"));
+
+    //children:子集过滤
+    //    console.log($box.children());
+    //    console.log($box.children(".w1"));
+    //    console.log($box.children("ul"));
+    //    console.log($box.children("#div1"));
+    //    console.log($box.children("#div1,#div2"));
+    //    console.log($box.children("[name='zhufeng']"));
+
+    //find:后代过滤
+    //    console.log($box.find());//->结果是一个空集合
+    //    console.log($box.find("li"));//->$("#box li")
+    //    console.log($box.find("[name='zhufeng']"));//->$("#box [name='zhufeng']")
+
+    //->map:遍历jQuery集合中的每一项,并且可以支持返回值把每一项进行修改，类似于数组中的map这个方法
+
+    //->parent:父亲节点 parents:所有的父亲节点(从当前开始一直找到HTML,把每一级都记录下来)
+
+    //->next、nextAll、siblings、prev、prevAll
+
+
+    //->jQuery这个元素对象的私有属性中叫做selector这个属性存储的值是当前本次查找的选择器的内容;context是当前本次查找的上下文;
+    //$("*", $box) //->context:document selector:"#box *"
+    //$("*", document.getElementById("box")) //->context:div#box selector:"*"
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script type="text/javascript">
+    //->回调函数:把一个函数A当做一个值传递给另外一个函数B,这样在B方法执行的时候,可以在任何位置执行一到多次A方法
+    //    function A() {
+    //        console.log("A");
+    //    }
+    //    function B(callBack) {
+    //        console.log("B");
+    //        for (var i = 0; i < 5; i++) {
+    //            callBack();
+    //        }
+    //    }
+    //    B(A);
+
+    //    ary.sort(function (a, b) {
+    //        return a - b;
+    //    });
+    //
+    //    str.replace(/\d+/g,function(){
+    //
+    //    });
+    //
+    //    window.setTimeout(function(){},10);
+
+
+    function fn(callBack) {
+        //this->obj
+        console.log(1);
+        if (typeof callBack === "function") {
+            callBack.call(obj, 100, 200);
+        }
+    }
+    var obj = {fn: fn};
+    obj.fn(function (num1, num2) {
+        console.log(this, num1, num2);//->this是window
+    });
+</script>
+</body>
+</html>
