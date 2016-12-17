@@ -1,0 +1,109 @@
+@charset "utf-8";
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "\5FAE\8F6F\96C5\9ED1", Helvetica, sans-serif;
+    font-size: 14px;
+    color: #424242;
+    -webkit-user-select: none;
+}
+
+ul, li {
+    list-style: none;
+}
+
+img {
+    display: block;
+    border: none;
+}
+
+a, a:hover, a:active, a:target, a:visited {
+    color: #424242;
+    text-decoration: none;
+}
+
+.banner {
+    position: relative;
+    margin: 10px auto;
+    width: 1000px;
+    height: 300px;
+    overflow: hidden;
+}
+
+/*轮播图区域的样式*/
+.banner .bannerInner {
+    width: 100%;
+    height: 100%;
+    background: url("../img/default.gif") no-repeat center center #e1e1e1;
+}
+
+.banner .bannerInner div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    /*设置每一张图片所在区域的初始样式:z-index=0 opacity=0*/
+    z-index: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+.banner .bannerInner div img {
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+
+/*焦点区域的样式*/
+.banner .bannerTip {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    z-index: 10;
+    overflow: hidden;
+}
+
+.banner .bannerTip li {
+    float: left;
+    margin-left: 10px;
+    width: 18px;
+    height: 18px;
+    background: lightblue;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.banner .bannerTip li.bg {
+    background: orange;
+}
+
+/*左右按钮区域*/
+.banner a {
+    display: none;
+    position: absolute;
+    top: 50%;
+    z-index: 10;
+    margin-top: -22px;
+    width: 30px;
+    height: 45px;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+    background-image: url("../img/pre.png");
+}
+
+.banner a.bannerLeft {
+    left: 20px;
+    background-position: 0 0;
+}
+
+.banner a.bannerRight {
+    right: 20px;
+    background-position: -50px 0;
+}
+
+.banner a:hover {
+    opacity: 1;
+    filter: alpha(opacity=100);
+}

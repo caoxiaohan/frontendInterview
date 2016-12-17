@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>面试题103答案</title>
+</head>
+<body>
+<h1>103  jQuery对象和DOM元素之间如何互相转化？如何用jQuery编写插件?用jQuery实现轮播图?</h1>
+<input type="text" name="username" id="username" value="cxh"  />  
+<pre>
+  一、jQuery对象和DOM元素之间如何互相转化？
+      1 DOM元素转换成jQuery对象。
+        <script>  
+            //获取DOM对象  
+            var username=document.getElementById("username");  
+            alert(username.value);  
+              
+            //转换为jquery对象 转换后就可以使用jQuery中的方法了  
+            var $username=$(username);  
+            alert("^^^"+$username.val());  
+        </script>  
+      2 jQuery对象转换成DOM元素
+         <script>  
+        //获取jQuery对象  
+        var $username=$("#username");  
+        alert($username.val());  
+          
+        //转换成DOM对象  
+        //(1) jQuery对象是一个数组对象，可以通过[index]的方法，来得到相应的DOM对象  
+        var username=$username[0];  
+        alert(username.value);  
+          
+        //jQuery本身提供，通过.get(index)方法，得到相应的DOM对象  
+        //转化为DOM对象  
+        var username1 = $username.get(0);  
+        alert(username1.value);  
+    </script>  
+
+  二、如何用jQuery编写插件?
+      详见《锋利的jQuery第二版》第7章“jQuery插件的使用和写法”。
+      1 jQuery的插件主要分为3种类型：
+         1.1 封装对象的插件
+              这种插件将对象封装起来，用于对通过选择器获取的jQuery对象进行操做，是最常见的一种插件。
+              95%以上的jQuery插件都是封装对象方法的插件。
+              比如$("div").addClass("color","red");或者$("div").addClass("color","red");
+                  $("div").appendTo("body");或者$("div").appendTo("body");
+              通过jQuery选择获取的jQuery对象可以直接调用的方法就是封装对象的插件。
+         1.2 封装全局函数的插件
+             可以将独立的函数添加到jQuery命名空间之下。
+            比如：jQuery.noConflict(); 或者 $..noConflict();
+                  jQuery.ajax(); 或者 $.ajax();
+                  jQuery.trim(); 或者 $.trim();
+              上述方法可以直接通过jQuery.或者$.调用，都是jQuery内部作为全局函数的插件附加到内核上去嘚
+         1.3 选择器插件   
+             jQuery选择符解析首先会使用一组正则表达式来解析选择器，然后针对解析出的每个选择器符执行一个函数，称为选择器函数。
+             最后根据这个选择器函数的返回值是true还是false来决定是否保留这个元素。
+             jQuery已经提供了lt、gt和eq等选择器，但却没有提供between选择器。
+             比如可以自己写一个选择器插件$("div:between(2,5)")实现获取索引值为3、4的元素。
+      2 jQuery插件的基本要点
+          2.1 jQuery插件的文件名推荐命名为jquery.[插件名].js，以避免和其他Javascript库插件混淆。
+               比如命名为jquery.color.js.
+          2.2 所有的对象方法都应当附加到jQuery.fn对象上，而所有的全局函数都应当附加到jQuery对象本身。
+          2.3 在插件内部，this指向的是当前通过选择器获取的jQuery对象，而不像一般的方法那样如click()方法内部的this指向的是DOM元素。
+          2.4 可以通过this.each来遍历所有元素。
+          2.5 所有的方法或函数插件，都应当以分号结尾，否则压缩的时候可能出现问题。
+              为了稳妥可以在插件头部先加一个分号。
+          2.6 插件应该返回一个jQuery对象，以保证插件的可链式操作。
+              除非插件返回的是一些需要获取的量，例如字符串或数组等。
+          2.7 避免在插件内部使用$作为jQuery对象的别名，而应使用完整的jQuery来表示，这样可以避免冲突。
+              也可以利用闭包使插件内部继续使用$作为jQuery的别名。
+      3 jQuery插件中的闭包
+         3.1 插件闭包的描述：
+             jQuery内部函数可以访问它们所在的外部函数中声明的所有局部变量、参数和声明的其他内部函数，当内部函数在包含它们的外部函数之外被调用时，就会形成闭包。即内部函数会在外部函数返回后被执行。
+         3.2 插件闭包的意义：
+             利用闭包的特性，即可以避免内部临时变量影响全局空间，又可以在插件内部继续使用$作为jQuery的别名。
+         3.3 jQuery插件的形式
+              3.3.1 常见的jQuery闭包形式
+                    <script type="text/javascript">
+                          (function(){
+                              /*这里放代码*/
+                          })();
+                    </script>
+              3.3.2 常见的jQuery插件的结构
+                    <script type="text/javascript">
+                          //为了更好的兼容性，开始前有个分号
+                          :(function($){ //此处将$作为匿名函数的形参
+                              /*这里放置代码，可以使用$作为jQuery的缩写别名*/
+                              var foo;
+                              var cxh =funtion(){
+                                 //匿名函数内部可以访问foo
+                              }
+                              $.CXH=cxh;//可以在匿名函数的外部，通过jQuery.CXH()来访问内部定义的函数cxh();
+                          })(jQuery); //这里就将jQuery作为实参传递给匿名函数了。
+                    </script>
+       4 jQuery插件的机制
+          jQuery提供了两个用于扩展jQuery对功能的方法，即jQuery.fn.extend()方法和jQuery.extend()方法。
+          4.1 jQuery.fn.extend()方法
+              用于扩展第1种类型的插件---封装对象的插件。
+          4.2 jQuery.extend()方法
+              用户扩展后两种类型的插件---封装全局函数的插件和选择器插件。
+              jQuery.extend()方法除了用户扩展jQuery对象之外，还可以扩展已有的Object对象。
+              <script type="text/javascript">
+                  var obj1 ={a:1,b:2,c:3};
+                  var obj2 ={a:11,c:33};
+                  var obj = jQuery.extend(obj1,obj2);
+                  console.log(obj);//{a:11,b:2,c:33}
+              </script>
+        5 编写jQuery插件
+          源码详见《面试题103答案/编写jQuery插件》
+          5.1 封装jQuery对象方法的插件
+          5.2 封装全局函数的插件
+          5.3 自定义选择器
+          
+  三、用jQuery实现轮播图?
+      详见《面试题103答案/轮播图插件化封装》
+      轮播图插件命名为"jquery.slide.js"，压缩后命名为"jquery.slide.min.js"
+      在第二大题中已经说过jQuery插件的命名规范
+      jQuery插件的文件名推荐命名为jquery.[插件名].js，以避免和其他Javascript库插件混淆。
+      比如命名为jquery.slide.js.
+  
+
+
+       
+</pre>
+
+</body>
+</html>

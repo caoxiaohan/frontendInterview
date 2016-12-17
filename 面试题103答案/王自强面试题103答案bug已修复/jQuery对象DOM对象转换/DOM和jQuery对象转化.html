@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+  <script src="../jQuery实现轮播图/jquery-1.11.3.js"></script>
+ </head>
+ <body>
+	<div id="div1"></div>
+	<span is="span1"></span>
+	  <script>
+			//1.jQuery对象转变成DOM对象
+				//1.1.jQuery对象是一个类数组对象，可以通过[index]的方法转化成相应的DOM对象
+					var $oDiv=$("#div1")//jQuery对象
+					var oDiv=$oDiv[0];//DOM对象
+				//1.2.jQuery自身也提供了get[index]方法得到相应的DOM对象
+					var $oSpan=$("#span1");//jQuery对象
+					var oSpan=$oSpan.get(0);//DOM对象
+			//2.DOM对象转变成jQuery对象
+				//2.1.对于一个DOM对象，只需要用$()把DOM对象包装起来，就可以获得一个jQuery对象了。方式为$(DOM对象);
+					var oSpan1=document.getElementById("span1");//DOM对象
+					var $oSapn1=$(oSpan1);//jQuery对象
+	  </script>
+ </body>
+</html>

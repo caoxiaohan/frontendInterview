@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>面试题103轮播图bug修复说明</title>
+</head>
+<body>
+<h1>jQuery实现轮播图修复？轮播图插件化封装jQuery修复？</h1>
+<pre>
+  一、jQuery实现轮播图修复？
+      保留第一种方法，jQuery克隆。
+      需要修复以下几处：
+      1 修改banner.txt和banner2.txt都为8张图片
+        代码中意图展示8张不同图片轮播，因此至少要在json数据中存储8张不同的图片
+        <script type="text/javascript">
+            [{"img":"../images/1.jpg"},{"img":"../images/2.jpg"},
+            {"img":"../images/3.jpg"},{"img":"../images/4.jpg"},
+            {"img":"../images/5.jpg"},{"img":"../images/6.jpg"},
+            {"img":"../images/7.jpg"},{"img":"../images/8.jpg"}
+            ]
+        </script>
+      2 修改jBanner.js文件
+        2.1 修改数据绑定方法bindData() 
+             2.1.1 将 $imgList = $oSlideInner.find("img");这句代码移动到 $oImgList.appendTo($oSlideInner);后面。
+                    应该先复值添加元素，然后再获取图片列表。
+                    如果先获取图片列表，在添加元素，则无法通过$imgList获取后来添加的元素。
+             2.1.2 $bannerList = $oSlideInner.children("li");应该在$oImgList.appendTo($oSlideInner);后面重新获取更新。
+                   添加元素后$oSlideInner发生了变化，而通过$oSlideInner间接获取的集合列表$imgList和$bannerList都应该再后面重新获取更新。
+             2.1.3 $oSlideInner.css("width", baseWidth * $oLis.length + 'px')修改为$oSlideInner.css("width", baseWidth * $imgList.length + 'px');
+                   $oLis表示焦点通过banner.txt即jsonData获取，一共8个焦点.
+                   $imgList后来复制添加了第九张图片"1.jpg"，一共9张图片。
+                   整个ul的宽带应该是9张图片的宽度，所以应该以$imgList.length为标准计算
+            <script type="text/javascript">
+                function bindData() {
+                    var str = "", str2 = "";
+                    $.each(jsonData, function (index, item) {
+                        str += "<li><a href='javascript:void(0);'><img src='' trueImg='" + item["img"] + "'/></a></li>";
+                        index === 0 ? str2 += "<a class='active' href='javascript:void(0);'></a>" : str2 += "<a href='javascript:void(0);'></a>"
+                        $oSlideInner.html(str);
+                        $oSlidIco.html(str2);
+
+                    })
+                    $oLis = $oSlidIco.children("a");
+                    $bannerList = $oSlideInner.children("li");
+                    //复制
+                    var baseWidth = $bannerList.eq(0).prop("offsetWidth");//一个li的宽度
+                    var $oImgList = $bannerList.eq(0).clone(true);
+                    $oImgList.appendTo($oSlideInner);
+                    $imgList = $oSlideInner.find("img");
+                    $bannerList = $oSlideInner.children("li");
+                    $oSlideInner.css("width", baseWidth * $imgList.length + 'px')
+                }
+            </script>
+        2.2 修改自动轮播无缝对接方法autoMove()
+             2.2.1 将临界点条件step > $oLis.length改为step >= $imgList.length。
+                   二者等价，但是$imgList代表图片列表，我们移动的是图片的left值，用$imgList更有意义。
+             2.2.2 添加else语句包裹$oSlideInner.animate({left: step * -930}, 700);
+                   因为当step >= $imgList.length时，是瞬间切换图片不需要重复执行匀速移动动画。
+                   只有当step < $imgList.length时，才需要匀速移动动画。
+             2.2.3 将selector();改成 step==$imgList.length-1?selector(0):selector(step);
+                   $imgList.length==9；
+                   $imgList.length-1===8；
+                   当运动到第8张图片时step=8，从第8张图片向第9张图片过度，第9张图片和第1张图片相同，此时我们应该点亮第1个焦点，而不是点亮第8个焦点。
+                   所以当step==$imgList.length-1时是特殊情况，需要点亮的焦点索引和step不一致，我们需要特殊处理。
+                   因此selector方法也应该稍做修改可以传参。
+            <script type="text/javascript">
+                function autoMove() {
+                    step++;
+                    if (step == $imgList.length) {
+                        $oSlideInner.css("left", 0);
+                        //这个表达式可以瞬间把oInner从原来的位置切换到第0张
+                        step = 0;//动画从一张开始
+                    }else{
+                        $oSlideInner.animate({left: step * -930}, 700);
+                    }
+                    step==$imgList.length-1?selector(0):selector(step);
+                }
+            </script>
+        2.3 修改焦点对齐方法slector();
+            2.3.1 添加形参nStep，并将selector方法体中的step替换成nStep。
+            2.3.2 selector方法体首行添加一句nStep=nStep||step;
+                  selector方法不传参时就表示点亮焦点索引与step一致。
+            <script type="text/javascript">
+                  function selector(nStep) {
+                        nStep=nStep||step;
+                        var $curA = $oLis.eq(nStep);
+                        $curA.addClass("active").siblings().removeClass("active");
+                    };
+            </script>
+  二、轮播图插件化封装jQuery修复？
+      采用第二种方法，不需要jQuery克隆，直接在json中多添加1张图片。
+      需要修复以下几处：
+      1 修改banner.txt和banner2.txt都为8张图片
+        代码中意图展示8张不同图片轮播，因此至少要在json数据中存储8张不同的图片,第9张图片和第1张图片相同便于做同方向无缝切换。
+        <script type="text/javascript">
+            [{"img":"../images/1.jpg"},{"img":"../images/2.jpg"},
+            {"img":"../images/3.jpg"},{"img":"../images/4.jpg"},
+            {"img":"../images/5.jpg"},{"img":"../images/6.jpg"},
+            {"img":"../images/7.jpg"},{"img":"../images/8.jpg"},
+            {"img":"../images/1.jpg"}
+            ]
+        </script>
+      2 修改jBanner.js文件
+        2.1 修改数据绑定方法bindData() 
+             2.1.1 修改str2的复制方式
+                    将 
+                    index === 0 ? str2 += "<a class='active' href='javascript:void(0);'></a>" :?str2 += "<a href='javascript:void(0);'></a>";
+                    修改为
+                    index === 0 ? str2 += "<a class='active' href='javascript:void(0);'></a>" :
+                            (index!=jsonData.length-1?str2 += "<a href='javascript:void(0);'></a>":null);
+                    因为jsonData一共获取了9张图片，焦点8个就够了，所以最后第9张图片index==jsonData.length-1不需要添加焦点。
+             2.1.2 删除复制clone()和添加appendTo()相关方法。
+                   jsonData中已经通过banner.txt获取9张图片，不需要再复制添加元素。
+             2.1.3 $oSlideInner.css("width", baseWidth * $oLis.length + 'px')修改为$oSlideInner.css("width", baseWidth * $imgList.length + 'px');
+                   $oLis表示焦点通过banner.txt即jsonData获取，一共8个焦点.
+                   $imgList后来复制添加了第九张图片"1.jpg"，一共9张图片。
+                   整个ul的宽带应该是9张图片的宽度，所以应该以$imgList.length为标准计算
+            <script type="text/javascript">
+               function bindData() {
+                    var str = "", str2 = "";
+                    $.each(jsonData, function (index, item) {
+                        str += "<li><a href='javascript:void(0);'><img src='' trueImg='" + item["img"] + "'/></a></li>";
+                        index === 0 ? str2 += "<a class='active' href='javascript:void(0);'></a>" :
+                            (index!=jsonData.length-1?str2 += "<a href='javascript:void(0);'></a>":null);
+                        $oSlideInner.html(str);
+                        $oSlidIco.html(str2);
+
+                    })
+                    $bannerList = $oSlideInner.children("li");
+                    $imgList = $oSlideInner.find("img");
+                    $oLis = $oSlidIco.children("a");
+                    var baseWidth = $bannerList.eq(0).prop("offsetWidth");//一个li的宽度
+                    $oSlideInner.css("width", baseWidth * $imgList.length + 'px')
+                }
+
+            </script>
+        2.2 修改自动轮播无缝对接方法autoMove()
+             2.2.1 将临界点条件step > $oLis.length改为step >= $imgList.length。
+                   二者等价，但是$imgList代表图片列表，我们移动的是图片的left值，用$imgList更有意义。
+             2.2.2 添加else语句包裹$oSlideInner.animate({left: step * -930}, 700);
+                   因为当step >= $imgList.length时，是瞬间切换图片不需要重复执行匀速移动动画。
+                   只有当step < $imgList.length时，才需要匀速移动动画。
+             2.2.3 将selector();改成 step==$imgList.length-1?selector(0):selector(step);
+                   $imgList.length==9；
+                   $imgList.length-1===8；
+                   当运动到第8张图片时step=8，从第8张图片向第9张图片过度，第9张图片和第1张图片相同，此时我们应该点亮第1个焦点，而不是点亮第8个焦点。
+                   所以当step==$imgList.length-1时是特殊情况，需要点亮的焦点索引和step不一致，我们需要特殊处理。
+                   因此selector方法也应该稍做修改可以传参。
+            <script type="text/javascript">
+                function autoMove() {
+                    step++;
+                    if (step == $imgList.length) {
+                        $oSlideInner.css("left", 0);
+                        //这个表达式可以瞬间把oInner从原来的位置切换到第0张
+                        step = 0;//动画从一张开始
+                    }else{
+                        $oSlideInner.animate({left: step * -930}, 700);
+                    }
+                    step==$imgList.length-1?selector(0):selector(step);
+                }
+            </script>
+        2.3 修改焦点对齐方法slector();
+            2.3.1 添加形参nStep，并将selector方法体中的step替换成nStep。
+            2.3.2 selector方法体首行添加一句nStep=nStep||step;
+                  selector方法不传参时就表示点亮焦点索引与step一致。
+            <script type="text/javascript">
+                  function selector(nStep) {
+                        nStep=nStep||step;
+                        var $curA = $oLis.eq(nStep);
+                        $curA.addClass("active").siblings().removeClass("active");
+                    };
+            </script>
+       
+  
+
+
+       
+</pre>
+
+</body>
+</html>

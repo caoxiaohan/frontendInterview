@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>珠峰培训-jQuery版轮播图(渐隐渐现)</title>
+    <link type="text/css" rel="stylesheet" href="css/banner.css"/>
+</head>
+<body>
+<div class="banner" id="bannerFir">
+    <div class="bannerInner"></div>
+    <ul class="bannerTip"></ul>
+    <a href="javascript:;" class="bannerLeft"></a>
+    <a href="javascript:;" class="bannerRight"></a>
+</div>
+
+<div class="banner" id="bannerTwo">
+    <div class="bannerInner"></div>
+    <ul class="bannerTip"></ul>
+    <a href="javascript:;" class="bannerLeft"></a>
+    <a href="javascript:;" class="bannerRight"></a>
+</div>
+
+<script charset="utf-8" type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+<script charset="utf-8" type="text/javascript" src="js/banner.js"></script>
+<script type="text/javascript">
+    $("#bannerFir").banner("json/banner.txt", 1000);
+    $("#bannerTwo").banner("json/banner2.txt", 2000);
+</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery映射与添加元素前操作元素问题</title>   
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+</head>
+<body>
+<h1>jQuery映射与添加元素前操作元素问题</h1>
+<form method="post" action="">
+  <fieldset>
+    <div>
+      <label for="two">2</label>
+      <input type="checkbox" value="2" id="two" name="number[]">
+    </div>
+    <div>
+      <label for="four">4</label>
+      <input type="checkbox" value="4" id="four" name="number[]">
+    </div>
+    <div>
+      <label for="six">6</label>
+      <input type="checkbox" value="6" id="six" name="number[]">
+    </div>
+    <div>
+      <label for="eight">8</label>
+      <input type="checkbox" value="8" id="eight" name="number[]">
+    </div>
+  </fieldset>
+</form>
+
+<pre>
+  一、jQuery映射
+      映射是指两个元素集合中的元素之间相互”对应“的关系，实际上映射是一种间接引用。
+      jQuery中的Map函数帮助我们对一个数组或者数据集进行映射。
+      jQuery没有强调映射机制的概念，但是jQuery中存在映射：
+      1：jQuery函数第二个参数属性映射。
+         http://www.w3school.com.cn/jquery/core_jquery.asp
+      2：遍历函数比如Map函数映射。
+          http://www.w3school.com.cn/jquery/traversing_map.asp
+
+      $(":checkbox")返回所有type="checkbox" 的 <input> 元素
+      $(":checkbox")共获取4个input元素
+ 
+      map函数中的this引用每次迭代的当前DOM元素，依次遍历这4个input元素。
+      map(function() {
+        return this.id;
+      })
+
+      jQuery选择器返回的元素与map函数中的this一一对应，构成映射。
+  
+  二、添加元素前操作元素问题
+      1 创建元素
+         创建新元素的方法非常简单，只要把新元素直接传入jQuery的构造函数就行了：
+         $('&lt;h1&gt;&lt;a&gt;波伏娃商城&lt;/a&gt;&lt;/h1&gt;');
+      2 操作元素
+         由于jQuery函数返回的是存储jQuery对象的数组，可以直接使用链式写法操作元素，先选取a标签元素，然后为a元素添加一个href属性。
+         $('&lt;h1&gt;&lt;a&gt;波伏娃商城&lt;/a&gt;&lt;/h1&gt;').find('a').attr('href', 'http://www.bofuwa.com') 
+      3 添加DOM元素
+         最后把新添加的h1元素添加到body中
+         $('&lt;h1&gt;&lt;a&gt;波伏娃商城&lt;/a&gt;&lt;/h1&gt;').find('a').attr('href', 'http://www.bofuwa.com').end().appendTo('body') 
+         注意：这个地方需要执行end()操作，否则添加到body中的元素不是h1元素变成了h1元素中的a元素。 
+         end()操作不能等价与撤销，它返回的是上一次选择，本次find('a')选择了a标签，上一次 $('&lt;h1>&lt;a&gt;波伏娃商城&lt;/a&gt;&lt;/h1&gt;')选择了整个h1元素。
+         显然我们希望将整个h1元素添加到body中，所以要加上end()方法返回上一次选择后再添加到DOM中。          
+</pre>
+<script type="text/javascript">
+   //jQuery中的map函数映射
+   $str=$(':checkbox').map(function() {
+      return this.id;
+    }).get().join(',');
+   alert($str);
+   //jQuery先创建元素、再操作元素、最后添加DOM元素
+   $('<h1><a>波伏娃商城</a></h1>').find('a').attr('href', 'http://www.bofuwa.com').end().appendTo('pre');
+</script>
+
+</body>
+</html>
