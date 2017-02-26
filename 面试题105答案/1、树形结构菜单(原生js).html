@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>多级菜单-JS版</title>
+    <link type="text/css" rel="stylesheet" href="css/menu.css"/>
+</head>
+<body>
+<!--每一个LI都是有一个SPAN记录文字内容,如果当前这一级还有子级,在给它SPAN前面加一个EM,在SPAN的后面加一个UL/LI-->
+<ul class="menu" id="menu">
+    <li>
+        <em></em><span>1-1</span>
+        <ul class="menuTwo">
+            <li><span>2-1</span></li>
+            <li>
+                <em></em><span>2-2</span>
+                <ul class="menuThree">
+                    <li>
+                        <em></em><span>3-1</span>
+                        <ul class="menuFour">
+                            <li><span>4-1</span></li>
+                            <li><span>4-2</span></li>
+                        </ul>
+                    </li>
+                    <li><span>3-2</span></li>
+                    <li><span>3-3</span></li>
+                </ul>
+            </li>
+            <li>
+                <em></em><span>2-3</span>
+                <ul class="menuThree">
+                    <li><span>3-1</span></li>
+                    <li><span>3-2</span></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <em></em><span>1-2</span>
+        <ul class="menuTwo">
+            <li><span>2-1</span></li>
+            <li>
+                <em></em><span>2-2</span>
+                <ul class="menuThree">
+                    <li>
+                        <em></em><span>3-1</span>
+                        <ul class="menuFour">
+                            <li><span>4-1</span></li>
+                            <li><span>4-2</span></li>
+                        </ul>
+                    </li>
+                    <li><span>3-2</span></li>
+                    <li><span>3-3</span></li>
+                </ul>
+            </li>
+            <li>
+                <em></em><span>2-3</span>
+                <ul class="menuThree">
+                    <li><span>3-1</span></li>
+                    <li><span>3-2</span></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<script charset="utf-8" type="text/javascript" src="js/utils.min.js"></script>
+<script type="text/javascript">
+    var oMenu = document.getElementById("menu");
+    //->让所有具有子级的LI中的SPAN/EM具有CURSOR样式
+    var oMenuLis = oMenu.getElementsByTagName("li");
+    for (var i = 0, len = oMenuLis.length; i < len; i++) {
+        var curMenuLi = oMenuLis[i];
+        var curMenuLiSpan = utils.children(curMenuLi, "span")[0], curMenuLiEm = utils.children(curMenuLi, "em");
+        if (curMenuLiEm.length > 0) {
+            utils.addClass(curMenuLiEm[0], "cursor");
+            utils.addClass(curMenuLiSpan, "cursor");
+        }
+    }
+
+    //->使用事件委托的原理实现多级菜单的展开和收起
+    oMenu.onclick = function (e) {
+        e = e || window.event;
+        var curTar = e.target || e.srcElement;
+
+        //->事件源是SPAN
+        if (curTar.tagName.toUpperCase() === "SPAN") {
+            commonFn(curTar);
+            return;
+        }
+
+        //->事件源是EM,我们依然可以使用commonFn,只需要把EM的弟弟SPAN传递进去即可
+        if (curTar.tagName.toUpperCase() === "EM") {
+            commonFn(utils.next(curTar));
+        }
+    };
+
+    function commonFn(curTar) {
+        //->需要保证传递进来的curTar是一个SPAN标签
+        //->1)获取它的弟弟,弟弟存在的话进行后续操作
+        var isBlock = null;
+        var nexUL = utils.next(curTar);
+        if (nexUL) {
+            //->2)判断当前的弟弟是显示的还是隐藏的,显示的让其隐藏,隐藏的让其显示
+            isBlock = utils.css(nexUL, "display");
+            if (isBlock === "none") {
+                utils.css(nexUL, "display", "block");
+                isBlock = "block";
+            } else {
+                utils.css(nexUL, "display", "none");
+                isBlock = "none";
+                //->4)不仅仅让当前这一级收起,当前级以下的所有级的UL都应该是收起的才对,并且让对应的EM都移除BG样式
+                var nexULAllEm = nexUL.getElementsByTagName("em"), nexULAllUl = nexUL.getElementsByTagName("ul");
+                for (var i = 0, len = nexULAllEm.length; i < len; i++) {
+                    utils.removeClass(nexULAllEm[i], "bg");
+                    utils.css(nexULAllUl[i], "display", "none");
+                }
+            }
+        }
+        //->3)获取它的哥哥,如果是EM的话,我们根据当前是展开还是隐藏控制它的BG样式
+        var preEm = utils.prev(curTar);
+        if (preEm) {
+            isBlock === "block" ? utils.addClass(preEm, "bg") : utils.removeClass(preEm, "bg");
+        }
+    }
+</script>
+</body>
+</html>

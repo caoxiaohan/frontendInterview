@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>多级菜单-jQuery版</title>
+    <link type="text/css" rel="stylesheet" href="css/menu.css"/>
+</head>
+<body>
+<ul class="menu" id="menu">
+    <li>
+        <em></em><span>1-1</span>
+        <ul class="menuTwo">
+            <li><span>2-1</span></li>
+            <li>
+                <em></em><span>2-2</span>
+                <ul class="menuThree">
+                    <li>
+                        <em></em><span>3-1</span>
+                        <ul class="menuFour">
+                            <li><span>4-1</span></li>
+                            <li><span>4-2</span></li>
+                        </ul>
+                    </li>
+                    <li><span>3-2</span></li>
+                    <li><span>3-3</span></li>
+                </ul>
+            </li>
+            <li>
+                <em></em><span>2-3</span>
+                <ul class="menuThree">
+                    <li><span>3-1</span></li>
+                    <li><span>3-2</span></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <em></em><span>1-2</span>
+        <ul class="menuTwo">
+            <li><span>2-1</span></li>
+            <li>
+                <em></em><span>2-2</span>
+                <ul class="menuThree">
+                    <li>
+                        <em></em><span>3-1</span>
+                        <ul class="menuFour">
+                            <li><span>4-1</span></li>
+                            <li><span>4-2</span></li>
+                        </ul>
+                    </li>
+                    <li><span>3-2</span></li>
+                    <li><span>3-3</span></li>
+                </ul>
+            </li>
+            <li>
+                <em></em><span>2-3</span>
+                <ul class="menuThree">
+                    <li><span>3-1</span></li>
+                    <li><span>3-2</span></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<script charset="utf-8" type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+    var $menu = $("#menu");
+    $menu.find("li").each(function (index, item) {
+        var $menuSpan = $(item).children("span"), $menuEm = $(item).children("em");
+        if ($menuEm.length > 0) {
+            $menuSpan.addClass("cursor");
+            $menuEm.addClass("cursor");
+        }
+    });
+
+    //->使用事件委托的原理实现多级菜单的展开和收起
+    $menu.on("click", function (e) {
+        //->e:jQuery中已经完成所有的兼容处理了,我们只需要按照标准浏览器下标准操作就可以了
+        var curTar = e.target;
+        if (curTar.tagName.toUpperCase() === "SPAN") {
+            commonFn($(curTar));
+            return;
+        }
+        if (curTar.tagName.toUpperCase() === "EM") {
+            commonFn($(curTar).next());
+        }
+    });
+
+    function commonFn($curTar) {
+        //->$curTar是一个jQuery对象
+        var isBlock = null;
+        var $nexUl = $curTar.next();
+        if ($nexUl.length > 0) {
+            isBlock = $nexUl.css("display");
+            $nexUl.stop().toggle();//->自己可以实现当前是展开的隐藏,当前是隐藏的展开
+            //->如果之前是显示的,我们除了让当前UL收起外,还需要让其后级元素中的UL也都是收起的才可以,同样也需要让后级中的EM移除BG的样式
+            if (isBlock === "block") {
+                $nexUl.find("ul").stop().hide();
+                $nexUl.find("em").removeClass("bg");
+            }
+        }
+        $curTar.prev().toggleClass("bg");
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #box {
+            position: relative;
+            margin: 50px auto;
+            width: 300px;
+            height: 300px;
+            background: green;
+        }
+
+        #mark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+<div id="box"></div>
+
+<script charset="utf-8" type="text/javascript" src="js/utils.min.js"></script>
+<script type="text/javascript">
+    var box = document.getElementById("box");
+    var boxOff = utils.offset(box);
+
+    //->计算MARK的位置信息,让MARK定位到当前鼠标坐标点的下面
+    function computedMarkPos(mark, e) {
+        e = e || window.event;
+        var curL = e.offsetX||e.layerX + 5;
+        var curT = e.offsetY||e.layerY-utils.css(box,borderTop) + 5;
+        utils.css(mark, {
+            top: curT,
+            left: curL
+        });
+    }
+
+    //->鼠标进入的时候创建一个MARK盒子
+    //->onmouseenter/onmouseover:mouseenter这个行为不存在事件的传播(捕获和冒泡都没有),也就是触发MARK的mouseenter并不会让BOX的mouseenter触发
+    //->onmouseenter只要在当前元素中(包含它的子元素中)就不会在重新的触发onmouseenter行为,例如:鼠标在MARK上在进入BOX,没有触发onmouseenter这个行为，但是会触发onmouseover这个行为
+    box.onmouseenter = function (e) {
+        var mark = document.createElement("div");
+        mark.id = "mark";
+        this.appendChild(mark);
+        computedMarkPos(mark, e);
+
+        /*mark.onmouseover = function (ev) {
+         //->阻止事件的冒泡传播
+         ev = ev || window.event;
+         ev.stopPropagation ? ev.stopPropagation() : ev.cancelBubble = true;
+         };*/
+    };
+
+    //->鼠标在BOX中移动的时候让MARK也跟着移动
+    box.onmousemove = function (e) {
+        var mark = document.getElementById("mark");
+        if (mark) {
+            computedMarkPos(mark, e);
+        }
+    };
+
+    //->鼠标离开BOX盒子后,把MARK移除掉
+    box.onmouseleave = function (e) {
+        var mark = document.getElementById("mark");
+        if (mark) {
+            this.removeChild(mark);
+        }
+    };
+</script>
+</body>
+</html>

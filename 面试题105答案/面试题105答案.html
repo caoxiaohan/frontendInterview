@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>面试题105答案</title>
+</head>
+<body>
+<h1>105 jQuery对象和原生js对象的关系?window.onload 和 $(document).ready()的区别？用jQuery写一个可伸缩导航菜单？</h1>
+<input type="text" name="username" id="username" value="cxh"  />  
+<pre>
+  一、jQuery对象和原生js对象的关系？
+      1. 含义
+         1.1 DOM（Document Object Model）：程序和脚本访问和操纵HTML与XML文档的中立于平台和语言的编程接口。它是由W3C制定的标准。扩展阅读DOM将结构化的文档抽象成树状结构，并将每一个文档元素（标签）看作是一个对象，同时定义了该对象的属性及方法。
+         1.2 JS：一种轻量级的脚本语言，可以插入HTML页面，由浏览器（客户端）执行。与Java没有任何关系。
+         1.3 JQuery：一个JS框架，使用JS语言书写的JS函数库，极大简化了JS编程。核心理念：write less, do more.
+      2. 联系
+         JS通过DOM动态更新页面。使用JQuery可以方便用户编程。
+         jQuery对象和DOM对象的关系类似于数组与数组的元素之间的关系。
+         jQuery对象只能使用jQuery的方法，就像数组只能使用数组原型链上的方法。
+         如果数组或jQuery对象中存储的元素是DOM类型，数组或jQuery对象也不能使用DOM的方法。
+         DOM对象也只能使用DOM的方法，不能使用数组的方法也不能使用jQuery的方法。
+         给元素外面加上一层[]就能把普通元素转换成数组，给DOM对象外面加一层$()就能把DOM元素转换成jQuery对象。
+         通过数组的索引arr[0]能够获取数组的第一个元素，通过jQuery的索引j[0]或j.get(0)能获取DOM元素。
+      3. 区别
+         3.1 DOM：JS通过DOM访问所有HTML元素，它获取的是DOM对象，只能使用DOM方法；
+         3.2 JQuery：获取的是封装后的DOM对象的集合列表，称为JQuery对象，只能使用JQuery方法。
+         3.3 举例：集合列表类似于数组，
+             假设var d = doucument.getElementById("div1");  var j =[d]。(事实上并非如此简单，暂且将jQuery对象和DOM对象的关系理解为类似于数组和数组的元素之间的关系)
+             那么变量d就是DOM元素只能使用DOM方法，变量j就是jQuery对象只能使用jQuery上的方法。
+             j[0]===j.get(0)===.j.eq(0)[0]===d。三者等价，都是将jQuery对象j转换成DOM对象d。
+             $(d)===jQuery(d)===j. 三者等价，都是将DOM对象d转换成jQuery对象j.
+             注意：j.eq(0)返回的仍然是一个jQuery对象即集合列表形式，我们需要通过j.get(0)或者j[0]才能取得DOM对象。
+
+      4. 转换：
+         DOM对象和JQuery对象可以相互转换(参考)：
+         4.1 jQuery对象转换为DOM对象:
+             <script type="text/javascript">
+             	/*方式一：JQ对象时一个数据对象，借助于[index]得等到DOM对象*/
+		          var $var = $("#id"); //初始化一个JQ对象
+		          var var = $var[0]; //JQ对象-DOM对象
+                /*方式二：借助于JQ对象的.get(index)方法*/
+		          var $var = $("#id"); //初始化一个JQ对象
+		          var var = $var.get(0);//JQ对象-DOM对象
+             </script>             
+         4.2 DOM对象转换为jQuery对象:
+             <script type="text/javascript">
+             	  var var = document.getElementById("id"); // DOM对象
+             	  var $var = $(var); //JQ对象
+             </script>
+            
+
+
+  二、window.onload 和 $(document).ready()的区别？
+       1.执行时机不同
+        1.1 window.onload必须等到页面内所有元素(包括图片、引用文件)加载完毕后才能执行。 
+        1.2 $(document).ready()网页中所有的DOM结构绘制完毕后就执行，不必等到DOM元素关联的内容加载完毕。 
+                
+      2.编写个数不同 
+        1.1 window.onload不能同时编写多个，如果有多个window.onload方法，只会执行最后一个。
+            1.1.1 当整个Html文档有多个window.onload方法时，只执行最后一个window.onload方法。
+            window.onload = function () {
+                console.log(1); //由于第一个onload方法被第二个onlaod方法覆盖，所以此句永远不会被执行。
+            }
+            window.onload = function () {
+                console.log(2);//输出2
+            }
+            最终结果只输出2.
+            1.1.2 如果希望1和2都被输出，则把所有语句一起写进一个window.onload方法。
+            window.onload = function () {
+                console.log(1);
+                console.log(2);
+            } 
+            整个页面只有一个window.onload方法，且一个方法内包含两条语句，最终输出1和2都被输出.
+        1.2 $(document).ready()可以同时编写多个，并且都可以得到执行。
+            $(document).ready(function () {
+                console.log("1");//输出1
+            });
+            $(document).ready(function () {
+                console.log("2");//输出2
+            });
+            最终结果1和2都被输出。               
+      3.简化写法 
+        3.1 window.onload没有简化写法 
+            虽然window.onload没有简化写法，但是window.onload=function(){}等价于$(window).load(function(){});
+             window.onload = function () {
+                console.log(1);
+                console.log(2);
+            };
+            上述方法等价于下列方法，执行时机一致，编写个数都只能编程一个，编写多个时只有最有一个有效。
+            $(window).load(function () {
+                console.log(1);
+                console.log(2);
+            }); 
+        3.2 $(document).ready(function(){})可以简写成$(function(){});
+            $(document).ready(function () {
+                console.log("1");//输出1
+            });
+            等价于：
+            $(function () {
+                console.log("1");//输出1
+            });
+       
+  三、用jQuery写一个可伸缩导航菜单？
+      详见《1、树形结构菜单(原生js).html》和《2、树形结构菜单(jQuery).html》
+     
+  
+
+
+       
+</pre>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+@charset "utf-8";
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "\5FAE\8F6F\96C5\9ED1", Helvetica, sans-serif;
+    font-size: 14px;
+    -webkit-user-select: none;
+}
+
+ul, li {
+    list-style: none;
+}
+
+em, span {
+    display: block;
+}
+
+.menu {
+    margin: 10px;
+    padding: 10px;
+    width: 300px;
+    border: 1px dashed green;
+
+    /*CSS3实现盒子圆角在PC端的处理方式->优雅降级:按照高版本兼容CSS3或HTML5的浏览器写样式,对于不兼容的浏览器我们根据具体的情况选择使用其它方式处理或者是不管,例如：圆角在IE6~8下不兼容就不需要处理了*/
+    border-radius: 5px;
+
+    /*CSS3实现背景颜色渐变在PC端的处理方式->渐进增强:先写一套兼容所有浏览器的,然后针对于谷歌火狐等这些最新的浏览器单独的增加更好的效果*/
+    background: #ffe470;
+    background: -webkit-linear-gradient(top left, lightblue, lightgreen, lightcyan, lightgoldenrodyellow, lightpink, lightsalmon);
+    background: -moz-linear-gradient(top left, lightblue, lightgreen, lightcyan, lightgoldenrodyellow, lightpink, lightsalmon);
+    background: -o-linear-gradient(top left, lightblue, lightgreen, lightcyan, lightgoldenrodyellow, lightpink, lightsalmon);
+    background: linear-gradient(top left, lightblue, lightgreen, lightcyan, lightgoldenrodyellow, lightpink, lightsalmon);
+}
+
+.menu li {
+    position: relative;
+}
+
+.menu li em {
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 16px;
+    height: 16px;
+    background-image: url("../img/icon.png");
+    background-position: -59px -28px;
+}
+
+/*如果想让EM中的图片变为“减号”,只需要让EM增加一个叫做BG的样式即可:如果当前是加点击后变成减,当前是减点击在变成加*/
+.menu li em.bg {
+    background-position: -42px -28px;
+}
+
+.menu li span {
+    margin-left: 20px;
+    height: 30px;
+    line-height: 30px;
+}
+
+/*如果当前的LI里面有下一级内容,我们就给当前LI子级中的EM和SPAN增加一个CURSOR的样式->我们在JS中动态的增加*/
+.cursor {
+    cursor: pointer;
+}
+
+.menuTwo, .menuThree, .menuFour {
+    display: none;
+}
+
+.menuTwo {
+    margin-left: 20px;
+}
+
+.menuThree {
+    margin-left: 40px;
+}
+
+.menuFour {
+    margin-left: 60px;
+}
+
+
+
+
+
+
+
+
+

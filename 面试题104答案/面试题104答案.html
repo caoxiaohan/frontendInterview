@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>面试题104答案</title>
+</head>
+<body>
+<h1>104  什么是回调函数并举例？什么是柯理化函数思想并举例？扩展-柯里化函数思想检测数据类型？</h1>
+<input type="text" name="username" id="username" value="cxh"  />  
+<pre>
+  一、什么是回调函数并举例？
+      1 什么是回调函数
+        函数callBack作为参数(函数引用)传递到另一个函数fn中，并且这个函数fn执行函数callBack。
+        我们就说函数callBack叫做回调函数。如果没有名称(函数表达式)，就叫做匿名回调函数。
+      2 回调函数举例
+		在调用方法fn的时候，回调函数callBack可以作为参数出现，如：
+		<script type="text/javascript">
+		    var param1=1,param2=2;
+			function callBack(result){
+				console.log(result);
+			}
+			function fn(p1,p2,callBack){
+				callBack(p1+p2);
+		    }
+		    //推荐方式：一般是最后一个参数
+			fn(param1,param2,callBack);//3	
+			//函数表达式
+			fn(param1,param2,function(result){
+				 console.log(result);
+			});//3			
+		</script>
+      3 回调函数的使用场合
+        3.1 资源加载：动态加载js文件后执行回调，加载iframe后执行回调，图片加载完成执行回调等等。
+        3.2 动画：完成某种动画再执行回调函数。
+        3.3 DOM事件：实际上DOM节点的事件处理方法（onclick,ondblclick等）也是回调函数。
+        3.4 Ajax:最明显的例子是做Ajax请求时，提供的回调函数。
+        3.5 Node.js事件基于回调机制(Node.js回调可能会出现多层回调嵌套的问题)。
+        3.6 定时器：setTimeout的延迟时间为0，这个hack经常被用到，settimeout调用的函数其实就是一个callback的体现
+
+
+  二、什么是柯理化函数思想并举例?
+      1 什么是柯里化
+        柯里化是这样的一个转换过程，把接受多个参数的函数变换成接受一个单一参数(译注：最初函数的第一个参数)的函数，如果其他的参数是必要的，返回接受余下的参数且返回结果的新函数。
+      2 柯理化函数思想：
+        一个js预先处理的思想；利用函数执行可以形成一个不销毁的作用域的原理，把需要预先处理的内容都储存在这个不销毁的作用域中，并且返回一个小函数，以后我们执行的都是小函数，在小函数中把之前预先存储的值进行相关的操作处理即可；
+      3 柯里化函数主要起到预处理的作用；
+      4 柯里化函数举例
+        4.1 简单举例
+            <script type="text/javascript">
+            	var add = function(num1) {
+					return function(num2) {
+						return num1 + num2;
+					}
+				}
+				var inc = add(1);
+				var dec = add(-1);
+				//inc, dec现在是两个新的函数，作用是将传入的参数值（+/-）1
+				alert(inc(1));//2  inc(1)等价于add(1)(1) 返回1+1
+				alert(dec(3));//2  dec(3)等价于add(3)(-1) 返回3+(-1)
+				alert(add(1)(2));//3 add(1)执行外部函数add返回的是内部小函数的引用并且给外部函数add的形参num1赋值为1. add(1)(2)执行内部小函数并且给形参numb2赋值为2，执行内部小函数返回num1+num2，即1+2，返回3。
+				alert(add(2)(1));//3
+            </script>
+        4.2 典型例子
+           bind方法的作用：把传递进来的callback回调方法中的this预先处理为上下文context;
+           模拟原生bind方法实现一个兼容的mybind方法。
+           <script type="text/javascript">
+           		/**
+				* 模仿在原型链上的bind实现原理(柯理化函数思想)
+				* @param context [Object] 上下文
+				* @returns {Function} 改变this指向的函数
+				*/
+				Function.prototype.mybind = function mybind (context) {
+					var _this = this;
+					var outArg = Array.prototype.slice.call(arguments,1);
+					// 兼容情况下
+					if('bind' in Function.prototype) {
+						return this.bind.apply(this,[context].concat(outArg));
+					}
+					// 不兼容情况下
+					return function () {
+						var inArg = Array.prototype.slice.call(arguments,0);
+						inArg.length === 0?inArg[inArg.length]=window.event:null;
+						var arg = outArg.concat(inArg);
+						_this.apply(context,arg);
+					}
+				}
+           </script>
+  三、扩展-柯里化函数思想检测数据类型?
+     通俗的来说：外部函数中返回内部小函数，最终执行新函数时传递的实参变少，就用到了柯里化函数思想。
+     此例中，isType函数中反回了小函数，且执行新函数isAry时只需传递一个实参。
+     复习《面试题70》JS检测数据类型的5种方法，其中第四种Object.prototype.toString.call(value)之自定义数组检测，用到了柯里化思想。
+     numObj只列举了一种HTML类型，因为不同的Html元素对应不同的类型，太多了不一一例讲。
+      <script type="text/javascript">
+      	~function () {
+			var utils = {},
+			numObj = {
+				isNumber: "Number",
+				isString: "String",
+				isBoolean: "Boolean",
+				isNull: "Null",
+				isUndefined: "Undefined",
+				isObject: "Object",
+				isArray: "Array",
+				isFunction: "Function",
+				isRegExp: "RegExp",
+				isDate: "Date",
+				isGlobal:"global",
+				isHTMLDocument:"HTMLDocument",				
+				isMath:"Math",
+				isError:"Error",
+				isArguments:"arguments"
+			}, 
+			isType = function () {
+				var outerArg = arguments[0];
+				return function () {
+					var innerArg = arguments[0], reg = new RegExp("^\\[object " + outerArg + "\\]$", "i");
+					return reg.test(Object.prototype.toString.call(innerArg));
+				}
+			};
+			for (var key in numObj) {
+				if (numObj.hasOwnProperty(key)) {
+					utils[key] = isType(numObj[key]);
+				}
+			}
+			window.$type = utils;
+		}();
+		//console.log($type);
+		var ary = [];
+		console.log($type.isAry(ary));//->true
+		console.log($type.isFun(ary));//->false
+      </script>
+  
+
+
+       
+</pre>
+
+</body>
+</html>

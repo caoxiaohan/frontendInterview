@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>事件的传播机制</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            background: #ccc;
+            overflow: hidden;
+        }
+
+        #outer {
+            margin: 0 auto;
+            width: 300px;
+            height: 300px;
+            background: lightblue;
+        }
+
+        #inner {
+            margin: 0 auto;
+            width: 200px;
+            height: 200px;
+            background: lightgreen;
+        }
+    </style>
+</head>
+<body>
+<div id="outer">
+    <div id="inner"></div>
+</div>
+<script type="text/javascript">
+    var outer = document.getElementById("outer"), inner = document.getElementById("inner");
+    //DOM0级事件绑定：不管代码顺序如何，因为只有DOM0至于冒泡阶段，所以安元素从内向外依次执行。
+    //1、事件的冒泡传播
+    //->当前元素的某一个行为被触发,那么它所有父级元素的相关行为都会被触发,例如:inner的click行为被触发,那么inner、outer、body...的click行为也都会被触发,其中哪一个元素的click行为上绑定了方法,那么就会把对应的方法执行
+    //->传播方向：从内到外依次的传播
+    //2、在依次执行inner、outer、body绑定的方法的时候,每一个方法中都会有一个鼠标事件对象e,它里面存储的是当前本次操作的鼠标的相关信息,由于一个页面中只有一个鼠标,此时我们获取到的四个e存储的内容是一模一样的
+    /*
+       document.body.onclick = function (e) {
+           e = e || window.event;
+           console.log("BODY", e)
+       };
+       outer.onclick = function (e) {
+           e = e || window.event;
+           console.log("outer", e)
+       };
+       inner.onclick = function (e) {
+           e = e || window.event;
+           console.log("inner", e)
+       };
+    */
+    //DOM2级事件绑定：
+
+    
+
+    //3、事件的传播分为三个阶段：第一阶段是“捕获” 第二阶段“目标” 第三阶段是“冒泡” (捕获、目标、冒泡)
+    //->DOM0事件绑定,只能把方法绑定到元素某个事件行为传播的冒泡阶段(换句话说,DOM0绑定的方法只能在冒泡阶段执行)
+    //->DOM2事件绑定,(在标准浏览器中)我们既可以把方法绑定在捕获阶段,也可以把方法绑定在冒泡阶段,(在IE6~8下)和DOM0一样也只能把方法绑定在冒泡阶段;
+    //    function fn() {
+    //        console.log("ok");
+    //    }
+    //    outer.addEventListener("click", fn, false);//->false:把这个方法绑定在冒泡阶段
+    //    outer.addEventListener("click", fn, true);//->true:把这个方法绑定在捕获阶段
+    //->DOM2事件绑定可以给元素的“某一个行为”的“某一个阶段(捕获/冒泡)”绑定“多个不同的方法”（行为、方法、阶段三个完全一致才算重复,只要有一个不一样都不算重复）
+     function fn(e){
+        e=e||window.event;
+        e.target=e.target||e.srcElement;
+        console.log(e.target.id);
+     }
+     document.documentElement.addEventListener("click", function(){console.log("冒泡阶段:html");}, false);
+     document.body.addEventListener("click", function(){console.log("冒泡阶段:body");}, false);   
+     outer.addEventListener("click", function(){console.log("冒泡阶段:outer");}, false);  
+     inner.addEventListener("click", function(){console.log("冒泡阶段:inner");}, false);  
+     inner.addEventListener("click", function(){console.log("捕获阶段:inner");}, true);      
+     outer.addEventListener("click", function(){console.log("捕获阶段:outer");}, true); 
+     document.body.addEventListener("click", function(){console.log("捕获阶段:body");}, true);
+     document.documentElement.addEventListener("click", function(){console.log("捕获阶段:html");}, true);      
+     //不管代码书写顺序如何，执行顺序均遵守如下规律 :
+     /*
+       1 chrome浏览器中：捕获阶段最从捕获阶段最外层从body开始（没有捕获html)，IE和firefox捕获阶段最外层从html文档开始。
+       2 捕获阶段：从外向内 捕获html--->捕获body--->捕获outer--->捕获inner（标准浏览器捕获阶段最外层从body开始，IE从html文档开始）
+       3 冒泡阶段：从内向外 冒泡inner--->冒泡outer--->冒泡body--->冒泡html（冒泡阶段最外层到html文档为止）
+       4 当前事件源innner绑定的事件，捕获和冒泡谁在前先执行谁。
+         4.1 当前事件源inner的冒泡写在捕获前面
+         inner.addEventListener("click", function(){console.log("冒泡阶段:inner");}, false);//冒泡  
+         inner.addEventListener("click", function(){console.log("捕获阶段:inner");}, true); //捕获
+         则执行顺序为：捕获html--->捕获body--->捕获outer--->冒泡inner--->捕获inner--->冒泡outer--->冒泡body--->冒泡html。
+         4.2 当前事件源inner的捕获写在冒泡前面
+         inner.addEventListener("click", function(){console.log("捕获阶段:inner");}, true); //捕获
+         inner.addEventListener("click", function(){console.log("冒泡阶段:inner");}, false);//冒泡           
+         则执行顺序为：捕获html--->捕获body--->捕获outer--->捕获inner--->冒泡inner--->冒泡outer--->冒泡body--->冒泡html。
+     */
+     
+
+    
+   
+</script>
+</body>
+</html>
