@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>面试题108答案</title>
+</head>
+<body>
+<h1>108 DOM0级、DOM2级、IE事件处理程序的优劣对比，如何绑定和删除事件？DOM2级事件处理程序的兼容性问题？如何进行跨浏览器的事件兼容性处理？</h1>
+<input type="text" name="username" id="username" value="cxh"  />  
+<pre>
+  一、DOM0级、DOM2级、IE事件处理程序的优劣对比，如何绑定和删除事件？
+      1、DOM0级
+         1.1 语法
+             所有浏览器：target.event=listener
+             event —— 事件类型；
+             listener —— 事件触发时执行的函数；
+         1.2 优劣
+             1.2.1 优点
+                   1）简单。
+                   2）兼容所有浏览器。
+             1.2.2 缺点
+                   1）DOM0级一个事件处理程序只能对应一个处理函数，不管绑定的方法是否同名，只执行同一个事件最后一次绑定的方法。
+                      <script type="text/javascript">
+                          document.body.onclick = fn1;
+                          document.body.onclick = fn1;
+                          document.body.onclick = fn2;
+                          //点击body区域时，输出结果如下：
+                         /*
+                            2
+                         */
+                         //说明用DOM0给同一个事件click绑定多个相同或不同的方法，只有最后一个生效。
+                      </script>
+                      备注：由于DOM0级事件不能进行重复绑定，所以不存在执行顺序问题。
+                   2）DOM0级事件只支持冒泡阶段，不支持捕获阶段。
+         1.3 绑定和删除事件
+             <script type="text/javascript">
+                //绑定事件
+                  var btn = document.getElementById("btn");
+                  btn.onclick = function(){
+                      alert(this.id);//this指定当前元素btn
+                  }
+                //删除事件
+                  btn.onclick = null;
+             </script>
+      2、DOM2级
+         2.1 语法
+             W3C：target.addEventListener(event, listener, useCapture);
+             event —— 事件类型；
+             listener —— 事件触发时执行的函数；
+             useCapture ——  指定事件是否在捕获或冒泡阶段执行，为true时事件句柄在捕获阶段执行，为false（默认false）时，事件句柄在冒泡阶段执行。         
+         2.2 优劣
+             2.2.1 优点：
+                   addEventListener 是 W3C DOM 规范中提供的注册事件监听器的方法。它的优点包括：
+                   1）能给一个元素的同一个事件类型绑定多个不同方法
+                      <script type="text/javascript">                         
+                         document.body.addEventListener("click", fn1, false);
+                         document.body.addEventListener("click", fn1, false);
+                         document.body.addEventListener("click", fn2, false);
+                         document.body.addEventListener("click", fn3, false);
+                         document.body.addEventListener("click", fn4, false);
+                         document.body.addEventListener("click", fn5, false);
+                         document.body.addEventListener("click", fn6, false);
+                         document.body.addEventListener("click", fn7, false);
+                         document.body.addEventListener("click", fn8, false);
+                         document.body.addEventListener("click", fn9, false);
+                         document.body.addEventListener("click", fn10, false);
+                         document.body.addEventListener("click", fn11, false);
+                         document.body.addEventListener("click", fn12, false);
+                         //点击盒子oDiv时，输出结果如下：
+                         /*
+                            1
+                            2
+                            3
+                            4
+                            5
+                            6
+                            7
+                            8
+                            9
+                            10
+                            11
+                            12
+                         */
+                         //说明用addEventListener给同一个事件click绑定多个不同的方法，同时生效
+                      </script>
+                   2）避免重复绑定，同一个事件类型onclick绑定同一个方法fn1多次，只执行一次。
+                   3）它提供了一种更精细的手段控制 listener 的触发阶段。（即可以选择捕获或者冒泡）。
+                   4）它对任何 DOM 元素都是有效的，而不仅仅只对 HTML 元素有效。
+            2.2.2 缺点
+                  1）不兼容IE8及IE8以下版本浏览器。
+         2.3 绑定和删除事件
+             <script type="text/javascript">
+                //绑定事件
+                  btn.addEventListener('click',function(){
+                      //do something...
+                  },false)
+                //删除事件
+                  removeEventListener(event,function,false);
+             </script>
+      3、IE中的DOM2级事件处理
+         对于 Internet Explorer 来说，在IE 9之前，你必须使用 attachEvent 而不是使用标准方法 addEventListener。
+         3.1 语法：
+             IE：target.attachEvent(type, listener);
+             type - 字符串，事件名称，含“on”，比如“onclick”、“onmouseover”、“onkeydown”等。 
+             listener —— 实现了 EventListener 接口或者是 JavaScript 中的函数。
+         3.2 优劣：         
+             3.2.1 优点                  
+                   1) 能给一个元素的同一个事件类型绑定多个不同方法
+                       <script type="text/javascript">
+                         document.body.attachEvent("onclick", fn1);
+                         document.body.attachEvent("onclick", fn1);
+                         document.body.attachEvent("onclick", fn2);
+                         document.body.attachEvent("onclick", fn3);
+                         document.body.attachEvent("onclick", fn4);
+                         document.body.attachEvent("onclick", fn5);
+                         document.body.attachEvent("onclick", fn6);
+                         document.body.attachEvent("onclick", fn7);
+                         document.body.attachEvent("onclick", fn8);
+                         document.body.attachEvent("onclick", fn9);
+                         document.body.attachEvent("onclick", fn10);
+                         document.body.attachEvent("onclick", fn11);
+                         document.body.attachEvent("onclick", fn12);
+                         //点击盒子body区域时，输出结果如下：
+                         /*
+                            10
+                            9
+                            8
+                            7
+                            11
+                            12
+                            6
+                            5
+                            4
+                            3
+                            2
+                            1
+                            1 IE8及其以下版本浏览器，可以给同一个事件onclick重复绑定同一个方法fn1,每次都会重复执行。
+                         */
+                         //说明用attachEvent给同一个事件click绑定多个不同的方法，同时生效。
+                         attachEvent能给一个元素的同一个事件类型绑定多个不同方法fn1、fn2乱序全部执行，包括重复绑定同一个方法fn1多次时也会重复执行fn1多次。
+                      </script>
+                     2) 兼容IE6~IE10版本浏览器
+             3.2.2 缺点
+                   1）this 的值会变成 window 对象的引用而不是触发事件的元素。
+                   2）attachEvent只支持冒泡阶段，不支持捕获阶段。
+                   3）attachEvent执行的顺序和绑定的顺序没关系，执行的时候顺序是混乱的；
+                      注意：IE9及以上版本浏览器是正序，按代码书写顺序执行。
+                            IE8及其以下版本浏览器是乱序，不是倒序。
+                            经测试，当给同一个事件绑定方法数量在10个以内是倒序，当方法数量超过10个时输出顺序是10、9、8
+                            、7、11、12、13........6、5、4、3、2、1。 两头倒序，中间正序。
+                   4）IE8及其以下版本浏览器，可以给同一个事件onclick重复绑定同一个方法fn1,每次都会重复执行。
+         3.3 绑定和删除事件
+             <script type="text/javascript">
+                //绑定事件
+                  btn.attachEvent('onclick',function(){
+                    //do something...
+                  })
+                //删除事件
+                  detachEvent('onclick',function);
+             </script>
+
+
+  二、DOM2级事件处理程序的兼容性问题？
+      1 addEventListener、removeEventListener 不兼容IE8及IE8以下版本浏览器
+      2 attachEvent() 执行时this的值会变成 window 对象的引用而不是触发事件的元素。
+      3 attachEvent只支持冒泡阶段，不支持捕获阶段。
+        注意：写DOM2级事件兼容方法时，addEventListener的第三个参数设置为false即冒泡阶段，为了配合attachEvent只支持冒泡。
+      4 attachEvent执行的顺序和绑定的顺序没关系，执行的时候顺序是混乱的。
+      5 IE8及其以下版本浏览器，可以给同一个事件onclick重复绑定同一个方法fn1,每次都会重复执行。
+    
+  三、如何进行跨浏览器的事件兼容性处理？
+      详见《event.js》和《DOM2事件绑定.html》
+     
+  
+
+
+       
+</pre>
+
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            background: lightblue;
+            cursor: pointer;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+
+<script charset="utf-8" type="text/javascript" src="event.js"></script>
+<script type="text/javascript">
+    //->给BODY的点击行为绑定多个方法(DOM0不行,只能使用DOM2),在使用DOM2绑定的时候需要“瞻前顾后”,绑定的时候还要想到能移除呢?我们绑定的方法都是实名函数;
+    //->移除时候的三个参数需要和绑定时候的三个参数一模一样才可以移除掉
+    //    document.body.addEventListener("click",fn,false);
+    //    document.body.removeEventListener("click",fn,false)
+
+    var count = 0;
+    function fn1() {
+        console.log(1);
+    }
+
+    function fn2() {
+        console.log(2);
+    }
+    function fn3() {
+        console.log(3);
+    }
+    function fn4() {
+        console.log(4);
+        bofuwaEvent.off(document.body, "click", fn1);
+        bofuwaEvent.off(document.body, "click", fn2);
+        bofuwaEvent.off(document.body, "click", fn3);
+        bofuwaEvent.off(document.body, "click", fn4);
+    }
+    function fn5() {
+        console.log(5);
+    }
+    function fn6() {
+        console.log(6);
+    }
+    function fn7() {
+        console.log(7);
+    }
+    function fn8() {
+        console.log(8);
+    }
+    function fn9() {
+        console.log(9);
+    }
+    function fn10() {
+        console.log(10);
+    }
+    function fn11() {
+        console.log(11);
+    }
+    function fn12() {
+        console.log(12);
+    }
+
+    
+
+    bofuwaEvent.on(document.body, "click", fn1);
+    bofuwaEvent.on(document.body, "click", fn2);
+    bofuwaEvent.on(document.body, "click", fn3);
+    bofuwaEvent.on(document.body, "click", fn4);
+    bofuwaEvent.on(document.body, "click", fn5);
+    bofuwaEvent.on(document.body, "click", fn6);
+    bofuwaEvent.on(document.body, "click", fn7);
+    bofuwaEvent.on(document.body, "click", fn8);
+    bofuwaEvent.on(document.body, "click", fn9);
+    bofuwaEvent.on(document.body, "click", fn10);
+    bofuwaEvent.on(document.body, "click", fn11);
+    bofuwaEvent.on(document.body, "click", fn12);
+    bofuwaEvent.on(document.body, "click", fn12);//->on方法中存在fn12了,不在往里面存储了
+    //on(document.body, "mouseover", fn12);//->类型不一样是不存在冲突的
+
+    // document.body.onclick = fn1;
+    // document.body.onclick = fn1;
+    // document.body.onclick = fn2;
+    
+    //2、DOM2绑定事件的兼容问题
+    //1)绑定的时候的兼容问题
+    //->标准浏览器中:我们可以控制在捕获/冒泡阶段发生;
+    //    document.body.addEventListener([type],[fn],false);
+    //    document.body.removeEventListener([type],[fn],false);
+    //->IE6~8中:只能控制在冒泡阶段发生
+    //    document.body.attachEvent(["on" + type], [fn]);
+    //    document.body.detachEvent(["on" + type], [fn]);
+    //->fn方法执行的时候传递进来的事件对象e,和IE6~8下传递进来的事件对象e存储的内容是有区别的(事件源、pageX/pageY、阻止默认行为、阻止冒泡传播...);
+
+    //2)给元素的某一个行为(相同的阶段)绑定多个不同的方法
+    //标准浏览器：
+    // ->方法中的THIS都是当前要操作的这个元素(THIS)
+    // ->如果给元素的某一个行为(相同的阶段)绑定多个相同的方法,浏览器自己会把重复的过滤掉,最后只执行一次这个方法即可(重复)
+    // ->当行为触发的时候,是按照绑定的先后顺序依次执行的(顺序)
+
+    //IE6~8:
+    // ->方法中的THIS都是WINDOW,而不是当前操作的这个元素(THIS)
+    // ->如果给元素的某一个行为绑定多个相同的方法,浏览器不会把重复的过滤掉,把所有重复的方法都执行了(重复)
+    // ->顺序是混乱的,和我们绑定时候的顺序没有关系(顺序)
+
+       // document.body.addEventListener("click", fn1, false);
+       // document.body.addEventListener("click", fn1, false);
+       // document.body.addEventListener("click", fn2, false);
+       // document.body.addEventListener("click", fn3, false);
+       // document.body.addEventListener("click", fn4, false);
+       // document.body.addEventListener("click", fn5, false);
+       // document.body.addEventListener("click", fn6, false);
+       // document.body.addEventListener("click", fn7, false);
+       // document.body.addEventListener("click", fn8, false);
+       // document.body.addEventListener("click", fn9, false);
+       // document.body.addEventListener("click", fn10, false);
+       // document.body.addEventListener("click", fn11, false);
+       // document.body.addEventListener("click", fn12, false);
+       // document.body.addEventListener("click", fn12, false);
+       // document.body.addEventListener("click", fn12, false);
+       // document.body.addEventListener("click", fn12, false);
+
+       // document.body.attachEvent("onclick", fn1);
+       // document.body.attachEvent("onclick", fn1);
+       // document.body.attachEvent("onclick", fn2);
+       // document.body.attachEvent("onclick", fn3);
+       // document.body.attachEvent("onclick", fn4);
+       // document.body.attachEvent("onclick", fn5);
+       // document.body.attachEvent("onclick", fn6);
+       // document.body.attachEvent("onclick", fn7);
+       // document.body.attachEvent("onclick", fn8);
+       // document.body.attachEvent("onclick", fn9);
+       // document.body.attachEvent("onclick", fn10);
+       // document.body.attachEvent("onclick", fn11);
+       // document.body.attachEvent("onclick", fn12);
+       // document.body.attachEvent("onclick", fn12);
+       // document.body.attachEvent("onclick", fn12);
+       // document.body.attachEvent("onclick", fn12);
+
+</script>
+</body>
+</html>
