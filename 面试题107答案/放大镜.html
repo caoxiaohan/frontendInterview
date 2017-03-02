@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>京东放大镜</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        img {
+            display: block;
+            border: none;
+        }
+
+        #box {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 300px;
+            height: 300px;
+            box-shadow: 4px 4px 10px 0 #616161;
+        }
+
+        #box img {
+            width: 100%;
+            height: 100%;
+        }
+
+        #mark {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100px;
+            height: 100px;
+            background: #000;
+            opacity: 0.5;
+            filter: alpha(opacity=50);
+            cursor: move;
+        }
+
+        #boxDel {
+            display: none;
+            position: absolute;
+            top: 50px;
+            left: 360px;
+            width: 300px;
+            height: 300px;
+            box-shadow: 4px 4px 10px 0 #616161;
+            overflow: hidden;
+        }
+
+        #boxDel img {
+            width: 300%;
+            height: 300%;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <img src="img/iphone.jpg"/>
+
+    <div id="mark"></div>
+</div>
+<div id="boxDel">
+    <img src="img/iphone_big.jpg"/>
+</div>
+
+<script charset="utf-8" type="text/javascript" src="js/utils.min.js"></script>
+<script type="text/javascript">
+    var box = document.getElementById("box"), mark = document.getElementById("mark");
+    var boxDel = document.getElementById("boxDel"), boxImg = boxDel.getElementsByTagName("img")[0];
+
+    //->计算MARK的位置信息
+    function computedMarkPos(e) {
+        e = e || window.event;
+        var curL = e.clientX - box.offsetLeft - mark.offsetWidth / 2;
+        var curT = e.clientY - box.offsetTop - mark.offsetHeight / 2;
+
+        //->到达边界判断
+        var minL = 0, minT = 0, maxL = box.offsetWidth - mark.offsetWidth, maxT = box.offsetHeight - mark.offsetHeight;
+        curL = curL <= minL ? minL : (curL >= maxL ? maxL : curL);
+        curT = curT <= minT ? minT : (curT >= maxT ? maxT : curT);
+
+        utils.css(mark, {
+            left: curL,
+            top: curT
+        });
+
+        //->控制右侧的大图展示:左侧BOX和MARK的比例是横向/纵向(3:1),这样的话,左侧的MARK移动10,右侧的IMG就要移动-30
+        utils.css(boxImg, {
+            marginTop: -curT * 3,
+            marginLeft: -curL * 3
+        });
+    }
+
+    //->实现具体的行为操作
+    box.onmouseenter = function (e) {
+        utils.css(mark, "display", "block");
+        utils.css(boxDel, "display", "block");
+        computedMarkPos(e);
+    };
+    box.onmousemove = computedMarkPos;
+    box.onmouseleave = function (e) {
+        utils.css(mark, "display", "none");
+        utils.css(boxDel, "display", "none");
+    };
+</script>
+</body>
+</html>

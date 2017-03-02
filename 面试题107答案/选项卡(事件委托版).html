@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>事件委托/事件代理</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "\5FAE\8F6F\96C5\9ED1", Helvetica, sans-serif;
+            font-size: 14px;
+            color: #424242;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        .tabBox {
+            margin: 10px auto;
+            width: 600px;
+            overflow: hidden;
+        }
+
+        .tabBox ul {
+            position: relative;
+            top: 1px;
+            overflow: hidden;
+        }
+
+        .tabBox ul li {
+            display: inline-block;
+            margin-right: 10px;
+            width: 80px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border: 1px solid green;
+            cursor: pointer;
+        }
+
+        .tabBox ul li.bg {
+            background: lightgreen;
+            border-bottom-color: lightgreen;
+        }
+
+        .tabBox div {
+            display: none;
+            height: 100px;
+            line-height: 100px;
+            text-align: center;
+            border: 1px solid green;
+            background: lightgreen;
+        }
+
+        .tabBox div.bg {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div class="tabBox" id="box">
+    <ul bofuwaFlag="firUl">
+        <li class="bg">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>       
+    </ul>
+    <div class="bg">1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>   
+</div>
+
+<div class="tabBox" id="oBox">
+    <ul bofuwaFlag="firUl" id="oUl">
+        <li class="bg">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>       
+    </ul>
+    <div class="bg">1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>    
+</div>
+
+<script charset="utf-8" type="text/javascript" src="js/utils.min.js"></script>
+<script type="text/javascript">
+    //1、事件委托
+    //->利用了事件的冒泡传播机制,如果一个容器A中有很多的后代元素需要绑定点击事件(其它行为同样可以),这样的话我就不需要一个个的获取绑定了,只需要给最外层的容器A绑定一个点击事件即可,这样不管里面哪个元素触发了点击的行为,A点击行为对应的方法都会执行,我们在这里通过判断事件源是谁来实现不同的操作即可
+
+    //->我们使用事件委托处理多元素的事件绑定会比一个个的绑定性能提高至少一倍
+
+    var allTabBox = utils.getElementsByClass("tabBox");
+    for (var i = 0; i < allTabBox.length; i++) {
+        allTabBox[i].onclick = function (e) {
+            e = e || window.event;
+            var curTar = e.target || e.srcElement;
+
+            //->通过条件确定我们点击的是页卡区域的LI
+            if (curTar.tagName.toUpperCase() === "LI" && curTar.parentNode.getAttribute("bofuwaFlag") === "firUl") {
+
+                //->让当前点击的这个LI有选中的样式,而其兄弟元素都移除选中样式
+                utils.addClass(curTar, "bg");
+                var curLiSibling = utils.siblings(curTar);
+                for (var k = 0; k < curLiSibling.length; k++) {
+                    utils.removeClass(curLiSibling[k], "bg");
+                }
+
+                //->让和当前点击LI索引对应的那个DIV有选中的样式,其余的DIV移除选中样式
+                var curTarIndex = utils.index(curTar);
+                var divList = utils.nextAll(curTar.parentNode);
+                for (k = 0; k < divList.length; k++) {
+                    k === curTarIndex ? utils.addClass(divList[k], "bg") : utils.removeClass(divList[k], "bg");
+                }
+            }
+        }
+    }
+    //动态添加元素li和div，新增一个叫做new的选项卡
+        var oLi = document.createElement("li"),oDiv=document.createElement("div");
+        oLi.innerHTML = "new";
+        oDiv.innerHTML = "new";
+        oUl.appendChild(oLi);
+        oBox.appendChild(oDiv);
+</script>
+</body>
+</html>
