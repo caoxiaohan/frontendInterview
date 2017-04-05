@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>多级菜单</title>
+    <style type="text/css">
+        body, div, ul, li, span, em {
+            margin: 0;
+            padding: 0;
+            font-family: "\5FAE\8F6F\96C5\9ED1", Helvetica, sans-serif;
+            font-size: 14px;
+            -webkit-user-select: none;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        .box {
+            margin: 10px;
+            padding: 10px;
+            width: 300px;
+            border: 1px dashed #08BECE;
+            background: -webkit-linear-gradient(top left, #08BECE, #ffe470, #FFE0E9);
+        }
+
+        .box li {
+            position: relative;
+            line-height: 35px;
+        }
+
+        .box span {
+            display: block;
+            padding-left: 20px;
+        }
+
+        .box em {
+            display: block;
+            position: absolute;
+            top: 9px;
+            width: 16px;
+            height: 16px;
+            background: url("img/icon.png") no-repeat -59px -28px;
+            cursor: pointer;
+        }
+
+        .box em.open {
+            background-position: -42px -28px;
+        }
+
+        .box .two, .box .three, .box .four {
+            display: none;
+        }
+
+        .box .two {
+            margin-left: 20px;
+        }
+
+        .box .three {
+            margin-left: 40px;
+        }
+
+        .box .four {
+            margin-left: 60px;
+        }
+    </style>
+</head>
+<body>
+<div class="box" id="box">
+    <ul>
+        <li>
+            <em></em><span>第一级第一个</span>
+            <ul class="two">
+                <li><span>第二级第一个</span></li>
+                <li>
+                    <em></em><span>第二级第二个</span>
+                    <ul class="three">
+                        <li><span>第三级第一个</span></li>
+                        <li><span>第三级第二个</span></li>
+                        <li>
+                            <em></em><span>第三级第三个</span>
+                            <ul class="four">
+                                <li><span>第四级第一个</span></li>
+                                <li><span>第四级第二个</span></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <em></em><span>第二级第三个</span>
+                    <ul class="three">
+                        <li><span>第三级第一个</span></li>
+                        <li><span>第三级第二个</span></li>
+                        <li><span>第三级第三个</span></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <em></em><span>第一级第二个</span>
+            <ul class="two">
+                <li><span>第二级第一个</span></li>
+                <li>
+                    <em></em><span>第二级第二个</span>
+                    <ul class="three">
+                        <li><span>第三级第一个</span></li>
+                        <li><span>第三级第二个</span></li>
+                        <li>
+                            <em></em><span>第三级第三个</span>
+                            <ul class="four">
+                                <li><span>第四级第一个</span></li>
+                                <li><span>第四级第二个</span></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <em></em><span>第二级第三个</span>
+                    <ul class="three">
+                        <li><span>第三级第一个</span></li>
+                        <li><span>第三级第二个</span></li>
+                        <li><span>第三级第三个</span></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<script type="text/javascript" src="js/utils-1.0.min.js"></script>
+<script type="text/javascript">
+    var box = document.getElementById("box");
+    var spanList = box.getElementsByTagName("span");
+
+    //1、循环所有的span标签,让下面有弟弟元素(并且是UL)的都增加鼠标滑过是小手的效果
+    for (var i = 0; i < spanList.length; i++) {
+        var curSpan = spanList[i];
+        var nex = utils.next(curSpan);
+        if (nex && nex.tagName.toLowerCase() === "ul") {
+            curSpan.style.cursor = "pointer";
+        }
+    }
+
+    //2、事件委托实现点击展开、收起
+    var showAndHid = function (curEle) {
+        //获取的是span后的ul
+        var nex = utils.next(curEle);
+
+        //获取的是span前的em
+        var oEm = utils.prev(curEle);
+
+        //只有前面有展开收缩的em标签我们才操作
+        if (oEm && oEm.tagName.toLowerCase() === "em") {
+            //获取当前的ul是展开还是隐藏
+            var isBlock = utils.css(nex, "display");
+
+            if (isBlock === "block") {//当前是展开的,我们隐藏
+                nex.style.display = "none";
+                utils.removeClass(oEm, "open");
+
+                //不仅自己收起,而且子孙辈分所有的ul和em都要收起
+                var allEm = nex.getElementsByTagName("em");
+                var allUl = nex.getElementsByTagName("ul");
+                for (var i = 0; i < allEm.length; i++) {
+                    allUl[i].style.display = "none";
+                    utils.removeClass(allEm[i], "open");
+                }
+            } else {//当前是隐藏的,我们展开
+                nex.style.display = "block";
+                utils.addClass(oEm, "open");
+            }
+        }
+    };
+
+    box.onclick = function (e) {
+        e = e || window.event;
+        e.target = e.target || e.srcElement;
+
+        //不管点击的是em还是span传递给showAndHid这个方法的都是span
+        if (e.target.tagName.toLowerCase() === "span") {
+            showAndHid(e.target);
+        } else if (e.target.tagName.toLowerCase() === "em") {
+            var nex = utils.next(e.target);
+            showAndHid(nex);
+        }
+    };
+</script>
+</body>
+</html>

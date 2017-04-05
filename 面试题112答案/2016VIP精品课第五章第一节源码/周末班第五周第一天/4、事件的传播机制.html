@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        body, div {
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #outer {
+            margin: 20px auto;
+            padding: 20px;
+            width: 300px;
+            height: 300px;
+            background: #008000;
+        }
+
+        #inner {
+            padding: 20px;
+            width: 200px;
+            height: 200px;
+            background: red;
+        }
+
+        #center {
+            width: 100px;
+            height: 100px;
+            background: orange;
+        }
+    </style>
+</head>
+<body>
+<div id="outer">
+    <div id="inner">
+        <div id="center"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //事件的默认传播机制:
+    //->捕获阶段:从外向内依次查找元素
+    //->目标阶段:当前事件源本身的操作
+    //->冒泡阶段:从内到外依次触发相关的行为(我们最常用的就是冒泡阶段)
+
+    var outer = document.getElementById("outer"), inner = document.getElementById("inner"), center = document.getElementById("center");
+
+    //->使用DOM0级事件绑定给元素的某一个行为绑定的方法，都是在行为触发后的冒泡阶段把方法执行的
+    //    document.body.onclick = function (e) {
+    //        console.log("body");
+    //    };
+    //    outer.onclick = function (e) {
+    //        console.log("outer");
+    //    };
+    //    inner.onclick = function (e) {
+    //        console.log("inner");
+    //    };
+    //    center.onclick = function (e) {
+    //        console.log("center");
+    //    };
+
+    //addEventListener->第一个参数是行为的类型 第二个参数是给当前的行为绑定的方法 第三个参数是控制在哪个阶段发生:true 在捕获阶段发生  false 在冒泡阶段发生
+    document.body.addEventListener("click", function (e) {
+        console.log("body");
+    }, false);
+
+    outer.addEventListener("click", function (e) {
+        console.log("outer");
+    }, true);
+
+    inner.addEventListener("click", function (e) {
+        console.log("inner");
+    }, false);
+</script>
+</body>
+</html>

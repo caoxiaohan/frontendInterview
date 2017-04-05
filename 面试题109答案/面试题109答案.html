@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>面试题109答案</title>
+</head>
+<body>
+<h1>109 什么是设计模式以及设计模式的作用？举例说明什么是发布-订阅模式？举例实现一个发布-订阅模式？发布-订阅模式的优缺点？</h1>
+<input type="text" name="username" id="username" value="cxh"  />  
+<pre>
+  一、什么是设计模式以及设计模式的作用？
+      1 模式的定义：模式是一种问题的解决思路，它已经适用于一个实践环境，并且可以适用于其他坏境。
+      2 设计模式的定义：通常是对于某一类的软件设计问题的可重用的解决方案，将设计模式引入软件设计和开发过程，其目的就在于要充分利用已有的软件开发经验。
+      3 设计模式的作用：
+        3.1 重用设计，重用设计比重用代码更有意义，它会自动带来代码的重用。
+　　　　3.2 为设计提供共用的词汇，每个模式名就是一个设计词汇，其概念使得程序员间的交流更加方便。
+　　　　3.3 在开发文档中采用模式词汇可以让其他人更容易理解你的想法，理解为什么你会这样做，你都做了些什么。编写开发文档也更加容易。
+　　　　3.4 应用设计模式可以让重构系统变得容易，可确保开发正确的代码，并降低在设计或实现中出现错误的可能性，还可以为重写其他应用程序提供很好的系统框架。
+　　　　3.5 正确使用设计模式，可以节省大量的时间。
+
+  二、举例说明什么是发布-订阅模式？ 
+     1 发布-订阅模式的定义：
+       发布/订阅（Publish/subscribe 或pub/sub）是一种消息范式，消息的发送者（发布者）不是计划发送其消息给特定的接收者（订阅者）。而是发布的消息分为不同的类别，而不需要知道什么样的订阅者订阅。订阅者对一个或多个类别表达兴趣，于是只接收感兴趣的消息，而不需要知道什么样的发布者发布的消息。这种发布者和订阅者的解耦可以允许更好的可扩展性和更为动态的网络拓扑.
+     2 发布-订阅模式的举例：
+	    2.1 微信公众号
+	       发布者：微信运营管理员（发送图文消息）。
+	       订阅者：关注微信公众号的粉丝。
+	       微信公众号（服务号和订阅号）有很多，比如创业类的、培训类的、搞笑类等。
+	       微信用户作为订阅者只关注感兴趣的公众号，当微信公众号的运营人员作为发布者发布图文消息后不需要挨个通知每个粉丝，所有粉丝自动接收图文消息。
+	    2.2 传统报纸行业      
+	        发布者：报社
+	        订阅者：订阅报纸的人
+	        一家报社可能有多个订阅者，一个订阅者可能订阅了多家报社的报纸，这是一种多对多的关系，需要一种模式方便发布者能够被任何意向者订阅，也方便订阅者订阅或者取消订阅，并支持订阅者独立地发生改变，比如接收到报纸后有的订阅者可以扔垃圾桶不看，而有的会将内容分享给周围的人。
+	    2.3 事件监听器
+	        发布者：邦定事件的DOM元素
+	        订阅者：绑定事件的方法
+	        复习《面试题108答案》
+	        事件监听器（DOM2级，attachEvent和addEventListener）是一种内置的观察者。
+	        注意：DOM0级一个事件处理程序只能对应一个处理函数，所以DOM0级只能算是事件处理器，不能算是事件监听器，也不是观察者。
+    
+  三、举例实现一个发布-订阅模式？
+      详见《发布-订阅模式.html》
+      1 首先要明确观察者模式的核心成员（对象）及其行为（方法）
+        发布者：负责投送。
+        订阅者：负责订阅和退订。
+      2 相关英文的单词
+        发布者：Publisher
+        订阅者：subscriber
+        投送：deliver
+        订阅: subscribe
+        退订：unsubscribe
+      3 构建观察者API
+        3.1 定义一个发布者的构造函数
+            <script type="text/javascript">
+            	function Publisher(){
+	            	this.subscribers=[];//该数组用来保存订阅者的引用
+	            }
+            </script>            
+        3.2 定义投送方法deliver
+            复习《面试题44答案》第8.5 forEach方法(IE8及其以下浏览器不兼容)
+            将deliver方法定义在构造函数Publisher的prototype中，这样Publisher的所有实例对象都能调用这个方法。
+            forEach:用来遍历数组中的每一项；这个方法执行是没有返回值的，对原来数组也没有影响；
+                    数组中有几项，那么传递进去的回调函数fn就需要执行几次；
+                    每一次执行回调函数fn的时候，还给其传递了三个参数值：数组中的当前项item,当前项的索引index,原始数组input；
+            由于我们只用到第一个参数即数组的每项元素item=subscribers[i]，定义fn方法时只需要带传入一个参数item即可.
+            第1种写法：PC端IE8及其以下浏览器不兼容，移动端浏览器是标准浏览器都兼容，当看见别人这样写时要能看懂
+            <script type="text/javascript">
+            	 Publisher.prototype.deliver = function(data){
+            	 	var fn=function(item){ item(data); }
+	            	this.subscribers.forEach(fn);
+                    return this; //方便链式写法。
+	            }
+            </script>
+            第2种写法：上述方法的等价写法如下：
+             <script type="text/javascript">
+            	 Publisher.prototype.deliver = function(data){
+	            	for(var i=0;i<this.subscribers.length;i++){
+	            		var item=this.subscribers[i];
+	            		item(data);
+	            	}
+                    return this; //方便链式写法。
+	            }
+            </script>
+         3.3 定义订阅方法
+            由于订阅者是函数类型，为了让所有函数都能继承订阅方法，暂且将订阅方法subscribe订阅在Function.prototype上。
+            复习《面试题44答案》第8.2 some方法(IE8及其以下浏览器不兼容)
+            some 为数组中的每一个元素执行一次回调函数fn，直到找到一个使得返回一个“真值”（即可转换为布尔值 true 的值）。
+                 如果找到了这样一个值，some 将会立即返回 true。否则，some 返回 false。
+                 每一次执行回调函数fn的时候，还给其传递了三个参数值：数组中的当前项item,当前项的索引index,原始数组input；
+            第1种写法：PC端IE8及其以下浏览器不兼容。
+             <script type="text/javascript">
+             	Function.prototype.subscribe = function(publisher){
+             		var that=this;
+             		var fn=function(item){ return item===that;};
+             		var flag=publisher.subscribers.some(fn);//只要有一个满足就返回true
+             		if(flag){ publisher.subscribers.push(this);};//
+             		return this;//方便链式写法
+             	}	
+             </script>
+             第2种写法：上述方法的等价写法如下：
+              <script type="text/javascript">
+             	Function.prototype.subscribe = function(publisher){             		
+             		for(var i=0;i<publisher.subscribers.length;i++){
+             			 var item=publisher.subscribes[i];
+             			 if(this===item) return this;
+             		}
+             		publisher.subscribers.push(this);
+             		return this;//方便链式写法
+             	}	
+             </script>
+        3.4 退订方法
+            复习《面试题44答案》第8.3 filter方法(IE8及其以下浏览器不兼容)
+            退订方法unsubscribe用来停止对发布者的观察.
+            filter: 删除数组中不满足条件的元素，最终返回一个新的数组。
+            不满足item!=that的只有订阅者等于that的元素，即调用unsubscribe的订阅者从订阅者数组中被删除。
+            第1种写法：PC端IE8及其以下浏览器不兼容。
+            <script type="text/javascript">
+                Function.prototype.unsubscribe = function(publisher){             		
+             		var that=this;
+             	    var fn=function(item){ return item !== that;};
+             	    publisher.subscribes=publisher.subscribers.filter(fn);//只要有一个满足就返回true             	
+             	    return this;//方便链式写法
+             	}	              	
+            </script>
+            第2种写法：上述方法的等价写法如下.
+            <script type="text/javascript">
+            	Function.prototype.unsubscribe = function(publisher){            	
+             		var that=this;
+             	    var arr=publisher.subscribes;
+             	    for(var i=0;i<arr.length;i++){
+             	    	if(this===arr[i]){
+             	    		arr.splice(i,1);
+             	    		i--;
+             	    	}
+             	    }      	
+             	    return this;//方便链式写法
+             	}	   
+            </script>
+       4 举例说明发布-订阅模式
+         <script type="text/javascript">
+         	 // 1 创建几个发布者
+         	  var publisher1 = new Publisher;
+         	  var publisher2 = new Publisher;
+         	  var publisher3 = new Publisher;
+            // 2 创建几个订阅者：
+              var subscriber1 = function(content){
+              	 console.log("订阅者subscriber1订阅内容："+content);
+              }
+              var subscriber2 = function(content){
+              	 console.log("订阅者subscriber2订阅内容："+content);
+              }
+              var subscriber3 = function(content){
+              	 console.log("订阅者subscriber3订阅内容："+content);
+              }
+
+            // 3 订阅者订阅
+              subscriber1.subscribe(publisher1).subscribe(publisher2);
+              //由于我们定义subscribe方法时返回this支持链式写法，等价于下面写法：
+              // subscriber1.subscribe(publisher1);
+              // subscriber1.subscribe(publisher2);
+              subscriber2.subscribe(publisher1).subscribe(publisher2).subscribe(publisher3);
+              subscriber3.subscribe(publisher1);
+            // 4 发布者投递
+              publisher1.deliver("publisher1发布了一条消息");
+              publisher2.deliver("publisher2发了一条娱乐新闻").deliver("publisher2发了一条体育新闻").deliver("publisher2发了一条财经新闻");
+              publisher3.deliver("publisher3发了一个红包").deliver("publisher3送了一个纪念品");
+
+         </script>
+
+  四、发布-订阅模式的优缺点？
+      1 优点
+       1.1 松耦合
+          发布者不需要知道订阅者的数量，订阅者订阅的种类或者订阅者如何处理收到的信息的。他们能够相互独立地运行，这样就可以让你分开开发这两部分而不需要担心对状态或实现的任何细微的影响。
+      1.2 可扩展性
+         因为松耦合，不需要重构代码就能扩展新的功能模块，还能帮助实现一些别的设计模式比如中介模式。
+      1.3 优良设计
+         因为我们对解耦和松耦合的强调通常会让我们有更干净地设计，无论是MVC还是MVVM都少不了发布-订阅模式的参与。 
+      1.4 灵活性
+         你不需要担心不同的组件是如何组合在一起的，只要他们共同遵守一份协议。
+    2 缺点
+      2.1 创建可观察对象会带来时间加载的开销。
+          解决方案：通过惰性加载技术，把新的可观察对象的实例化推迟到需要发送事件通知的时候。
+      2.2 当多个发布者和订阅者嵌套在一起的时候跟踪测试困难。
+         发布/订阅模式最大的有点是解耦，但同时也是最大的缺点：
+         发布-订阅模式的解耦性弱化对象之间的联系，发布者不知道订阅者的状态。
+         解决方案：需要中间人/代理商，消息规范和相关的规则会给系统增加一些复杂度。
+      
+</pre>
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            background: lightblue;
+            cursor: pointer;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<script charset="utf-8" type="text/javascript" src="function.js"></script>
+<script charset="utf-8" type="text/javascript" src="array.js"></script>
+<script charset="utf-8" type="text/javascript" src="event.js"></script>
+<script type="text/javascript">
+    //->给BODY的点击行为绑定多个方法(DOM0不行,只能使用DOM2),在使用DOM2绑定的时候需要“瞻前顾后”,绑定的时候还要想到能移除呢?我们绑定的方法都是实名函数;
+    //->移除时候的三个参数需要和绑定时候的三个参数一模一样才可以移除掉
+    //    document.body.addEventListener("click",fn,false);
+    //    document.body.removeEventListener("click",fn,false)
+
+    var count = 0;
+    function fn1() {
+        console.log(1);
+    }
+
+    function fn2() {
+        console.log(2);
+    }
+    function fn3() {
+        console.log(3);
+    }
+    function fn4() {
+        console.log(4);
+    }
+    function fn5() {
+        console.log(5);
+    }
+    function fn6() {
+        console.log(6);
+    }
+    function fn7() {
+        console.log(7);
+    }
+    function fn8() {
+        console.log(8);
+    }
+    function fn9() {
+        console.log(9);
+    }
+    function fn10() {
+        console.log(10);
+    }
+    function fn11() {
+        console.log(11);
+    }
+    function fn12() {
+        console.log(12);
+    }
+
+    
+
+    bofuwaEvent.on(document.body, "click", fn1).on(document.body, "click", fn2).on(document.body, "click", fn3).on(document.body, "click", fn4).on(document.body, "click", fn5).on(document.body, "click", fn6).on(document.body, "click", fn7).on(document.body, "click", fn8).on(document.body, "click", fn9).on(document.body, "click", fn10).on(document.body, "click", fn11).on(document.body, "click", fn12).on(document.body, "click", fn12);//->on方法中存在fn12了,不在往里面存储了
+    //on(document.body, "mouseover", fn12);//->类型不一样是不存在冲突的
+
+        bofuwaEvent.off(document.body, "click", fn1).off(document.body, "click", fn2).off(document.body, "click", fn3).off(document.body, "click", fn4);
+
+ 
+
+</script>
+</body>
+</html>

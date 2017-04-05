@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>珠峰培训</title>
+    <style type="text/css">
+        #div1 {
+            width: 200px;
+            height: 200px;
+            background: red;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="div1"></div>
+
+<script type="text/javascript">
+    //1、什么是事件?
+    //->事件分为两部分:
+    //1)行为本身:浏览器天生就赋予其的行为 onclick、onmouseover(onmouserenter)、onmouseout(onmouseleave)、onmousemove、onmousedown、onmouseup、onmousewheel(鼠标滚轮滚动行为)、onscroll(滚动条滚动行为)、onresize(window.onresize浏览器窗口的大小改变事件)、onload、onunload、onfocus(文本框获取焦点行为)、onblur(文本框失去焦点行为)、onkeydown、onkeyup(键盘的按下和抬起行为)...
+    //->哪怕我没有给上述的行为绑定方法,事件也是存在的,当我们点击这个盒子的时候，同样会触发它的onclick行为,只是什么事情都没做而已
+
+    //2)事件绑定:给元素的某一个行为绑定方法
+    var oDiv = document.getElementById("div1");
+
+    //DOM0级事件绑定
+    oDiv.onclick = function () {
+        //->当我们触发oDiv的click行为的时候，会把绑定的这个函数执行
+    };
+    //->onclick这个行为定义在当前元素的私有属性上
+
+    //DOM2级事件绑定
+    oDiv.addEventListener("click", function () {
+        console.log("ok");
+    }, false);
+    //->addEventListener这个属性是定义在当前元素所属EventTarget这个类的原型上的
+</script>
+</body>
+</html>

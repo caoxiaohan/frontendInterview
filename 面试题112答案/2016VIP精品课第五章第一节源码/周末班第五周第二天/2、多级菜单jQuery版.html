@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>珠峰培训-多级菜单</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "\5FAE\8F6F\96C5\9ED1", Helvetica, sans-serif;
+            font-size: 14px;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        .box {
+            margin: 10px;
+            padding: 10px;
+            width: 300px;
+            border: 1px dashed #008000;
+
+            /*渐进增强:首先设置一个纯色的背景，对于不兼容CSS3的浏览器来说会使用纯色；对于兼容的浏览器来说，我们下面在额外的增加一些渐变色，这样的话会把纯色的覆盖掉*/
+            background: #ffe470;
+            background: -webkit-linear-gradient(top left, #2B93D2, #FA5889, #CDE074, #ffe470);
+            background: -moz-linear-gradient(top left, #2B93D2, #FA5889, #CDE074, #ffe470);
+            background: -o-linear-gradient(top left, #2B93D2, #FA5889, #CDE074, #ffe470);
+            background: linear-gradient(top left, #2B93D2, #FA5889, #CDE074, #ffe470);
+        }
+
+        .box li {
+            position: relative;
+            line-height: 30px;
+        }
+
+        .box span {
+            display: block;
+            padding-left: 20px;
+        }
+
+        .box em {
+            position: absolute;
+            top: 7px;
+            left: 0;
+            width: 16px;
+            height: 16px;
+            background: url("img/icon.png") no-repeat -59px -28px;
+            cursor: pointer;
+        }
+
+        .box em.open {
+            background-position: -42px -28px;
+        }
+
+        .box .two {
+            margin-left: 20px;
+        }
+
+        .box .three {
+            margin-left: 40px;
+        }
+
+        .box .four {
+            margin-left: 60px;
+        }
+
+        .box .five {
+            margin-left: 80px;
+        }
+
+        .box .two, .box .three, .box .four, .box .five {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="box" id="box">
+    <ul>
+        <li>
+            <em></em><span>第一级第一个</span>
+            <ul class="two">
+                <li><span>第二级第一个</span></li>
+                <li>
+                    <em></em><span>第二级第二个</span>
+                    <ul class="three">
+                        <li>
+                            <em></em><span>第三级第一个</span>
+                            <ul class="four">
+                                <li><span>第四级第一个</span></li>
+                                <li><span>第四级第二个</span></li>
+                                <li>
+                                    <em></em><span>第四级第三个</span>
+                                    <ul class="five">
+                                        <li>第五级第一个</li>
+                                        <li>第五级第二个</li>
+                                        <li>第五级第三个</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><span>第三级第二个</span></li>
+                        <li>
+                            <em></em><span>第三级第三个</span>
+                            <ul class="four">
+                                <li><span>第四级第一个</span></li>
+                                <li><span>第四级第二个</span></li>
+                                <li><span>第四级第三个</span></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <em></em><span>第二级第三个</span>
+                    <ul class="three">
+                        <li><span>第三级第一个</span></li>
+                        <li><span>第三级第二个</span></li>
+                        <li><span>第三级第三个</span></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <em></em><span>第一级第二个</span>
+            <ul class="two">
+                <li><span>第二级第一个</span></li>
+                <li>
+                    <em></em><span>第二级第二个</span>
+                    <ul class="three">
+                        <li><span>第三级第一个</span></li>
+                        <li><span>第三级第二个</span></li>
+                        <li>
+                            <em></em><span>第三级第三个</span>
+                            <ul class="four">
+                                <li><span>第四级第一个</span></li>
+                                <li><span>第四级第二个</span></li>
+                                <li><span>第四级第三个</span></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <em></em><span>第二级第三个</span>
+                    <ul class="three">
+                        <li><span>第三级第一个</span></li>
+                        <li><span>第三级第二个</span></li>
+                        <li><span>第三级第三个</span></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+    var $box = $("#box");
+    $box.find("span").each(function () {
+        //$(this)->每一次循环的时候,当前循环的这个元素
+        var $pre = $(this).prev();
+        if ($pre[0] && $pre[0].tagName.toLowerCase() === "em") {
+            $(this).css("cursor", "pointer");
+        }
+    });
+
+    //jQuery中除了bind、unbind、on、off、click、mouseover...这些绑定事件的方式外,还提供了一种delegate(1.7版本以前用的是live)
+    function fn() {
+        var $par = $(this).parent();
+        var $ul = $($par.children("ul")[0]);
+        var $em = $($par.children("em")[0]);
+        if ($ul.length > 0) {
+
+            //->进来的第一件事情获取当前是展开还是隐藏
+            var isBlock = $ul.css("display") === "block" ? true : false;
+            //->当前的如果是展开的话,我们需要让当前的隐藏，并且把子子孙孙中所有的ul/em都隐藏和移除open样式
+            if (isBlock) {
+                $ul.slideUp();
+                $em.removeClass("open");
+
+                $par.find("ul").css("display", "none");
+                $par.find("em").removeClass("open");
+            } else {
+                $ul.slideDown();
+                $em.addClass("open");
+            }
+        }
+    }
+    $box.delegate("em", "click", fn);//->给$box绑定点击事件,如果当前的事件源是em的话,我们执行fn
+    $box.delegate("span", "click", fn);
+</script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>珠峰培训</title>
+    <style type="text/css">
+        #div1 {
+            margin: 1000px auto;
+            width: 200px;
+            height: 200px;
+            background: red;
+        }
+
+
+    </style>
+</head>
+<body>
+<input type="text" id="input1"/>
+
+<div id="div1"></div>
+
+
+<script type="text/javascript">
+    var input1 = document.getElementById("input1");
+    input1.onkeyup = function (e) {
+        e = e || window.event;
+        //->KeyboardEvent
+        //->e.keyCode：当前键盘上每一个键对应的值
+        //空格键(space)->32
+        //回退键(Backspace)->8
+        //回车键(Enter)->13
+        //删除键(Del)->46
+        //四个方向键->左 37 上38 右39 下40
+        //....
+        console.log(e.keyCode);
+    };
+
+
+    var oDiv = document.getElementById("div1");
+
+    //->我们是把匿名函数定义的部分当做一个值赋值给oDiv的点击行为(函数表达式)
+    //->当我们触发#div1的点击行为的时候,会执行对应绑定上的方法
+    //->重要：不仅仅把绑定的方法执行了，而且浏览器还默认的给这个方法传递了一个参数值->MouseEvent:鼠标事件对象
+    //1)它是一个对象数据类型值,里面包含了很多的属性名和属性值,这些都是用来记录当前鼠标的相关信息的
+    //2)MouseEvent-->UIEvent-->Event-->Object
+    //3)MouseEvent记录的是页面中唯一一个鼠标每一次触发时候的相关信息,和到底是在哪个元素上触发的没有关系
+
+
+    //2、关于事件对象MouseEvent的兼容问题
+    //->1)事件对象本身的获取存在兼容问题：标准浏览器中是浏览器给方法传递的参数，我们只需要定义形参e就可以获取到;在IE6~8中浏览器不会给方法传递参数，我们如果需要的话，需要到window.event中获取查找;
+    //->e = e || window.event;
+    oDiv.onclick = function (e) {
+        e = e || window.event;
+        //->e.type：存储的是当前鼠标触发的行为类型 "click"
+        //->e.clientX/ e.clientY :当前鼠标触发点距离当前屏幕左上角的x/y轴的坐标值
+
+        //->e.target:事件源,当前鼠标触发的是哪个元素,那么它存储的就是哪个元素，但是在IE6~8中不存在这个属性(e.target的值是undefined),我们使用e.srcElement来获取事件源
+        e.target = e.target || e.srcElement;
+
+        //->e.pageX/e.pageY：当前鼠标触发点距离body左上角(页面第一屏幕最做上端)的x/y轴的坐标，但是在IE6~8中没有这个属性,我们通过使用clientY+滚动条卷去的高度来获取也可以
+        e.pageX = e.pageX || (e.clientX + (document.documentElement.scrollLeft || document.body.scrollLeft));
+        e.pageY = e.pageY || (e.clientY + (document.documentElement.scrollTop || document.body.scrollTop));
+
+        //->e.preventDefault:阻止浏览器的默认行为,在IE6~8中没有这个方法,我们需要使用e.returnValue=false;来代替
+        e.preventDefault ? e.preventDefault() : e.returnValue = false;
+
+        //->e.stopPropagation:阻止事件的冒泡传播,在IE6~8中不兼容,使用e.cancelBubble=true来代替
+        e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true;
+    };
+    document.body.onclick = function (e) {
+        e = e || window.event;
+        e.target = e.target || e.srcElement;
+        e.pageX = e.pageX || (e.clientX + (document.documentElement.scrollLeft || document.body.scrollLeft));
+        e.pageY = e.pageY || (e.clientY + (document.documentElement.scrollTop || document.body.scrollTop));
+    };
+
+    document.body.onkeyup = function (e) {
+        e = e || window.event;
+        console.log(e.keyCode);
+    }
+</script>
+</body>
+</html>

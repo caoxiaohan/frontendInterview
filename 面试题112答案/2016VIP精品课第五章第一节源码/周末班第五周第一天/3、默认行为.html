@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        body, div, ul, li, a {
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            display: block;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        #ul1 {
+            margin: 20px auto;
+            width: 300px;
+        }
+
+        #ul1 li {
+            height: 35px;
+            line-height: 35px;
+            border-bottom: 1px solid #008000;
+        }
+
+        #ul1 li a {
+            height: 35px;
+            line-height: 35px;
+        }
+
+        /*我们给li加:hover伪类在IE6浏览器中是不兼容的，只有a标签的这个伪类才是兼容所有浏览器的*/
+        /* #ul1 li:hover {
+             background: #08BECE;
+         }*/
+
+        #ul1 li a:hover {
+            background: #08BECE;
+        }
+    </style>
+</head>
+<body>
+<a href="http://www.zhufengpeixun.cn" target="_blank">珠峰培训</a>
+
+<ul id="ul1">
+    <!--href="javascript:;"直接在HTML结构上阻止默认行为  href="javascript:void 0;"  href="javascript:void 1;"  思考题：回去搜素三种写法的区别-->
+    <li><a href="javascript:;">1</a></li>
+    <li><a href="javascript:;">2</a></li>
+    <li><a href="javascript:;">3</a></li>
+    <li><a href="javascript:;">4</a></li>
+    <li><a href="javascript:;">5</a></li>
+</ul>
+
+
+<script type="text/javascript">
+    //->a标签的默认行为就是跳转页面,但是我们有时候使用a标签,只是想应用它的特殊性,并不想点击的时候跳转
+
+        var linkList = document.getElementsByTagName("a");
+        for (var i = 0; i < linkList.length; i++) {
+            linkList[i].onclick = function (e) {
+                e = e || window.event;
+                //e.preventDefault ? e.preventDefault() : e.returnValue = false;
+                return false;//->和上述的代码是一样的效果,都是在阻止默认的行为
+            }
+        }
+</script>
+</body>
+</html>

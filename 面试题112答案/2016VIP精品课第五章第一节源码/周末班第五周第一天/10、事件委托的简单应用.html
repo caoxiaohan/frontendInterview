@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        body, div, span {
+            margin: 0;
+            padding: 0;
+            font-family: "\5FAE\8F6F\96C5\9ED1", Helvetica, sans-serif;
+            font-size: 14px;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #box {
+            position: absolute;
+            left: 50%;
+            top: 50px;
+            margin-left: -50px;
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border: 1px solid #2489ce;
+        }
+
+        #mark {
+            position: absolute;
+            top: 30px;
+            left: -1px;
+            width: 300px;
+            height: 100px;
+            line-height: 100px;
+            text-align: center;
+            background: #ffe470;
+            border: 1px solid #2489ce;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <span>购物车</span>
+
+    <div id="mark" style="display: none;">查看购物车中的详细信息</div>
+</div>
+
+<script type="text/javascript">
+    var mark = document.getElementById("mark");
+
+    document.body.onclick = function (e) {
+        e = e || window.event;
+        e.target = e.target || e.srcElement;
+
+        //->如果点击的是#box或者是#box下的span,我们判断mark是否显示,显示的话让其隐藏,反之隐藏的话让其显示
+        if (e.target.id === "box" || (e.target.tagName.toLowerCase() === "span" && e.target.parentNode.id === "box")) {
+            if (mark.style.display === "none") {
+                mark.style.display = "block";
+            } else {
+                mark.style.display = "none";
+            }
+            return;
+        }
+
+        //->如果事件源是#mark，不进行任何的操作
+        if (e.target.id === "mark") {
+            return;
+        }
+
+        //->以上都不是的话，我们直接让#mark隐藏
+        mark.style.display = "none";
+    };
+</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>发布/订阅模式</title>
+</head>
+<body>   
+    <script>
+        // 1 发布订阅模式通用API 
+        // 1.1 定义发布者的构造函数
+        function Publisher(){
+            this.subscribers=[];//该数组用来保存订阅者的引用
+        }
+        // 1.2 定义发布者的递送方法
+        Publisher.prototype.deliver = function(data){
+            var fn=function(item){ item(data); }
+            this.subscribers.forEach(fn);
+            return this; //方便链式写法。
+        }
+        // 1.3 定义订阅者的订阅方法
+        Function.prototype.subscribe = function(publisher){
+           var fn=function(item){ return item === this;}
+            var flag=publisher.subscribers.some(fn,this);//只要有一个满足就返回true
+            if(!flag){ publisher.subscribers.push(this);};//
+            return this;//方便链式写法
+        }
+        // 1.4 定义订阅者的退订方法
+        Function.prototype.unsubscribe = function(publisher){ 
+            var fn=function(item){ return item !== this;}
+            publisher.subscribes=publisher.subscribes.filter(fn,this);//只要有一个满足就返回true               
+            return this;//方便链式写法
+        } 
+
+        // 2 发布订阅模式实践
+         // 2.1 创建几个发布者
+              var publisher1 = new Publisher;
+              var publisher2 = new Publisher;
+              var publisher3 = new Publisher;
+            // 2.2 创建几个订阅者
+              var subscriber1 = function(from){
+                 console.log("订阅者subscriber1订阅内容："+from);
+              }
+              var subscriber2 = function(from){
+                 console.log("订阅者subscriber2订阅内容："+from);
+              }
+              var subscriber3 = function(from){
+                 console.log("订阅者subscriber3订阅内容："+from);
+              }
+                // 2.3 订阅者订阅
+              subscriber1.subscribe(publisher1).subscribe(publisher2);
+              //由于我们定义subscribe方法时返回this支持链式写法，等价于下面写法：
+              // subscriber1.subscribe(publisher1);
+              // subscriber1.subscribe(publisher2);
+              subscriber2.subscribe(publisher1).subscribe(publisher2).subscribe(publisher3);
+              subscriber3.subscribe(publisher1);
+           
+            // 2.4 发布者投递
+              publisher1.deliver("publisher1发布了一条消息");
+              publisher2.deliver("publisher2发了一条娱乐新闻").deliver("publisher2发了一条体育新闻").deliver("publisher2发了一条财经新闻");
+              publisher3.deliver("publisher3发了一个红包").deliver("publisher3送了一个纪念品");
+          
+        
+    </script>
+</body>

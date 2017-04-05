@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        body, div, img {
+            margin: 0;
+            padding: 0;
+        }
+
+        img {
+            display: block;
+            border: none;
+        }
+
+        .box {
+            position: relative;
+            margin: 20px auto;
+            width: 450px;
+        }
+
+        .box img {
+            float: left;
+            margin-left: 10px;
+            width: 100px;
+            height: 75px;
+            border: 1px solid #008000;
+        }
+
+        #mark {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            width: 400px;
+            height: 300px;
+            border: 1px solid #0077B0;
+        }
+
+        #mark img {
+            float: inherit;
+            margin-left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+<div class="box" id="box">
+    <img src="img/apple_1.jpg" bigImg="img/apple_1_bigger.jpg"/>
+    <img src="img/apple_2.jpg" bigImg="img/apple_2_bigger.jpg"/>
+    <img src="img/apple_3.jpg" bigImg="img/apple_3_bigger.jpg"/>
+    <img src="img/apple_4.jpg" bigImg="img/apple_4_bigger.jpg"/>
+
+    <div id="mark">
+        <img src="img/apple_1_bigger.jpg"/>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+    //->等价于$(document).ready()
+    //->当页面上的HTML结构都加载完成在执行对应的函数
+    $(function () {
+        var $box = $("#box"), $mark = $("#mark");
+        var $boxOffset = $box.offset();//->获取当前元素距离body的偏移{top:xxx,left:xxx}
+
+        $box.children("img").bind("mouseover", function (e) {
+            e = e || window.event;
+            e.target = e.target || e.srcElement;
+
+            var left = e.clientX - $boxOffset.left + 10;
+            var top = e.clientY - $boxOffset.top + 10;
+
+            //->hide、toggle、slideDown、slideUp、slideToggle、fadeIn、fadeOut、fadeToggle、animate...
+            $mark.stop().show(500).css({left: left, top: top}).find("img").attr("src", e.target.getAttribute("bigImg"));
+
+        }).bind("mousemove", function (e) {
+            e = e || window.event;
+            e.target = e.target || e.srcElement;
+
+            var left = e.clientX - $boxOffset.left + 10;
+            var top = e.clientY - $boxOffset.top + 10;
+
+            $mark.css({left: left, top: top});
+
+        }).bind("mouseout", function (e) {
+            $mark.stop().hide();
+        });
+        /*$box.children("img").on("mouseover")
+         $box.children("img").mouseover(function(){})*/
+    });
+</script>
+</body>
+</html>

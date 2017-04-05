@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        body, div {
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #outer {
+            margin: 20px auto;
+            padding: 20px;
+            width: 300px;
+            height: 300px;
+            background: #008000;
+        }
+
+        #inner {
+            padding: 20px;
+            width: 200px;
+            height: 200px;
+            background: red;
+        }
+
+        #center {
+            width: 100px;
+            height: 100px;
+            background: orange;
+        }
+    </style>
+</head>
+<body>
+<div id="outer">
+    <div id="inner">
+        <div id="center"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //1、什么是事件委托/事件代理
+    //->利用事件的冒泡传播机制(触发当前元素的某个行为，它父级所有元素的相关行为都会被触发)，如果一个容器中有很多元素都要绑定点击事件，我们没有必要一个个的绑定了，只需要给最外层容器绑定一个点击事件即可，在这个方法执行的时候，通过事件源的区分来进行不同的操作
+    var outer = document.getElementById("outer"), inner = document.getElementById("inner"), center = document.getElementById("center");
+    document.body.onclick = function (e) {
+        e = e || window.event;
+        console.log(e.target.id);
+    };
+</script>
+</body>
+</html>
