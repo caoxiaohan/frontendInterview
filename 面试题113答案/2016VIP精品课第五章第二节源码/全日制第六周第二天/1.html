@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM2事件的兼容性处理</title>
+</head>
+<body>
+<div id="div1" style="width: 200px;height: 200px;background:red;"></div>
+
+<script type="text/javascript" src="zhufengEvent.js"></script>
+<script type="text/javascript">
+    //    //->标准浏览器
+    //    var fn = function () {
+    //    };
+    //    document.addEventListener("click", fn, false);
+    //    document.removeEventListener("click", fn, false);
+    //
+    //    //->IE6~8中
+    //    document.attachEvent("onclick", fn);
+    //    document.detachEvent("onclick", fn);
+
+
+    //->标注浏览器和IE6~8浏览器之间的一些重要的区别：
+    //->this问题：标准浏览器中给一个元素的某个行为绑定方法,当行为触发执行对应方法的时候,方法中的this就是当前的元素；但是，在IE6~8中，方法执行，方法中的this是window
+    //->重复问题：标准浏览器中不能给同一个元素的同一个行为绑定多个相同的方法；但是在IE6~8下是可以绑定的；
+    //->顺序问题：标准浏览器绑定的时候，是按照顺序依次把方法添加到事件池中，在下一次添加的时候，首先看一下现有的事件池中是否已经存在这个方法了，如果存在了我们就不在重新的给添加了，并且当行为触发的时候，会到事件池中，按照添加的顺序依次的执行对应的方法；但是在IE6~8中，不知道是存储的时候就没有按照顺序，还是执行的时候没有按照顺序，总之，当行为触发的时候，方法执行的顺序和之前绑定的顺序不关联;
+
+    function fn1() {
+        console.log(1);
+    }
+    function fn2(e) {
+        console.log(2);
+    }
+    function fn3() {
+        console.log(3);
+    }
+
+    var n = 0;
+    function fn4() {
+        console.log(4);
+        n++;
+        if (n === 2) {
+            zhufengEvent.off(oDiv, "click", fn1);
+            zhufengEvent.off(oDiv, "click", fn2);
+            zhufengEvent.off(oDiv, "click", fn3);
+            zhufengEvent.off(oDiv, "click", fn4);
+        }
+    }
+    /*分析->数组塌陷问题：当我在执行的过程中，在某一个方法中移除了一些方法，此时我们自己存储方法的那个数组就少了一些(每一个函数的索引其实都变为最新的值了)，但是run方法执行的时候，i还是要继续累加的，这样导致部分方法是直接跳过的*/
+    //1 2 3 4  5   6 7 8 9 10 11 12  数组
+         //(3)(4)
+
+    //null null null null  5   6 7 8 9 10 11 12  数组
+                   //(3)  (4)
+
+    //5 6 7 8 9 10 11 12  经过fn4执行,数组
+           //(4)
+
+    //5 6 7 8 9 10 11 12
+     //0 1...
+
+    function fn5() {
+        console.log(5);
+    }
+    function fn6() {
+        console.log(6);
+    }
+    function fn7() {
+        console.log(7);
+    }
+    function fn8() {
+        console.log(8);
+    }
+    function fn9() {
+        console.log(9);
+    }
+    function fn10() {
+        console.log(10);
+    }
+    function fn11() {
+        console.log(11);
+    }
+
+    function fn12() {
+        console.log(12);
+    }
+
+    var oDiv = document.getElementById("div1");
+
+    zhufengEvent.on(oDiv, "click", fn1);
+    zhufengEvent.on(oDiv, "click", fn1);
+    zhufengEvent.on(oDiv, "click", fn1);
+    zhufengEvent.on(oDiv, "click", fn2);
+    zhufengEvent.on(oDiv, "click", fn3);
+    zhufengEvent.on(oDiv, "click", fn4);
+    zhufengEvent.on(oDiv, "click", fn5);
+    zhufengEvent.on(oDiv, "click", fn6);
+    zhufengEvent.on(oDiv, "click", fn7);
+    zhufengEvent.on(oDiv, "click", fn8);
+    zhufengEvent.on(oDiv, "click", fn9);
+    zhufengEvent.on(oDiv, "click", fn10);
+    zhufengEvent.on(oDiv, "click", fn11);
+    zhufengEvent.on(oDiv, "click", fn12);
+</script>
+</body>
+</html>

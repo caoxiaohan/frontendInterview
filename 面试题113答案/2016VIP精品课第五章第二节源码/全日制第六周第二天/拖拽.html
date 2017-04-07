@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        #box {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: #ff6600;
+            cursor: move;
+        }
+    </style>
+</head>
+<body>
+<div id="box"></div>
+
+<script type="text/javascript" src="zhufengEvent.js"></script>
+<script type="text/javascript">
+    //->JS实现让当前的元素在屏幕居中的位置
+    var box = document.getElementById("box");
+    box.style.top = ((document.documentElement.clientHeight || document.body.clientHeight) - box.offsetHeight) / 2 + "px";
+    box.style.left = ((document.documentElement.clientWidth || document.body.clientWidth) - box.offsetWidth) / 2 + "px";
+
+    zhufengEvent.on(box, "mousedown", down);
+    function down(e) {
+        this["strX"] = e.pageX;
+        this["strY"] = e.pageY;
+        this["strL"] = parseFloat(this.style.left);
+        this["strT"] = parseFloat(this.style.top);
+
+        if (this.setCapture) {
+            this.setCapture();
+            zhufengEvent.on(box, "mousemove", move);
+            zhufengEvent.on(box, "mouseup", up);
+        } else {
+            var _this = this;
+            this.MOVE = function (e) {
+                move.call(_this, e);
+            };
+            zhufengEvent.on(document, "mousemove", this.MOVE);
+
+            this.UP = function (e) {
+                up.call(_this, e);
+            };
+            zhufengEvent.on(document, "mouseup", this.UP);
+        }
+    }
+
+    function move(e) {
+        var curL = e.pageX - this["strX"] + this["strL"];
+        var curT = e.pageY - this["strY"] + this["strT"];
+        var minL = 0, minT = 0, maxL = (document.documentElement.clientWidth || document.body.clientWidth) - this.offsetWidth, maxT = (document.documentElement.clientHeight || document.body.clientHeight) - this.offsetHeight;
+        curL = curL < minL ? minL : (curL > maxL ? maxL : curL);
+        curT = curT < minT ? minT : (curT > maxT ? maxT : curT);
+        this.style.top = curT + "px";
+        this.style.left = curL + "px";
+    }
+
+    function up(e) {
+        if (this.releaseCapture) {
+            this.releaseCapture();
+            zhufengEvent.off(box, "mousemove", move);
+            zhufengEvent.off(box, "mouseup", up);
+        } else {
+            zhufengEvent.off(document, "mousemove", this.MOVE);
+            zhufengEvent.off(document, "mouseup", this.UP);
+        }
+    }
+</script>
+</body>
+</html>

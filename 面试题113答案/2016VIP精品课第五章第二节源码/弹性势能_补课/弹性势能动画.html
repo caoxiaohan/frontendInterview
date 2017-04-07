@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>珠峰培训-弹性势能动画</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #box {
+            position: absolute;
+            left: 100px;
+            top: 100px;
+            width: 100px;
+            height: 100px;
+            background: #FF6500;
+            cursor: move;
+        }
+    </style>
+</head>
+<body>
+<div id="box"></div>
+
+<script type="text/javascript" src="js/zhufengEvent.js"></script>
+<script type="text/javascript">
+    //->当拖拽结束的时候,我们让当前的元素同时 水平运动+垂直运动
+    var box = document.getElementById("box");
+
+    zhufengEvent.on(box, "mousedown", down);
+    function down(e) {
+        this["strX"] = e.clientX;
+        this["strY"] = e.clientY;
+        this["strL"] = this.offsetLeft;
+        this["strT"] = this.offsetTop;
+
+        if (this.setCapture) {//->IE和火狐
+            this.setCapture();
+            zhufengEvent.on(this, "mousemove", move);
+            zhufengEvent.on(this, "mouseup", up);
+        } else {
+            var _this = this;
+            this.MOVE = function (e) {
+                move.call(_this, e);
+            };
+            this.UP = function (e) {
+                up.call(_this, e);
+            };
+            zhufengEvent.on(document, "mousemove", this.MOVE);
+            zhufengEvent.on(document, "mouseup", this.UP);
+        }
+
+        //->当盒子运动中我们想要执行下一次拖拽,我们按下鼠标,但是由于盒子还运动着呢,造成鼠标抓不住盒子->在按下的同时我们应该停止盒子的运动
+        window.clearInterval(this.flyTimer);
+        window.clearInterval(this.dropTimer);
+    }
+
+    function move(e) {
+        var curL = e.clientX - this["strX"] + this["strL"];
+        var curT = e.clientY - this["strY"] + this["strT"];
+        var minL = 0, minT = 0, maxL = (document.documentElement.clientWidth || document.body.clientWidth) - this.offsetWidth, maxT = (document.documentElement.clientHeight || document.body.clientHeight) - this.offsetHeight;
+        curL = curL <= minL ? minL : (curL >= maxL ? maxL : curL);
+        curT = curT <= minT ? minT : (curT >= maxT ? maxT : curT);
+        this.style.left = curL + "px";
+        this.style.top = curT + "px";
+
+        //->计算我们水平方向移动的速度
+        //在浏览器最小反应时间内触发一次move,我们都记录一下当前盒子的位置,让当前的位置-上一次记录的位置=当前最后一次的偏移
+        if (!this.pre) {
+            this.pre = this.offsetLeft;
+        } else {
+            this.speedFly = this.offsetLeft - this.pre;
+            this.pre = this.offsetLeft;
+        }
+    }
+
+    function up(e) {
+        if (this.releaseCapture) {
+            this.releaseCapture();
+            zhufengEvent.off(this, "mousemove", move);
+            zhufengEvent.off(this, "mouseup", up);
+        } else {
+            zhufengEvent.off(document, "mousemove", this.MOVE);
+            zhufengEvent.off(document, "mouseup", this.UP);
+        }
+
+        //->当鼠标离开结束拖拽的时候,我们开始进行水平方向的动画运动
+        fly.call(this);
+
+        //->当鼠标离开结束拖拽的时候,我们开始进行垂直方向的动画运动
+        drop.call(this);
+    }
+
+    function fly() {
+        //this->当前要操作的这个盒子
+        var _this = this;
+        _this.flyTimer = window.setInterval(function () {
+            //this->window
+            console.log("ok");
+
+            //->如果当前的盒子已经不再运动了,我们需要结束我们的动画:利用offsetLeft获取的值不会出现小数,对小数部分进行了四舍五入，所以我们加上或者减去一个小于0.5的速度值,其实对于盒子本身的位置并没有发生实质的改变,我们认为此阶段盒子就停止运动了
+            if (Math.abs(_this.speedFly) < 0.5) {
+                window.clearInterval(_this.flyTimer);
+                return;
+            }
+
+            //->我们运动的速度是一直在减慢的,一直到停止("指数衰减运动")
+            _this.speedFly *= 0.98;
+            var curL = _this.offsetLeft + _this.speedFly;
+            var minL = 0, maxL = (document.documentElement.clientWidth || document.body.clientWidth) - _this.offsetWidth;
+            if (curL >= maxL) {
+                _this.style.left = maxL + "px";
+                _this.speedFly *= -1;
+            } else if (curL <= minL) {
+                _this.style.left = minL + "px";
+                _this.speedFly *= -1;
+            } else {
+                _this.style.left = curL + "px";
+            }
+        }, 10);
+    }
+
+    function drop() {
+        var _this = this;
+        _this.dragFlag = 0;
+        _this.dropTimer = window.setInterval(function () {
+            if (_this.dragFlag > 1) {
+                window.clearInterval(_this.dropTimer);
+                return;
+            }
+
+            _this.dropSpeed = !_this.dropSpeed ? 10 : _this.dropSpeed + 10;
+            _this.dropSpeed *= 0.98;
+
+            var curT = _this.offsetTop + _this.dropSpeed;
+            var maxT = (document.documentElement.clientHeight || document.body.clientHeight) - _this.offsetHeight;
+            if (curT >= maxT) {//->到底了
+                _this.style.top = maxT + "px";
+                _this.dropSpeed *= -1;
+                _this.dragFlag++;
+            } else {
+                _this.style.top = curT + "px";
+                _this.dragFlag = 0;
+            }
+        }, 10);
+    }
+</script>
+<script type="text/javascript">
+    //->在同样的移动距离下,我们鼠标移动的速度快,move方法触发的次数少,相反移动的速度慢,move方法触发的次数就多  ->浏览器对于每一次的move行为的触发都是有一个最小的反应时间的
+
+    //->通过观察,我们发现一个事情：水平方向我们盒子在结束拖拽的时候移动的速度和 移动的距离没有必然的联系，和开始拖拽的速度也没有必然的联系，只和最后一次即将松开的那一瞬间鼠标的速度是有关系的，最后瞬间鼠标如果移动端的快，我们水平运动的距离和速度也是表较大的 ->获取鼠标最后一次即将松开的时候的速度
+
+    //->在JS盒子模型中 offsetLeft 是获取当前元素的左偏移，获取到的值永远不会出现小数 ->它会把真实的left值按照小数点的四舍五入进行计算
+</script>
+
+</body>
+</html>
