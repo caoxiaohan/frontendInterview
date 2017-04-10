@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>115 01html基础第一天</title>
+</head>
+<body>
+    nav>ul>li
+    <h1>115 Windows常用快捷键有哪些？什么是前端，网页什么组成，HTML、CSS英文全称及含义？什么是浏览器内核，你用过几种浏览器内核分别是什么？什么是http协议、什么是url协议，协议格式是什么？Sublime常用快捷方式？常用的带标签和双标签有哪些，举例说明其用法和含义？举例说明图片标签的用法，具体到属性？举例说明绝对路径和相对路径的用法？举例说明锚链接和空连接的用法？Html有哪些特殊字符，举例说明用法？举例说明无序列表、有序列表、自定义列表的用法？举例说明滚动标签的用法？举例说明音乐标签的用法？</h1>
+    <pre>
+        一.Windows常用快捷键有哪些？
+           见《Windows-7常用快捷键.doc》
+        二.什么是前端，网页什么组成，HTML、CSS英文全称及含义？
+           1 前端概念
+             前端对于网站来说，通常是指，网站的前台部分包括网站的表现层和结构层。
+             因此前端技术一般分为前端设计和前端开发，前端设计一般可以理解为网站的视觉设计，前端开发则是网站的前台代码实现，包括基本的HTML和CSS以及JavaScript/ajax，现在最新的高级版本HTML5、CSS3，以及SVG等。
+           2 网页组成
+             文字与图片是构成一个网页的两个最基本的元素。
+             文字，就是网页的内容。图片，就是网页的美观。
+             除此之外，网页的元素还包括动画、音乐、程序等等。
+           3 HTML（Hyper Text Markuo Language）超文本标记语言
+           4 CSS （Cascadintg Style Sheet）层叠样式表单
+            
+        三.什么是浏览器内核，你用过几种浏览器内核分别是什么？
+            1 浏览器内核概念              
+              通常所谓的浏览器内核也就是浏览器所采用的渲染引擎，渲染引擎决定了浏览器如何显示网页的内容以及页面的格式信息。
+              浏览器最重要或者说核心的部分是“Rendering Engine”，可大概译为“渲染引擎”，不过我们一般习惯将之称为“浏览器内核”。负责对网页语法的解释（如标准通用标记语言下的一个应用HTML、JavaScript）并渲染（显示）网页。
+            2 浏览器内核分类
+              2.1 Trident(IE内核)
+                  Trident内核的常见浏览器有：IE6、IE7、IE8（Trident 4.0）、IE9（Trident 5.0）、IE10（Trident 6.0）；360安全浏览器（1.0-5.0为Trident，6.0为Trident+Webkit，7.0为Trident+Blink）猎豹极轻浏览器，360极速浏览器（7.5之前为Trident+Webkit，7.5为Trident+Blink）猎豹安全浏览器（1.0-4.2版本为Trident+Webkit，4.3及以后版本为Trident+Blink）猎豹极轻浏览器，傲游浏览器（傲游1.x、2.x为IE内核，3.x为IE与Webkit双核）、百度浏览器（早期版本）、世界之窗浏览器[2]  （最初为IE内核，2013年采用Chrome+IE内核）、2345浏览器、腾讯TT、淘宝浏览器、采编读浏览器、搜狗高速浏览器（1.x为Trident，2.0及以后版本为Trident+Webkit）、阿云浏览器（早期版本）、瑞星安全浏览器、Slim Browser、 GreenBrowser、爱帆浏览器（12 之前版本）、115浏览器、155浏览器、闪游浏览器、N氧化碳浏览器、糖果浏览器、彩虹浏览器、瑞影浏览器、勇者无疆浏览器、114浏览器、蚂蚁浏览器、飞腾浏览器、速达浏览器、佐罗浏览器、海豚浏览器（iPhone/iPad/Android）、UC浏览器（Blink内核+Trident内核）等。
+              2.2 Gecko(Firefox内核)：
+                  Gecko内核常见的浏览器：Mozilla Firefox、Mozilla SeaMonkey、waterfox（Firefox的64位开源版）、Iceweasel、Epiphany（早期版本）、Flock（早期版本）、K-Meleon
+              2.3 Presto(Opera前内核) (已废弃)：
+                  Opera12.17及更早版本曾经采用的内核，现已停止开发并废弃
+                  Opera现已改用Google Chrome的Blink内核。
+              2.4 Webkit(Safari内核,Chrome内核原型,开源):它是苹果公司自己的内核，也是苹果的Safari浏览器使用的内核。
+                  WebKit内核常见的浏览器：傲游浏览器3、[1]  Apple Safari (Win/Mac/iPhone/iPad)、Symbian手机浏览器、Android 默认浏览器，
+                  Google Chrome、360极速浏览器以及搜狗高速浏览器高速模式也使用Webkit作为内核(在脚本理解方面，Chrome使用自己研发的V8引擎)。WebKit 内核在手机上的应用也十分广泛，例如 Google 的手机 Gphone、 Apple 的iPhone， Nokia’s Series 60 browser 等所使用的 Browser 内核引擎，都是基于 WebKit。
+              2.5 Blink(Opera现内核)
+                  Blink是一个由Google和Opera Software开发的浏览器排版引擎
+
+        四.什么是http协议、url协议，协议格式是什么？
+            1、http协议：                 
+                 HTTP协议是Hyper Text Transfer Protocol（超文本传输协议）的缩写,是用于从万维网（WWW:World Wide Web ）服务器传输超文本到本地浏览器的传送协议。
+                 HTTP是一个基于TCP/IP通信协议来传递数据（HTML 文件, 图片文件, 查询结果等）。
+                 HTTP协议工作于客户端-服务端架构为上。
+                 浏览器作为HTTP客户端通过URL向HTTP服务端即WEB服务器发送所有请求。Web服务器根据接收到的请求后，向客户端发送响应信息。
+            4.2、URL协议：
+                 HTTP使用统一资源标识符（Uniform Resource Identifiers, URI）来传输数据和建立连接。
+                 URL是一种特殊类型的URI，包含了用于查找某个资源的足够的信息。
+                 在WWW上，每一信息资源都有统一的且在网上唯一的地址，该地址就叫URL（Uniform Resource Locator,统一资源定位符），它是WWW的统一资源定位标志，就是指网络地址。
+            4.3 URL语法
+               URL由三部分组成：资源类型、存放资源的主机域名、资源文件名。
+               URL的一般语法格式为：(带方括号[]的为可选项)：
+               protocol :// hostname[:port] / path / [;parameters][?query]#fragment
+               示例：http://www.bofuwa.com:80/member/?name=cxh#id
+            4.4 格式说明
+                4.4.1 protocol（协议）
+                     指定使用的传输协议，下表列出 protocol 属性的有效方案名称。 最常用的是HTTP协议，它也是目前WWW中应用最广的协议。
+                    4.4.1.1 file 资源是本地计算机上的文件。格式file:///，注意后边应是三个斜杠。
+                    4.4.1.2 ftp 通过 FTP访问资源。格式 FTP://
+                    4.4.1.3 gopher 通过 Gopher 协议访问该资源。
+                    4.4.1.4 http 通过 HTTP 访问该资源。 格式 HTTP://
+                    4.4.1.5 https 通过安全的 HTTPS 访问该资源。 格式 HTTPS://
+                    4.4.1.6 mailto 资源为电子邮件地址，通过 SMTP 访问。 格式 mailto:
+                    4.4.1.7 MMS 通过 支持MMS（流媒体）协议的播放该资源。（代表软件：Windows Media Player）格式 MMS://
+                    4.4.1.8 ed2k 通过 支持ed2k（专用下载链接）协议的P2P软件访问该资源。（代表软件：电驴） 格式 ed2k://
+                    4.4.1.9 Flashget 通过 支持Flashget:（专用下载链接）协议的P2P软件访问该资源。（代表软件：快车） 格式 Flashget://
+                    4.4.1.10 thunder 通过 支持thunder（专用下载链接）协议的P2P软件访问该资源。（代表软件：迅雷） 格式 thunder://
+                    4.4.1.11 news 通过 NNTP 访问该资源。
+                4.4.2 hostname（主机名）
+                   是指存放资源的服务器的域名系统(DNS) 主机名或 IP 地址。有时，在主机名前也可以包含连接到服务器所需的用户名和密码（格式：username:password@hostname）。
+                4.4.3 port（端口号）
+                   整数，可选，省略时使用方案的默认端口，各种传输协议都有默认的端口号，如http的默认端口为80。如果输入时省略，则使用默认端口号。有时候出于安全或其他考虑，可以在服务器上对端口进行重定义，即采用非标准端口号，此时，URL中就不能省略端口号这一项。
+                4.4.4 path（路径）
+                   由零或多个“/”符号隔开的字符串，一般用来表示主机上的一个目录或文件地址。
+                4.4.5 nparameters（参数）
+                   这是用于指定特殊参数的可选项。
+                4.4.6 query(查询)
+                  可选，用于给动态网页（如使用CGI、ISAPI、PHP/JSP/ASP/ASP。NET等技术制作的网页）传递参数，可有多个参数，用“&”符号隔开，每个参数的名和值用“=”符号隔开。
+                4.4.7 fragment（信息片断）
+                   字符串，用于指定网络资源中的片断。例如一个网页中有多个名词解释，可使用fragment直接定位到某一名词解释。
+            
+        五.Sublime常用快捷方式？ 
+          1 Emmet (前身为 Zen Coding) 是一个能大幅度提高前端开发效率的一个工具:
+            1.1 格式：Emmet语法+Tab键，可以快速生成代码。
+            1.2 示例：html:xt + Tab键，可以自动生成HTML文档基本结构代码。
+            1.3 Emmet为大部分流行的编辑器都提供了安装插件，比如下列浏览器均可支持Emmet：
+                Sublime Text
+                Eclipse/Aptana
+                TextMate
+                Coda
+                Espresso
+                Chocolat
+                Komodo Edit
+                Notepad++
+                PSPad
+                textarea
+                CodeMirror
+                Brackets
+                NetBeans
+                Adobe Dreamweaver
+            1.4 Emmet安装
+                1.4.1 安装Sublime Text3
+                      http://jingyan.baidu.com/article/6f2f55a15c89cab5b93e6cfb.html
+                1.4.2 安装PackageControl
+                      http://jingyan.baidu.com/article/64d05a02445171de54f73b6b.html
+                1.4.3 安装Emmet
+                      http://jingyan.baidu.com/article/647f0115ca24967f2048a84f.html
+            1.5 Emmet语法大全
+                https://docs.emmet.io/cheat-sheet/
+                见《Emmet语法-a5.pdf》
+          2 选择类
+            Ctrl+D 选中光标所占的文本，继续操作则会选中下一个相同的文本。
+            Alt+F3 选中文本按下快捷键，即可一次性选择全部的相同文本进行同时编辑。举个栗子：快速选中并更改所有相同的变量名、函数名等。
+            Ctrl+L 选中整行，继续操作则继续选择下一行，效果和 Shift+↓ 效果一样。
+            Ctrl+Shift+L 先选中多行，再按下快捷键，会在每行行尾插入光标，即可同时编辑这些行。
+            Ctrl+Shift+M 选择括号内的内容（继续选择父括号）。举个栗子：快速选中删除函数中的代码，重写函数体代码或重写括号内里的内容。
+            Ctrl+M 光标移动至括号内结束或开始的位置。
+            Ctrl+Enter 在下一行插入新行。举个栗子：即使光标不在行尾，也能快速向下插入一行。
+            Ctrl+Shift+Enter 在上一行插入新行。举个栗子：即使光标不在行首，也能快速向上插入一行。
+            Ctrl+Shift+[ 选中代码，按下快捷键，折叠代码。
+            Ctrl+Shift+] 选中代码，按下快捷键，展开代码。
+            Ctrl+K+0 展开所有折叠代码。
+            Ctrl+← 向左单位性地移动光标，快速移动光标。
+            Ctrl+→ 向右单位性地移动光标，快速移动光标。
+            shift+↑ 向上选中多行。
+            shift+↓ 向下选中多行。
+            Shift+← 向左选中文本。
+            Shift+→ 向右选中文本。
+            Ctrl+Shift+← 向左单位性地选中文本。
+            Ctrl+Shift+→ 向右单位性地选中文本。
+            Ctrl+Shift+↑ 将光标所在行和上一行代码互换（将光标所在行插入到上一行之前）。
+            Ctrl+Shift+↓ 将光标所在行和下一行代码互换（将光标所在行插入到下一行之后）。
+            Ctrl+Alt+↑ 向上添加多行光标，可同时编辑多行。
+            Ctrl+Alt+↓ 向下添加多行光标，可同时编辑多行。
+         3 编辑类
+            Ctrl+J 合并选中的多行代码为一行。举个栗子：将多行格式的CSS属性合并为一行。
+            Ctrl+Shift+D 复制光标所在整行，插入到下一行。
+            Tab 向右缩进。
+            Shift+Tab 向左缩进。
+            Ctrl+K+K 从光标处开始删除代码至行尾。
+            Ctrl+Shift+K 删除整行。
+            Ctrl+/ 注释单行。
+            Ctrl+Shift+/ 注释多行。
+            Ctrl+K+U 转换大写。
+            Ctrl+K+L 转换小写。
+            Ctrl+Z 撤销。
+            Ctrl+Y 恢复撤销。
+            Ctrl+U 软撤销，感觉和 Gtrl+Z 一样。
+            Ctrl+F2 设置书签
+            Ctrl+T 左右字母互换。
+            F6 单词检测拼写
+         4 搜索类
+            Ctrl+F 打开底部搜索框，查找关键字。
+            Ctrl+shift+F 在文件夹内查找，与普通编辑器不同的地方是sublime允许添加多个文件夹进行查找，略高端，未研究。
+            Ctrl+P 打开搜索框。举个栗子：1、输入当前项目中的文件名，快速搜索文件，2、输入@和关键字，查找文件中函数名，3、输入：和数字，跳转到文件中该行代码，4、输入#和关键字，查找变量名。
+            Ctrl+G 打开搜索框，自动带：，输入数字跳转到该行代码。举个栗子：在页面代码比较长的文件中快速定位。
+            Ctrl+R 打开搜索框，自动带@，输入关键字，查找文件中的函数名。举个栗子：在函数较多的页面快速查找某个函数。
+            Ctrl+： 打开搜索框，自动带#，输入关键字，查找文件中的变量名、属性名等。
+            Ctrl+Shift+P 打开命令框。场景栗子：打开命名框，输入关键字，调用sublime text或插件的功能，例如使用package安装插件。
+            Esc 退出光标多行选择，退出搜索框，命令框等。
+         5 显示类
+            Ctrl+Tab 按文件浏览过的顺序，切换当前窗口的标签页。
+            Ctrl+PageDown 向左切换当前窗口的标签页。
+            Ctrl+PageUp 向右切换当前窗口的标签页。
+            Alt+Shift+1 窗口分屏，恢复默认1屏（非小键盘的数字）
+            Alt+Shift+2 左右分屏-2列
+            Alt+Shift+3 左右分屏-3列
+            Alt+Shift+4 左右分屏-4列
+            Alt+Shift+5 等分4屏
+            Alt+Shift+8 垂直分屏-2屏
+            Alt+Shift+9 垂直分屏-3屏
+            Ctrl+K+B 开启/关闭侧边栏。
+            F11 全屏模式
+            Shift+F11 免打扰模式
+
+        六.常用的带标签和双标签有哪些，举例说明其用法和含义？
+           1 单标签：
+                文档声明        <!DOCTYPE html>
+                链接源          <link rel="stylesheet" type="text/css" href="theme.css" />
+                描述标签        <meta name="keywords" content="HTML,ASP,PHP,SQL">
+                注释标签         <!--这是一段注释。注释不会在浏览器中显示。-->
+                换行标签        <br />
+                水平线标签      <hr size='9' width='80%' color='ff0000'> 
+                图片标签        <img src="/i/eg_tulip.jpg"  alt="上海鲜花港 - 郁金香" />
+                输入标签        <input type="submit" value="Submit" />
+                添加对象        <param name="Min" value="0" />
+                统一规定        <base target="_blank" /> 文档中不能被该站点辨识的其它所有链接源的URL
+                                <base> 标签为页面上的所有链接规定默认地址或默认目标。
+           2 双标签：
+             2.1 常用HTML标签元素结合及简介
+                <html></html> 创建一个HTML文档
+                <head></head> 设置文档标题和其它在网页中不显示的信息
+                <title></title> 设置文档的标题        
+                <h1></h1> 最大的标题
+                <pre></pre> 预先格式化文本          
+                <ins></ins> 下划线 <u></u>    工作里尽量ins               
+                <del>12</del>  删除线标签     <s>12</s>   工作里尽量使用del                  
+                <em></em> 斜体字    <i></i>     工作里尽量使用em
+                <tt></tt> 打字机风格的字体
+                <cite></cite> 引用,通常是斜体        
+                <em></em> 强调文本(通常是斜体加黑体)
+                <strong></strong> 加重文本(通常是斜体加黑体)  <b></b>  工作里尽量使用strong
+                <font size="" color=""></font> 设置字体大小从1到7，颜色使用名字或RGB的十六进制值
+                <BASEFONT></BASEFONT> 基准字体标记
+                <big></big> 字体加大
+                <SMALL></SMALL> 字体缩小        
+                <STRIKE></STRIKE> 加删除线
+                <CODE></CODE> 程式码          
+                <KBD></KBD> 键盘字
+                <SAMP></SAMP> 范例    
+                <VAR></VAR> 变量
+                <BLOCKQUOTE></BLOCKQUOTE> 向右缩排
+                <DFN></DFN> 述语定义
+                <ADDRESS></ADDRESS> 地址标记
+                <sup></SUP> 上标字    
+                <SUB></SUB> 下标字
+                <xmp>...</xmp>固定寬度字体(在文件中空白、換行、定位功能有效)
+                <plaintext>...</plaintext>固定寬度字體(不執行標記符號)
+                <listing>...</listing> 固定寬度小字體  
+                <font color=00ff00>...</font>字體顏色
+                <font size=1>...</font>最小字體  
+                <font style ='font-size:100 px'>...</font>無限增大              
+            2.2 格式标志标签
+                <p></p> 创建一个段落    
+                <p align=""></p> 将段落按左、中、右对齐 　                
+                <blockquote></blockquote> 从两边缩进文本
+                <dl></dl> 定义列表
+                <dt></dt> 放在每个定义术语词前
+                <dd></dd> 放在每个定义之前
+                <ol></ol> 创建一个标有数字的列表  
+                <ul></ul> 创建一个标有圆点的列表
+                <li></li> 放在每个列表项之前,若在<ol></ol>之间则每个列表项加上一个数字,
+                  若在<ul></ul>之间则每个列表项加上一个圆点 　 　
+                <div align=""></div> 用来排版大块HTML段落,也用于格式化表
+                <MENU></MENU> 选项清单  
+                <DIR></DIR> 目录清单  
+                <nobr></nobr> 强行不换行                
+                <center></center> 水平居中  
+            2.3 链接标志表格标志
+                <a href="URL"></a> 创建超文本链接  
+                <a href="mailtEMAIL"></a> 创建自动发送电子邮件的链接  
+                <a name="name"></a> 创建位于文档内部的书签
+                <a href="#name"></a> 创建指向位于文档内部书签的链接
+          3 常用html标签
+            http://www.w3school.com.cn/tags
+            见《HTML常用标签.docx》
+
+        七.举例说明图片标签的用法，具体到属性？
+           1 示例
+             <img src="/i/eg_tulip.jpg"  alt="上海鲜花港 - 郁金香" />
+           2 定义和用法
+            img 元素向网页中嵌入一幅图像。
+            请注意，从技术上讲，<img> 标签并不会在网页中插入图像，而是从网页上链接图像。<img> 标签创建的是被引用图像的占位空间。
+            <img> 标签有两个必需的属性：src 属性 和 alt 属性。
+           3 HTML 与 XHTML 之间的差异
+            在 HTML 中，<img> 标签没有结束标签。
+            在 XHTML 中，<img> 标签必须被正确地关闭。
+            在 HTML 4.01 中，不推荐使用 image 元素的 "align"、"border"、"hspace" 以及 "vspace" 属性。
+            在 XHTML 1.0 Strict DTD 中，不支持 image 元素的 "align"、"border"、"hspace" 以及 "vspace" 属性。
+           4 必需的属性
+            属性      值      描述
+            alt       text    规定图像的替代文本。
+            src       URL     规定显示图像的 URL。
+           5 可选的属性
+            属性        值                                 描述
+            align       top、bottom、middle、left、right   不推荐使用。规定如何根据周围的文本来排列图像。
+            border      pixels                             不推荐使用。定义图像周围的边框。
+            height      pixels、%                          定义图像的高度。
+            hspace      pixels                             不推荐使用。定义图像左侧和右侧的空白。
+            ismap       URL                                将图像定义为服务器端图像映射。
+            longdesc    URL                                指向包含长的图像描述文档的 URL。
+            usemap      URL                                将图像定义为客户器端图像映射。
+            vspace      pixels                             不推荐使用。定义图像顶部和底部的空白。
+            width       pixels、%                          设置图像的宽度。
+            title       text                               鼠标停留在图片上方时显示的提示文字
+           6 全局属性
+             <img> 标签支持 HTML 中的全局属性。
+           7 事件属性
+             <img> 标签支持 HTML 中的事件属性。
+        
+        八.举例说明绝对路径和相对路径的用法？
+           1 HTML相对路径
+             1.1 同目录文件引用
+                 "."——代表目前所在的目录。
+                我们现在建一个源文件index.html，在index.html里要引用target.html文件作为超链接。
+                假设index.html路径是：c:\Inetpub\wwwroot\sites\blabla\index.html
+                假设target.html路径是：c:\Inetpub\wwwroot\sites\blabla\target.html
+                在index.html加入target.html超链接的代码应该这样写：<a href = "./target.html">target.html</a>
+                其实，可以省略"./"直接引用，等价格式为：<a href = "./target.html">target.html</a>
+             1.2 表示上级目录
+                ../表示源文件所在目录的上一级目录，../../表示源文件所在目录的上上级目录，以此类推。
+                /../include.php 就表示所在文件向一级目录（第一个杠就表示是在根目录下）！
+                假设index.html路径是：c:\Inetpub\wwwroot\sites\blabla\index.html，在index.html里要引用target.html文件作为超链接。
+                1.3.1 假设target.html路径是：c:\Inetpub\wwwroot\sites\target.html
+                      假设index.html路径是：c:\Inetpub\wwwroot\sites\blabla\index.html
+                      在index.html加入target.html超链接的代码应该这样写：
+                      <a href="../target.html">target.html</a>
+                1.3.2 假设target.html路径是：c:\Inetpub\wwwroot\target.html
+                      假设index.html路径是：c:\Inetpub\wwwroot\sites\blabla\index.html
+                      在index.html加入target.html超链接的代码应该这样写：
+                     <a href="../../target.html">target.html</a>
+                1.3.3 假设target.html路径是：c:\Inetpub\wwwroot\sites\wowstory\target.html
+                      假设index.html路径是：c:\Inetpub\wwwroot\sites\blabla\index.html
+                      在index.html加入target.html超链接的代码应该这样写：
+                     <a href = "../wowstory/target.html">target.html</a>
+             1.3 表示下级目录
+                引用下级目录的文件，直接写下级目录文件的路径即可。
+                假设index.html路径是：c:\Inetpub\wwwroot\sites\blabla\index.html，在index.html里要引用target.html文件作为超链接。
+                1.3.1 假设target.html路径是：c:\Inetpub\wwwroot\sites\blabla\html\target.html
+                      假设index.html路径是：c:\Inetpub\wwwroot\sites\blabla\index.html
+                      在index.html加入target.html超链接的代码应该这样写：
+                      <a href = "html/target.html">target.html</a>
+                1.3.2 假设target.html路径是：c:\Inetpub\wwwroot\sites\blabla\html\tutorials\target.html
+                      假设index.html路径是：c:\Inetpub\wwwroot\sites\blabla\index.html
+                      在index.html加入target.html超链接的代码应该这样写：
+                      <a href = "html/tutorials/target.html">target.html</a>
+          2、HTML绝对路径
+            绝对路径是指目录下的绝对位置，直接到达目标位置，通常是从盘符开始的路径。
+            2.1 URL取到文件后缀名为止
+                http://www.bofuwa.com/data/upload/shop/common/logo.png
+                <a href="http://www.bofuwa.com/data/upload/shop/common/logo.png">图片</a>
+            2.2 Windows操作系统
+                是从盘符开始的路径，形如C:\windows\system32\cmd.exe
+                <a href="C:\windows\system32\cmd.exe">命令</a>
+            2.3 Linux操作系统
+                LINUX系统中 绝对路径 以“/”为起始 例：/home/cxh/abc.txt
+                <a href="/home/cxh/abc.txt">文档</a>      
+            
+                    
+        九.举例说明锚链接和空连接的用法
+           1 锚链接
+             当使用命名锚（named anchors）时，我们可以创建直接跳至该命名锚（比如页面中某个小节）的链接，这样使用者就无需不停地滚动页面来寻找他们需要的信息了。
+             1.1 命名锚的语法：
+                <a id="top">返回顶部</a> 
+                说明：
+                     id 属性规定锚（anchor）的名称。
+                     锚的名称可以是任何你喜欢的名字。
+             1.2 实例
+                首先，我们在 HTML 文档中对锚进行命名（创建一个书签）：
+                <a id="tips">基本的注意事项 - 有用的提示</a>
+                然后，我们在同一个文档中创建指向该锚的链接：
+                <a href="#tips">有用的提示</a>
+                您也可以在其他页面中创建指向该锚的链接：
+                <a href="http://www.w3school.com.cn/html/html_links.asp#tips">有用的提示</a>
+                在上面的代码中，我们将 # 符号和锚名称添加到 URL 的末端，就可以直接链接到 tips 这个命名锚了。
+            2 空链接
+              空链接是未指派的链接。空链接用于向页面上的对象或文本附加行为。
+              例如，可向空链接附加一个行为，以便在指针滑过该链接时会交换图像或显示绝对定位的元素（AP 元素）。
+              2.1 创建空链接的几种方法：
+                  2.1.1.<a href="#"></a>
+                  2.1.2.<a href="javascript:void(0);"></a> 
+              2.2 #和javascript:void(0)的区别
+                  2.2.1 #包含了一个位置信息，默认的锚是#top 也就是网页的上端
+                        当页面较短只有一屏时，点击不会有任何反应。 
+                        这就是为什么有的时候页面很长，在底部点击的链接明明是#，点击却跳动到了页面顶部 
+                  2.2.2 javascript:void(0) 仅仅表示一个死链接 
+                        不论页面长短，点击均无反应。
+                        所以调用脚本的时候最好用javascript:void(0)
+             
+        十.Html有哪些特殊字符，举例说明用法？
+           详见《HTML特殊字符.doc》
+            1 最常用的字符实体
+                显示结果    描述    实体名称    实体编号
+                            空格    &nbsp;      &#160;
+                <           小于号  &lt;        &#60;
+                >           大于号  &gt;        &#62;
+                &           和号    &amp;       &#38;
+                "           引号    &quot;      &#34;
+                '           撇号    &apos;      &#39;(IE不支持) 
+             2 其他一些常用的字符实体
+                显示结果    描述        实体名称    实体编号
+                ￠          分          &cent;      &#162;
+                £           镑          &pound;     &#163;
+                ¥           圆          &yen;       &#165;
+                §           节          &sect;      &#167;
+                ©           版权        &copy;      &#169;
+                ®           注册商标    &reg;       &#174;                         
+                ° 	        摄氏度 	    &deg;       &#176;
+                ± 	        正负号 	    &plusmn;    &#177;
+                ×           乘号        &times;     &#215;
+                ÷           除号        &divide;    &#247; 
+                ² 	        上标2 	    &sup2;      &#178;
+                ³ 	        上标3 	    &sup3;      &#179;
+
+        十二.举例说明无序列表、有序列表、自定义列表的用法？
+             1 无序列表
+               1.1 实例
+                   <ul>
+                      <li>Coffee</li>
+                      <li>Tea</li>
+                      <li>Milk</li>
+                    </ul>
+               1.2 定义和用法
+                   <ul> 标签定义无序列表。
+                   提示：请使用样式来定义列表的类型。
+               1.3 HTML 与 XHTML 之间的差异
+                    在 HTML 4.01 中，ul 元素的 "compact" 和 "type" 属性是不被赞成使用的。
+                    在 XHTML 1.0 Strict DTD 中，ul 元素的 "compact" 和 "type" 属性是不被支持的。
+               1.4 可选的属性
+                   1.4.1 compact 
+                         值：compact 
+                         描述：不赞成使用。请使用样式取代它。规定列表呈现的效果比正常情况更小巧。
+                   1.4.2 type
+                         值：disc(实心圆)、square(实心方块)、circle(空心圆)
+                         描述：不赞成使用。请使用样式取代它。规定列表的项目符号的类型。
+              2 有序列表
+                2.1 实例
+                    <ol>
+                      <li>Coffee</li>
+                      <li>Tea</li>
+                      <li>Milk</li>
+                    </ol>
+                 2.2 定义和用法
+                   <ol> 标签定义有序列表。
+                   提示：请使用样式来定义列表的类型。
+                 2.3 HTML 与 XHTML 之间的差异
+                    在 HTML 4.01 中，ol 元素的 "compact"、"start" 以及 "type" 属性是不被赞成使用的。
+                    在 XHTML 1.0 Strict DTD 中，ol 元素的 "compact"、"start" 以及 "type" 属性是不被支持的。
+                 2.4 属性
+                    2.4.1 compact 
+                         值：compact 
+                         描述：HTML5 中不支持。HTML 4.01 中不赞成使用。规定列表呈现的效果比正常情况更小巧。
+                    2.4.2 type
+                         值：1、A、a、I、i
+                         描述：规定在列表中使用的标记类型。
+                    2.4.3 start 
+                         值：number
+                         描述：规定有序列表的起始值。
+                    2.4.4 reversed
+                         值：reversed 
+                         描述：HTML5 中的新属性。规定列表顺序为降序。(9,8,7...)  
+               3 自定义列表
+                 3.1 实例
+                    <dl>
+                       <dt>计算机</dt>
+                       <dd>用来计算的仪器 ... ...</dd>
+                       <dt>显示器</dt>
+                       <dd>以视觉方式显示信息的装置 ... ...</dd>
+                    </dl>
+                 3.2 定义和用法
+                    <dl> 标签定义了定义列表（definition list）。
+                    <dl> 标签用于结合 <dt> （定义列表中的项目）和 <dd> （描述列表中的项目）。
+                 3.3 HTML 与 XHTML 之间的差异
+                    NONE
+
+        十三.举例说明滚动标签的用法？
+            1 实例
+              <marquee direction="up" behavior="scroll" scrollamount="1" scrolldelay="0" loop="-1" width="1000" height="50" bgcolor="#0099FF" hspace="10" vspace="10">  
+                指整个Marquee对齐方式; (2)behavior:设置滚动的方式: scroll:表示由一端滚动到另一端,会重复,缺陷是不能无缝滚动。 slide:表示由一段滚动到另一端,不会重复...   
+              </marquee>  
+            2 定义和用法：
+               <marquee>...</marquee>； 
+              说明：在标记之间添加要进行滚动的内容。
+              使用marquee标记不仅可以移动文字，也可以移动图片，表格等.
+            3 重要属性：
+              3.1.滚动方向direction（包括4个值：up、 down、 left和 right）
+            　　语法：<marquee direction="滚动方向">...</marquee>
+              3.2.滚动方式behavior（scroll:循环滚动，默认效果； slide:只滚动一次就停止； alternate:来回交替进行滚动）
+            　　语法：<marquee behavior="滚动方式">...</marquee>
+              3.3.滚动速度scrollamount（滚动速度是设置每次滚动时移动的长度，以像素为单位）
+            　　语法：<marquee scrollamount="5">...</marquee>
+              3.4.滚动延迟scrolldelay（设置滚动的时间间隔，单位是毫秒）
+            　　语法：<marquee scrolldelay="100">...</marquee>
+              3.5.滚动循环loop（默认值是-1，滚动会不断的循环下去）
+            　　语法：<marquee loop="2">...</marquee>
+              3.6.滚动范围width、height
+              3.7.滚动背景颜色bgcolor
+              3.8.空白空间hspace、vspace
+
+        十四.举例说明音乐标签的用法？
+            1 实例
+              <embed src="helloworld.swf" hidden="true"/>
+            2 定义和用法
+              <embed> 标签定义嵌入的内容，比如插件。
+            3 HTML 4.01 与 HTML 5 之间的差异
+              <embed> 标签是 HTML 5 中的新标签。
+            4 属性
+              new : HTML5 中的新属性。
+              属性     值       描述
+              height   pixels   设置嵌入内容的高度。
+              src      url      嵌入内容的 URL。
+              type     type     定义嵌入内容的类型。
+              width    pixels   设置嵌入内容的宽度。
+              hidden   boolean   为true时表隐藏音乐播放器
+
+
+
+
+
+    </pre>
+</body>
+</html>
