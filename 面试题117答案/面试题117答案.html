@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>117 01html基础第二天</title>
+</head>
+<body>
+    nav>ul>li
+    <h1>117 字符常见的几种编码方式及其含义？网页关键字的用法和作用？网页描述的用法和作用？网页重定向的用法和作用？Ico图标的用法和作用？如何链接外部样式表，定义样式、获取样式、设置样式有哪些不同的方法，并列举具体的用法？
+举例说明table标签及其子元素及属性的用法？如何给表格添加表头和标题、如何合并行和列？table标签中thead、tbody、tfoot的作用及兼容性问题？举例说明常用的表单提交方式有哪些，get和post方法的区别？举例说明常用的表单元素及其属性的用法？单选框和复选框的用法及其注意事项？下拉列表框的用法？可输入的文本框有哪些及其用法？按钮有哪几种及其用法？如何进行表单信息分组？Html5新增的表单元素控件有哪些？什么是标签语义化，标签语义化的意义，标签使用规范？</h1>
+    <pre>
+        一.符常见的几种编码方式及其含义？
+           1  基础ASCII码 （国际标准）         
+              使用7 位二进制数来表示128 种可能的字符，包括所有的大写和小写字母，数字0 到9、标点符号， 以及在美式英语中使用的特殊控制字符。
+           2 Ansi编码（扩展ASCII字符，不是国际标准）
+              原本的ASCII码对于英文语言的国家是够用了，但是欧洲国家的一些语言会有拼音或特殊符号，这时7位就不够用了。
+              因此一些欧洲国家就决定，利用字节中闲置的最高位编入新的符号，一共8位最多可以表示256个符号。
+              但这时问题也出现了：不同的国家有不同的字母，因此，哪怕它们都使用256个符号的编码方式，代表的字母却不一样。
+              比如，130在法语编码 中代表了é，在希伯来语编码中却代表了字母Gimel (ג)，在俄语编码中又会代表另一个符号。
+              但是不管怎样，所有这些编码方式中，0—127表示的符号是一样的，不一样的只是128—255的这一段。
+              说明基本ASCII码是国际标准，而ANSI码不是国际标准。
+              这个问题就直接促使了Unicode编码的产生。
+           3 ISO-8859-1（Latin1是ISO-8859-1的别名，有些环境下写作Latin-1。）
+              128 个字符显然是不够用的，于是 ISO 组织在 ASCII 码基础上又制定了一些列标准用来扩展 ASCII 编码，它们是 ISO-8859-1~ISO-8859-15，其中 ISO-8859-1 涵盖了大多数西欧语言字符，所有应用的最广泛。ISO-8859-1 仍然是单字节编码，它总共能表示 256 个字符。
+           4 GB2312
+             它的全称是《信息交换用汉字编码字符集 基本集》，它是双字节编码，总的编码范围是 A1-F7，其中从 A1-A9 是符号区，总共包含 682 个符号，从 B0-F7 是汉字区，包含 6763 个汉字。
+           5 GBK
+             全称叫《汉字内码扩展规范》，是国家技术监督局为 windows95 所制定的新的汉字内码规范，它的出现是为了扩展 GB2312，加入更多的汉字，它的编码范围是 8140~FEFE（去掉 XX7F）总共有 23940 个码位，它能表示 21003 个汉字，它的编码是和 GB2312 兼容的，也就是说用 GB2312 编码的汉字可以用 GBK 来解码，并且不会有乱码。
+           6 GB18030
+             全称是《信息交换用汉字编码字符集》，是我国的强制标准，它可能是单字节、双字节或者四字节编码，它的编码与 GB2312 编码兼容，这个虽然是国家标准，但是实际应用系统中使用的并不广泛。
+           7  UNICODE编码（国际化）
+             为了使国际间信息交流更加方便，国际组织制定了 UNICODE 字符集，为各种语言中的每一个字符设定了统一并且唯一的数字编号，以满足跨语言、跨平台进行文本转换、处理的要求。
+           8 UTF-16
+             UTF-16 具体定义了 Unicode 字符在计算机中存取方法。UTF-16 用两个字节来表示 Unicode 转化格式，这个是定长的表示方法，不论什么字符都可以用两个字节表示，两个字节是 16 个 bit，所以叫 UTF-16。UTF-16 表示字符非常方便，每两个字节表示一个字符，这个在字符串操作时就大大简化了操作，这也是 Java 以 UTF-16 作为内存的字符存储格式的一个很重要的原因。
+           9 UTF-8
+             UTF-16 统一采用两个字节表示一个字符，虽然在表示上非常简单方便，但是也有其缺点，有很大一部分字符用一个字节就可以表示的现在要两个字节表示，存储空间放大了一倍，在现在的网络带宽还非常有限的今天，这样会增大网络传输的流量，而且也没必要。而 UTF-8 采用了一种变长技术，每个编码区域有不同的字码长度。不同类型的字符可以是由 1~6 个字节组成。
+        二. meta标签的用法和作用？
+            meta标签的作用有：搜索引擎优化（SEO），定义页面使用语言，自动刷新并指向新的页面，实现网页转换时的动态效果，控制页面缓冲，网页定级评价，控制网页显示的窗口等！
+            meta标签的组成：meta标签共有两个属性，它们分别是http-equiv属性和name属性，不同的属性又有不同的参数值，这些不同的参数值就实现了不同的网页功能。
+            1 name属性
+              name属性主要用于描述网页，与之对应的属性值为content，content中的内容主要是便于搜索引擎机器人查找信息和分类信息用的。
+              meta标签的name属性语法格式是：
+              <meta name="参数" content="具体的参数值">。 
+              其中name属性主要有以下几种参数：　
+              1.1 Keywords(关键字)　
+				  说明：keywords用来告诉搜索引擎你网页的关键字是什么。
+				  举例：
+				  <meta name="keywords" content="meta总结,html meta,meta属性,meta跳转"> 
+			  1.2、description(网站内容描述)
+				  说明：description用来告诉搜索引擎你的网站主要内容。
+				  举例：
+				  <meta name="description" content="haorooms博客,html的meta总结，meta是html语言head区的一个辅助性标签。"> 
+			  1.3、robots(机器人向导)
+				  说明：robots用来告诉搜索机器人哪些页面需要索引，哪些页面不需要索引。
+				  content的参数有all,none,index,noindex,follow,nofollow。默认是all。
+				  举例：
+				  <meta name="robots" content="none"> 
+				  具体参数如下：
+				  信息参数为all：文件将被检索，且页面上的链接可以被查询；
+				  信息参数为none：文件将不被检索，且页面上的链接不可以被查询；
+				  信息参数为index：文件将被检索；
+				  信息参数为follow：页面上的链接可以被查询；
+				  信息参数为noindex：文件将不被检索，但页面上的链接可以被查询；
+                  信息参数为nofollow：文件将被检索，但页面上的链接不可以被查询；
+			  1.4、author(作者)
+				  说明：标注网页的作者
+				  举例：
+				  <meta name="author" content="root,root@xxxx.com"> 
+			  1.5、generator
+			      说明：标注制作网页使用的编辑工具
+				  <meta name="generator" content="Sublime Text3"/> 
+				  meta标签的generator的信息参数，代表说明网站的采用的什么软件制作。
+			  1.6、COPYRIGHT
+			      说明：标注版权信息
+				  <META NAME="COPYRIGHT" CONTENT="信息参数"> 
+				  meta标签的COPYRIGHT的信息参数，代表说明网站版权信息。
+			  1.7、revised
+			      说明：标注网页最新修改时间
+				 <META name="revised" CONTENT="cxh, 4/23/2017"> 
+				 revisit-after代表网站最新版。
+			2、http-equiv属性
+               http-equiv顾名思义，相当于http的文件头作用，它可以向浏览器传回一些有用的信息，以帮助正确和精确地显示网页内容，与之对应的属性值为content，content中的内容其实就是各个参数的变量值。
+			   meta标签的http-equiv属性语法格式是：
+			   <meta http-equiv="参数" content="参数变量值">； 
+			   其中http-equiv属性主要有以下几种参数：
+			   2.1、Expires(期限)
+					说明：可以用于设定网页的到期时间。一旦网页过期，必须到服务器上重新传输。
+					用法：
+					<meta http-equiv="expires" content="Fri,12 Jan 2018 18:18:18GMT"> 
+					注意：必须使用GMT的时间格式。
+			   2.2、Pragma(cache模式)
+					说明：禁止浏览器从本地计算机的缓存中访问页面内容。
+					用法：
+					<meta http-equiv="Pragma" content="no-cache"> 
+					注意：这样设定，访问者将无法脱机浏览。
+			   2.3、Refresh(刷新)
+					说明：自动刷新并指向新页面。
+					用法：
+					<meta http-equiv="Refresh" content="2;URL=http://www.bofuwa.com"> //(注意后面的引号，分别在秒数的前面和网址的后面) 
+					注意：其中的2是指停留2秒钟后自动刷新到URL网址。
+			   2.4、Set-Cookie(cookie设定)
+					说明：如果网页过期，那么存盘的cookie将被删除。
+					用法：
+					<meta http-equiv="Set-Cookie" content="cookie value=xxx;expires=Friday,12-Jan-2018 18:18:18GMT；path=/"> 
+					注意：必须使用GMT的时间格式。
+			   2.5、Window-target(显示窗口的设定)
+					说明：强制页面在当前窗口以独立页面显示。
+					用法：
+					<meta http-equiv="Window-target"content="_top"> 
+					注意：用来防止别人在框架里调用自己的页面。
+			   2.6、content-Type(显示字符集的设定)
+					说明：设定页面使用的字符集。
+					用法：
+					<meta http-equiv="content-Type"content="text/html;charset=gb2312"> 
+					具体如下：
+					meta标签的charset的信息参数如GB2312时，代表说明网站是采用的编码是简体中文；
+					meta标签的charset的信息参数如BIG5时，代表说明网站是采用的编码是繁体中文；
+					meta标签的charset的信息参数如iso-2022-jp时，代表说明网站是采用的编码是日文；
+					meta标签的charset的信息参数如ks_c_5601时，代表说明网站是采用的编码是韩文；
+					meta标签的charset的信息参数如ISO-8859-1时，代表说明网站是采用的编码是英文；
+					meta标签的charset的信息参数如UTF-8时，代表世界通用的语言编码；
+			   2.7、content-Language（显示语言的设定）
+					用法：
+					<meta http-equiv="Content-Language"content="zh-cn"/> 
+					H、Cache-Control指定请求和响应遵循的缓存机制。
+					Cache-Control指定请求和响应遵循的缓存机制。在请求消息或响应消息中设置Cache-Control并不会修改另一个消息处理过程中的缓存处理过程。请求时的缓存指令包括no-cache、no-store、max-age、max-stale、min-fresh、only-if-cached，响应消息中的指令包括public、private、no-cache、no-store、no-transform、must-revalidate、proxy-revalidate、max-age。各个消息中的指令含义如下:
+					Public指示响应可被任何缓存区缓存
+					Private指示对于单个用户的整个或部分响应消息，不能被共享缓存处理。这允许服务器仅仅描述当用户的部分响应消息，此响应消息对于其他用户的请求无效
+					no-cache指示请求或响应消息不能缓存
+					no-store用于防止重要的信息被无意的发布。在请求消息中发送将使得请求和响应消息都不使用缓存。
+					max-age指示客户机可以接收生存期不大于指定时间（以秒为单位）的响应
+					min-fresh指示客户机可以接收响应时间小于当前时间加上指定时间的响应
+					max-stale指示客户机可以接收超出超时期间的响应消息。如果指定max-stale消息的值，那么客户机可以接收超出超时期指定值之内的响应消息。
+				2.8、http-equiv="imagetoolbar"
+					<meta http-equiv="imagetoolbar"content="false"/> 
+					指定是否显示图片工具栏，当为false代表不显示，当为true代表显示。
+				2.9、Content-Script-Type
+					<Meta http-equiv="Content-Script-Type"Content="text/javascript"> 
+        三 link标签的用法和作用？
+           示例
+             <link rel="stylesheet" type="text/css" href="theme.css" />
+	       定义和用法
+			 <link> 标签定义文档与外部资源的关系。
+	         <link> 标签最常见的用途是链接样式表。
+	       属性。
+	       1：charset  char_encoding HTML5 中不支持。设置当前网页的字符编码
+	          <link href="/css/master.css" media="screen" title="no title" charset="utf-8">.
+		   2：href  URL 规定被链接文档的位置。
+		      <link rel="stylesheet" type="text/css" href="theme.css" /> 
+		   3：hreflang  language_code 规定被链接文档中文本的语言。
+		      <link rel="alternate" href="http://example.com" hreflang="en-us" />
+		   4：media  media_query 规定被链接文档将被显示在什么设备上。
+		      <link rel="stylesheet" type="text/css" href="print.css" media="print">  
+		   5：rel  alternate  author  help  icon  licence  next  pingback  prefetch  prev  search  sidebar  stylesheet  tag 规定当前文档与被链接文档之间的关系。（因为rel的属性就是确定当前页面与链接内容关系的，属性什么的自然就多了许多）
+		          值                    描述
+			  5.1 Ico              icon属性指定标题栏,地址栏,收藏栏，网页标签小图标
+			      <link rel="icon" href="favicon.ico"  type="images/x-icon" />			        
+                  <link rel="icon" href="favicon.png" type="images/png"/>
+                  Note: 1. IE只支持ico格式的favicon;  2. rel属性必须包含shortcut, 才会在IE下显示;
+			  5.2 alternate        文档的替代版本（比如打印页、翻译或镜像）。
+			      <link rel="alternate" media="handheld" href="target"/>
+			  5.3 stylesheet       文档的外部样式表。
+			      <link rel="stylesheet" href="http://blog.yunlives.com/style.css" type="text/css" media="screen" />  
+			  5.4 start            集合中的第一个文档。
+			      <link rel="start" href="about:blank"/>
+			  5.5 next             集合中的下一个文档。
+			      <link rel="next" href="about:blank"/>
+			  5.6 prev             集合中的上一个文档。
+			      <link rel="pre" href="about:blank"/>
+			  5.7 last 	           链接到集合中最后的文档	
+			      <link rel="last" href="index.html"/>
+			  5.7 contents         文档的目录。
+			      般放在文档主内容的侧栏,方便在当前页面各主题之间跳转
+			      <link rel="Contents" href="contents.html" /> 
+			  5.8 index            文档的索引。
+			      <link rel='index' title='mysite' href='http://bofuwa.com' />
+			  5.9 glossary         在文档中使用的词汇的术语表（解释）。
+			       <link rel="glossary" href="http://www.w3.org/TR/WCAG20/#glossary"/>
+			  5.10 copyright       包含版权信息的文档。
+			       <link rel="Copyright" href="copyright.html"/>
+			  5.11 chapter         文档的章。
+			       <link href="chapter01.html" rel="chapter"/>.
+			  5.12 section         文档的节。
+			       <link rel="section" href=vemail-index.html" title="Alles zu E-Mail"/>
+			  5.13 subsection      文档的小节。
+			       <link rel="subsection" href="salad.html"/>
+			  5.14 appendix        文档的附录。
+			       <link href="appendix.html" rel="appendix"/>
+			  5.15 help            帮助文档。
+			      <link rel="help" href="http://www.bofuwa.com/help.html" />
+			  5.16 bookmark        相关文档。
+			       <link rel="bookmark" title='Privatperson' href='bookmark.html' hreflang="sv"/> 
+			  5.17 canonical       指明网址的规范版本
+			       让搜索引擎知道当前网站中的重复或相似网页中，哪一个页面才是站长想让其抓取与收录的
+			       <link rel="canonical" href="http://www.bofuwa.com/" />  
+			        canonical属性值通常在，rel属性中出现
+					引用网址:http://www.xxoo.com/xhtml/rel_canonical/
+					canonical从功能上来讲，可理解为301永久重定向的辅助功能
+					canonical可以与相对链接或绝对链接一起使用，但是建议使用绝对链接
+					Google对canonical的定义是：规范网页是一组内容高度相似的网页的首选版本
+					canonical：中文"典范"的意思
+			 5.18 链接到文档集或历史数据
+			      <link rel='archives' href='http://www.bofwua.com/2017/04' />
+			 5.19 连接到站点的主页
+			      <link href="http://www.bofuwa.com" rel="home" />
+			 5.20 first	链接到集合中的首个文档	
+			      <link rel="first" href="index.html">
+           6：rev reversed relationship HTML5 中不支持。
+              rev 属性规定被链接文档与当前文档之间的关系。
+              注意：几乎没有主流浏览器支持 rev 属性。             
+              在下面的实例中，rev 属性指示当前文档是 "wildcats.htm" 的父页面：
+              <link rel="stylesheet" type="text/css" href="print.css" media="print">
+              属性  值	          描述
+			  	6.1 alternate	文档的替代版本（比如打印页、翻译或镜像）。
+				6.2 stylesheet	文档的外部样式表。
+				6.3 start	    集合中的第一个文档。
+				6.4 next	    集合中的下一个文档。
+				6.5 prev	    集合中的上一个文档。
+				6.6 contents	文档的目录。
+				6.7 index	    文档的索引。
+				6.8 glossary	在文档中使用的词汇的术语表（解释）。
+				6.9 copyright	包含版权信息的文档。
+				6.10 chapter	    文档的章。
+				6.11 section	    文档的节。
+				6.12 subsection	文档的小节。
+				6.13 appendix	文档的附录。
+				6.14 help	    帮助文档。
+				6.15 bookmark	相关文档。
+           7：sizes heightxwidth any 规定被链接资源的尺寸。仅适用于 rel="icon"。
+              <link rel="icon" href="images/android.ico" sizes="48x48" type="image/x-icon">
+  			  <link rel="icon" href="images/android.png" sizes="16x16" type="image/png">
+           8：target _blank _self _top _parent frame_name HTML5 中不支持。
+              target 属性规定在哪个窗口或框架中加载被链接文档。
+              注意：几乎没有浏览器支持 target 属性。
+              <link rel="parent" href="index.html" target="_blank" />
+              属性   值       描述
+                8.1 _blank	在新窗口中打开被链接文档。
+				8.2 _self	默认。在相同的框架中打开被链接文档。
+				8.3 _parent	在父框架集中打开被链接文档。
+				8.4 _top	在整个窗口中打开被链接文档。
+				8.5 framename	在指定的框架中打开被链接文档。
+           9：type MIME_type 规定被链接文档的 MIME 类型。
+              <link rel="stylesheet" type="text/css" href="theme.css" />
+        四、如何链接外部样式表，定义样式、获取样式、设置样式有哪些不同的方法，并列举具体的用法？
+            详见《链接样式表.html》
+        五、举例说明table标签及其子元素及属性的用法？如何给表格添加表头和标题、如何合并行和列？table标签中thead、tbody、tfoot的作用及兼容性问题？
+            1、举例说明table标签及其子元素及属性的用法？
+               见附件《表格属性和用法.doc》和《表格示例.html》
+            2. 如何给表格添加表头和标题、如何合并行和列？
+				表格的标题用caption标签表示，它会自动出现在整张表格的上方。
+				除了标题以外，对内容的更长描述可以写在table标签的summary属性中。
+				2.1 表头：caption标签
+				2.2 标题：th标签
+				2.3 合并行：rowspan属性
+				2.4 合并列：cospan属性
+				代码示例:
+				<table border="1" summary="表格示例">
+					　<caption><em>a test table with merged cells</em></caption>
+					　<tr>
+					     <th rowspan="2"></th>
+					     <th colspan="2">average</th>
+					     <th rowspan="2">red<br>eyes</th>
+					  </tr>
+					　<tr>
+					     <th>height</th>
+					     <th>weight</th>
+					  </tr>
+					　<tr>
+					     <th>males</th>
+					     <td>1.9</td>
+					     <td>0.003</td>
+					     <td>40%</td>
+					  </tr>  
+					　<tr>
+					     <th>females</th>
+					     <td>1.7</td>
+					     <td>0.002</td>
+					     <td>43%</td>
+					  </tr>   
+				</table>
+		     3、table标签中thead、tbody、tfoot的作用及兼容性问题？
+		        1、代码示例：
+					<table>
+						<thead>
+						　　<tr> ...header information...
+						</thead>	
+						<tfoot>
+						　　<tr> ...footer information...
+						</tfoot>				
+						<tbody>
+						　　<tr> ...first row of block one data...
+						　　<tr> ...second row of block one data...
+						</tbody>
+						<tbody>
+						　　<tr> ...first row of block two data...
+						　　<tr> ...second row of block two data...
+						　　<tr> ...third row of block two data...
+						</tbody>						
+					</table>
+				2 标签使用其本身所代表的含义。这就是他们的作用。
+				  2.1 thead　表格的头        用来放标题之类的东西
+				  2.2 tbody　表格的身体    放数据本体
+				      TBODY包含行的内容下载完优先显示，不必等待表格结束。
+				  2.3 tfoot　 表格的脚       放表格的脚注之类
+				  2.4 使用thead/tbody/tfoot的作用
+				      2.4.1 默认表格本来是从上向下显示的。但是，应用了thead/tbody/tfoot以后，就“从头到脚”显示，不管你的行代码顺序如何。
+				      2.4.2 浏览器对Table的解释是等待整个table全部加载完才显示。如果加入tbody，浏览器则一边下载一边显示已经下载的内容
+				      2.4.3 在浏览很长的表格时，其表头及表尾可固定不动（如EXCEL），只是内容tbody部分在动。
+				3、这里有三个注意点：
+				   3.1 thead和tfoot在一张表中都只能有一个，而tbody可以有多个。
+				   3.2 tfoot必须出现在tbody前面，这样浏览器在接收主体数据之前，就能渲染表尾，有利于加快表格的显示速度。这一点对大型表格尤其重要。
+				   3.3 thead、tbody和tfoot里面都必须使用tr标签。
+				4 兼容性
+				  4.1 pc版浏览器支持情况
+				      chrome1.0、Firefox1.0、IE4、Opera7、Safari1.0及其以上支持
+				  4.2 移动端浏览器支持情况
+				      Android1.0、Firefox1.0、IE6、Opera6、Safari1.0及其以上支持
+        六、举例说明常用的表单提交方式有哪些，get和post方法的区别？
+            1 示例
+              <form action="form_action.asp" method="get">
+				  <p>First name: <input type="text" name="fname" /></p>
+				  <p>Last name: <input type="text" name="lname" /></p>
+				  <input type="submit" value="Submit" />
+			  </form>
+			2 表单提交方式metho用法
+			  method 属性规定如何发送表单数据（表单数据发送到 action 属性所规定的页面）。
+			   表单数据可以作为 URL 变量（method="get"）或者 HTTP post （method="post"）的方式来发送。
+			3 get和post方法的区别 
+			  3.1、安全性
+				如果用get提交一个验证用户名和密码的form，一般认为是不安全的，因为用户名和密码将出现在URL上，进而出现在浏览器的历史记录中。
+				显然，在对安全性有要求的情况下，应该使用post。
+				Get将表单中数据的按照variable=value的形式，添加到action所指向的URL后面，并且两者使用“?”连接，而各个变量之间使用“&”连接；
+				Post是将表单中的数据放在form的数据体中，按照变量和值相对应的方式，传递到action所指向URL。
+			  3.2、编码
+				get只能向服务器发送ASCII字符，而post则可以发送整个ISO 10646中的字符。
+				get和post对应的enctype属性有区别。enctype有两个值，默认值为application/x-www-form-urlencoded（在发送前编码所有字符）
+				另一个是multipart/form-data（用于文件上传）只能用于post。
+			  3.3、提交数据的长度。
+				IE将请求的URL长度限制为2083个字符，从而限制了get提交的数据长度，如果URL超出了这个限制，提交form时IE不会有任何反映。
+			  3.4、缓存
+				由于一个get得到的结果直接对应到一个URL，所以get的结果页面有可能被浏览器缓存，而post一般不能。
+			  3.5、引用和SEO 
+				可以用一个URI引用一个get的结果页面，而post的结果则不能，所以必然不能被搜索引擎搜到。
+			  3.6、Get是用来从服务器上获得数据，而post是用来向服务器上传递数据
+				如果采用Post方法，浏览器将会按照下面两步来发送数据。
+				首先浏览器将action属性中指定的表单处理服务器建立联系，一旦建立连接之后，浏览器就会按分段传输的方法将数据发送给服务器。
+				在服务器端，一旦Post样式的应用程序开始执行时，就应该从一个标志位置读取参数，而一旦读到参数，在应用程序能够使用这些表单值以前，必须对这些参数进行解码，用户特定的服务器会明确指定应用程序应该如何接受这些参数。
+				采用Get方法：
+				浏览器会直接与表单处理服务器建立连接，然后直接在一个传输步骤中发送所有的表单数据，然后直接在一个传输步骤中发送所有的表单数据。
+        七、举例说明常用的表单元素及其属性的用法？
+            详见《form表单的属性和用法.doc》和《表单示例.html》
+        八、单选框和复选框的用法及其注意事项？
+            1 单选按钮
+              一组单选单选按钮必须name值想同，相同name值的单选按钮始终只能选中一个选项。
+              属性checked=true时，默认选中项，设置多个只有一个生效
+	            <form action="index.php" method="get" id="genderID"> 
+	                <!-- 单选按钮 -->
+	            	
+	                <input type="radio" name="sex" checked=true id="female"><label for="female">女</label>
+	            </form>
+	        2 多选按钮
+	          一组复选框必须name值想通，相同name值的复选框可以选中多个选项。
+	          属性checked=true时，默认选中项，设置多个同时生效
+	           <form action="index.php" method="get" id="courseID"> 
+	            	<input type="checkbox" name="course" checked=true id="html"><label for="html">html</label>
+	                <input type="checkbox" name="course" checked=true id="css"><label for="css">css</label>
+	                <input type="checkbox" name="course" checked=trueidr="javascript"><label for="javascript">javascript</label>
+	                <input type="checkbox" name="course" id="node.js">><label for="node.js">node.js</label>
+	                <input type="checkbox" name="course"  for="pid><label for="php">php</label>
+	            </form>
+        九、下拉列表框的用法？
+            multiple="multiple"属性可以展开下拉列表实现下拉列表多选
+            删除multiple属性则收缩下拉列表，只能单选。
+            <form action="save.php" method="post" id="hobbyID">
+			    <select multiple="multiple">
+			      <optgroup label="爱好">
+				      <option value="reading">看书</option>
+				      <option value="sports">运动</option>
+			      </optgroup>
+			      <optgroup label="课程">
+				    <option value ="math">数学</option>
+				    <option value ="english">英语</option>
+				  </optgroup>
+			    </select>
+			</form>
+        十、可输入的文本框有哪些及其用法？
+            1 文本输入框、密码输入框
+				<form  method="post" action="save.php" id="textID">
+				    <label for="name">账户：</label>
+				    <input type="text" name="userName" id="name" />
+				    <br>
+				     <label for="name">密码：</label>
+				    <input type="password" name="passWord" id="pass"/>
+				</form>
+            2 文本域，支持多行文本输入
+				<form  method="post" action="save.php" id="textareaID">
+				    <label for="contect">联系我们</label>
+				    <textarea cols="50" rows="10" id="contect" >在这里输入内容...</textarea>
+				</form>
+        十一、按钮有哪几种及其用法？
+            <form action="save.php" method="post" id="buttionID">
+			    <label for="hobby">爱好:</label>
+			    <select id="hobby">
+			      <option value="看书">看书</option>
+			      <option value="旅游" selected="selected">旅游</option>
+			      <option value="运动">运动</option>
+			      <option value="购物">购物</option>
+			    </select>
+			    <!-- 普通按钮 -->
+			    <input type="button" name="点击">
+			    <!-- 提交按钮 -->
+			    <input type="submit" value="确定"  />
+			    <!-- 重置按钮 -->
+			    <input type="reset" value="重置"  />
+			    <!-- 图片按钮 -->
+			    <input type="image" src="按钮.jpg">
+			 </form>
+        十二、如何进行表单信息分组？
+             1 fieldset方框　　
+　　            在字段集包含的文本和其它元素外面画一个方框。 
+　　            fieldset元素用于对表单中的元素进行分组并在文档中区别标出文本。它与窗口框架的行为有些相似。fieldset在 Internet Explorer 4.0 及以上版本的HTML 和的脚本中可用。 
+　　            fieldset元素元素是块元素。 并且需要关闭标签，即必须成对出现：<fieldset></fieldset>。 
+             2 legend域标题
+　　           在 fieldSet 对象绘制的方框内插入一个标题。
+			　　legend元素必必位于fieldset内的第一个元素。在 Internet Explorer 4.0 及以上版本的 HTML 和脚本中可用。 
+			　　legend元素是块元素。并且需要关闭标签，即必须成对出现：<legend></legend>。
+			 3 示例
+	             <form action="test.php" method="post" id="fieldsetID">
+					  <fieldset>
+					    <legend>Title</legend>
+					    <input type="radio" id="radio"> <label for="radio">Click me</label>
+					  </fieldset>
+	             </form>
+        十三、Html5新增的表单元素控件有哪些？
+              1 html5 新增表单元素
+                1.1 email 类型用于验证email的格式，当提交表单时会自动验证email域的值
+				1.2 url 类型用于验证 URL 地址的格式，当提交表单时会自动验证url域的值
+				1.3 number 类型会根据你的设置提供选择数字的功能，min属性设置最小值、max属性设置最大值，value属性设置当前值，step属性设定每次增长的值，某些浏览器还不支持
+				1.4 range 类型用于应该包含一定范围内数字值的输入域，其会以一个滑块的形式展现，min属性设置最小值、max属性设置最大值，value属性设置当前值，如果没有设置，则其默认值的范围是1-100
+				日期和时间类型：HTML5 拥有多个可供选取日期和时间的新输入类型： 
+				1.5 date - 选取日、月、年
+				1.6 month - 选取月、年
+				1.7 week - 选取周和年
+				1.8 time - 选取时间（小时和分钟）
+				1.9 datetime - 选取时间、日、月、年（UTC 时间）
+				1.10 datetime-local - 选取时间、日、月、年（本地时间）
+				1.11 search 类型用于搜索域，比如站点搜索或 Google 搜索，为其加上results="s"属性，则会在搜索框前面加上一个搜索图标
+				1.12 tel类型用于验证输入的是否是电话格式的内容，此元素现在还没有浏览器支持
+				1.13 color类型会提供一个颜色拾取器，供用户选择颜色，并将用户选择的颜色填充到此元素中
+		      2 示例
+		        <form action="upload.php" method="post" accept-charset="utf-8" id="form1">        
+				    <br> <label for="url">个人主页：</label>
+				    <input type="url" name="url" id="url" value="" placeholder="个人主页" required>
+				    <br>  <label for="email" >邮箱：</label>
+				    <input type="email" name="email" id="email" value="" placeholder="邮箱" required>
+				    <br>  <label for="date">生日: </label>
+				    <input type="date" name="date" id="date" value="" required>
+				    <br>  <label for="time">时间: </label>
+				    <input type="time" name="time" id="time" value="" required>
+				    <br>  <label for="week">星期: </label>
+				    <input type="week" name="week" id="week" value="" required>
+				    <br>  <label for="age">年龄: </label>
+				    <input type="number" name="age"id="age" value="">
+				    <br>  <label for="range">薪水: </label>
+				    <input type="range" id="range" name="range" value="">
+				    <br>  <label for="tel">电话: </label>
+				    <input type="tel" name="tell" id="tel" value="" placeholder="都不支持">
+				    <br>  <label for="color">颜色: </label>
+				    <input type="color" id="color" name="mycolor">
+				    <br>
+				    <input type="search" name="key" value="" results="s"><br>
+				    <input type="submit" name="sub" value="提交" form="form1">
+				</form>
+        十四、什么是标签语义化，标签语义化的意义，标签使用规范？
+              1 什么是标签语义化
+                用正确的标签做正确的事情。
+              2 标签语义化的意义
+　　            2.1 语义 Web 技术有助于利用基于开放标准的技术，从数据、文档内容或应用代码中分离出意义。
+                    html语义化让页面的内容结构化，结构更清晰，便于对浏览器、搜索引擎解析;
+　　                即使在没有样式CSS情况下也以一种文档格式显示，并且是容易阅读的;
+　　            2.2 搜索引擎的爬虫也依赖于HTML标记来确定上下文和各个关键字的权重，利于SEO;
+　　            2.3 使阅读源代码的人对网站更容易将网站分块，便于阅读维护理解。
+                2.4:方便其他设备解析（如屏幕阅读器、盲人阅读器、移动设备）
+              3 标签使用规范
+                3.1 尽可能少的使用无语义的标签div和span；
+                3.2 在语义不明显时，既可以使用div或者p时，尽量用p, 因为p在默认情况下有上下间距，对兼容特殊终端有利；
+				3.3 不要使用纯样式标签，如：b、font、u等，改用CSS设置。
+				3.4 需要强调的文本，可以包含在strong或者em标签中，strong默认样式是加粗，而em是斜体；
+				3.5 使用表格时，标题要用caption，表头用thead，主体部分用tbody包围，尾部用tfoot包围。表头和一般单元格要区分开，表头用th，单元格用td；
+				3.6 表单域要用fieldset标签包起来，并用legend标签说明表单的用途；
+				3.7 每个input标签对应的说明文本都需要使用label标签，并且通过为input设置id属性，在lable标签中设置for=someld来让说明文本和相对应的input关联起来；
+
+                     
+
+
+
+    </pre>
+</body>
+</html>

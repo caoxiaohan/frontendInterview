@@ -1,0 +1,375 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>链接样式表</title>    
+</head>
+<body>
+<h1>定义样式、获取样式、设置样式有哪些不同的方法？并列举具体用法？</h1>
+<pre>
+  一、定义样式（引入css)的方式：
+	  在HTML中引入CSS的方法主要有四种，它们分别是行内式、内嵌式、链接式和导入式。
+	    1.行内式:行内式是在标记的style属性中设定CSS样式。这种方式没有体现出CSS的优势，不推荐使用。
+	    2.嵌入式:嵌入式是将CSS样式集中写在网页的<head></head>标签对的<style></style>标签对中。格式如下：
+	             <head>
+	            <style type="text/css">
+	                   ...此处写CSS样式
+	           </style>
+	          </head>
+	          缺点是对于一个包含很多网页的网站，在每个网页中使用嵌入式，进行修改样式时非常麻烦。单一网页可以考虑使用嵌入式。
+	    3.导入式:将一个独立的.css文件引入HTML文件中，导入式使用CSS规则引入外部CSS文件，<style>标记也是写在<head>标记中，使用的语法如下：
+	              <style type="text/css">
+	                        @import"mystyle.css"; 此处要注意.css文件的路径
+	             </style>
+	             导入式会在整个网页装载完后再装载CSS文件，因此这就导致了一个问题，如果网页比较大则会儿出现先显示无样式的页面，闪烁一下之后，再出现网页的样式。这是导入式固有的一个缺陷。
+
+	    4.链接式:也是将一个.css文件引入到HTML文件中，但它与导入式不同的是链接式使用HTML规则引入外部CSS文件，它在网页的<head></head>标签对中使用<link>标记来引入外部样式表文件，使用语法如下：
+	              <link href="mystyle.css" rel="stylesheet" type="text/css"/>
+	              使用链接式时与导入式不同的是它会以网页文件主体装载前装载CSS文件，因此显示出来的网页从一开始就是带样式的效果的，它不会象导入式那样先显示无样式的网页，然后再显示有样式的网页，这是链接式的优点。
+	    总结：一般来说，做网站时把样式多写在多个样式表文件中，因此我们先用链接式引入一个总的CSS文件，然后在这个CSS文件中在使用导入式来引入其他的CSS文件。但如果通过JavaScrip来动态引入CSS文件则只能使用链接式。
+  二、获取样式
+        1. 获取内联式样式
+           通过style属性获取内联式样式
+           <!DOCTYPE html>
+          <html>
+           <head>
+            <meta charset="utf-8">
+           	<title></title>
+           	<style type="text/css">
+           		#div1{
+           			background: pink;
+                font-size: 20px;
+           		}
+           	</style>
+           </head>
+           <body>
+             <div id="div1" style="color:red;with=300px;height:200px">获取内嵌样式</div>
+             <script type="text/javascript">
+             	var par=document.getElementById("div1");
+              //通过style可以成功获取内联样式的真实值
+             	console.log("通过style属性获取内联式样式："+par.style.color); //通过style属性获取内联式样式：red
+              //通过style无法获取嵌入式样式
+             	console.log("通过style属性获取嵌入式样式："+par.style.background); //通过style属性获取嵌入式样式：            
+             </script>
+           </body>
+           </html>
+         2. 获取当前元素的的所有计算的样式
+            2.l 标准浏览器下使用getComputedStyle()方法获取样式
+                在IE浏览器中打开报错，windows没有getComputedStyle()方法
+                在非IE浏览器中正常显示如下结果
+                <script type="text/javascript">
+	                var par=document.getElementById("div1");
+	                var cs = window.getComputedStyle(par,null);//第一个参数需要计算样式的元素，第二个参数为null或伪对象字符串
+	                  //通过style可以成功获取内联样式的真实值
+	                console.log("通过style属性获取内联式样式："+cs.color); //通过style属性获取内联式样式：rgb(255, 0, 0)
+	                console.log("通过style属性获取内联式样式："+cs.width); //通过style属性获取内联式样式：300px
+	                  //通过style无法获取嵌入式样式
+	                console.log("通过style属性获取嵌入式样式："+cs.backgroundColor); //通过style属性获取嵌入式样式：rgb(255, 192, 203) 
+	                 console.log("通过style属性获取嵌入式样式："+cs.fontSize); //通过style属性获取嵌入式样式：20px          
+              </script>
+            2.2 IE浏览器中使用currentStyle获取样式
+               在非IE浏览器中打开报错，非IE浏览器中元素没有currentStyle属性。
+               在IE浏览器下正常显示如下结果
+              <script type="text/javascript">
+	                var par=document.getElementById("div1");	             
+	                  //通过style可以成功获取内联样式的真实值
+	                console.log("通过style属性获取内联式样式："+par.currentStyle["color"]); //通过style属性获取内联式样式：red
+	                console.log("通过style属性获取内联式样式："+par.currentStyle["width"]); //通过style属性获取内联式样式：300px
+	                  //通过style无法获取嵌入式样式
+	                console.log("通过style属性获取嵌入式样式："+par.currentStyle["backgroundColor"]); //通过style属性获取嵌入式样式：pink
+	                 console.log("通过style属性获取嵌入式样式："+par.currentStyle["fontSize"]); //通过style属性获取嵌入式样式：20px          
+              </script>
+            
+        
+  三、设置（修改）样式
+     1 根据元素在节点树里的位置来设置样式
+       通过style属性修改样式
+        <!DOCTYPE html>
+          <html>
+           <head>
+            <meta charset="utf-8">
+           	<title></title>
+           	<style type="text/css">
+           		#div1{
+           			background: pink;
+                font-size: 20px;
+           		}
+           	</style>
+           </head>
+           <body>
+             <div id="div1" style="color:red;with=300px;height:200px">获取内嵌样式</div>
+             <script type="text/javascript">
+             	var par=document.getElementById("div1");
+              //通过style可以成功获取内联样式的真实值
+             	par.style.color="blue"; //通过style属性修改内联式样式
+              //通过style无法获取嵌入式样式
+             	par.style.background="yellow"; //通过style属性修改嵌入式样式：            
+             </script>
+           </body>
+           </html>
+     2 根据某种条件反复设置某种样式
+       典型的反复设置某种样式的案例：斑马线表格或者叫隔行变色表格
+       2.1 兼容的写法，用原生js写隔行变色表格
+       <!DOCTYPE html>
+		<html lang="en">
+		<head>
+		  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		  <title>Cities</title>
+		  <style type="text/css">
+		  	  body {
+				  font-family: "Helvetica","Arial",sans-serif;
+				  background-color: #fff;
+				  color: #000;
+				}
+				table {
+				  margin: auto;
+				  border: 1px solid #699;
+				}
+				caption {
+				  margin: auto;
+				  padding: .2em;
+				  font-size: 1.2em;
+				  font-weight: bold;
+				}
+				th {
+				  font-weight: normal;
+				  font-style: italic;
+				  text-align: left;
+				  border: 1px dotted #699;
+				  background-color: #9cc;
+				  color: #000;
+				}
+				th,td {
+				  width: 10em;
+				  padding: .5em;
+				}
+				.odd {
+				  background-color: #ffc;
+				}
+		  </style>	 
+		</head>
+		<body>
+		  <table>
+		    <caption>Itinerary</caption>
+		    <thead>
+		    <tr>
+		      <th>When</th>
+		      <th>Where</th>
+		    </tr>
+		    </thead>
+		    <tbody>
+		    <tr>
+		      <td>June 9th</td>
+		      <td>Portland, <abbr title="Oregon">OR</abbr></td>
+		    </tr>
+		    <tr>
+		      <td>June 10th</td>
+		      <td>Seattle, <abbr title="Washington">WA</abbr></td>
+		    </tr>
+		    <tr>
+		      <td>June 12th</td>
+		      <td>Sacramento, <abbr title="California">CA</abbr></td>
+		    </tr>
+		    </tbody>
+		  </table>
+		</body>
+		<script type="text/javascript">
+			function stripeTables() {
+			  if (!document.getElementsByTagName) return false;
+			  var tables = document.getElementsByTagName("table");
+			  for (var i=0; i<tables.length; i++) {
+			    var odd = false;
+			    var rows = tables[i].getElementsByTagName("tr");
+			    for (var j=0; j<rows.length; j++) {
+			      if (odd == true) {
+			        addClass(rows[j],"odd");
+			        odd = false;
+			      } else {
+			        odd = true;
+			      }
+			    }
+			  }
+			}
+			function addClass(element,value) {
+			  if (!element.className) {
+			    element.className = value;
+			  } else {
+			    newClassName = element.className;
+			    newClassName+= " ";
+			    newClassName+= value;
+			    element.className = newClassName;
+			  }
+			}
+			addLoadEvent(stripeTables);
+			function addLoadEvent(func) {
+			  var oldonload = window.onload;
+			  if (typeof window.onload != 'function') {
+			    window.onload = func;
+			  } else {
+			    window.onload = function() {
+			      oldonload();
+			      func();
+			    }
+			  }
+			}
+		</script>
+		</html>
+		2.2 用css3新特性实现隔行变色
+		   只需在嵌入式或者css文件中添加这两行语句，就可以实现隔行变色，不必再写js代码。
+		  tr:nth-child(odd){ background-color: #ffc;   }
+          tr:nth-child(even){ background-color: #fff;  }
+		 <!DOCTYPE html>
+		<html lang="en">
+		<head>
+		  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		  <title>Cities</title>
+		  <style type="text/css">
+		  	  body {
+				  font-family: "Helvetica","Arial",sans-serif;
+				  background-color: #fff;
+				  color: #000;
+				}
+				table {
+				  margin: auto;
+				  border: 1px solid #699;
+				}
+				caption {
+				  margin: auto;
+				  padding: .2em;
+				  font-size: 1.2em;
+				  font-weight: bold;
+				}
+				th {
+				  font-weight: normal;
+				  font-style: italic;
+				  text-align: left;
+				  border: 1px dotted #699;
+				  background-color: #9cc;
+				  color: #000;
+				}
+				th,td {
+				  width: 10em;
+				  padding: .5em;
+				}
+				.odd {
+				  background-color: #ffc;
+				}
+				tr:nth-child(odd){
+					background-color: #ffc;
+				}
+				tr:nth-child(even){
+					background-color: #fff;
+				}
+		  </style>	 
+		</head>
+		<body>
+		  <table>
+		    <caption>Itinerary</caption>
+		    <thead>
+		    <tr>
+		      <th>When</th>
+		      <th>Where</th>
+		    </tr>
+		    </thead>
+		    <tbody>
+		    <tr>
+		      <td>June 9th</td>
+		      <td>Portland, <abbr title="Oregon">OR</abbr></td>
+		    </tr>
+		    <tr>
+		      <td>June 10th</td>
+		      <td>Seattle, <abbr title="Washington">WA</abbr></td>
+		    </tr>
+		    <tr>
+		      <td>June 12th</td>
+		      <td>Sacramento, <abbr title="California">CA</abbr></td>
+		    </tr>
+		    </tbody>
+		  </table>
+		</body>		
+		</html>
+     3 响应事件
+       当触发事件时，样式发生改变
+       最简单的案例,鼠标悬停时修改样式：
+        tr:hover{
+          color:#c60;
+          font-weight: bold;
+       }
+       <!DOCTYPE html>
+		<html lang="en">
+		<head>
+		  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		  <title>Cities</title>
+		  <style type="text/css">
+		  	  body {
+				  font-family: "Helvetica","Arial",sans-serif;
+				  background-color: #fff;
+				  color: #000;
+				}
+				table {
+				  margin: auto;
+				  border: 1px solid #699;
+				}
+				caption {
+				  margin: auto;
+				  padding: .2em;
+				  font-size: 1.2em;
+				  font-weight: bold;
+				}
+				th {
+				  font-weight: normal;
+				  font-style: italic;
+				  text-align: left;
+				  border: 1px dotted #699;
+				  background-color: #9cc;
+				  color: #000;
+				}
+				th,td {
+				  width: 10em;
+				  padding: .5em;
+				}
+				.odd {
+				  background-color: #ffc;
+				}
+				tr:nth-child(odd){
+					background-color: #ffc;
+				}
+				tr:nth-child(even){
+					background-color: #fff;
+				}
+				tr:hover{
+		          color:#c60;
+		          font-weight: bold;
+		       }
+		  </style>	 
+		</head>
+		<body>
+		  <table>
+		    <caption>Itinerary</caption>
+		    <thead>
+		    <tr>
+		      <th>When</th>
+		      <th>Where</th>
+		    </tr>
+		    </thead>
+		    <tbody>
+		    <tr>
+		      <td>June 9th</td>
+		      <td>Portland, <abbr title="Oregon">OR</abbr></td>
+		    </tr>
+		    <tr>
+		      <td>June 10th</td>
+		      <td>Seattle, <abbr title="Washington">WA</abbr></td>
+		    </tr>
+		    <tr>
+		      <td>June 12th</td>
+		      <td>Sacramento, <abbr title="California">CA</abbr></td>
+		    </tr>
+		    </tbody>
+		  </table>
+		</body>		
+		</html>
+</pre>
+
+</body>
+</html>

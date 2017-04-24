@@ -4,7 +4,7 @@
     邮箱规则，邮箱的@之后的后缀其实是由网址域名演变而来的
    // 邮箱规则，邮箱的@之后的后缀其实是由网址域名演变而来的
     //1.1 @之前的邮箱用户名，以qq邮箱为例，要么是全数字。要么首为字符是字母，最后一位字符是字母或数字。只能包含数字、字母、下划线，中横线、点，长度为3-18位。
-    //1.2 最后两位为国别域名可有可无，如.cn表示中国，.us表示美国。 用？表示0到1次。
+    //1.2 最后两位为国别域名可有可无，如.com表示中国，.us表示美国。 用？表示0到1次。
           //所有2个字母结尾的顶级域名都是国家顶级域名，一般出现在域名的最后
     //1.3 国别名之前是域名后缀，如.com，.company.  目前可注册的域名后缀有2-18位字母。
           //域名后缀也可以是汉字或者其他国家的文字，这里我们忽略，不推荐采用，也没有人用作官方网站或邮箱后缀。
@@ -49,9 +49,9 @@
 9 匹配一个月，考虑28~31天
 
 三、Freecodecamp练习题3
-要求在freecodecamp.cn网页上验证通过
-1 https://freecodecamp.cn/challenges/caesars-cipher 
-2 https://freecodecamp.cn/challenges/search-and-replace
-3 https://freecodecamp.cn/challenges/pig-latin
-4 https://freecodecamp.cn/challenges/spinal-tap-case
-5 https://freecodecamp.cn/challenges/validate-us-telephone-numbers
+要求在freecodecamp.com网页上验证通过
+1 https://freecodecamp.com/challenges/caesars-cipher 
+2 https://freecodecamp.com/challenges/search-and-replace
+3 https://freecodecamp.com/challenges/pig-latin
+4 https://freecodecamp.com/challenges/spinal-tap-case
+5 https://freecodecamp.com/challenges/validate-us-telephone-numbers

@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+</head>
+
+<body>
+    <form action="upload.php" method="post" accept-charset="utf-8" id="form1">  
+        <fieldset>
+            <legend>信息注册</legend>
+            用户名: <input type="text" /><br />
+        <br />
+
+            密　码: <input type="password" />
+            <br />
+        <br />
+
+            籍贯： <select name="" id="">
+            	    <option value="">北京</option>
+            	    <option value="">河北</option>
+            	    <option value="">山东</option>
+            	    <option value="">河南</option>
+                  </select>
+
+                  <select name="" id="">
+            	    <option value="">张家口</option>
+            	    <option value="">洛阳</option>
+            	    <option value="">西城区</option>
+            	    <option value="">济南</option>
+                  </select>
+
+                  <select name="" id="">
+            	    <option value="">中关村</option>
+            	    <option value="">上地</option>
+            	    <option value="">西二旗</option>
+            	    <option value="">西三期</option>
+                  </select>
+               <br />
+        <br />
+
+            性别: <input type="radio"  name="xb" checked="checked" />男  <input type="radio"  name="xb"/>女
+                   <br />
+        <br />
+
+             爱好: <input type="checkbox" /> 打篮球
+             <input type="checkbox" /> 打游戏
+             <input type="checkbox" /> 逛街
+             <input type="checkbox" /> 抽烟，喝酒，烫头
+        <br />
+        <br />
+
+             请上传帅气的头像: <input type="file" />
+             <br />
+             <br />
+
+            介绍自己:   <textarea name="" id="" cols="30" rows="10"></textarea>
+            <br />
+             <br />
+            <input type="submit" value="提交表单"/>
+            <input type="reset" value="重新填写"/><br />
+            <br />
+            <input type="image" src="im.jpg" />
+        </fieldset>
+       <br />
+        <br />
+        <fieldset>
+         <legend>html5新增表单控件</legend>
+
+                    <br> 主页:
+                    <input type="url" name="url" value="" placeholder="个人主页" required>
+                    <br> 邮箱:
+                    <input type="email" name="email" value="" placeholder="邮箱" required>
+                    <br> 生日:
+                    <input type="date" name="date" value="" required>
+                    <br> 时间:
+                    <input type="time" name="time" value="" required>
+                    <br> 星期:
+                    <input type="week" name="week" value="" required>
+                    <br> 年龄:
+                    <input type="number" name="age" value="">
+                    <br> 薪水:
+                    <input type="range" name="range" value="">
+                    <br> 电话:
+                    <input type="tel" name="tell" value="" placeholder="都不支持">
+                    <br> 颜色:
+                    <input type="color" name="mycolor">
+                    <br>
+                    <input type="search" name="key" value="" results="s"><br>
+                    <input type="submit" name="sub" value="提交" form="form1">
+                
+        </fieldset>
+    </form>
+</body>
+</html>
