@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>117 01html基础第二天</title>
+</head>
+<body>
+    nav>ul>li
+    <h1>119 css的概念、作用？样式的书写位置与优先级关系？常用样式的写法和含义？基本选择器的分类并举例？复合选择器的分类并举例？文本元素的常用属性用法和含义？文本样式如何连写？文本样式字体的表达方法？</h1>
+    <pre>
+        一.css的概念、作用？
+           1 概念
+             层叠样式表(英文全称：Cascading Style Sheets)是一种用来表现HTML（标准通用标记语言的一个应用）或XML（标准通用标记语言的一个子集）等文件样式的计算机语言。
+           2 作用
+             CSS中元素位置的排版进行像素级精确控制，支持几乎所有的字体字号样式，拥有对网页对象和模型样式编辑的能力。
+
+        二. 样式的书写位置与优先级关系？
+            1 样式的书写位置：
+	            在HTML中引入CSS的方法主要有四种，它们分别是行内式、内嵌式、链接式和导入式。
+			    1.1.行内式:行内式是在标记的style属性中设定CSS样式。这种方式没有体现出CSS的优势，不推荐使用。
+			    1.2.嵌入式:嵌入式是将CSS样式集中写在网页的<head></head>标签对的<style></style>标签对中。格式如下：
+			             <head>
+			            <style type="text/css">
+			                   ...此处写CSS样式
+			           </style>
+			          </head>
+			          缺点是对于一个包含很多网页的网站，在每个网页中使用嵌入式，进行修改样式时非常麻烦。单一网页可以考虑使用嵌入式。
+			    1.3.导入式:将一个独立的.css文件引入HTML文件中，导入式使用CSS规则引入外部CSS文件，<style>标记也是写在<head>标记中，使用的语法如下：
+			              <style type="text/css">
+			                        @import"mystyle.css"; 此处要注意.css文件的路径
+			             </style>
+			             导入式会在整个网页装载完后再装载CSS文件，因此这就导致了一个问题，如果网页比较大则会儿出现先显示无样式的页面，闪烁一下之后，再出现网页的样式。这是导入式固有的一个缺陷。
+                     （不建议使用）
+			    1.4.链接式:也是将一个.css文件引入到HTML文件中，但它与导入式不同的是链接式使用HTML规则引入外部CSS文件，它在网页的<head></head>标签对中使用<link>标记来引入外部样式表文件，使用语法如下：
+			              <link href="mystyle.css" rel="stylesheet" type="text/css"/>
+			              使用链接式时与导入式不同的是它会以网页文件主体装载前装载CSS文件，因此显示出来的网页从一开始就是带样式的效果的，它不会象导入式那样先显示无样式的网页，然后再显示有样式的网页，这是链接式的优点。
+			    总结：一般来说，做网站时把样式多写在多个样式表文件中，因此我们先用链接式引入一个总的CSS文件，然后在这个CSS文件中在使用导入式来引入其他的CSS文件。但如果通过JavaScrip来动态引入CSS文件则只能使用链接式。
+			 2 样式的优先顺序
+			   详见《css优先级机制.doc》
+			   2.1 引入方式不同的优先顺序
+			       一般情况：行内>内嵌>链接>@import导入式（实际上并非如此）
+			       有个例外的情况，就是如果外部样式放在内部样式的后面，则外部样式将覆盖内部样式。
+			       说明实际上：内嵌、链接、导入在同一个文件头部，谁离相应的代码(离head标签近)近，谁的优先级高
+               2.2 权值越大优先级越高
+                   2.2.1.  内联样式表的权值最高 1000；
+				   2.2.2.  ID 选择器的权值为 100
+				   2.2.3.  Class 类选择器的权值为 10
+				   2.2.4.  HTML 标签选择器的权值为 1
+			   2.3 一般情况优先级顺序为：
+			       important >行内 > ID > 类|伪类 | 属性选择 > 伪元素 |标签 > 继承 > 通配符>import\t
+			       注意：优先级最高的样式是!important,优先级最低的是@import，注意单词的区别
+			   2.4 如果权值相同，则采用就近原则
+             
+
+	    三 常用样式的写法和含义？
+	       1 CSS文字属性：
+				color : #999999; /*文字颜色*/
+				font-family : 宋体,sans-serif; /*文字字体*/
+				font-size : 9pt; /*文字大小*/
+				font-style:itelic; /*文字斜体*/
+				font-variant:small-caps; /*小字体*/
+				letter-spacing : 1pt; /*字间距离*/
+				line-height : 200%; /*设置行高*/
+				font-weight:bold; /*文字粗体*/
+				vertical-align:sub; /*下标字*/
+				vertical-align:super; /*上标字*/
+				text-decoration:line-through; /*加删除线*/
+				text-decoration:overline; /*加顶线*/
+				text-decoration:underline; /*加下划线*/
+				text-decoration:none; /*删除链接下划线*/
+				text-transform : capitalize; /*首字大写*/
+				text-transform : uppercase; /*英文大写*/
+				text-transform : lowercase; /*英文小写*/
+				text-align:right; /*文字右对齐*/
+				text-align:left; /*文字左对齐*/
+				text-align:center; /*文字居中对齐*/
+				text-align:justify; /*文字分散对齐*/
+				vertical-align属性
+				vertical-align:top; /*垂直向上对齐*/
+				vertical-align:bottom; /*垂直向下对齐*/
+				vertical-align:middle; /*垂直居中对齐*/
+				vertical-align:text-top; /*文字垂直向上对齐*/
+				vertical-align:text-bottom; /*文字垂直向下对齐*/
+		   2 CSS符号属性：
+				list-style-type:none; /*不编号*/
+				list-style-type:decimal; /*阿拉伯数字*/
+				list-style-type:lower-roman; /*小写罗马数字*/
+				list-style-type:upper-roman; /*大写罗马数字*/
+				list-style-type:lower-alpha; /*小写英文字母*/
+				list-style-type:upper-alpha; /*大写英文字母*/
+				list-style-type:disc; /*实心圆形符号*/
+				list-style-type:circle; /*空心圆形符号*/
+				list-style-type:square; /*实心方形符号*/
+				list-style-image:url(/dot.gif); /*图片式符号*/
+				list-style-position:outside; /*凸排*/
+				list-style-position:inside; /*缩进*/
+		   3 CSS背景样式：
+				background-color:#F5E2EC; /*背景颜色*/
+				background:transparent; /*透视背景*/
+				background-image : url(/image/bg.gif); /*背景图片*/
+				background-attachment : fixed; /*浮水印固定背景*/
+				background-repeat : repeat; /*重复排列-网页默认*/
+				background-repeat : no-repeat; /*不重复排列*/
+				background-repeat : repeat-x; /*在x轴重复排列*/
+				background-repeat : repeat-y; /*在y轴重复排列*/
+		   4 指定背景位置
+				background-position : 90% 90%; /*背景图片x与y轴的位置*/
+				background-position : top; /*向上对齐*/
+				background-position : buttom; /*向下对齐*/
+				background-position : left; /*向左对齐*/
+				background-position : right; /*向右对齐*/
+				background-position : center; /*居中对齐*/
+		   5 CSS连接属性：
+				a /*所有超链接*/
+				a:link /*超链接文字格式*/
+				a:visited /*浏览过的链接文字格式*/
+				a:active /*按下链接的格式*/
+				a:hover /*鼠标转到链接*/
+		   6 鼠标光标样式：
+				链接手指 CURSOR: hand
+				十字体 cursor:crosshair
+				箭头朝下 cursor:s-resize
+				十字箭头 cursor:move
+				箭头朝右 cursor:move
+				加一问号 cursor:help
+				箭头朝左 cursor:w-resize
+				箭头朝上 cursor:n-resize
+				箭头朝右上 cursor:ne-resize
+				箭头朝左上 cursor:nw-resize
+				文字I型 cursor:text
+				箭头斜右下 cursor:se-resize
+				箭头斜左下 cursor:sw-resize
+				漏斗 cursor:wait
+				光标图案(IE6) p {cursor:url("光标文件名.cur"),text;}
+		   7 CSS框线：
+				border-top : 1px solid #6699cc; /*上框线*/
+				border-bottom : 1px solid #6699cc; /*下框线*/
+				border-left : 1px solid #6699cc; /*左框线*/
+				border-right : 1px solid #6699cc; /*右框线*/
+				以上是建议书写方式,但也可以使用常规的方式 如下:
+				border-top-color : #369 /*设置上框线top颜色*/
+				border-top-width :1px /*设置上框线top宽度*/
+				border-top-style : solid/*设置上框线top样式*/
+				其他框线样式
+				solid /*实线框*/
+				dotted /*虚线框*/
+				double /*双线框*/
+				groove /*立体内凸框*/
+				ridge /*立体浮雕框*/
+				inset /*凹框*/
+				outset /*凸框*/
+		   8 CSS表单运用：
+				文字方块
+				按钮
+				复选框
+				选择钮
+				多行文字方块
+				下拉式菜单 选项1选项2
+		   9 CSS边界样式：
+				margin-top:10px; /*上边界*/
+				margin-right:10px; /*右边界值*/
+				margin-bottom:10px; /*下边界值*/
+				margin-left:10px; /*左边界值*/
+		   10 CSS边框空白
+				padding-top:10px; /*上边框留空白*/
+				padding-right:10px; /*右边框留空白*/
+				padding-bottom:10px; /*下边框留空白*/
+				padding-left:10px; /*左边框留空白
+          
+        四、基本选择器的分类并举例？
+            详见附件《css基本选择器.doc》
+        五、复合选择器的分类并举例？
+            详见附件《css复合选择器.doc》
+        六、文本元素的常用属性用法和含义？
+           详见附件《css文本样式属性.doc》
+        七、文本样式如何连写？
+           1 语法：:[ [ <font-style> || <font-variant> || <font-weight> ]? <font-size> [ / <line-height> ]? <font-family> ] | caption | icon | menu | message-box | small-caption | status-bar | inherit
+             默认值为： normal normal normal medium normal "Times New Roman" 。
+             声明方式参数必须按照如上的排列顺序。每个参数仅允许有一个值。忽略的将使用其参数对应的独立属性的默认值。
+           2 举例
+             定义段落的字体为斜体(font-style属性),小型的大写字母(font-variant属性),粗体(font-weight属性),12px字体大小(font-size属性),1.2倍(字体)的行高(line-height属性),Arial字体(font-family属性)
+	            p
+				{
+					font:italic small-caps bold 12px/1.2em Arial;
+				}
+           3 注意。
+             3.1 字体连写至少要有font-size和font-family,否则表达式无效。
+             3.2 font-style、 font-variant、font-weight要么不写，要写就写在最前面。
+             3.3 /line-height 要么不写，要就写在font-size后面紧挨着。
+             3.4 caption | icon | menu | message-box | small-caption | status-bar | inherit几个样式要么不写，要写就写在最后面。
+
+        八、文本样式字体的表达方法？
+            详见附件《font-family的写法.doc》
+        
+                     
+
+
+
+    </pre>
+</body>
+</html>
