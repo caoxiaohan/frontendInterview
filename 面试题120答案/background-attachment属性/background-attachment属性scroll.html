@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>有滚动条时scroll属性</title>
+<style type="text/css">
+*{
+	margin:0px;
+	padding: 0px;
+	clear: both
+}
+
+div#inner{ width:350px;height:350px; margin:50px;border:15px red dashed;padding:20px; background:blue url("princess.jpg")  0 center/50% 50% no-repeat scroll;font-size:50px;overflow: auto}
+</style>	
+
+</head>
+<body>
+	<div id="inner">
+		<h1>内顶部</h1>
+ 			<p>a</p><p>b</p><p>c</p><p>d</p><p>e</p><p>f</p><p>g</p><p>h</p><p>i</p><p>j</p><p>k</p>l<br>
+			m<br>o<br>p<br>q<br>r<br>s<br>t<br>u<br>v<br>w<br>x<br>y<br>z<br>A<br>B<br>C<br>D<br>E<br>F<br>G<br>H<br>I<br>J<br>K<br>L<p>M</p>N<br>O<br>P<br>Q<br>R<br>S<br>T<br>U<br>V<br>W<br>X<br>Y<br>Z
+         <h1>内底部</h1>
+    </div>
+	<h1>外顶部</h1>
+        <p>a</p><p>b</p><p>c</p><p>d</p><p>e</p><p>f</p><p>g</p><p>h</p><p>i</p><p>j</p><p>k</p>l<br>
+        m<br>o<br>p<br>q<br>r<br>s<br>t<br>u<br>v<br>w<br>x<br>y<br>z<br>A<br>B<br>C<br>D<br>E<br>F<br>G<br>H<br>I<br>J<br>K<br>L<p>M</p>N<br>O<br>P<br>Q<br>R<br>S<br>T<br>U<br>V<br>W<br>X<br>Y<br>Z
+     <h1>外底部</h1>
+
+</body>
+</html>
+<script>
+inner.onscroll=function(){
+	console.log("inner.scrollHeight:",inner.scrollHeight);//469,449(真实内容的高度)+20(padding-top)
+	console.log("inner.scrollWidth:",inner.scrollWidth);////173,clientWidth,容器中内容没有溢出的情况下：和我们的clientWidth/clientHeight一模一样
+	console.log("inner.scrollLeft:",inner.scrollLeft);//0,当没有溢出或没有滚动条或者滚动条在默认位置（最左侧）时值为0
+	//当向右拖动滚动条时，inner.scrollLeft的值逐渐增大，最小值是0，最大值是 inner.scrollWidth - inner.clientWidth
+	console.log("inner.scrollTop",inner.scrollTop);//0,当没有溢出或没有滚动条或者滚动条在默认位置（最上侧）时值为0
+	//当向下拖动滚动条时，inner.scrollTop的值逐渐增大，最小值是0，最大值是 inner.scrollHeight - inner.clientHeight
+	console.log("inner.scrollWidth==inner.clientWidth+inner.scrollLeft",inner.scrollWidth==inner.clientWidth+inner.scrollLeft);
+	console.log("inner.scrollHeight==inner.clientHeight+inner.scrollTop",inner.scrollHeight==inner.clientHeight+inner.scrollTop);
+	console.log("inner.clientHeight",inner.clientHeight);
+	console.log("inner.clientWidth",inner.clientHeight);
+
+}
+
+
+
+
+
+</script>
