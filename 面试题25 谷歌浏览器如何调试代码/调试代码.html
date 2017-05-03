@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>调试代码</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+//调试步骤：第一步：添加断点； 第二步：按F5刷新页面则进入调试状态；第三步：按F10或F11逐行调试。
+/*
+	在第18行添加断点，以下代码观察循环语句的执行顺序,按F8三次才能跳出循环，按F10或F11逐行执行三轮才能跳出循环。
+*/
+var num=0;
+for(var i =0/* 1 */;i<3/* 2 */;i++/* 4 */){
+	/* 3 */	
+	console.log(num+=i)	;
+	//num=num+i;//num+=i
+}
+
+
+/*
+   在第29行添加断点，以下代码测试 F10和F11 的区别。按F10跳过函数定义部分不会进入函数体，按F11进入sum函数定义的函数体内。
+*/
+function sum(a,b){
+	return(a+b);
+}
+sum(1,2);
+
+
+/*
+   取消所有断点，右侧工具栏点击最右边的图标（黑色圆圈中间有两条白色竖线），然后勾选“Pause On Caught Exceptions” 
+   按F5刷新页面，则程序在第38行中断进入调试状态。
+*/
+try
+{
+   arr.cxh();
+}catch(err)
+{
+	console.log(err);
+}
+
+</script>

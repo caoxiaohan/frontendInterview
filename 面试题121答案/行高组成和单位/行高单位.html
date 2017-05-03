@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<style type="text/css">
+		body{
+			font-size: 16px;
+			line-height: 120%;/*120%分别替换成其他单位测试计算后的行高*/
+		}
+		h1{font-size:32px;}
+		p{font-size:16px;}
+		#footer{font-size: 12px;}
+	</style>
+	<title>行高单位</title>
+</head>
+<body>
+	<h1>h1标题</h1>
+	<p>p段落</p>
+	<div id="footer">div底部</div>
+	<script type="text/javascript">
+		function getCss(curEle,attr){
+		    var val = typeof window.getComputedStyle == "function" ?
+		            getComputedStyle(curEle,null)[attr] : curEle.currentStyle[attr];
+		        return val;
+		}
+		var h1=document.getElementsByTagName("h1")[0];
+		var p=document.getElementsByTagName("p")[0];
+		console.log("计算后body的行高为：",getCss(document.body,"lineHeight"));	
+		console.log("计算后h1的行高为：",getCss(h1,"lineHeight"));
+		console.log("计算后p的行高为：",getCss(p,"lineHeight"));
+		console.log("计算后div的行高为：",getCss(footer,"lineHeight"));
+		/*
+			计算后body的行高为： 19.2px
+		    计算后h1的行高为： 19.2px
+	        计算后p的行高为： 19.2px
+	        计算后div的行高为： 19.2px
+        */
+	</script>
+</body>
+</html>

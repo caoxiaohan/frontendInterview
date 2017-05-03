@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>call stack</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+/*
+   在第25添加断点，按F5刷新页面进入调试状态，按F11逐行调试并入函数内部，注意观察右侧call tack区域变化，最先调用的函数显示在最下面。
+*/
+var arr = [1,2,3,4,5]
+function sum(ary){
+	var res = null;
+	for(var i=0;i<ary.length;i++){
+         res+=ary[i];
+	}
+	return res;
+}
+function average(){
+	return sum(arr)/arr.length;
+}
+var avg = average();
+
+</script>

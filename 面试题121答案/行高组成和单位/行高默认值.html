@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>行高默认值</title>
+</head>
+<body>	
+	<script type="text/javascript">
+		function getCss(curEle,attr){
+		    var val = typeof window.getComputedStyle == "function" ?
+		            getComputedStyle(curEle,null)[attr] : curEle.currentStyle[attr];		       
+		        return val;
+		}		
+		console.log("默认body的字体大小为：",getCss(document.body,"fontSize"));	
+		console.log("默认body的行高为：",getCss(document.body,"lineHeight"));
+		/*
+	     1 默认字体大小
+	       1.1 标准浏览器下
+	           控制台输入测试: 
+	               window.getComputedStyle(document.body).fontSize
+	           Chrome/ Safari/Opera/ Firefox/IE9&IE9+  浏览器下值为  “16px”
+	       1.2 IE8&IE8-
+	          控制台输入测试: document.body.currentStyle.fontSize 
+	          E8&IE8-  浏览器下值为    “12pt”    
+	     2 默认行高
+	       2.1 标准浏览器下
+	           控制台输入测试:
+	                window.getComputedStyle(document.body).lineHeight
+	           Chrome/ Safari/Opera/IE9&IE9+ 浏览器下值为  “normal”       
+	           Firefox  浏览器下值为 “20px”
+	        2.2 IE8&IE8-
+	          控制台输入测试:
+	              Document.body.currentStyle.LineHeight 
+	          IE8&IE8-  浏览器    “normal”   
+        */
+	</script>
+</body>
+</html>

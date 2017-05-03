@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>黑盒</title>
+</head>
+<body>
+	<button id="button">button</button>
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script>
+	/*
+	   勾选控制台最右侧的Async复选框，第17行debugger关键字是添加断点意思，按F5刷新页面进入调试状态。
+	   注意观察右侧call stack区域显示的函数，最先调用的函数显示在最下面。
+	*/
+	$(document).ready(function(){
+		var pause = function (){
+		    debugger;
+	    };
+		$("#button").click(pause);		
+	});
+</script>
+</body>
+</html>
