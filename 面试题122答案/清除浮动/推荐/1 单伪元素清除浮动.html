@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<style type="text/css"> 
+		.div1{background:silver;border:1px solid red;} 
+		.div2{background:olive;border:1px solid red;height:100px;margin-top:10px} 
+		.left{float:left;width:20%;height:200px;background:lime} 
+		.right{float:right;width:30%;height:200px;background:teal} 
+		/*清除浮动代码*/ 
+        .clearfix:after{
+        	content:"";/*设置内容为空*/
+        	height:0;/*高度为0*/
+        	display:block;/*将文本转为块级元素*/        	
+        	visibility:hidden;/*将元素隐藏*/
+        	clear:both; /*清除浮动*/       	
+        } 
+　　　　.clearfix{
+　　　　　　zoom:1;/*为了兼容IE*/
+　　　　}
+	</style> 
+	<title>1 单伪元素清除浮动</title>
+</head>
+<body>
+	<div class="div1 clearfix"> 
+		<div class="left">Left</div> 
+		<div class="right">Right</div> 
+	</div> 
+	<div class="div2"> 
+		div2 
+	</div> 
+</body>
+</html>

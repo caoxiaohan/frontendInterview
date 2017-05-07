@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>2.3 绝对定位上级元素无定位则以首屏作为参考点</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		body{
+			/*为什么要写这个？*/
+			/*不希望我们的页面被nav挡住*/
+			padding-top: 60px;
+			/*IE6不兼容固定定位，所以这个padding没有什么用，就去掉就行了*/
+			_padding-top:0;
+		}
+		.nav{
+			position:absolute;
+			top: 0;
+			left: 0;
+	 		width: 100%;
+			height: 60px;
+			background-color: #333;
+			z-index: 99999999;
+		}
+		.inner_c{
+			width: 1000px;
+			height: 60px;
+			margin: 0 auto;
+
+		}
+		.inner_c ul{
+			list-style: none;
+		}
+		.inner_c ul li{
+			float: left;
+			width: 100px;
+			height: 60px;
+			text-align: center;
+			line-height: 60px;
+		}
+		.inner_c ul li a{
+			display: block;
+			width: 100px;
+			height: 60px;
+			color:white;
+			text-decoration: none;
+		}
+		.inner_c ul li a:hover{
+			background-color: gold;
+		}
+	</style>
+</head>
+<body>
+	<div class="nav">
+		<div class="inner_c">
+			<ul>
+				<li><a href="#">网页栏目1</a></li>
+				<li><a href="#">网页栏目2</a></li>
+				<li><a href="#">网页栏目3</a></li>
+				<li><a href="#">网页栏目4</a></li>
+				<li><a href="#">网页栏目5</a></li>
+				<li><a href="#">网页栏目6</a></li>
+				<li><a href="#">网页栏目7</a></li>
+				<li><a href="#">网页栏目8</a></li>
+				<li><a href="#">网页栏目9</a></li>
+				<li><a href="#">网页栏目10</a></li>
+			</ul>
+		</div>
+	</div>	
+	
+ <h1>顶部</h1>
+        <p>a</p><p>b</p><p>c</p><p>d</p><p>e</p><p>f</p><p>g</p><p>h</p><p>i</p><p>j</p><p>k</p>l<br>
+        m<br>o<br>p<br>q<br>r<br>s<br>t<br>u<br>v<br>w<br>x<br>y<br>z<br>A<br>B<br>C<br>D<br>E<br>F<br>G<br>H<br>I<br>J<br>K<br>L<p>M</p>N<br>O<br>P<br>Q<br>R<br>S<br>T<br>U<br>V<br>W<br>X<br>Y<br>Z
+  <h1>底部</h1>
+	 
+</body>
+</html>
