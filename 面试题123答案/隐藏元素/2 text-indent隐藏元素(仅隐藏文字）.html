@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<style type="text/css">		
+        .div1,.div2{           
+            width:300px;
+            height:200px;
+            color:white;
+            font: 100px/200px microsoft yahei;
+            text-align: center;
+        }
+        .div1{
+            background-color: red;
+        }
+        .div2{
+            background-color: blue;
+        }
+        .inner{
+            width:200px;
+            height:100px;           
+            background-color: green;
+            margin:0 auto;
+        }
+        .hide {
+               text-indent: -999em;
+        }
+    </style>
+    <title>2 text-indent隐藏元素</title>
+</head>
+<body>
+    <div class="div1 hide"><div class="inner">1</div></div>
+    <div class="div2">2</div>
+</body>
+</html>

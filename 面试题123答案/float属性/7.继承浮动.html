@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<style type="text/css">
+	     span{
+            background-color: white;
+	     }
+	     .left,.right{
+	     	width: 500px;
+			height:300px;
+			text-align: right;
+			line-height: 300px;
+	     }	    
+		.left{			
+			background-color: olive;	
+			color: olive;	
+			float:left;	
+		}		
+		.right{		
+			background-color: silver;	
+			color: silver;
+			float:right;				
+		}
+		
+		.ndiv1,.ndiv2{
+			width: 200px;
+			height:100px;	
+			text-align: right;
+			line-height: 100px;		
+		}
+		.ndiv1{
+			background-color: aqua;
+			color: aqua;
+			float:inherit;;
+		}
+		.ndiv2{			
+			background-color: fuchsia;
+			color: fuchsia;
+			float: inherit;		
+		}		
+	</style>
+	<title>7.继承浮动</title>
+</head>
+<body>
+	<div class="left">
+		<span>左浮动父元素</span>
+	    <div class="ndiv1"><span>左浮父之子一</span></div>
+	    <div class="ndiv2"><span>左浮父之子二</span></div>
+	</div>
+	<div class="right">
+	     <span>右浮动父元素</span>
+	       <div class="ndiv1"><span>右浮父之子一</span></div>
+	    <div class="ndiv2"><span>右浮父之子二</span></div>
+	</div>
+
+</body>
+</html>

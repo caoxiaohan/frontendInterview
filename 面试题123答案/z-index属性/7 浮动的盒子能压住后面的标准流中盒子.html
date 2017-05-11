@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<style type="text/css">
+	     span{
+            background-color: white;
+	     }
+	     .div1,.div2{
+	     	width: 500px;
+			height:300px;
+			text-align: right;
+			line-height: 300px;
+	     }	    
+		.div1{			
+			background-color: olive;	
+			color: olive;		
+		}		
+		.div2{		
+			background-color: silver;	
+			color: silver;				
+		}
+	
+		
+		.ndiv1,.ndiv2{
+			width: 200px;
+			height:100px;	
+			text-align: right;
+			line-height: 100px;		
+		}
+		.ndiv1{
+			background-color: aqua;
+			color: aqua;
+			float:right;
+		}
+		.ndiv2{			
+			background-color: fuchsia;
+			color: fuchsia;
+			float: left;		
+		}
+		
+	</style>
+	<title>7 浮动的盒子能压住后面的标准流中盒子</title>
+</head>
+<body>
+	<div class="div1"><span>浮动元素前面标准流中的div</span></div>	
+	<div class="ndiv1"><span>右浮动非标准流中的div</span></div>
+	<div class="ndiv2"><span>左浮动非标准流中的div</span></div>
+	<div class="div2"><span>浮动元素后面标准流中的div</span></div>
+</body>
+</html>

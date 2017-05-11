@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<style type="text/css">		
+        .div1,.div2{           
+            width:300px;
+            height:200px;
+        }
+        .div1{
+            background-color: red;
+        }
+        .div2{
+            background-color: blue;
+        }
+        .inner{
+            width:200px;
+            height:100px;
+            color:white;
+            font: 100px/100px microsoft yahei;
+            text-align: center;
+            background-color: green;
+            margin:0 auto;
+        }
+        .hide {
+                  margin:0;
+                  border:0;
+                  padding:0;
+                  height:0px;
+                  width:0px;
+                  overflow:hidden;
+        }
+	</style>
+	<title>6 通过设置盒模型相关属性为0隐藏元素（不占位）</title>
+</head>
+<body>
+	<div class="div1 hide"><div class="inner">1</div></div>
+	<div class="div2">2</div>
+</body>
+</html>

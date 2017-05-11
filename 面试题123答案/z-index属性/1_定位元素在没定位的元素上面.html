@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>1_定位元素在没定位的元素上面</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}		
+		div{
+			width: 200px;
+			height: 200px;
+			line-height: 200px;
+		}
+		.box1{			
+			background: skyblue;
+			position: relative;
+			top: 50px;
+			left: 50px;
+		}
+		.box2{
+			background: pink;			
+			top: 0;
+			left: 0;
+		}
+	</style>
+</head>
+<body>
+	<div class="box1">前面蓝色盒子已定位</div>
+	<div class="box2">后面粉色盒子没定位</div>
+</body>
+</html>

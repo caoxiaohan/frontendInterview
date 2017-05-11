@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<style type="text/css">
+	     span{
+            background-color: white;
+	     }
+	    
+		
+		.ndiv1,.ndiv2,.ndiv3,.ndiv4,.ndiv5,.ndiv6,.ndiv7,.ndiv8{
+			width: 200px;
+			height:100px;	
+			text-align: right;
+			line-height: 100px;		
+		}
+		.ndiv1{
+			background-color: aqua;
+			color: aqua;
+			float:right;
+		}
+		.ndiv2{			
+			background-color: fuchsia;
+			color: fuchsia;
+			float: left;		
+		}
+		.ndiv3{			
+			background-color: maroon;
+			color: maroon;
+			float: left;		
+		}
+		.ndiv4{			
+			background-color: navy;
+			color: navy;
+			float: left;		
+		}
+		.ndiv5{
+			background-color: purple;
+			color: purple;
+			float:right;
+		}
+		.ndiv6{			
+			background-color: green;
+			color: green;
+			float: left;		
+		}
+		.ndiv7{			
+			background-color: red;
+			color: red;
+			float: left;		
+		}
+		.ndiv8{			
+			background-color: blue;
+			color: blue;
+			float: left;		
+		}
+	</style>
+	<title>5.行内元素和浮动元素交叉</title>
+</head>
+<body>
+	<a href="http://bofuwa.com" style="background-color: yellow">第一个标准流中的行内元素</a>
+	<div class="ndiv1"><span>第一个非标准流中的div</span></div>
+	<div class="ndiv2"><span>第二个非标准流中的div</span></div>	
+	<div class="ndiv3"><span>第三个非标准流中的div</span></div>		
+	<div class="ndiv4"><span>第四个非标准流中的div</span></div>
+	<a href="http://caoxiaohan.com" style="background-color: pink">第二个标准流中的行内元素</a>
+	<div class="ndiv5"><span>第五个非标准流中的div</span></div>	
+	<div class="ndiv6"><span>第六个非标准流中的div</span></div>
+	<div class="ndiv7"><span>第七个非标准流中的div</span></div>
+	<div class="ndiv8"><span>第八个非标准流中的div</span></div>
+	<a href="http://guylikeme.com" style="background-color: pink">第三个标准流中的行内元素&nbsp;第三个标准流中的行内元素&nbsp;第三个标准流中的行内元素&nbsp;第三个标准流中的行内元素&nbsp;第三个标准流中的行内元素&nbsp;第三个标准流中的行内元素&nbsp;第三个标准流中的行内元素&nbsp;第三个标准流中的行内元素&nbsp;第三个标准流中的行内元素&nbsp;</a>
+</body>
+</html>
