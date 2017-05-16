@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<style>
+  .parent{width:200px; height:200px; padding:10px;}
+  .sub{text-align:right; font:15px Verdana;width:100px; height:100px;}
+  .lt50{left:50px;top:50px;}
+</style>
+	<title>Document</title>
+</head>
+<body>
+	
+
+<div style="position:absolute; background:red;z-index: 0 " class="parent">
+    
+</div>
+<div style="position:absolute;left:80px;top:80px;background:black; " class="parent">
+    <div style="position:absolute;z-index:2;background:darkgray;" class="sub">2</div>
+    <div style="position:absolute;z-index:1;background:dimgray;" class="sub lt50">1</div>
+</div>
+
+</body>
+</html>

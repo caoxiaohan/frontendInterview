@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>6_都定位的元素谁的父元素z-index值大谁在上面</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			text-align: right;
+		}
+		.caonaigang,.caocao{
+			width: 200px;
+			height: 200px;
+			line-height: 200px;
+		}
+		.caonaigang{			
+			background-color: lightblue;
+			position: relative;
+			
+		}
+		.caocao{
+			background-color: yellow;
+			position: relative;
+			
+		}
+		.caoxiaohan,.caopi{
+			width: 60px;
+			height: 60px;
+			line-height: 60px
+
+		}
+		.caoxiaohan{
+			
+			background-color: lightgreen;
+			position: absolute;
+			top: 300px;
+			left: 450px;
+			z-index: 99;
+		}
+		.caopi{
+			width: 60px;
+			height: 60px;
+			background-color: pink;
+			position: absolute;
+			top: 130px;
+			left: 490px;
+			z-index: 11;
+		}
+	</style>
+</head>
+<body>
+	<div class="caonaigang">
+	    cng->z-index:0
+		<p class="caoxiaohan">cxh:99</p>
+	</div>
+	<div class="caocao">
+	    曹操->z-index:0
+		<p class="caopi">曹丕:11</p>
+	</div>
+</body>
+</html>

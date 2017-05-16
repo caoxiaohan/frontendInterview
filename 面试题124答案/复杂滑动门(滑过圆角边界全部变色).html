@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+	body,ul,li{
+		margin:0;
+		padding: 0;
+
+	}
+	ul{
+		list-style: none;
+	}
+	li{
+		float: left;
+		height: 35px;
+	}
+	a{
+		text-decoration: none;
+		background: url("images/bg_r1_c1.png") no-repeat;
+		display: inline-block;
+		height: 35px;
+		padding-left: 7px;
+		color:#fff;
+	}
+	span{
+		display: inline-block;
+		height: 35px;
+		line-height: 35px;
+		background: url("images/bg_r1_c2.png") right;
+		padding-right: 25px;
+	}
+	a:hover{
+		background: url("images/blue_r1_c1.png");
+	}
+	a span:hover{
+		background: url("images/blue_r1_c2.png") right;
+	}
+	</style>
+</head>
+<body>
+	<ul>
+		<li><a href="#"><span>facebook</span></a></li>
+		<li><a href="#"><span>苹果</span></a></li>
+		<li><a href="#"><span>波伏娃</span></a></li>
+	</ul>
+	<script type="text/javascript">
+		var oA=document.getElementsByTagName("a");
+		var oSpans=document.getElementsByTagName("span");
+		for (var i = 0; i < oA.length; i++) {
+			oA[i].index=i;
+			oA[i].onmouseenter=function(i){
+				oSpans[this.index].style.backgroundImage = 'url("images/blue_r1_c2.png")';
+			};
+			oA[i].onmouseleave=function(i){
+				oSpans[this.index].style.backgroundImage = 'url("images/bg_r1_c2.png")';
+			};
+		}
+	</script>
+</body>
+</html>

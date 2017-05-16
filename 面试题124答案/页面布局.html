@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+		<style type="text/css">
+			/*css初始化*/
+			body,h1,h2,h3,h4,h5,h6,p,ul,dl,dd{
+				margin: 0;
+				padding: 0;
+			}
+			body,h1,h2,h3,h4,h5,h6,p{
+				font-size:12px;
+				font-family: "宋体","微软雅黑";
+			}
+			ul{
+				list-style: none;
+
+			}
+			input{
+				border:0 none;
+				outline-style: none;  /*清除轮廓线*/
+			}
+			img{
+				border:0 none;
+			}
+			a{
+				text-decoration: none;
+			}
+			/*头部样式*/
+			.header{
+				width:980px;
+				height: 62px;
+				margin:0 auto;
+				
+			}
+			.logo{
+				width: 179px;
+				height: 39px;
+				float:left;
+				margin-top:20px;
+			}
+			.search{
+				float:right;
+				margin-top:20px;
+				border:1px solid #ECECEC;
+			}
+			.txt{
+				width: 165px;
+				height: 28px;
+				float:left;
+
+			}
+			.search .btn{
+				width:30px;
+				height: 30px;
+				background: url("images/search2.jpg");
+				float:right;
+			}
+			.nav{
+				height: 55px;
+				background: url("images/nav_bg.png");
+				border-top:1px solid #E1E1E1;
+			}
+			.nav .nav-con{
+				width:980px;
+				margin:0 auto;
+			}
+			.nav li{
+				float:left;
+			}
+			.nav li a{
+				height: 55px;
+				display: inline-block;
+				background: url("images/nav_bg-line.png") no-repeat right top;
+				padding:0 46px;
+				line-height: 55px;
+				font-weight: 700;
+				color:#000;
+			}
+			.nav li a:hover{
+				color:#7CB609;
+			}
+			/*banner部分*/
+			.banner{
+				width:980px;
+				margin:0 auto;
+			}
+			/*公告部分*/
+			.bulletin{
+				height: 29px;
+				border-top:1px solid #EFEFEF;
+				border-bottom:1px solid #EFEFEF;
+				margin-bottom: 12px;
+				background: #FBFBFB;
+			}
+			.bulletin .bulletin-mid{
+				width:980px;
+				
+				margin:0 auto;
+			}
+			.bulletin .l-bulletin{
+				float:left;
+				line-height: 29px;
+
+			}
+			.bulletin .r-bulletin{
+				float: right;
+				margin-top: 6px;
+			}
+			/*新闻部分开始*/
+			.news{
+				width: 980px;
+				margin:15px auto;
+
+			}
+
+			.products,.newslist{
+				float: left;
+			}
+			.news-pub{
+				margin-top: 13px;
+				margin-left: 6px;
+				color:#7AB800;
+			}
+			.news-pub img{
+				vertical-align: middle;
+			}
+			.clearfix:after{
+				content:".";
+				display: block;
+				height: 0;
+				line-height: 0;
+				visibility: hidden;
+				clear: both;
+			}
+			.clearfix{
+				zoom:1;
+			}
+			/*左边盒子*/
+			.products{
+				width: 310px;
+				height: 224px;
+				border:1px solid #E4E4E4;
+				margin-right:12px;
+				position: relative;
+
+			}
+			.pro-pic{
+				position: absolute;
+				left:60px;
+				top:50px;
+
+			}
+			.l-sj{
+				position: absolute;
+				left:23px;
+				top:120px;
+				
+			}
+			.r-sj{
+				position: absolute;
+				right:23px;
+				top:120px;
+			}
+			/*中间盒子*/
+			.newslist{
+				height: 224px;
+				width: 373px ;
+				border:1px solid #E4E4E4;
+				
+			}
+			.newslist-list{
+				margin:10px 18px 0 23px;
+			}
+			.newslist-list li{
+				height: 27px;
+				border-bottom:1px dashed #DCDCDC;
+				text-decoration:underline;
+				line-height: 27px;
+
+			}
+			.ftcolor{
+				color:red;
+				font-weight: 700;
+			}
+			/*右边盒子*/
+			.support{
+				height: 224px;
+				width: 268px ;
+				border:1px solid #E4E4E4;
+				float:right;
+
+			}
+			.s-pub{
+				height: 12px;
+				border-left: 3px solid #7AB800;
+				margin-top:10px;
+				margin-left:28px;
+				padding-left:5px;
+			}
+			.support p{
+				margin-top:30px;
+				margin-left:28px;
+				line-height: 18px;
+			}
+			/*底部开始*/
+			.footer{
+				height: 221px;
+				background: #2D2D2D;
+				border-bottom:1px dashed #414141;
+			}
+			.footer-mid{
+				width: 980px;
+				margin:0 auto;
+			}
+			.footer-mid dl{
+				float: left;
+				margin-top:20px;
+				margin-right:60px;
+			}
+			.footer-mid dd{
+				color:#C7C7C7;
+
+			}
+			.footer-mid dt{
+				margin-top:20px;
+				color:#707070;
+			}
+			.bottom{
+				height: 54px;
+				background: #2D2D2D;
+				text-align: center;
+				padding-top:30px;
+			}
+			/*底部结束*/
+			
+
+		</style>
+</head>
+<body>
+	<!-- 头部开始 -->
+	<div class="header">
+		<!-- logo部分 -->
+		<div class="logo">
+			<img src="images/logo.jpg" alt="">
+		</div>
+		<!-- 搜索部分 -->
+		<div class="search">
+			<input type="text" value="请输入..." class="txt">
+			<input type="button" class="btn">
+		</div>
+	</div>
+	<!-- 顶部导航开始 -->
+	<div class="nav">
+		<div class="nav-con">
+			<ul>
+				<li><a href="#">首页</a></li>
+				<li><a href="#">智能手机</a></li>
+				<li><a href="#">平板电脑</a></li>
+				<li><a href="#">配件</a></li>
+				<li><a href="#">服务支持</a></li>
+				<li><a href="#">关于波伏娃</a></li>
+			</ul>
+		</div>
+	</div>
+	<!-- 头部结束 -->
+	<!-- banner开始 -->
+	<div class="banner">
+		<img src="images/banner.jpg" alt="">
+	</div>
+	<!-- banner结束 -->
+	<!-- 公告部分开始 -->
+	<div class="bulletin">
+		<div class="bulletin-mid">
+			<div class="l-bulletin">
+		    	最新公告：波伏娃Aone智能手机入网证已获取工信部门审批下发。波伏娃官网
+			</div>
+			<div class="r-bulletin">
+				<img src="images/zone.png" alt="">
+				<img src="images/weibo.png" alt="">
+				<img src="images/xinlang.png" alt="">
+				<img src="images/renren.png" alt="">
+			</div>
+		</div>
+	</div>
+	<!-- 公告部分结束 -->
+	<!-- 新闻部分开始 -->
+	<div class="news clearfix">
+	<!-- 左边盒子 -->
+		<div class="products">
+			<div class="news-pub">
+				<img src="images/o.jpg" alt="">
+				<span>新品发布</span>
+			</div>
+			<div class="pro-pic">
+				<img src="images/home_hot_01.png" alt="">
+			</div>
+			<div class="l-sj">
+				<img src="images/left.png" alt="">
+			</div>
+			<div class="r-sj">
+				<img src="images/right.png" alt="">
+			</div>
+		</div>
+		<!-- 左边盒子 -->
+		<!-- 中间盒子 -->
+		<div class="newslist">
+			<div class="news-pub">
+				<img src="images/o.jpg" alt="">
+				<span>新闻中心</span>
+			</div>
+			<ul class="newslist-list">
+			<li class="ftcolor">致歉公告</li>
+			<li>首批波伏娃Aonet已全部售馨!</li>
+			<li>【媒体报导】国产高性价比 波伏娃Aonet四核手机评测</li>
+			<li>我司产品已经通过了国家强制性产品3C认证</li>
+			<li>波伏娃Aone智能手机入网证已经获工信部门审批下发.</li>
+			<li>我司通过ISO9001:2008国际质量管理体系认证</li>
+		</ul>
+		</div>
+		
+		<!-- 中间盒子 -->
+		<!-- 右边盒子 -->
+		<div class="support">
+			<div class="news-pub">
+				<img src="images/o.jpg" alt="">
+				<span>技术与支持</span>
+			</div>
+			<div class="s-pub">售后服务</div>
+			<div class="s-pub">投诉与建议</div>
+			<div class="s-pub">联保网点</div>
+			<div class="s-pub">常见问题FAQ</div>
+			<p>北京波伏娃科技有限公司<br /> 服务热线：010-69946797</p>
+		</div>
+		<!-- 右边盒子 -->
+	</div>
+	<!-- 新闻部分结束 -->
+	<!-- 底部开始 -->
+	<div class="footer">
+		<div class="footer-mid">
+			<dl>
+				<dd>波伏娃首页</dd>
+				<dt>返回首页</dt>
+			</dl>
+			<dl>
+				<dd>波伏娃首页</dd>
+				<dt>返回首页</dt>
+			</dl>
+			<dl>
+				<dd>波伏娃首页</dd>
+				<dt>返回首页</dt>
+			</dl>
+			<dl>
+				<dd>波伏娃首页</dd>
+				<dt>返回首页</dt>
+			</dl>
+		</div>
+	</div>
+	<div class="bottom">
+		<p>北京波伏娃科技有限公司<br>http://www.bofuwa.com</p>
+	</div>
+	<!-- 底部结束 -->
+	
+</body>
+</html>
