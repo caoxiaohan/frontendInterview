@@ -1,0 +1,370 @@
+body,div,p,ul,li{
+	margin: 0;
+	padding: 0;
+	font:12px 宋体;
+}
+img,input{
+	border: 0 none;
+}
+input{
+	outline-style: none;
+}
+
+a{
+	color:#000;
+	text-decoration: none;
+}
+
+ul,li{
+	list-style: none;
+}
+.clearfix:after{
+	display: block;
+	content: ".";
+	height: 0;
+	line-height: 0;
+	visibility: hidden;
+	clear: both;
+}
+.clearfix{
+	zoom:1;
+}
+/*顶部导航*/
+.fl{
+	float: left;
+}
+.fr{
+	float: right;
+}
+.top-nav{
+	height: 26px;
+	border-top: 1px solid #D8D8D8;
+	border-bottom: 1px solid #D8D8D8;
+	background: #F7F7F7;
+
+
+}
+.t-n-con,.search,.nav,.banner,.bud,.pro,.baby,.flink,.copyright{
+	width: 970px;
+	margin: 0 auto;
+	
+}
+
+.l-t-con,.r-t-con li{
+	height: 26px;
+	line-height: 26px;
+}
+.r-t-con li{
+	float: left;
+	background: url("../images/sj.png") no-repeat right;
+
+}
+.r-t-con li a{
+	display: inline-block;
+	height: 26px;
+	padding: 0 10px;
+}
+/*logo搜索*/
+.search{
+	margin-top: 12px;
+}
+.logo{
+	width: 200px;
+	height: 84px;
+}
+.r-search{
+	width: 528px;
+	height: 40px;
+	border: 1px solid #C9C9C9;
+	background: #f5f5f5;
+	margin-top:30px;
+}
+.r-search input[type="text"]{
+	width: 419px;
+	height: 28px;
+	border: 1px solid #A6A6A6;
+	float: left;
+	margin: 5px 0 0 4px;
+}
+.r-search input[type="button"]{
+	width: 99px;
+	height: 32px;
+	background: url("../images/serch.png");
+	float: left;
+	margin-top: 5px;
+}
+
+/*主导航*/
+.nav{
+	border-bottom: 3px solid #0266A2;
+	height: 25px;
+	margin-top: 12px;
+}
+.nav li{
+	float: left;
+	
+}
+.nav li a{
+	display: inline-block;
+	height: 25px;
+	line-height: 25px;
+	padding: 0 16px;
+	color:#2F6CAD;
+
+}
+.nav li a:hover{
+	background: #2F6CAD;
+	color: #fff;
+}
+/*banner开始*/
+.banner{
+	margin-top: 10px;
+	margin-bottom: 15px;
+}
+.l-banner{
+	width: 200px;
+	height: 210px;
+	background: #EBF0F6;
+}
+.l-banner-title{
+	height: 30px;
+	line-height: 30px;
+	color: #fff;
+	padding-left: 20px;
+	background: #0266A2;
+}
+.l-banner ul{
+	margin-top: 5px;
+}
+.l-banner li{
+	height: 28px;
+	line-height: 28px;
+	padding-left: 40px;
+}
+.c-banner{
+	width: 520px;
+	height: 212px;
+}
+
+.l-banner li.icon1{
+	background: url("../images/icon_1.png") no-repeat 9px;
+}
+.l-banner li.icon2{
+	background: url("../images/icon_2.png") no-repeat 9px;
+}
+.l-banner li.icon3{
+	background: url("../images/icon_3.png") no-repeat 9px;
+}
+.l-banner li.icon4{
+	background: url("../images/icon_4.png") no-repeat 9px;
+}
+.l-banner li.icon5{
+	background: url("../images/icon_5.png") no-repeat 9px;
+}
+.l-banner li.icon6{
+	background: url("../images/icon_6.png") no-repeat 9px;
+}
+.pic1-r-banner{
+	width: 229px;
+	height: 95px;
+	margin-bottom: 10px;
+	border-right: 1px solid #DFE6F0;
+}
+/*建筑材料*/
+.bud{
+	width:948px;
+	height: 34px;
+	background: #EBF0F6;
+	border-top: 2px solid #C3D6E4;
+	padding-left: 22px;
+	font-weight: 700;
+	font-size: 14px;
+	line-height: 34px;
+	margin-bottom: 10px;
+}
+/*建筑材料产品*/
+.pro{
+	height: 344px;
+}
+.l-pro{
+	width: 727px;
+	height: 344px;
+	border: 1px solid #D8D8D8;
+}
+
+.t-l-pro{
+	width: 666px;
+	height: 142px;
+	margin: 15px 0 15px 26px;
+}
+.l-t-l-pro{
+	width: 331px;
+	height: 142px;
+}
+.t-left-sidebar{
+	width: 97px;
+	height: 63px;
+	padding: 19px 0 18px 0;
+	border: 1px solid #CACACA;
+	text-align: center;
+	margin-bottom: 15px;
+}
+.b-left-sidebar input{
+	width: 99px;
+	height: 26px;
+	background: url("../images/buy.png");
+}
+.right-sidebar{
+	height: 142px;
+	width: 220px;
+	margin-left: 10px;
+}
+.right-sidebar p {
+	font-size: 14px;
+}
+.right-sidebar del{
+	font-size: 12px;
+}
+.right-sidebar span{
+	color: red;
+	font-weight: 700;
+}
+.right-sidebar p.one{
+	height: 38px;
+	line-height: 38px;
+}
+.right-sidebar p.two{
+	height: 45px;
+}
+.right-sidebar p.three{
+	height: 41px;
+}
+.line{
+	margin: 14px 5px;
+	height: 1px;
+	background: #eee;
+}
+.r-pro{
+	width: 228px;
+	height: 344px;
+	border: 1px solid #DFE6F0;
+}
+.top-r-pro{
+	height: 28px;
+	border-bottom: 1px solid #DFE6F0;
+	background: #FBFBFB; 
+	line-height: 28px;
+	padding-left: 15px;
+}
+.r-pro ul{
+	margin-top: 11px;
+}
+.r-pro li{
+	height: 24px;
+	line-height: 24px;
+	padding-left: 25px;
+	background: url("../images/li_bg.png") no-repeat 10px;
+}
+.r-pro li a:hover{
+	color: #ff0000;
+	text-decoration: underline;
+}
+.children{
+	margin-top: 12px;
+}
+/*儿童安全座椅图片列表*/
+.baby{
+	height: 326px;
+}
+.l-baby{
+	width: 722px;
+	height: 326px;
+}
+.t-l-baby{
+	height: 25px;
+	background: url("../images/et.png") no-repeat;
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 25px;
+	color:#00b0e7;
+	text-align: right;
+}
+.b-l-baby{
+	height: 301px;
+	border: 1px solid #CACACA;
+	border-top: 2px solid #01B0E7;
+}
+.pic-baby{
+	margin:5px 0 0  13px;
+}
+.et01,.et02,.et03,.et04{
+	text-align: center;
+}
+.et01{
+	height: 43px;
+	margin-top: 9px;
+}
+.et02,.et03{
+	height: 24px;
+}
+.pic-baby del,.pic-baby span{
+	color: #990000;
+}
+.baby-b{
+	border:1px solid #CBCBCB;
+	margin-bottom: 15px;
+}
+.light{
+	margin: 14px 10px 10px;
+	height: 75px;
+	color: #999;
+}
+.light img{
+	float: left;
+	margin-right: 7px;
+}
+.flink{
+	border-top:1px solid #DDD;
+	border-bottom: 3px solid #097EC3;
+	height: 100px;
+	margin-top: 10px;
+}
+.flink li{
+	float: left;
+	padding: 0 4px;
+	margin-bottom: 15px;
+}
+.flink-con{
+	margin-top:30px;
+}
+.txt-flink{
+	float: left;
+	height: 37px;
+}
+.flink a:hover{
+	color:red;
+	text-decoration: underline;
+} 
+.copyright{
+	text-align: center;
+}
+.copyright ul{
+	width: 690px;
+	margin: 0 auto;
+}
+.copyright li{
+	float: left;
+	padding: 0 10px;
+	border-right: 1px solid #ccc;
+	margin-top: 15px;
+}
+.copyright p{
+	margin: 10px 0;
+}
+
+
+
+
+
+
+

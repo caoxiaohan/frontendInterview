@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>微信复杂滑动门</title>
+	<style type="text/css">
+		body,ul,li{
+			margin:0;
+			padding:0;
+		}
+		.box{
+			height: 33px;
+			padding:15px 0;
+			background: url("weixin_bg1d20af.jpg");
+		}
+		ul{
+			width: 700px;
+			margin: 0 auto;
+			height: 33px;
+		}
+		li{
+			list-style: none;
+			float: left;
+			margin-left:44px;
+			
+
+		}
+		a{
+			display: inline-block;
+			text-decoration:none;
+			height: 33px;
+			line-height: 33px;
+			color:white;
+			background: url("bg.png") no-repeat 0px -144px;
+			padding-left: 16px;
+		}
+		a span{
+			display: inline-block;
+			height: 33px;
+			background: url("bg.png") no-repeat right -144px;
+			padding-right: 16px;
+		}
+		a:hover{
+			color: green;
+			background: url("bg.png") no-repeat 0px -192px;
+		}
+		a span:hover{
+			
+			background: url("bg.png") no-repeat right -192px;		}
+
+	</style>
+</head>
+<body>
+	<div class="box">
+	<ul>
+		<li><a href="#"><span>首页</span></a></li>
+		<li><a href="#"><span>下载吧</span></a></li>
+		<li><a href="#"><span>公共平台公共平台公共平台公共平台</span></a></li>
+	</ul>
+	</div>
+	<script type="text/javascript">
+		var oA=document.getElementsByTagName("a");
+		var oSpans=document.getElementsByTagName("span");
+		for (var i = 0; i < oA.length; i++) {
+			oA[i].index=i;
+			oA[i].onmouseenter=function(){
+				oSpans[this.index].style.background = 'url("bg.png") no-repeat right -192px';
+			};
+			oA[i].onmouseleave=function(){
+				oSpans[this.index].style.background = 'url("bg.png") no-repeat right -144px';
+			};
+		}
+	</script>
+</body>
+</html>
