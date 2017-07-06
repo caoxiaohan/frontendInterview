@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>面试题37答案</title>    
+</head>
+<body>
+<h1>6 关系操作符的规则。</h1>
+<pre>
+  一、关系操作符   
+      关系操作符有：大于(>)、大于等于(>=)、小于(<)、小于等于(<=)，这几个操作符都返回一个布尔值。
+      1 如果两个操作数都是数值，则执行数值比较
+        1.1 两个常规数值进行比较
+            1>2 //返false
+        1.2 NaN和常规数值比较
+            任何操作数与NaN进行比较结果都是false
+            NaN<3 //返会false
+            NaN>=3 //返回false
+        1.3 Infinity和常规数值比较
+            3<Infinity //true,任何常规数值都小于正无穷大Infinity
+            3>-Infinity //true,任何常规数值都大于负无穷大-Infinity
+            3<-Infinity //false
+            3>Infinity //false
+            NaN>=Infinity //false
+            NaN<Ifinity //false,NaN和任何操作数比较，都返回false
+      2 如果一个操作数是布尔值，想将其转换为数值，然后再执行比较
+         true>0 //返回true,true转换为数值1
+         false>0 //返回false,false转换为数值0
+      3 如果两个操作数是字符串，则比较两个字符串对应的字符编码，首先比较第一个字符，最终结果取决于首字符的比较，如果第一个字符相等，则继续比较第二个字符.....,直到比较出结果位置。
+        ascii码表参见网址 http://www.asciima.com/
+        字符"0"~"9"对应的ascii码表十进制编码为"48"~"57"
+        大写字符"A"~"Z"对应的ascii码表十进制编码为"65"~"90"
+        大写字符"a"~"z"对应的ascii码表十进制编码为"97"~"122"
+        所以，数字字符永远小于字母字符，大写字母字符永远小于小写字母字符。
+        "Z"<"a" //返回true
+        9<"A" //返回true
+        如果想忽略字母大小写，按字母顺序比较，可以将所有字母同时转换成大写或者同时转换成小写。
+        "Z".toUpperCase() //"Z"
+        "a".toUpperCase() //"A"
+        "Z".toUpperCase()<"a".toUpperCase() //返回false,因为两边同时转换成大写，"Z"<"A"不成立
+        "Z".toLowerCase() //"z"
+        "a".toLowerCase() //"a"
+        "Z".toLowerCase()<"a".toLowerCase() //返回false,因为两边同时转换成小写，"Z"<"A"不成立
+        "12"<"3" //返回true,因为如果第一个字符不相等，则只比较第一个字符，因为"1"<"3",所以"12"<"3"。
+        "12"<3 //返回false，因为有一个操作符是数值类型，所以将其他操作符也转换成数值类型，再进行比较。12<3,s所以"12"<3.
+      4 如果一个操作数是数值，则将另一个操作数转换成数值，然后执行数值比较。
+        其他数据类型转换为Number类型的规律详见面试题28答案，这里仅列举少量案例。
+        true>3 //返回false，Number(true)转化为1，1>3不成立。
+        null<3 //返回true，Number(null)转化为0，0<3成立。
+        undefined<3 //返回false，Number(undefined)转化为NaN，NaN与任何数比较都返回false。
+        undefined>=3 //返回false，Number(undefined)转化为NaN，NaN与任何数比较都返回false。
+        ""<3 //返回true，Number("")转化为0，0<3成立。
+        "  ">=3 //返回false，Number("  ")转化为0，0>=3不成立。
+        "2"<3 //返回true，Number("2")转化为数字2，2<3成立。
+        "2b"<3 //返回false，Number("2b")转化为NaN，NaN与任何操作数比较都返回false。
+        "2b">=3 //返回false，Number("2b")转化为NaN，NaN与任何操作数比较都返回false。
+        []<3 //返回true，Number([])转换为0,0<3成立
+        [1]<3 //返回true，Number([1])转换为1,1<3成立
+        [0,1]<3 //返回false，Number([0,1])转换为NaN,NaN与任何操作数比较都返回false。
+        [0,1]>=3 //返回false，Number([0,1])转换为NaN,NaN与任何操作数比较都返回false。
+        ({})<3 //返回false，Number({})转化为NaN，NaN与任何操作数比较都返回false。
+        (function(){})>3//返回false，Number(function(){})转化为NaN，NaN与任何操作数比较都返回false。
+        /\d/>3 //返回false，Number(/\d/)转化为NaN，NaN与任何操作数比较都返回false。
+        document>3 //返回false，Number(document)转化为NaN，NaN与任何操作数比较都返回false。
+        (Math)>3 //返回false，Number(Math)转化为NaN，NaN与任何操作数比较都返回false。
+        (Error)>3 //返回false，Number(Error)转化为NaN，NaN与任何操作数比较都返回false。
+        (new Error)>3 //返回false，Number(new Error)转化为NaN，NaN与任何操作数比较都返回false。
+        (Date)>3 //返回false，Number(Date)转化为NaN，NaN与任何操作数比较都返回false。
+        (new Date)>3 //返回true，Number(new Date)转化为1463790979243，4391372937729>3成立。
+      5 如果有一个操作数是对象，则调用对象的valueOf()方法，如果取得的值可以转换为有效数字则直接进行减法运算。
+        如果valueOf()取得的值不能转换成有效数字,则继续调用toString()方法，然后应用上述减法的第11条规则字符减法规则.
+        valueOf()方法和toString()参考面试题28答案
+        ({})-3;//返回NaN
+        var obj={valueOf:function(){
+            return 5;
+        }};
+        obj-3; //返回2， obj对象覆盖Object原形上的的valueOf()方法
+        []-3；//返回-3
+        [8]-3；//返回5
+        [1,2,3]-3//返回NaN
+        (new Date)-3//1463790979240，当前时间戳减去3，每一毫秒都会发生变化       
+        注意："如果对象没有valueOf()方法，则调用其toString()方法，并将取得的字符串转换成数字后进行计算。"这句话书本描述不准确，因为任何对象都继承了Object原形上的valueOf()方法或者子类自己重写了valueOf()方法，假设对象没有valueOf()的说法本身错误。
+
+  
+</pre>
+
+</body>
+</html>

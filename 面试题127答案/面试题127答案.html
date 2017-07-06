@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>面试题127答案</title>
+</head>
+<body>
+<h3>127 Date类型的常用属性和方法，比如如何获取年、月、日、时、分、秒？如何用语句和字符串拼接格式化日期？
+    如何用正则格式化日期？ath类的常用方法有哪些？如何获取[n,m]之间的随机数？数据类型直接转换的规则？
+    If else语句和三元符的用法？举例如何进行代码调试？附加js面试题1：例举3种强制类型转换和2种隐式类型转换?</h3>
+   <pre>
+   一、Date类型的常用属性和方法，比如如何获取年、月、日、时、分、秒？
+       //GMT+0800 北京时间 东八区
+      //UTC-0500 纽约时间 西五区
+      //GMT+0000 格林尼治时间
+
+       1、获取客户端(自己电脑)的时间
+	        var time = new Date();
+	      // ->typeof time  ->"object"
+	      //->我们获取的是自己电脑的时间,自己可以随意的修改,所以不能用这个事件做为重要的参考依据
+	        console.dir(time);
+	        var year = time.getFullYear();//->获取四位的年,例如:2016
+	        var month = time.getMonth() + 1;//->获取的是月 0-11代表1-12月
+	        var day = time.getDate();//->获取日
+	        var week = time.getDay();//->星期 0-6代表周日-周六
+	        var hour = time.getHours();//->获取小时
+	        var minute = time.getMinutes();//->获取分钟
+	        var second = time.getSeconds();//->获取秒
+	        var msecond = time.getMilliseconds();//->获取毫秒
+
+	  2、如何把一个时间字符串转换为时间格式的数据(因为转换为时间格式的数据我们就可以使用上述的那些获取具体时间的方法了)
+		    var time = new Date("2016-7-5 9:28:55");//->把"2016-7-6 9:28:55"转换为标准的时间格式 Tues Jul 06 2016 09:28:55 GMT+0800 (中国标准时间)
+		    console.log(time);
+		    但是上述的写法在IE浏览器中不兼容
+		    var time = new Date("2017/7/6 9:28:55");
+		    console.log(time);
+		    //->把时间格式的字符串转换为标准的时间格式,对于我们字符串是有严格的格式要求的
+		    //"2017/3/7 9:28:55"
+		    //"2017/3/7"
+		    //...
+	   3、getTime方法 ->获取当前时间距离 1970-01-01 00:00:00 的毫秒差
+		    var time = new Date();
+		    console.log(time.getTime());//->1467711849676
+		    计算当前时间 距离 "2017/07/05 18:00:00" 的相差时间就知道了
+		    var nowTime = new Date();
+		    var tarTime = new Date("2017/07/05 18:00:00");
+		    var spanTime = tarTime.getTime() - nowTime.getTime();//->目标时间和当前时间之间相差的毫秒
+		    spanTime = tarTime - nowTime;//->和上面的意思是一样的
+   二、如何用语句和字符串拼接格式化日期
+      <!DOCTYPE html>
+		<html>
+		<head lang="en">
+		    <meta charset="UTF-8">
+		    <title></title>
+		    <style type="text/css">
+		        #div1{
+		            color:red;
+		            background: palegreen;
+		            font-size: 30px;
+		            padding: 10px;
+		            border:1px dashed #ccc;
+		            text-align: center;
+		        }
+		    </style>
+		</head>
+		<body>
+		<div id="div1"></div>
+		<script>
+		    var oDiv = document.getElementById("div1");
+		    function getComputeTime() {
+		        var now = new Date();//以当前电脑的时间为基准获得的时间对象
+		        var year = now.getFullYear();//年
+		        var month = now.getMonth() + 1;//0-11(1月-12月)
+		        var date = now.getDate();//日
+		        var week = now.getDay();//0-6 周日-周六
+		        var hour = now.getHours();//时
+		        var minute = now.getMinutes() //分
+		        var second = now.getSeconds();//秒
+		        var mSecond = now.getMilliseconds();//毫秒
+		        var time = now.getTime()//距离1970 00:00 多少毫秒
+                var weekDays = ["星期日","星期一","星期二","星期三","星期四","星期五","星期六"]; 
+                var weekDay = weekDays[week];           
+		        var str = year+"年"+month+"月"+date+"日"+weekDay+hour+"时"+minute+"分"+second+"秒"+mSecond+"毫秒";
+		        oDiv.innerHTML = str;
+		    }
+		    getComputeTime();
+		</script>
+	</body>
+	</html>
+
+   三、如何用正则格式化日期
+	 <!DOCTYPE html>
+     <html>
+     <head lang="en">
+        <meta charset="UTF-8">
+        <title></title>
+        <style type="text/css">
+            #div1{
+                color:red;
+                background: palegreen;
+                font-size: 30px;
+                padding: 10px;
+                border:1px dashed #ccc;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+    <div id="div1"></div>
+    <script>
+        var oDiv = document.getElementById("div1");
+        var now = new Date();//以当前电脑的时间为基准获得的时间对象
+        var _STAGE={
+             /** 
+             * 字符串转时间（yyyy-MM-dd HH:mm:ss） 
+             * result （分钟） 
+             */ 
+            stringToDate : function(fDate){  
+              var fullDate = fDate.split("-");                 
+              return new Date(fullDate[0], fullDate[1]-1, fullDate[2], 0, 0, 0);  
+            },          
+          
+            /** 
+             * 格式化日期 
+             * @param date 日期 
+             * @param format 格式化样式,例如yyyy-MM-dd HH:mm:ss E 
+             * @return 格式化后的金额 
+             */
+            formatDate : function (date, format) { 
+              var v = ""; 
+              if (typeof date == "string" || typeof date != "object") { 
+                return; 
+              } 
+              var year  = date.getFullYear(); 
+              var month  = date.getMonth()+1; 
+              var day   = date.getDate(); 
+              var hour  = date.getHours(); 
+              var minute = date.getMinutes(); 
+              var second = date.getSeconds(); 
+              var week = date.getDay(); 
+              var ms   = date.getMilliseconds(); 
+              var weekDays = ["星期日","星期一","星期二","星期三","星期四","星期五","星期六"]; 
+              var weekDay = weekDays[week];           
+              v = format; 
+              //Year 
+              v = v.replace(/yyyy/g, year); 
+              v = v.replace(/YYYY/g, year); 
+              v = v.replace(/yy/g, (year+"").substring(2,4)); 
+              v = v.replace(/YY/g, (year+"").substring(2,4));           
+              //Month 
+              var monthStr = ("0"+month); 
+              v = v.replace(/MM/g, monthStr.substring(monthStr.length-2));          
+              //Day 
+              var dayStr = ("0"+day); 
+              v = v.replace(/dd/g, dayStr.substring(dayStr.length-2));           
+              //hour 
+              var hourStr = ("0"+hour); 
+              v = v.replace(/HH/g, hourStr.substring(hourStr.length-2)); 
+              v = v.replace(/hh/g, hourStr.substring(hourStr.length-2));           
+              //minute 
+              var minuteStr = ("0"+minute); 
+              v = v.replace(/mm/g, minuteStr.substring(minuteStr.length-2));           
+              //Millisecond 
+              v = v.replace(/sss/g, ms); 
+              v = v.replace(/SSS/g, ms);                 
+              //second 
+              var secondStr = ("0"+second); 
+              v = v.replace(/ss/g, secondStr.substring(secondStr.length-2)); 
+              v = v.replace(/SS/g, secondStr.substring(secondStr.length-2));                 
+              //weekDay 
+              v = v.replace(/E/g, weekDay); 
+              return v; 
+            } 
+          
+         }    
+
+        dateValue="2017-07-05";
+        var cDate = _STAGE.stringToDate(dateValue); 
+        cDate.setDate(cDate.getDate()+1); 
+        currentDate = _STAGE.formatDate(cDate, "yyyy-MM-dd HH:mm:ss E");   
+        currentDate1 = _STAGE.formatDate(cDate, "MM/dd/yyyy E");           
+        console.log(currentDate);  // 2017-07-06 00:00:00 星期四
+        console.log(currentDate1); //   07/06/2016 星期四  
+        oDiv.innerHTML = currentDate;   
+         </script>
+	</body>
+	</html>   
+
+   四、Math对象常用属性和方法
+	  1、Math对象的属性
+		  1.1 Math.E
+		    自然对数的底数，常量e的值
+		    Math.E //2.718281828459045
+		  1.2 Math.LN10
+		    10的自然对数
+		    Math.LN10  //2.302585092994046	 e的2.302585092994046次方约等于10.00265872接近于10
+		  1.3 Math.LN2
+		    2的自然对数
+		    Math.LN2 //0.6931471805599453
+		  1.4 Math.LOG2E
+		    以2为底e的对数
+		    Math.LOG2E //1.4426950408889634
+		  1.5 Math.LOG10E
+		    以10为底e的对数
+		    Math.LOG10E //0.4342944819032518
+		  1.6 Math.PI
+		    π的值
+		    Math.PI //3.141592653589793
+		  1.7 Math.SQRT2
+		    2的平方根
+		    Math.SQRT2 //1.4142135623730951
+		  1.8 Math.SQRT1_2
+		    1/2的平方根
+		    Math.SQRT1_2 //0.7071067811865476
+	  2、min()和max()方法
+	     2.1 min()获取最小值
+	         2.1.1 参数：数字类型，如果是非数字类型会转成数字类型，然后进行比较
+	         2.2.2 返回值:如果全部是数字类型，则返回最小值。
+                          如果包含非数字类型，则将非数字类型强制转成数字类型进行比较。
+                          如果非数字类型无法转换有效数字，则返回NaN
+             Math.min(1,2,3) //1
+             Math.min(1,2,3,'a') //NaN
+             Math.min(1,2,3,false) //0
+             Math.min(2,3,true) //1
+             Math.min(1,2,3,[]) //0
+             Math.min(1,2,3,null) //0
+             Math.min(1,2,3,undefined) //NaN
+             Math.min(1,2,3,{}) //NaN
+	     2.2 max()获取最大值
+	         2.1.1 参数：数字类型，如果是非数字类型会转成数字类型，然后进行比较
+	         2.2.2 返回值:如果全部是数字类型，则返回最大值。
+                          如果包含非数字类型，则将非数字类型强制转成数字类型进行比较。
+                          如果非数字类型无法转换有效数字，则返回NaN
+             Math.max(1,2,3) //3 
+             Math.max(1,2,3,'a') //NaN
+             Math.max(-1,-2,-3,false) //0
+             Math.max(-2,-3,true) //1
+             Math.max(-1,-2,-3,[]) //0
+             Math.max(-1,-2,-3,null) //0
+             Math.max(1,2,3,undefined) //NaN
+             Math.max(1,2,3,{}) //NaN
+     3、舍入方法
+         3.1 Math.ceil()
+             执行向上舍入，如果是小数且小数点后包含非零数字则取相邻的两个整数中最较大值，如果是整数或小数点后全是0则取整数本身。
+             Math.ceil(1.0)  //1
+             Math.ceil(1.4)  //2
+             Math.ceil(1.5)  //2
+             Math.ceil(1.6)  //2
+             Math.ceil(2.0)  //2
+             Math.ceil(-1.0) //-1
+             Math.ceil(-1.4) //-1
+             Math.ceil(-1.5) //-1
+             Math.ceil(-1.6) //-1
+             Math.ceil(-2.0) //-2 
+          3.2 Math.floor()
+             执行向下舍入,如果是小数且小数点后包含非零数字则取相邻的两个整数中最较小值，如果是整数或小数点后全是0则取整数本身。
+             Math.floor(1.0)  //1
+             Math.floor(1.4)  //1
+             Math.floor(1.5)  //1
+             Math.floor(1.6)  //1
+             Math.floor(2.0)  //2
+             Math.floor(-1.0) //-1
+             Math.floor(-1.4) //-2
+             Math.floor(-1.5) //-2
+             Math.floor(-1.6) //-2
+             Math.floor(-2.0) //-2
+          3.3 Math.round()
+             执行标准舍入，将正数四舍五入为最接近的数值，将负数的绝对值五舍六入为最接近的数值然后前面加上负号。
+             Math.round(1.0)  //1
+             Math.round(1.4)  //1
+             Math.round(1.5)  //2
+             Math.round(1.6)  //2
+             Math.round(2.0)  //2
+             Math.round(-1.0) //-1
+             Math.round(-1.4) //-1
+             Math.round(-1.5) //-1
+             Math.round(-1.6) //-2
+             Math.round(-2.0) //-2
+          3.4 Math.random()
+             获取随机数，返回大于等于0小于1的随机数
+             Math.random()  //0.8170365293877007
+             Math.random()  //0.920498177195912
+             Math.random()  //0.9612180075154595
+          3.5 Math.abs(x)
+             返回x的绝对值
+             Math.abs(1)  //1
+             Math.abs(-1) //1
+          3.6 Math.exp(x)
+             返回Math.E的x次幂
+             Math.exp(1)  //2.718281828459045
+             Math.exp(2)  //7.3890560989306495
+          3.7 Math.log(x)
+             返回x的自然对数
+             Math.log(1)  //0
+             Math.log(Math.E) //1
+             Math.log(2)  //0.6931471805599453
+             Math.log(10) //2.302585092994046
+          3.8 Math.pow(x,n)
+             返回x的n次幂
+             Math.pow(2,3) //8
+          3.9 Math.sqrt(x)
+             返回x的平方根
+             Math.sqrt(4) //2
+          3.10 Math.sin(x)
+             返回x的正弦值
+             Math.sin(Math.PI/2) //1  π/2表示90度，对应的正选值为1
+             Math.sin(0) //0  0表示0度，对应的正选值为0
+          3.11 Math.asin(x)
+             返回x的反正弦值
+             Math.asin(1) //1.5707963267948966 约等于3.14/2 即π/2
+             Math.asin(0) //0
+          3.12 Math.cos(x)
+            返回x的余弦值
+            Math.cos(0)       //1   0度对应的余弦值为1
+            Math.cos(Math.PI) //-1  π即180度对应的余弦值为-1
+          3.13 Math.tan(x)
+            返回x的正切值
+            Math.tan(Math.PI) //0.9999999999999999 45度对应的正切值为1
+          3.14 Math.atan(x)
+            返回x的反正切值 
+            Math.atan(1) //0.7853981633974483 于等于3.14/4 即π/4
+          3.15 Math.atan2(y,x)
+            返回y/x的反正切值
+             Math.atan(2,2) //0.7853981633974483 于等于3.14/4 即π/4
+             Math.atan(3,3) //0.7853981633974483 于等于3.14/4 即π/4
+
+  五、如何获取[n,m]之间的随机数 
+         <Script>
+              function getRandom(n, m) {
+		        n = Number(n);
+		        m = Number(m);
+		        if (isNaN(n) || isNaN(m)) {
+		            return Math.random();
+		        }
+		        if (n > m) {
+		            var temp = n;
+		            n = m;
+		            m = temp;
+		        }
+		        return Math.round(Math.random() * (m - n) + n);
+		    }
+         </Script>
+
+   六.数据类型直接转换的规则？
+       跟面试题126重复
+       详见附件---->《数据类型的转化规则.html》
+
+   七.If else语句和三元符的用法？
+      1 三元运算符
+        <script type="text/javascript">
+        	var num =3;
+       		var str=num<0?"负数":(num===0?"0":"正数")；
+            console.log(str);//str的值为正数。       
+        </script>     
+      2 if语句
+       <script type="text/javascript">
+       	   var num =3;
+	       var str;
+	       if(num<0){
+	          str = "负数";
+	       }else if(num===0){
+	          str = "0";
+	       }else{
+	          str = "正数";
+	       }
+	       console.log(str);//str的值为正数。 
+       </script>
+      
+   
+    八.举例如何进行代码调试？
+        1  以下是chrome的调试快捷键
+		   F11逐语句调试，一行一行的执行，每一行都不放过。
+		   F10逐过程，一个函数一个函数的执行，如果遇上自定义函数，不会执行到这个函数内部。
+		   F8 逐断点，一个断点一个断点的执行，不在断点处的表达式，直接跳过。
+		   那一句表达的背景色变深，表示即将执行这一行，尚未执行。
+		2  选中变量名或完整的条件表达式，右键"add to  watch" ,在右侧工具栏可以的watch菜单下可以看到对应变量的值变化。
+		3  注意事项：chrome浏览器，按F11时进行逐行调试时，如果遇到浏览器内置函数，按F11会打开并跳转到内置函数的定义文件里, 此时无法继续调试。
+		            此时应该按F5则退出内置函数并重新刷新页面，按F10进行调试，则可以避免跳转到内置文件。
+
+    九.附加js面试题1：例举3种强制类型转换和2种隐式类型转换?
+       1 强制类型转换(显示转换)	      
+	       1.1 Number()
+	           Number("123") 返回值为 123
+               1.1.1 parseInt()
+	                 parseInt("2.2b") 返回值为 2 //因为parseInt只解析整数数字字符，不解析小数点。
+	           1.1.2 parseFloat()
+	                 parseFloat("2.2b") 返回值为 2.2 
+	       1.2 Bollean()
+	         Boolean("") 返回值为 true
+	       1.3 String()
+	         String(null) 返回值为 "null"
+	   2 隐式转换
+         2.1 操作符 
+             2.1.1 一元操作符                   
+                   var b1 = false; b1=+b1;//值变成0.
+                   var b2 = true;
+	                   b2++;//值变成2.
+             2.1.2 位操作符
+                   9 << "2" 左移2位，9乘以2的2次方返回36
+             2.1.3 逻辑操作符
+                   !![] //结果为true,此行等价于Boolean([])
+             2.1.4 乘性操作符
+                   ""*3 //返回0，Number("")转化为0，然后与3相乘得0。
+             2.1.5 加性操作符
+                   "Hello "+null //返回"Hello null"
+             2.1.6 关系操作符
+                   true>0 //返回true,true转换为数值1
+             2.1.7 相等操作符
+                   Number("")  //返回0
+                   ""==0 //返回true
+             2.1.8 条件操作符
+                   "cxh" ? 3 : 4 等价于 Bollean("cxh") ?3 :4 //返回3
+             2.1.9 赋值操作符
+                    var a=3; a*="4"; //返回12 
+             注意：十大类操作符中，只有逗号操作符不会进行隐式类型转换
+         2.2 语句
+             2.2.1 if 和 else if 条件
+                   <script type="text/javascript">
+                   	  var i="0";
+	                   	   if(i<0){
+			              console.log("i是负数");
+			           }else if(i==0){
+			           	  console.log("i等于0");
+			           }else{
+			           	  console.log("i是正数");
+			           }
+			           // i等于0,字符串"0"被隐式转换成立数字0
+                   </script>                   
+             2.2.2 while循环
+                   <script type="text/javascript">
+                   	   var i=3;
+				       do{
+				       	  i--;
+				       }while(i>"0");  //i等于0,字符串"0"被隐式转换成立数字0
+				       //循环一共执行3次,最终i的值变为0
+                   </script>
+             2.2.3 for循环
+                   <script type="text/javascript">
+                   	   var sum=0;
+				       for(var i=1/*step1*/;i<="10"/*step2*/;i++/*step4*/){
+				           sum+=i; //step3
+				       }
+                   </script>
+         2.3 原生代码调用
+             JavaScript宿主环境都会提供大量的对象，它们往往不少通过JavaScript来实现的。 JavaScript给这些函数传入的参数也会进行隐式转换。
+             例如BOM提供的alert方法会隐式调用toString()把参数转化为字符串：
+             alert({name: "cxh"});    // => "[object Object]"
+             alert(1);    // =>"1"
+        
+   </pre>
+
+
+
+</body>
+</html>

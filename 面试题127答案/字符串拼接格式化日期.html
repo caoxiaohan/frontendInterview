@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+		<html>
+		<head lang="en">
+		    <meta charset="UTF-8">
+		    <title></title>
+		    <style type="text/css">
+		        #div1{
+		            color:red;
+		            background: palegreen;
+		            font-size: 30px;
+		            padding: 10px;
+		            border:1px dashed #ccc;
+		            text-align: center;
+		        }
+		    </style>
+		</head>
+		<body>
+		<div id="div1"></div>
+		<script>
+		    var oDiv = document.getElementById("div1");
+		    function getComputeTime() {
+		        var now = new Date();//以当前电脑的时间为基准获得的时间对象
+		        var year = now.getFullYear();//年
+		        var month = now.getMonth() + 1;//0-11(1月-12月)
+		        var date = now.getDate();//日
+		        var week = now.getDay();//0-6 周日-周六
+		        var hour = now.getHours();//时
+		        var minute = now.getMinutes() //分
+		        var second = now.getSeconds();//秒
+		        var mSecond = now.getMilliseconds();//毫秒
+		        var time = now.getTime()//距离1970 00:00 多少毫秒
+                var weekDays = ["星期日","星期一","星期二","星期三","星期四","星期五","星期六"]; 
+                var weekDay = weekDays[week];           
+		        var str = year+"年"+month+"月"+date+"日"+weekDay+hour+"时"+minute+"分"+second+"秒"+mSecond+"毫秒";
+		        oDiv.innerHTML = str;
+		    }
+            window.setInterval(getComputeTime,1000);		
+       </script>
+	</body>
+	</html>

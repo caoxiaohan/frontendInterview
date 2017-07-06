@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>一元操作符</title>    
+</head>
+<body>
+<h1>递增和递减操作符遵循哪些规则？
+一元加和一元减操作符遵循什么规则？</h1>
+  一、递增和递减操作符遵循哪些规则
+      1 数字类型自增和自减的规则：
+        1.1 ++i 先自增 后赋值
+            var i=3;
+            var num = ++i; 
+            上述语句等价于：
+            i=i+1; //第1步先将i的值加1，i变成4.
+            num =i; //第2步将已经加1的i值赋给num，num的值也变成了4.
+        1.2 i++ 先赋值 后自增
+            var i=3;
+            var num = i--; 
+            上述语句等价于：
+            num =i; //第1步先将还未进行加1的i初始值赋值给num，num的值变成3.
+            i=i+1; //第2步先将i的值加1，i的值变成4.           
+        1.3 --i 先自减 后赋值
+            var i=3;
+            var num = --i; 
+            上述语句等价于：
+            i=i-1; //第一步先将i的值减1，i变成2.
+            num =i; //第二步将已经减1的i值赋给num，num的值也变成了2.
+        1.4 i-- 先赋值 后自减
+            var i=3;
+            var num = i--; 
+            上述语句等价于：
+            num =i; //第1步先将还未进行减1的i初始值赋值给num，num的值变成3.
+            i=i-1; //第2步先将i的值减1，i的值变成2.  
+      2 其他数据类型自增和自减的规则：
+	      2.1 包含全部是有效数字的字符串，先将其转换成数字，在执行加减1操作。
+	        var s1 = "2";
+	        s1++; //值变成数值3.
+	        s1 = "2";
+	        s1--; //值变成数值1.
+	      2.2 包含非有效数字的字符串，将变量的值设置为NaN.
+	        var s2 = "4s";
+	        s2++; //值变成NaN.
+	        s2 = "4s";
+	        s2--; //值变成NaN.
+	      2.3 布尔值false，先将其转换成数字0，在执行加减1操作。
+	        var b1 = false;
+	        b1++;//值变成1.
+	        b1 = false;
+	        b1--;//值变成-1.
+	      2.4 布尔值true，先将其转换成数字1，在执行加减1操作。
+	        var b2 = true;
+	        b2++;//值变成2.
+	        b2 = true;
+	        b2--;//值变成0.
+	      2.5 浮点数，直接执行加减1的操作。
+	        var f =1.1;
+	        f++;//值变成2.1
+	        f =1.1;
+	        f--;//值变成0.10000000000000009，js的浮点数存在舍入错误导致
+	      2.6 对象，先调用对象的valueOf()方法，对valueOf()返回值进行加减1操作，如果返回NaN，则调用对象的toString()方法，在对toString()方法的返回值进行加减1操作。
+	        关于对象类型的valueOf()和toString()方法在面试题28答案的第五大题第6小节，6.1和6.2做过分析。
+	        2.6.1 默认的valueOf()方法
+	            var obj1={};
+	            obj1.valueOf();//普通字面量对象，默认的的valueOf()方法返回值为对象本身即{}.
+	            因为{}进行加减1操作不能返回有效数字，所以还要继续调用对象的toString()方法。
+	            obj2.toString();//普通对象，默认的toString()方法返回值为"[object Object]" 
+	            对toString()的返回值"[object Object]"进行加减1操作，遵循第2条规则字符串包含非有效数字返回NaN.  
+	            所以最终obj1++和obj1--的结果均为NaN。
+	        2.6.2 自定义valueOf()方法覆盖默认的valueOf()方法。
+	            function fn(){
+	                return 3;
+	            };
+	            var obj2={
+	                valueOf:fn;
+	            };
+	            obj2.valueOf();//执行自定义的valueOf()方法，即指向fn方法，返回值为3.
+	            var num = obj2.valueOf(); //num=fn(); num的值为3.
+	            obj2++ //obj2自增结果为4，等价于num++,即3++。
+	            obj2-- //obj2自增结果为2，等价于num--,即3--。
+	            因为valueOf的返回值可以转换成有效数字，所以直接忽略toString()方法。
+  二、一元加和一元减操作符遵循什么规则
+      1 一元加操作符
+        1.1 数值类型，去掉前导0
+            var num1 =25; num1 =+num1; //仍然是25
+            var num2 =02; num2 =+num2; //去掉前导0，变成25
+            var f = 1.1; f=+f; //任然是1.1
+        1.2 字符串类型，有效数字去掉前导0，包含非有效数字变成NaN
+            var str1="1"; str1 =+str1;//变成数字1
+            var str2="02"; str2=+str2; //去掉前导0，变成数字2
+            var str3="3.3"; str3=+str3;//变成浮点数3.3
+            var str4="4s"; str4=+str4; //变成NaN
+        1.3 布尔值false，将其转换成数字0;布尔值true,将其转换为1.
+            var b1 = false; b1=+b1;//值变成0.
+            var b2 = true; b2=+b2;//值变成1.
+        1.4 对象，先调用对象的valueOf()方法，对valueOf()返回值转换成数字类型，如果返回NaN，则调用对象的toString()方法，在对toString()方法的返回值进行强制数字类型转换。
+	        关于对象类型的valueOf()和toString()方法在面试题28答案的第五大题第6小节，6.1和6.2做过分析。
+            1.4.1 默认的valueOf()方法
+	            var obj1={};
+	            obj1.valueOf();//普通字面量对象，默认的的valueOf()方法返回值为对象本身即{}.
+	            因为{}进行强制数字类型转换不能返回有效数字，所以还要继续调用对象的toString()方法。
+	            obj2.toString();//普通对象，默认的toString()方法返回值为"[object Object]" 
+	            对toString()的返回值"[object Object]"进行进行强制数字类型转换，Number("[object Object]")返回NaN.  
+	            所以最终obj1=+obj1的结果均为NaN。
+	        1.4.2 自定义valueOf()方法覆盖默认的valueOf()方法。
+	            function fn(){
+	                return 3;
+	            };
+	            var obj2={
+	                valueOf:fn;
+	            };
+	            obj2.valueOf();//执行自定义的valueOf()方法，即指向fn方法，返回值为3.
+	            var num = obj2.valueOf(); //num=fn(); num的值为3.
+	            obj2=+obj2 //结果为3。	            
+	            因为valueOf的返回值可以转换成有效数字，所以直接忽略toString()方法。
+	      2、一元减操作符
+		      1.1 数值类型，去掉前导0，正数变成负数，负数变成正数
+	            var num1 =3; num1 =-num1; //变成-3
+	            var num2 =-4; num2 =-num2; //变成4
+	            var num3 =03; num3 =-num3; //变成-3
+	            var num4 =-04; num4 =-num4; //变成4
+	            var f = 1.1; f=-f; //变成-1.1
+	          1.2 非数值数据类型，一元加和一元减操作符遵循相同的规律。
+</pre>
+
+</body>
+</html>

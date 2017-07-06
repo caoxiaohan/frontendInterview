@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>面试题36答案</title>    
+</head>
+<body>
+<h1>5 加法、减法操作符的规则。</h1>
+<pre>
+  
+  一、加法
+    1 如果两个操作数都是数值，执行常规的加法计算，然后根据下列规则返回结果：
+      1.1 如果有一个操作数是NaN,则结果是NaN。
+          3+NaN //返回NaN
+          NaN+NaN //返回NaN
+      1.2 如果是Infinity加Infinity,则结果是Infinity
+          Infinity+Infnity //返回Infinity
+      1.3 如果是-Infinity加-Infinity,则结果是-Infinity
+          -Infinity+-Infinity //返回-Infinity
+          -Infinity+(-Infinity) //返回-Infinity,与不加括号等价，为了清晰易读推荐加括号
+      1.4 如果是Infinity加-Infinity,则结果是Infinity
+          Infinity+(-Infnity) //返回NaN
+      1.5 如果是+0加+0,则结果是0
+          +0++0 //报错，因为从左到右被理解成+(0++)0,0是常数不能进行自增，必须是变量后才能紧跟++
+          +0+(+0) //返回0，前导+号被去掉，加括号不仅增加代码可读性还避免了上述错误
+          0+0 //返回0        
+      1.6 如果是-0加-0,则结果是-0
+          -0+-0 //返回-0
+          -0+(-0) //返回-0
+          -0-0 //返回-0
+      1.7 如果是+0加-0,则结果是0
+          +0+-0 //返回0
+          +0+(-0) //返回0
+          0-0 //返回0
+      1.8 如果是-0加+0,则结果是0
+          -0++0 //报错，因为从左到右被理解成-(0++)0,0是常数不能进行自增，必须是变量后才能紧跟++
+          -0+(+0) //返回0，加括号不仅增加代码可读性还避免了上述错误
+          -0+0 //返回0 
+    2 如果有一个操作数是字符串则要按照下列规则:
+      2.1 如果所有操作数都是字符串，则按顺序进行字串拼接
+          "Hello"+" World!" //返回Hello World!
+      2.2 如果有非字符串类型的操作数，则将其转换为字符串，然后再将两个字符串拼接起来
+         2.2.1 如果值是null,则返回"null"
+               "Hello "+null //返回"Hello null"
+         2.2.2 如果值是undefined,则返回"undefined"
+               "Hello "+undefined //返回"Hello undefined"
+         2.2.3 如果值是对象类型，则调用toString()方法，并返回相应的结果
+             2.2.3.1 Object对象类型toString()方法会返回"[object ***]"格式
+	             ({}).toString() 返回值为 "[object Object]"  //js中对象返回值为"[object Object]" 
+	             "Hello "+({}) //返回值为"Hello [object Object]" 
+	             document.toString 返回值为 "[object HTMLDocument]" //HTML元素 DOM对象 返回值为"[object HTML***]" 
+	             "Hello "+document //返回值为"Hello [object HTMLDocument]" 
+	             Math.toString() 返回值为 "[object Math]"
+	             "Hello "+Math //返回值为"Hello [object Math]" 
+             2.2.3.2 Function、RegExp类等的toString()方法相当于把原的对象直接用一对引号包裹。	             
+	             (function a(){}).toString() 返回值为 "function a(){}" //函数返回值为代码字符串
+	             "Hello "+(function a(){}) //返回值为"Hello function a(){}" 
+	             (/\d/).toString() 返回值为"/\d/" //正则返回值为正则字符串
+	             "Hello "+(/\d/) //返回值为"Hello /\d/" 
+             2.2.3.3 Array类的toString()方法，将原数组两边的中括号换成引号。
+	             [1,2,3].toString() 返回值为"1,2,3"
+	             "Hello "+[1,2,3] //返回值为"Hello 1,2,3" 
+	             [1].toString() 返回值为"1"
+	             "Hello "+[1] //返回值为"Hello 1" 
+	             [].toString() 返回值为""
+	             "Hello "+[] //返回值为"Hello " 
+	         2.2.3.4 Date类
+	             Date.toString() 返回值为  "function Date() { [native code] }"
+	             "Hello "+Date //返回值为"Hello function Date() { [native code] }" 
+	             (new Date).toString() 返回值为 "Sun May 22 2016 05:00:49 GMT+0800 (中国标准时间)"
+	             "Hello "+(new Date) //返回值为"Hello Sun May 22 2016 05:00:49 GMT+0800 (中国标准时间)" 
+	         2.2.3.5 Error类
+	             Error.toString() 返回值为  "function Error() { [native code] }"
+	             "Hello "+Error //返回值为"Hello function Error() { [native code] }" 
+                 (new Error).toString() 返回值为 "Error"
+                 "Hello "+(new Error) //返回值为"Hello Error" 
+         2.2.4 如果值是布尔类型 ，则调用toString()方法，并返回相应的结果
+               "Hello "+true //返回值为"Hello true"
+               "Hello "+false //返回值为"Hello false"
+         2.2.5 如果值是数值类型，则调用toString()方法，并返回相应的结果
+               1+2+"3";//返回"33",遇到字符串前，进行正常的加法运算
+               1+"2"+3;//返回"123"，如果第一个或第二个操作数是字符串，则所有的数值被转换成字符串进行拼接
+               "1"+2+3;//返回"123"，如果第一个或第二个操作数是字符串，则所有的数值被转换成字符串进行拼接
+               "1"+(2+3);//返回"15"，如果希望字符串后面的数值能够进行正常的加法运算，需要用括号括起来。
+  二、减法
+     1 如果两个操作符是数值，则执行常规的算术减法操作并返回结果
+     2 如果有一个操作数是NaN,则结果是NaN
+       NaN-3; //返回NaN
+     3 如果是Infinity减Infinity,则结果是NaN
+       Infinity-Infinity; //返回NaN
+     4 如果是-Infinity减-Infinity,则结果是NaN
+       -Infinity--Infinity; //报错，-(Infinity--)Infinity,Infnity不能进行自减操作
+       -Infinity-(-Infinity); //返回NaN
+     5 如果是Infinity减-Infinity,则结果是Infinity
+       -Infinity--Infinity; //报错，(Infinity--)Infinity,Infnity不能进行自减操作
+       Infinity-(-Infinity); //返回Infinity,等价于Infinity+Infinity
+     6 如果是-Infinity减Infinity,则结果是-Infinity
+       -Infinity-Infinity; //返回-Infinity
+     7 如果是+0减+0,则结果是0
+       +0-+0 //返回0
+       +0-(+0) //返回0
+       0-0 //返回0        
+     8 如果是+0减-0,则结果是0
+       +0--0 //报错，因为从左到右被理解成+(0--)0,0是常数不能进行自增，必须是变量后才能紧跟++
+       +0-(-0) //返回0，，前导+号被去掉，加括号不仅增加代码可读性还避免了上述错误
+       +0+0 //返回0
+     9 如果是-0减-0,则结果是0
+       -0--0 //报错，因为从左到右被理解成-(0--)0,0是常数不能进行自增，必须是变量后才能紧跟++
+       -0-(-0) //返回0，，加括号不仅增加代码可读性还避免了上述错误
+       -0+0 //返回0  
+     10 如果是-0减+0,则结果是-0
+       -0-+0 //返回-0
+       -0-(+0) //返回0
+       -0-0 //返回0      
+     11 如果有一个操作数是字符串、布尔值、null、undefined类型，则先在后台调用Number函数将其转换为数值，容纳后再根据前面的规则执行减法运算。
+        11.1 字符串类型,纯数值、空字符串、空格字符能转换为有效数字，否则包含其它字符则转换成NaN
+            "3"-1; //返回2
+            ""-1; //返回-1
+            "  "-1; //返回-1
+            "4s"-1; //返回NaN
+        11.2 布尔值，true转换成1，false转换成0
+            3-true; //返回2
+            3-false; //返回3
+        11.3 null转换为0
+            3-null; //返回3
+        11.4 undefined转为NaN
+           3-undefined; //返回NaN
+     12 如果有一个操作数是对象，则调用对象的valueOf()方法，如果取得的值可以转换为有效数字则直接进行减法运算。
+        如果valueOf()取得的值不能转换成有效数字,则继续调用toString()方法，然后应用上述减法的第11条规则字符减法规则.
+        valueOf()方法参考面试题28答案
+        ({})-3;//返回NaN
+        var obj={valueOf:function(){
+            return 5;
+        }};
+        obj-3; //返回2， obj对象覆盖Object原形上的的valueOf()方法
+        []-3；//返回-3
+        [8]-3；//返回5
+        [1,2,3]-3//返回NaN
+        (new Date)-3//1463790979240，当前时间戳减去3，每一毫秒都会发生变化       
+        注意："如果对象没有valueOf()方法，则调用其toString()方法，并将取得的字符串转换成数字后进行计算。"这句话书本描述不准确，因为任何对象都继承了Object原形上的valueOf()方法或者子类自己重写了valueOf()方法，假设对象没有valueOf()的说法本身错误。
+</pre>
+
+</body>
+</html>

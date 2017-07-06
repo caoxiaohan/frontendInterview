@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>自己根据能力进行深入研究</title>
+</head>
+<body>
+<script type="text/javascript">
+    (function () {
+        var numObj = {
+            isNum: "Number",
+            isStr: "String",
+            isBoo: "Boolean",
+            isNul: "Null",
+            isUnd: "Undefined",
+            isObj: "Object",
+            isAry: "Array",
+            isFun: "Function",
+            isReg: "RegExp",
+            isDate: "Date"
+        }, isType = function () {
+            var outerArg = arguments[0];
+            return function () {
+                var innerArg = arguments[0], reg = new RegExp("^\\[object " + outerArg + "\\]$", "i");
+                return reg.test(Object.prototype.toString.call(innerArg));
+            }
+        };
+        var toolType = {};
+        for (var key in numObj) {
+            if (numObj.hasOwnProperty(key)) {
+                toolType[key] = isType(numObj[key]);
+            }
+        }
+        window.$type = toolType;
+    })();
+
+    console.log($type.isNum(1));
+    console.log($type.isAry(1));
+</script>
+</body>
+</html>

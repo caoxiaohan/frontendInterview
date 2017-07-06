@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>面试题37答案</title>    
+</head>
+<body>
+<h1>7 相等操作符的规则。</h1>
+<pre>
+ 一、相等操作符   
+      1 相等和不相等
+        相等操作符(==)和不相等操作符(!=),如果数据类型不一致，先进行强制类型转换，在进行比较。
+        1.1 在数据类型转换时，相等和不相等操作符遵循下列基本规则：
+            1.1.1 如果有一个操作数是布尔值，在比较之前现将其转化为数值。
+                  true转化为1，false转化为0.
+            1.1.2 如果一个操作数是字符串，另一个操作数是数值，比较之前先将字符串转化为数值。
+                  1.1.2.1 如果字符串中只包含数字，则将其转换为十进制。                      
+                      Number("-013") //返回-13，前导0被忽略了
+                      "-013"==-13 //返回true
+                  1.1.2.2 如果字符串中包含有效的浮点格式，则将其转换成对应的浮点值
+                      Number("+01.1") //返回1.1，前导0被忽略了，前面的正号被忽略了
+                      "+01.1"==1.1 //返回true
+                  1.1.2.3 如果字符串中国包含有效的十六进制格式，则将其转换为相同大小的十进制。
+                      Number("0xf") //返回15，十六进制数以0x开头。每位数字的取值范围为0~15 用字母A~F代表10~15
+                      "0xf"==15 //返回true
+                  1.1.2.4 如果字符串是空的(不包含任何字符)，则将其转换为0。
+                      Number("")  //返回0
+                      ""==0 //返回true
+                      Number(" ") //返回0，只包含空格时也转换为0
+                      " "==0 //返回true
+                  1.1.2.5 如果字符串中包含除上述格式之外的字符，则将其转换为NaN.
+                      Number("1a") //返回NaN
+                      "1a"==1 //返回false
+            1.1.3 如果一个操作数是对象，另一个操作数不是，则调用对象的valueOf()方法，用得到的基本类型按照前面的规则进行比较,如果valueOf()无法的到基本数据类型，则继续调用toString()方法。
+                valueOf()方法和toString()参考面试题28答案
+                ({})-3;//返回NaN
+                var obj={valueOf:function(){
+                    return "5";
+                },toString:function(){
+                    return "1"
+                }
+                };
+                obj==5; //返回true， obj对象覆盖Object原形上的的valueOf()和toString方法
+                []==0；//返回true
+                [8]==8；//返回true
+                [1,2,3]=="1,2,3"//返回true
+                特殊情况：由于(new Date).valueOf()表示当前时间戳，每一毫秒都在发生变化不便进行相等比较，虽然(new Date).valueOf()反回了基本数据类型，但最终还是调用(new Date).toString()方法进行比较。
+                (new Date)==(new Date).valueOf()//返回false,(new Date).valueOf()返回数字1463790979240，当前时间戳，每一毫秒都会发生变化
+                 (new Date)==(new Date).toString()//返回true,(new Date).toString()返回字符串"Sun May 22 2016 05:00:49 GMT+0800 (中国标准时间)"
+        1.2 两个操作数进行比较是要遵循下列规则：
+            1.2.1 null和undefined是相等的。
+                  null==undefined //返回true, Number(null)==Number(undefined)返回false,说明null和undefined并未进行强制类型转换。
+            1.2.2 null和undefined不会进行数据类型转换
+                  null==0 //false，说明null并未转化为Nubmer类型0，而是用null自身去跟0比较，故不相等。
+                  undefined==0 //false
+                  null==null //true
+                  undefined==undefined //true
+            1.2.3 NaN跟任何数都不相等，包括跟NaN也不相等。
+                  NaN == 0 //false
+                  NaN == null //false
+                  NaN == undefined //false
+                  NaN == "" //false
+                  NaN == [] //false
+                  NaN == {} //false
+                  NaN !=0 //true
+                  NaN == NaN //false
+                  NaN != NaN //true
+                  NaN == "NaN"//false
+           1.2.4  如果两个操作数都是对象，如果两个对象指向对一个引用地址，则返回true,否则返回false.
+                  ({})=={} //返回false，因为两个对象没有指向同一个引用地址
+                  []==[] //返回false,两个数组虽然看起来一样，但是指向不同的引用地址
+                  var obj1={name:"cxh"};
+                  var obj2=obj1;
+                  obj1==obj2 //返回true,var obj2=obj1;相当于将obj1的引用地址复制给了obj2，使obj1和obj2指向同一个引用地址。
+    2 全等和不全等
+      全等(===)和不全等(===),如果数据类型不一致，则返回false,不会进行数据类型转换。
+      2.1 如果数据类型不一致，则返回false
+          null===undefined //返回false
+          3==="3" //返回false
+      2.2 如果数据类型一直，则遵循上述1.2规则中数据类型一致时的情况
+</pre>
+
+</body>
+</html>

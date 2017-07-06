@@ -1,0 +1,40 @@
+<html>
+ <head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        #div1{
+                color:red;
+                background: palegreen;
+                font-size: 30px;
+                padding: 10px;
+                border:1px dashed #ccc;
+                text-align: center;
+            }
+    </style>
+</head>
+<body>
+   <div id="div1"></div>
+   <script type="text/javascript">
+        function addZero(datas){
+            return datas=datas.length<2?"0"+datas:datas;
+        };
+        function formatDate(str){
+            var weekDays = ["日","一","二","三","四","五","六"]; 
+            console.log(1);
+            var reg=/(\d{4})[?:/.-:](\d{1,2})[?:/.-:](\d{1,2})[?:/.-:](\d{1,2})[?:/.-:](\d{1,2})[?:/.-:](\d{1,2})[?:/.-:](\d{1,2})/g;
+            console.log(2);
+            str=str.replace(reg, function () {
+                console.log(2);
+                ary = ([].slice.call(arguments)).slice(1, 8);
+                console.log(ary);
+                return ary[0]+"年"+addZero(ary[1])+"月"+addZero(ary[2])+"日"+ " 星期"+weekDays[ary[3]] +" "+addZero(ary[4])+"时"
+                +addZero(ary[5])+"分"+addZero(ary[5])+"秒"
+           });
+            return str;
+         }
+        var oDiv = document.getElementById("div1");
+        oDiv.innerHTML = formatDate("2017/7/6/4/16/30/3");
+   </script>
+</body>
+</html>
