@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>附加题128答案</title>
+</head>
+<body>
+<h3>128附加题：Quirks模式是什么？它和Standards模式有什么区别
+split() 和join() 的区别? 数组方法pop()、 push()、 unshift()、 shift()的作用？</h3>
+   <pre>
+   一、Quirks模式是什么？它和Standards模式有什么区别？
+     1 Quirks模式是什么？
+       从IE6开始，引入了Standards模式，标准模式中，浏览器尝试给符合标准的文档在规范上的正确处理达到在指定浏览器中的程度。
+       IE6就假定 如果写了DTD，就意味着这个页面将采用对CSS支持更好的新布局，而如果没有，则采用兼容之前的布局方式。这就是Quirks模式（怪癖模式，诡异模式，怪异模式）。
+     2 Quirks模式和Standards模式有什么区别       
+       总体会有布局、样式解析和脚本执行三个方面的区别。
+       2.1 盒模型：
+           在W3C标准中，如果设置一个元素的宽度和高度，指的是元素内容的宽度和高度。
+           而在Quirks 模式下，IE的宽度和高度还包含了padding和border。
+       2.2 设置行内元素的高宽：
+           在Standards模式下，给<span>等行内元素设置wdith和height都不会生效。
+           而在quirks模式下，则会生效。
+       2.3 设置百分比的高度：
+           在standards模式下，一个元素的高度是由其包含的内容来决定的，如果父元素没有设置百分比的高度，子元素设置一个百分比的高度是无效的。用margin:0 auto设置水平居中：使用margin:0 auto在standards模式下可以使元素水平居中。
+           但在quirks模式下却会失效。
+    
+
+   二、split() 和join() 的区别? 
+       split()是将字符串切割成数组的形式，
+       join()是将数组转换成字符串
+       1 split(r,n)
+         1.1 参数：第一个参数可以是正则或字符串，第二个参数用来指定数组的长度。
+         1.2 返回值：返回一个数组，按指定的字符串或正则拆分字符串存入数组
+         1.3 原字符串是否发生改变：不变
+         例
+         <script type="text/javascript">
+             var str="cake,wake,make";
+             str.split(); //["cake,wake,make"],将整个字符串作为数组的第一个元素存入数组，数组的长度为1
+             str.split(","); //["cake", "wake", "make"]
+             str.split(",",2); //["cake", "wake"]
+             var reg=/ake/
+             str.split(reg); //["c", ",w", ",m", ""]                
+             console.log(str);  //"cake,wake,make"
+         </script>               
+       2 join()方法
+        2.1 参数：参数代表分隔符，当不传参数时默认分隔符是","
+        2.2 返回值：返回字符串，分别调用数组中每个元素的toString()方法，然后将转换后的字符串，用分隔符分隔进行字符串拼接返回。
+        2.3 原数组是否发生改变：不变
+          例1 不传参数时，用逗号进行字符串拼接,跟toString()方法的等价
+          <script type="text/javascript">   
+              var arr=[1,2];
+              console.log(arr.join());//"1,2"
+              console.log(arr);//[1,2]
+          </script>   
+          例2 传入参数undefined时，用逗号进行字符串拼接,跟toString()方法的等价
+          <script type="text/javascript">   
+              var arr=[1,2];
+              console.log(arr.join(undefined));//"1,2"
+              console.log(arr);//[1,2]
+          </script>   
+          例3 传入参数不是undefined时，用分隔符进行字符串拼接
+          <script type="text/javascript">   
+              var arr=[1,2];
+              console.log(arr.join("+"));//"1+2"
+              console.log(arr);//[1,2]
+          </script>   
+                
+   三、数组方法pop()、 push()、 unshift()、 shift()的作用？
+       Push()尾部添加 
+       pop()尾部删除
+       Unshift()头部添加 
+       shift()头部删除
+       1 栈方法
+        1.1 push()方法
+           1.1.1 参数：传入参数，依次被添加到数组末尾
+           1.1.2 返回值：返回push的最后一个参数
+           1.1.3 原数组是否发生改变：改变
+                <script type="text/javascript">   
+                    var arr=[1,2,3];
+                          console.log(arr.push(4,5));//5
+                          console.log(arr);//[1,2,3,4,5]
+                </script>    
+        1.2 pop()方法
+           1.2.1 参数：不需传入参数，删除原数组的最后一项
+           1.2.2 返回值：返回原数组的最后一项
+           1.2.3 原数组是否发生改变：改变
+                <script type="text/javascript">   
+                    var arr=[1,2,3];
+                          console.log(arr.pop());//3
+                          console.log(arr);//[1,2]
+                </script>      
+      2 队列方法
+       2.1 unshift()方法
+           2.1.1 参数：传入参数，依次被添加到数组头部
+           2.1.2 返回值：返回unshift的最后一个参数
+           2.1.3 原数组是否发生改变：改变
+                <script type="text/javascript">   
+              var arr=[1,2,3];
+                    console.log(arr.unshift(4,5));//5
+                    console.log(arr);//[4,5,1,2,3]
+          </script>    
+      2.2 shift()方法
+           2.2.1 参数：不需传入参数，删除原数组的第一项
+           2.2.2 返回值：返回原数组的第一项
+           2.2.3 原数组是否发生改变：改变
+                <script type="text/javascript">   
+              var arr=[1,2,3];
+                    console.log(arr.shift());//1
+                    console.log(arr);//[2,3]
+          </script>      
+  
+
+   </pre>
+
+
+
+</body>
+</html>
