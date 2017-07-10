@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>附加题129答案</title>
+</head>
+<body>
+<h3>129附加题：你做的页面在哪些流览器测试过？这些浏览器的内核分别是什么?
+javascript的typeof返回哪些数据类型
+?”==”和“===”的不同？</h3>
+   <pre>
+   一、你做的页面在哪些流览器测试过？这些浏览器的内核分别是什么?
+      IE: trident内核
+      Firefox：gecko内核
+      Safari:webkit内核
+      Opera:以前是presto内核，Opera现已改用Google Chrome的Blink内核
+      Chrome:Blink(基于webkit，Google与Opera Software共同开发)
+    
+
+   二、javascript的typeof返回哪些数据类型?
+       typeof返回的数据类型有：object number function boolean underfind string
+    1 语法
+      typeof value
+    2 返回值
+      首先是一个字符串,其次里面包含了对应的数据类型,例如:"number"、"string"、"boolean"、"undefined"、"symbol"、object"、"function"
+    3 局限性:
+       3.1 所有的函数都被检测成“function”类型，不能检测类的具体细分
+       3.2 所有的实例，检测的不管是数组还是正则都返回的是"object",所以typeof不能判断一个值是否为数组
+    4 特例
+      4.1 null被检测成object类型
+          typeof null ->"object"
+      4.2 两个及以上typeof，返回值都是字符串
+          console.log(typeof typeof typeof [12, 23]);//->"string"
+    5 示例
+      <script type="text/javascript">
+            console.log("<-- 1 typeof 检测数据类型: -->");
+            console.log('typeof "foo" = '+typeof "foo");//"string"
+            console.log('typeof 1 = '+typeof 1);//"number"
+            console.log('typeof true = '+typeof true);//"boolean"
+            console.log('typeof undefined = '+typeof undefined);//"undefined"
+            console.log('typeof null= '+typeof null);//"object"
+            console.log('typeof [] = '+typeof []);//"object"
+            console.log('typeof {} = '+typeof {});//"object"
+            console.log('typeof /abc/g = '+typeof /abc/g);//"object"
+            console.log('typeof new Function() = '+typeof new Function());//"function"
+      </script>
+                
+   三、”==”和“===”的不同？
+       1 不同
+         "=="会自动转换类型
+         "==="不会自动转换类型。
+       2 举例：
+        1=="1"//true
+         ==如果数据类型不一致，先进性数据类型自动转换，然后再进行比较。
+        1==="1"//false
+         ===先判断左右两边的数据类型，如果数据类型不一致，直接返回false
+         只有当与数据类型一致时候才会进行两边值的判断
+  
+
+   </pre>
+
+
+
+</body>
+</html>
