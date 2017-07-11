@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>附加题130答案</title>
+</head>
+<body>
+<h3>130 附加题：每个HTML文件里开头都有个很重要的东西，Doctype，这是干什么的？JavaScript是一门什么样的语言，它有哪些特点？JavaScript的数据类型都有什么？</h3>
+   <pre>
+   一、附加题：每个HTML文件里开头都有个很重要的东西，Doctype，这是干什么的？
+      <!DOCTYPE> 声明位于文档中的最前面的位置，处于 <html> 标签之前。
+      此标签可告知浏览器文档使用哪种 HTML 或 XHTML 规范。      
+      DOCTYPE不存在或格式不正确会导致文档以混杂模式呈现。
+      拓展知识
+      1 Doctype的作用： 浏览器通过分析页面的DOCTYPE声明来了解要使用哪个DTD，由此知道要使用HTML的哪个版本。此标签可告知浏览器文档使用哪种 HTML 或 XHTML 规范。该标签可声明三种 DTD 类型，分别表示严格版本、过渡版本以及基于框架的 HTML 文档。
+      2 严格模式和混杂模式的区别：
+        严格模式是浏览器根据规范去显示页面，
+       混杂模式/过渡模式是以一种向后兼容的方式去显示，允许我们使用表现层的标识、元素和属性，也比较容易通过W3C的代码校验。 
+      3 意义：
+        决定浏览器如何渲染网站（浏览器使用那种规范去解析网页）
+      4 触发：
+        浏览器根据doctype是否存在和使用的是那种dtd来决定。
+      5 doctype的文档类型
+        dcotype可声明三种 DTD 类型，分别表示严格版本、过渡版本以及基于框架的 HTML 文档。
+        5.1 HTML 4.01 规定了三种文档类型：Strict（严格）、Transitional（过渡） 以及 Frameset（框架）。
+        5.2 XHTML 1.0 也规定了三种 XML 文档类型：Strict（严格）、Transitional（过渡） 以及 Frameset（框架）。
+        5.3 Standards （标准）模式（也就是严格呈现模式）用于呈现遵循最新标准的网页，而 Quirks
+ （包容）模式（也就是松散呈现模式或者兼容模式）用于呈现为传统浏览器而设计的网页。
+
+   二、JavaScript是一门什么样的语言，它有哪些特点？
+       没有标准答案。
+       运行环境：浏览器中的JS引擎（v8.。。）
+       语言特性：面向对象，动态语言：
+      1 脚本语言。
+         JavaScript是一种解释型的脚本语言,C、C++等语言先编译后执行,而JavaScript是在程序的运行过程中逐行进行解释。
+      2 基于对象。
+        JavaScript是一种基于对象的脚本语言,它不仅可以创建对象,也能使用现有的对象。
+      3 简单(弱类型，动态语言）。
+         JavaScript语言中采用的是弱类型的变量类型,对使用的数据类型未做出严格的要求,是基于Java基本语句和控制的脚本语言,其设计简单紧凑。
+      4 动态性。
+         JavaScript是一种采用事件驱动的脚本语言,它不需要经过Web服务器就可以对用户的输入做出响应。在访问一个网页时,鼠标在网页中进行鼠标点击或上下移、窗口移动等操作JavaScript都可直接对这些事件给出相应的响应。
+      5 跨平台性。
+         JavaScript脚本语言不依赖于操作系统,仅需要浏览器的支持。因此一个JavaScript脚本在编写后可以带到任意机器上使用,前提上机器上的浏览器支 持JavaScript脚本语言,目前JavaScript已被大多数的浏览器所支持。
+                
+   三、JavaScript的数据类型都有什么？
+      ECMAScript第5版中js一共6种数据类型。
+      5种基本数类型：Undefined  Null Boolean Number String
+      1种引用数据类型：Object(Array,Date,RegExp,Function)
+      es6（ECMAScript6的缩写，ECMAScript2015）新增了第7种数据类型(第6种基本数据类型）：Symbols
+
+   </pre>
+
+
+
+</body>
+</html>
