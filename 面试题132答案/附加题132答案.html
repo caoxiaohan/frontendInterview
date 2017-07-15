@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <h3>
+         附加题132:img的alt与title有何异同？ strong与em的异同？
+          documen.write和 innerHTML的区别?？编写一个数组去重的方法？
+    </h3>
+    <pre>
+         1.img的alt与title有何异同？
+           1.1:alt(alt text):为不能显示图像、窗体或applets的用户代理（UA），alt属性用来指定替换文字。
+           替换文字的语言由lang属性指定。
+           (在IE浏览器下会在没有title时把alt当成 tool tip显示)
+           1.2 title(tool tip):为设置该属性的元素提供建议性的信息。
+          2.strong与em的异同？
+            2.1 strong:粗体强调标签，用来全局强调，表示内容的重要性
+            2.2 em:斜体强调标签，用来局部强调，更强烈的强调，表示内容的强调点。
+          3.documen.write和 innerHTML的区别?
+            3.1 document.write 只能重绘整个页面                
+            3.2 innerHTML 可以重绘页面的一部分
+            见《document.write.html》和《innerHTML.html》观察运行结果
+          4.编写一个数组去重的方法？
+            1  利用对象键唯一去重 
+              思路：创建一个空对象，遍历数组，如果对象的键等于值说明元素已经存在则删除元素，否则将元素存入对象。
+            <script type="text/javascript">
+                    var arr= [12, 23, 23, 12, 24, 34, 34, 23, 34, 5, 21, 2];
+                   function distinct(ary) {
+                        var obj = {};
+                        for (var i = 0; i < ary.length; i++) {
+                            var cur = ary[i];
+                            if (obj[cur] == cur) {
+                                ary[i] = ary[ary.length - 1];
+                                ary.length -= 1;
+                                i--;
+                               continue;
+                            }
+                            obj[cur] = cur;
+                       }
+                        obj = null;
+                        return ary;
+                    }
+            </script>
+            2 遍历数组
+              思路：新建一数组，遍历传入数组，若元素不在新数组中就添加到新数组中。
+              注意：判断值是否在数组的方法“indexOf”是ECMAScript5方法，IE8以下不支持，需多写兼容低版本浏览器代码。
+              <script type="text/javascript">
+                  //判断浏览器是否支持indexOf方法
+                  if(!Array.prototype.indexOf){
+                       //新增indexOf方法
+                       Array.prototype.indexOf = function(item){
+                           var result = -1,
+                               arr_item = null;
+                           if(this.length == 0) {
+                               return result;
+                           }
+                          for(var i=0,len=this.length; i<len; i++){
+                              arr_item = this[i];
+                              if(arr_item === item){
+                                  result = i;
+                                  break; 
+                              }
+                          }
+                          return result;
+                      };
+                  }
+                 function distinct(arr){
+                     var newArr = [];//新建一个数组
+                     for(var i=0,len=arr.length;i<len;i++){
+                         if(newArr.indexOf(arr[i]) == -1){//若新数组中未包含该项则将其存入新数组
+                          newArr.push(arr[i]);
+                      }
+                     }
+                     return newArr;
+                 }    
+              </script> 
+            3 数组下标去重法
+             思路：如果当前数组的第i项在当前数组中第一次出现的位置不是i，那么表示第i项是重复的，忽略掉。否则存入结果数组。
+             注意：此方法也用到了“indexOf”方法。
+             <script type="text/javascript">
+                  function distinct(arr){
+                       var newArr = [];
+                       for(var i=0, len=arr.length; i<len; i++){
+                           if(arr.indexOf(arr[i]) == i){
+                             newArr.push(arr[i]);
+                          }
+                       }
+                       return newArr;
+                  }
+             </script>
+            4 排序后相邻去重法
+              思路：将传入的数组进行排序，相同的元素就会相邻。再遍历数组,将元素与新数组的最后一个值进行比较，若不同则加入新数组。
+              <script type="text/javascript">
+                  function distinct(arr){
+                       arr.sort();
+                       var newArr = [arr[0]];
+                        for(var i=1, len=arr.length; i<len; i++){
+                           if(arr[i] !== newArr[newArr.length-1]){
+                               newArr.push(arr[i]);
+                               }
+                        }
+                        return newArr;
+                  }
+              </script>
+            5 兼容的遍历数组法
+              思路：遍历传入的数组，元素与右边的元素依次比较，若元素有重复，则结束当前的元素比较，将下一个元素当做比较对象，即跳出内层循环。
+              <script type="text/javascript">
+                  function unique4(arr){
+                        var newArr = [];
+                        for(var i=0,len=arr.length; i<len;i++){
+                           for(var j=i+1;j<len;j++){
+                                if(arr[i] === arr[j]){//获取没重复的最右一值放入新数组
+                                    ++i;
+                                }                 
+                            }
+                            newArr.push(arr[i]);
+                       }
+                       return newArr;
+                  }
+
+              </script>
+            
+    </pre>
+</body>
+</html>

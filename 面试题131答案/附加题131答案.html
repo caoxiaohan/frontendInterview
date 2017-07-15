@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>附加题131答案</title>
+</head>
+<body>
+<h3>131 附加题：div+css的布局较table布局有什么优点？生成五个不同随机数？写一个阶乘函数？</h3>
+   <pre>
+   一、div+css的布局较table布局有什么优点？
+       1.符合W3C标准，代码结构清晰明了，结构、样式和行为分离，带来足够好的可维护性。
+	   2.布局精准，网站版面布局修改简单。
+	   3.加快了页面的加载速度（最重要的）（在IE中要将整个table加载完了才显示内容）。
+	   4.节约站点所占的空间和站点的流量。
+	   5.用只包含结构化内容的HTML代替嵌套的标签，易于优化（seo）搜索引擎更友好，排名更容易靠前。
+
+   二、生成五个不同随机数？
+       1、简易写法，生成1到10之间的五个不同随机数
+       <script type="text/javascript">
+       		//思路：5个不同的数，每生成一次就和前面的所有数字相比较，如果有相同的，则放弃当前生成的数字！
+			var obj={},arr=[];
+			for(var i = 0; i < 5; ){
+			    var num = Math.floor(Math.random()*10) + 1; //范围是 [1, 10]
+			    if(obj[num] != num){
+				     obj[num]=num;
+				     arr[i]=num;
+			         i++;
+			    }
+			}
+			obj=null;
+			console.log(arr);
+       </script>
+       2、通用写法getDiffRandom(n,m,p)，生成n到m之间的p个不同随机数
+          <script type="text/javascript">
+                //获取n到m之间的随机数
+          		function getRandom(n, m) {
+			        n = Number(n);
+			        m = Number(m);
+			        if (isNaN(n) || isNaN(m)) {
+			            return Math.random();
+			        }
+			        if (n > m) {
+			            var temp = n;
+			            n = m;
+			            m = temp;
+			        }
+			        return Math.round(Math.random() * (m - n) + n);
+			   }
+			   //获取n到m之间的p个不同的随机数
+	          function getDiffRandom(n,m,p){
+	                p = parseInt(p);
+	                if(isNaN(p)||p<=0) return [];
+	                var obj={},arr=[];
+					for(var i = 0; i < p; ){
+					    var num = getRandom(n,m); //范围是 [1, 10]
+					    if(obj[num] != num){
+						     obj[num]=num;
+						     arr[i]=num;
+					         i++;
+					    }
+					}
+					obj=null;
+					return arr;
+
+	          }
+          </script>
+       3 最笨的解决方案（不推荐）
+         <script type="text/javascript">
+         		//思路：5个不同的数，每生成一次就和前面的所有数字相比较，如果有相同的，则放弃当前生成的数字！
+				var num = [];
+				for(var i = 0; i < 5; i++){
+				    num[i] = Math.floor(Math.random()*10) + 1; //范围是 [1, 10]
+				    for(var j = 0; j < i; j++){
+				        if(num[i] == num[j]){
+				            i--;
+				        }
+				    }
+				}
+         </script>    
+                
+   三、写一个阶乘函数？
+       0的阶乘为1。
+       1 递归
+       <script type="text/javascript">
+       		function factorial(num){  
+       			num = parseInt(Math.abs(num));
+	            if(isNaN(num)) return null;
+		        if(num == 0){  
+		            return 1;  
+		        }else{  
+		            return num*arguments.callee(num-1);  
+		        }  
+		    }  
+       </script>
+       2 循环
+       <script type="text/javascript">
+            function factorial(num){  
+       			num = parseInt(Math.abs(num));
+	            if(isNaN(num)) return null;
+			    var result = 1;
+			    for(var i = 1; i <= num; i++){
+			        result *= i;
+			    }
+			    return result;
+		    } 
+       </script>
+
+   </pre>
+         
+
+
+
+</body>
+</html>

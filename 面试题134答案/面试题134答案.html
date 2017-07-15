@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+      html{
+          margin: 20px;
+          padding: 20px;
+          border: 3px red solid;
+      }
+        #div1{
+            width: 200px;
+            height: 200px;
+            border: 1px blueviolet solid;
+        }
+        .div2{
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            border: 3px dashed black;
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+    
+</head>
+<body>
+<div id="div1">
+    <div class="div2"></div>
+</div>
+
+    <script>
+        //1.Reverse a String
+        function reverseString(str) {
+             str=str.split("").reverse().join("");
+              return str;
+        }
+        reverseString("hello");
+       
+        //2.Factorialize a Number
+           function factorialize(num) {
+              if(num>1){
+                return num*factorialize(num-1);
+              }else if(num===0){
+                return 1;
+              }
+              return num;
+            }
+
+            factorialize(5);
+
+        //3.Check for Palindromes
+        function palindrome(str) {
+          // Good luck!
+          str = str.toLowerCase().replace(/[^a-z0-9]+/g,"");
+          var str1 = str.split("").reverse().join("");
+          console.log(str,str1);
+          if(str==str1) return true;
+           return false;
+        }
+       //palindrome("eye");
+       palindrome("1 eye for of 1 eye.");
+
+
+        //4.Find the Longest Word in a String
+        function findLongestWord(str) {
+          var arr = str.split(" ");
+          for(var i=0,len=0;i<arr.length;i++){
+            if(arr[i].length>len) len=arr[i].length;
+          }
+          return len;
+        }
+
+        findLongestWord("The quick brown fox jumped over the lazy dog");
+
+           
+        //5.Title Case a Sentence
+
+            function titleCase(str) {
+              str=str.toLowerCase().replace(/(^|\s)[a-z]/g,function(match,str1){
+                    if(match.split("").indexOf("'")>-1)  return match;
+                    return match.toUpperCase();         
+                });
+              return str;
+            }
+
+            titleCase("I'm a little tea pot");
+           
+        //6.Return Largest Numbers in Arrays
+            function largestOfFour(arr) {
+              // You can do this!
+                 var ary=[];
+                 arr.forEach(function(cur){
+                      console.log(cur,cur.join(),eval("Math.max("+cur.join()+")"));
+                      ary.push(eval("Math.max("+cur.join()+")"));
+                 });       
+                 return ary;
+
+            }
+            largestOfFour([[4, 5, 1, 3], [13, 27, 18, 26], [32, 35, 37, 39], [1000, 1001, 857, 1]]);
+            
+        //7.Confirm the Ending        
+            function confirmEnding(str, target) {
+              // "Never give up and good luck will find you."
+              // -- Falcor
+              var res=str.substr(str.length-target.length,target.length);
+              if(res==target) return true;
+              return false;
+            }
+
+            confirmEnding("Bastian", "n");
+
+         
+        //8.Repeat a string repeat a string
+
+        function repeatStringNumTimes(str, num) {
+          // repeat after me
+          
+          if(num<=0){
+            return "";
+          }else if(num>1){
+            var res=str;
+            for(var i=1;i<num;i++){
+              res+=str;
+            }
+            return res;
+          }
+          return str;
+        }
+
+        repeatStringNumTimes("abc", 3);
+
+          
+        //9.Truncate a string
+
+            function truncateString(str, num) {
+              // Clear out that junk in your trunk
+              if(num<=3) return str.slice(0,num)+"...";
+              if(num<str.length) return str.slice(0,num-3)+"...";
+              return str;
+            }
+
+            truncateString("A-tisket a-tasket A green and yellow basket", 11);
+
+        
+
+        //10.Chunky Monkey
+
+            function chunkArrayInGroups(arr, size) {
+              // Break it up.
+              var ary=[];
+              while(arr.length){
+                var len = arr.length;
+                ary.push(arr.splice(0,size));
+              }
+              return ary;
+            }
+
+            chunkArrayInGroups(["a", "b", "c", "d"], 2);
+
+        //11.Slasher Flick
+
+            function slasher(arr, howMany) {
+              // it doesn't always pay to be first  
+                return arr.slice(howMany);  
+            }
+
+            slasher([1, 2, 3], 2);
+            function slasher(arr, howMany) {
+                // it doesn't always pay to be first
+                var arr1=arr.slice(howMany);
+                return arr1;
+            }
+            slasher([1, 2, 3], 2);
+
+        //12.Mutations
+        function mutation(arr) {
+           for(var i=0;i<arr[1].length;i++){
+            if(arr[0].toLowerCase().indexOf(arr[1][i].toLowerCase())===-1)
+              return false;
+          }
+          return true;
+        }
+
+        mutation(["hello", "hey"]);
+            
+        //13.Falsy Bouncer
+        function bouncer(arr) {
+          // Don't show a false ID to this bouncer.
+          return arr.filter(function(val){
+            return !!val;
+          });
+        }
+
+         bouncer([7, "ate", "", false, 9]);
+
+         
+
+        //14.Seek and Destroy
+        function destroyer(arr) {
+          // Remove all the values  
+          args=Array.prototype.slice.call(arguments,1);
+          return arr.filter(function(val){
+            return args.indexOf(val)==-1;
+          });
+        }
+
+        destroyer([1, 2, 3, 1, 2, 3], 2, 3);
+
+        //15.Where do I belong
+
+            function getIndexToIns(arr, num) {
+              // Find my place in this sorted array.
+                arr=arr.concat(num);
+                arr.sort(function(a,b){
+                    return a-b;
+                });
+                return arr.indexOf(num);
+            }
+
+            getIndexToIns([40, 60], 50);
+
+            function where(arr, num) {
+                // Find my place in this sorted array.
+                arr=arr.concat(num);
+                arr.sort(function(a,b){
+                    return a-b;
+                });
+                var num=arr.indexOf(num);
+                return num;
+            }
+            where([40, 60], 50);
+
+        //16.Caesars Cipher
+
+            function rot13(str) { // LBH QVQ VG!
+              str=str.replace(/[A-Z]/gi,function(match){
+                   if(match>="N") return String.fromCharCode(match.charCodeAt()-13);
+                       return String.fromCharCode(match.charCodeAt()+13);
+                });
+              return str;
+            }
+
+            // Change the inputs below to test
+            rot13("SERR PBQR PNZC");
+            }
+    </script>
+</body>
+</html>
