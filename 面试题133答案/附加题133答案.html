@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <h3>
+        1 打印1到100？ 打印1到100的和？ 求1-100之间所有数的和、平均值
+        4？求1-100之间所有偶数的和、所有奇数的和？本金10000元存入银行，
+        年利率是千分之三，每过1年，将本金和利息相加作为新的本金。计算5年后，获得的本金是多少？
+        ？ 有个人想知道，一年之内一对兔子能繁殖多少对？于是就筑了一道围墙把一对兔子关在里面。
+            已知一对兔子每个月可以生一对小兔子，而一对兔子从出生后第3个月起每月生一对小兔子。
+            假如一年内没有发生死亡现象，那么，一对兔子一年内（12个月）能繁殖成多少对？
+    </h3>
+
+    <pre>
+      一 打印1到100
+         方法1 for循环
+          <script type="text/javascript">
+               for(var i=1;i<=100;i++){
+                   console.log(i);
+               }
+          </script>
+          方法2 while循环
+          <script type="text/javascript">
+              var i=1;
+              while(i<=100){
+                  console.log(i++);
+              }
+          </script>
+          
+      二 打印1到100的和
+            方法1 for循环遍历求和
+            <script>
+                function sum(n){
+                    var sum=0;
+                    for(var i=1;i<=100;i++){
+                        sum+=i;
+                    }
+                    return sum;
+                }
+               console.log(sum(100));
+            </script>
+            方法2 while循环遍历求和
+            <script type="text/javascript">                 
+                function sum(n){
+                    var sum=0,i=0;
+                    while(i<=100){
+                        sum+=i++;
+                    }
+                    return sum;
+                }
+               console.log(sum(100));
+            </script>
+            方法3 因为数组是等差数列，直接用等差数列求和公式
+            <script type="text/javascript">
+                function sum(n){
+                    var sum=(1+n)*n/2;
+                    return sum;
+                }
+                console.log(sum(100));
+            </script>
+                
+
+      三、 求1-100之间所有数的和、平均值
+            方法1 for循环遍历求和
+            <script>
+                function sum(n){
+                    var sum=0;
+                    for(var i=1;i<=100;i++){
+                        sum+=i;
+                    }
+                    var avg= (sum/n).toFixed(2);
+                    return {"sum":sum,"avg":avg};
+                }
+               console.log(sum(100));
+            </script>
+            方法2 while循环遍历求和
+            <script type="text/javascript">                 
+                function sum(n){
+                    var sum=0,i=0;
+                    while(i<=100){
+                        sum+=i++;
+                    }
+                    var avg= (sum/n).toFixed(2);
+                    return {"sum":sum,"avg":avg};
+                }
+               console.log(sum(100));
+            </script>
+            方法3 因为数组是等差数列，直接用等差数列求和公式
+            <script type="text/javascript">
+                function sum(n){
+                    var sum=(1+n)*n/2;
+                    var avg= (sum/n).toFixed(2);
+                    return {"sum":sum,"avg":avg};
+                }
+                console.log(sum(100));
+            </script>
+            
+
+        四、 求1-100之间所有偶数的和、所有奇数的和
+           方法1 for循环遍历分别求奇偶和
+            <script>
+                function sum(n){
+                    var sumOdd=0,sumEven = 0;
+                    for(var i=1;i<=100;i++){
+                        i%2 === 1?sumOdd += i:sumEven += i;
+                    }
+                    return {"sumOdd":sumOdd,"sumEven":sumEven};
+                }
+               console.log(sum(100));
+            </script>
+            方法2 while循环遍历分别求奇偶和
+            <script type="text/javascript">                 
+                function sum(n){
+                    var sumOdd=0,sumEven = 0,i=0;
+                    while(i<=100){
+                        i%2 === 1?sumOdd += i++:sumEven += i++;
+                    }
+                    return {"sumOdd":sumOdd,"sumEven":sumEven};
+                }
+               console.log(sum(100));
+            </script>
+            方法3 因为数组是等差数列，直接用等差数列分别求奇偶和公式
+            <script type="text/javascript">
+                function sum(n){
+                    var sumOdd=n%2===0?(1+n-1)*n/2/2:(1+n)*(n+1)/2/2;
+                    var sumEven=n%2===0?(2+n)*n/2/2:(2+n-1)*(n-1)/2/2;
+                    return {"sumOdd":sumOdd,"sumEven":sumEven};
+                }
+                console.log(sum(100));
+            </script>         
+        
+
+        五、本金10000元存入银行，
+        方法1 for循环
+          <script type="text/javascript">
+               //年利率是千分之三，每过1年，将本金和利息相加作为新的本金。..
+                var money = 10000;
+                var rote = 0.003;
+                for(var i=1;i<=5;i++){
+                    money *= 1+rote;
+                }
+                console.log(money);
+          </script>
+          方法2 while循环
+          <script type="text/javascript">
+           //年利率是千分之三，每过1年，将本金和利息相加作为新的本金。..
+                var money = 10000,rote = 0.003,i=1;
+                while(i<=5){
+                    money *= 1+rote;
+                    i++;
+                }
+                console.log(money);
+          </script>
+        
+        六、斐波拉契数列
+          方法1 递归
+         <script type="text/javascript">
+             function fib(n) {
+                if (!(/^[+]?[0-9]+$/.test(n))){
+                  console.log("请传入正整数！");
+                  return 0;
+                }
+                if (n <= 1) {
+                    return n;
+                }
+                return fib(n - 1) + fib(n - 2);
+            }
+            console.log("斐波那契数列第10项为："+fib(10));//55
+        </script>
+          方法2 迭代
+          <script type="text/javascript">
+              function fib(count){
+                    var num1 = 1,num2=1,num3=2;
+                    for(var i=3;i<=count;i++){
+                        num3=num1+num2;
+                        num1=num2;
+                        num2=num3;
+                    }
+                    return num3;
+            }
+            console.log("斐波那契数列第10项为："+fib(10));//55
+          </script>
+          方法3 for循环
+          <script type="text/javascript">
+              function fib(count){
+                    var ary=[];
+                    ary[0]=ary[1]=1;
+                    for(var i=2;i<count;i++){
+                       ary[i]=ary[i-1]+ary[i-2];
+                    }
+                    return ary[ary.length-1];
+                }
+                 console.log("斐波那契数列第10项为："+fib(10));//55
+          </script>
+         方法4 while循环
+          <script type="text/javascript">
+              function fib(count){
+                    var ary=[],i=2;
+                    ary[0]=ary[1]=1;
+                    while(i<count){
+                       ary[i]=ary[i-1]+ary[i-2];
+                       i++;
+                    }
+                    return ary[ary.length-1];
+                }
+                 console.log("斐波那契数列第10项为："+fib(10));//55
+          </script>
+    </pre>
+      
+</body>
+</html>

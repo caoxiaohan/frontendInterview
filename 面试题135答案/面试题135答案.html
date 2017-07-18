@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <h3>
+        1、求圆的周长和面积？2、求2个数中的最大值，求3个数中的最大值
+        3、求一组数中的最大值和最小值？4、翻转数组，返回一个新数组？5、对数组排序，从小到大？
+        6、求阶乘？7、求1!+2!+3!+....+n!？8、判断一个数是否是素数？
+    </h3>
+    <pre>
+       一 、求圆的周长和面积？
+         方法1 Math.pow函数求平方
+           <script type="text/javascript">
+               function getArea(r){
+                    var cir=(2*Math.PI*r).toFixed(2);
+                    var area=(Math.PI*Math.pow(r,2)).toFixed(2);
+                    if(!isNaN(Number(r))) return {"周长：":cir,"面积：":area};
+                }; 
+                getArea(3);
+           </script>
+           方法2 两数相乘求平方
+           <script type="text/javascript">
+               function getArea(r){
+                    var cir=(2*Math.PI*r).toFixed(2);
+                    var area=(Math.PI*r*r).toFixed(2);
+                    if(!isNaN(Number(r))) return {"周长：":cir,"面积：":area};
+                }; 
+                getArea(3);
+           </script>
+        
+       二、求2个数中的最大值，求3个数中的最大值
+          <script type="text/javascript">
+            //1 求两个数中的最大值
+                //方法1 假设法
+                function getMax(num1,num2){
+                    return num1>num2?num1:num2;
+                }
+                getMax(18,24,12);
+                //方法2 Math函数
+                Math.max(18,24,12);
+            //2 求3个数中的最大值
+                //方法1 假设法
+                function getMax1(num1,num2,num3){
+                    return (num1>num2?num1:num2)>num3?(num1>num2?num1:num2):num3;
+                }
+                getMax(18,24,12);
+                //方法2 Math函数
+                 Math.max(18,24,12);
+          </script>
+          
+        三、求一组数中的最大值和最小值？
+             方法1、首先先给我们的数组进行排序(小->大),第一个和最后一个就是我们想要的最小值和最大值
+                    <script type="text/javascript">
+                        var ary = [23, 34, 24, 12, 35, 36, 14, 25];
+                        ary.sort(function (a, b) {
+                            return a - b;
+                        });
+                        var min = ary[0];
+                        var max = ary[ary.length - 1];
+                        console.log(max, min);//36 12
+                    </script>     
+             方法2、假设法:假设当前数组中的第一个值是最大值,然后拿这个值和后面的项逐一进行比较,如果后面某一个值比假设的还要大,说明假设错了,我们把假设的值进行替换...
+                         ->和自定义属性一样,都是JS中最常用的编程思想
+                    <script type="text/javascript">
+                        var ary = [23, 34, 24, 12, 35, 36, 14, 25];
+                        var max = ary[0], min = ary[0];
+                        for (var i = 1; i < ary.length; i++) {
+                            var cur = ary[i];
+                            cur > max ? max = cur : null;
+                            cur < min ? min = cur : null;
+                        }
+                        console.log(max, min);//36 12
+                    </script>
+            方法3、使用Math中的max/min方法结合apply方法实现
+                    <script type="text/javascript">
+                        var ary = [23, 34, 24, 12, 35, 36, 14, 25];
+                        var max = Math.max.apply(null, ary);
+                        var min = Math.min.apply(null, ary);
+                        console.log(max, min);//36 12
+                    </script>
+            方法4、使用Math中的max/min方法结合eval方法实现
+                   <script type="text/javascript">
+                       var ary = [23, 34, 24, 12, 35, 36, 14, 25];
+                       var max = eval("Math.max(" + ary.toString() + ")");
+                       var min = eval("Math.min(" + ary.toString() + ")");
+                        console.log(max, min);//36 12
+                   </script>
+
+        四、翻转数组，返回一个新数组？
+            方法1 数组反转方法
+              <script type="text/javascript">
+                   var arr=[1,2,3];
+                   console.log(arr.reverse());//[3,2,1]
+                   console.log(arr);//[3,2,1]
+              </script>
+              方法2 for循环逆序取值并存入新数组。
+                <script>
+                    var arr=[1,2,3];
+                    var newArr=[];
+                    function myReverse(ary){
+                        for(var i=ary.length-1;i>=0;i--){                        
+                            newArr[newArr.length]=ary[i];
+                        }
+                        return newArr;
+                    }
+                    console.log(myReverse(arr));
+                </script>
+               方法3 while结合pop方法逆序取值存入新数组。
+               <script>
+                    var arr=[1,2,3];
+                    var newArr=[];
+                    function myReverse(ary){
+                        while(ary.length)  newArr.push(ary.pop());
+                        return newArr;
+                    }
+                    console.log(myReverse(arr));
+                </script>
+
+        五、对数组排序，从小到大？(排序算法非常多，先掌握前三种，尤其冒泡排序最简单最常考)
+            1 数组自带的排序方法
+              <script type="text/javascript">
+                   var arr=[4,11,23,8,3]; 
+                     arr.sort(function(a,b){
+                             return a-b;
+                    });  
+              </script>
+            2 冒泡排序
+              冒泡排序是一种交换排序。
+              基本思想：两两比较相邻记录的关键字，如果反序则交换，直到没有反序的记录为止。。它重复地走访过要排序的数列，一次比较两个元素，如果它们的顺序错误就把它们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。
+               方法1 两个数可以通过先求和再减去自身来得到对方的值
+               <script type="text/javascript">
+                   function bubbleSort(ary) {
+                        var flag = true;
+                        for (var i = 0; i < ary.length - 1; i++) {
+                            for (var j = 0; j < ary.length - 1 - i; j++) {
+                                if (ary[j] > ary[j + 1]) {
+                                    ary[j] = ary[j] + ary[j + 1];
+                                    ary[j + 1] = ary[j] - ary[j + 1];
+                                    ary[j] = ary[j] - ary[j + 1];
+                                    flag = false;//->只要本轮有交换就让flag=true
+                                }
+                            }
+                            if (flag) break;
+                        }
+                        return ary;
+                    }
+                    console.log(bubbleSort([12, 23, 23, 12, 24, 34, 34, 23, 34, 5, 21, 2]));
+               </script>
+               方法2 通过临时变量交换两个数的值
+                <script>
+                    var arr=[12, 23, 23, 12, 24, 34, 34, 23, 34, 5, 21, 2];
+                    function bubbleSort(ary){
+                        var flag=true,temp=null;
+                        for(var i=0;i<ary.length-1;i++){                       
+                            for(var j=0;j<ary.length-1-i;j++){
+                                if(ary[j]>ary[j+1]){
+                                    temp=ary[j+1];
+                                    ary[j+1]=ary[j];
+                                    ary[j]=temp;
+                                    flag=false;
+                                }
+                            }
+                            if(flag) break;
+                        }
+                        return ary;
+                    }
+                    console.log(bubbleSort(arr));
+                </script>
+                算法时间复杂度分析：
+                最佳情况：T(n) = O(n) 
+                最差情况：T(n) = O(n^2) 
+                平均情况：T(n) = O(n^2)
+            3 快速排序
+              步骤：
+              （1）在数据集之中，选择一个元素作为”基准”（pivot）。 
+              （2）所有小于”基准”的元素，都移到”基准”的左边；所有大于”基准”的元素，都移到”基准”的右边。 
+              （3）对”基准”左边和右边的两个子集，不断重复第一步和第二步，直到所有子集只剩下一个元素为止。
+             <script type="text/javascript">
+                  var arr= [12, 23, 23, 12, 24, 34, 34, 23, 34, 5, 21, 2];
+                  function quickSort(ary){
+                        if(ary.length===0){//递归的停止条件
+                            return ary    
+                        }
+                        var p=ary[0];//基准点
+                        var left=[];//比基准点小的放左边
+                        var right=[];//比基准点大的放右边
+                        for(var i=1;i<ary.length;i++){
+                            if(p>ary[i]){
+                                left.push(ary[i])
+                            }else{
+                                right.push(ary[i])
+                            }
+                        }
+                        return quickSort(left).concat([p],quickSort(right))
+                        
+                    }
+                    console.log(quickSort(arr));
+             </script>
+                算法时间复杂度分析：
+                最佳情况：T(n) = O(nlogn) 
+                最差情况：T(n) = O(n^2) 
+                平均情况：T(n) = O(nlogn)
+             4 插入排序
+                插入排序的基本操作是将一个记录插入到已经排好序的有序表中，从而得到一个新的、记录数增1的有序表 
+                排序过程大概如下： 
+                （1）从第一个元素开始，该元素可以认为已经被排序； 
+                （2）取出下一个元素，在已经排序的元素序列中从后向前扫描； 
+                （3）如果该元素（已排序）大于新元素，将该元素移到下一位置； 
+                （4）重复步骤3，直到找到已排序的元素小于或者等于新元素的位置； 
+                （5）将新元素插入到该位置后； 
+                重复步骤（2）~（5）。
+              <script type="text/javascript">
+                   /**
+                     * 插入排序算法
+                     * @param  {Array} arr 需要排序的数组
+                     * @return {Array}     从小到大排序好的数组
+                     */
+                    function insertSort(arr){
+                        var len = arr.length;
+                         for (var i = 1; i < len; i++) {
+                          var key = arr[i];
+                         var j = i - 1;
+                          while (j >= 0 && arr[j] > key) {
+                              arr[j + 1] = arr[j];
+                              j--;
+                          }
+                         arr[j + 1] = key;
+                     }
+                    return arr;
+                    }
+              </script>
+                算法时间复杂度分析：
+                最佳情况：输入数组按升序排列。T(n) = O(n) 
+                最坏情况：输入数组按降序排列。T(n) = O(n^2) 
+                平均情况：T(n) = O(n^2)
+            5 二分插入排序
+              步骤：
+               从第一个元素开始，该元素可以认为已经被排序； 
+                取出下一个元素，在已经排序的元素序列中二分查找到第一个比它大的数的位置； 
+                将新元素插入到该位置后； 
+                重复上述两步
+              <script type="text/javascript">
+                  /**
+                     * 二分法插入排序
+                     * @param  {array} arr 需要排序的数组
+                     * @return {array}     排序后悔的数组
+                     */
+                    function binaryInsertSort(arr){
+                        for (var i = 1; i < arr.length; i++) {
+                        var key = arr[i], left = 0, right = i - 1;
+                        while (left <= right) {
+                              var middle = parseInt((left + right) / 2);
+                              if (key < arr[middle]) {
+                                right = middle - 1;
+                              } else {
+                                left = middle + 1;
+                              }
+                        }
+                        for (var j = i - 1; j >= left; j--) {
+                            arr[j + 1] = arr[j];
+                        }
+                        arr[left] = key;
+                      }
+                     return arr;
+                }
+              </script>
+            算法时间复杂度分析：
+            最佳情况：T(n) = O(nlogn) 
+            最差情况：T(n) = O(n^2) 
+            平均情况：T(n) = O(n^2)
+            6 选择排序
+            <script type="text/javascript">
+                function selectSort(arr){
+                for(var i = 0; i < arr.length - 1; i++){
+                    var min = arr[i];
+                    for(var j = i + 1; j < arr.length - 1; j++){
+                        if(min > arr[j]){
+                            var temp = min;
+                            min = arr[j];
+                            arr[j] = temp;
+                        }
+                    }
+                    arr[i] = min;
+                }
+                return arr;
+            }
+            </script>
+            算法时间复杂度分析
+            最佳情况：T(n) = O(n^2) 
+            最差情况：T(n) = O(n^2) 
+            平均情况：T(n) = O(n^2)
+            7 希尔排序
+              希尔排序的实质是分组插入排序，该方法又称缩小增量排序。
+              基本思想：先将整个待排元素序列分割为若干个子序列（由相隔某个‘增量’的元素组成的）分别进行直接插入排序，然后依次缩减增量再进行排序，带这个序列中的元素基本有序（增量足够小）时，再对全体元素进行一次直接插入排序。因为直接插入排序在元素基本有序的情况下（接近最好情况）效率是很高的，因此希尔排序在时间效率上有较大的提高。 
+              希尔排序算法实现：
+            <script type="text/javascript">
+                function shallSort(array) {
+                     var increment = array.length;
+                     var i
+                     var temp; //暂存
+                     var count = 0;
+                     do {
+                        //设置增量
+                       increment = Math.floor(increment / 3) + 1;
+                       for (i = increment ; i < array.length; i++) {
+                        console.log(increment);
+                         if (array[i] < array[i - increment]) {
+                           temp = array[i];
+                           for (var j = i - increment; j >= 0 && temp < array[j]; j -= increment) {
+                               array[j + increment] = array[j];
+                           }
+                           array[j + increment] = temp;
+                         }
+                       }
+                     }while (increment > 1)
+                     return array;
+                }
+            </script>
+            算法时间复杂度分析
+            最佳情况：T(n) = O(n) 
+            最差情况：T(n) = O(n^2) 
+            平均情况：T(n) = O(n^1.3)
+
+        六、求阶乘？求1!+2!+3!+....+n!？
+            1 求阶乘
+              方法1 递归
+                   <script type="text/javascript">
+                        function factorial(num){  
+                            num = parseInt(Math.abs(num));
+                            if(isNaN(num)) return null;
+                            if(num == 0){  
+                                return 1;  
+                            }else{  
+                                return num*arguments.callee(num-1);  
+                            }  
+                        }  
+                        console.log(factorial(10));
+                   </script>
+             方法2 for循环
+                   <script type="text/javascript">
+                        function factorial(num){  
+                            num = parseInt(Math.abs(num));
+                            if(isNaN(num)) return null;
+                            var result = 1;
+                            for(var i = 1; i <= num; i++){
+                                result *= i;
+                            }
+                            return result;
+                        } 
+                        console.log(factorial(10));
+                   </script>
+              方法3 while循环
+                   <script type="text/javascript">
+                        function factorial(num){  
+                            num = parseInt(Math.abs(num));
+                            if(isNaN(num)) return null;
+                            var result = 1,i = 1;
+                            while(i <= num;){
+                                result *= i++;
+                            }
+                            return result;
+                        } 
+                        console.log(factorial(10));
+                   </script>
+             2 阶乘求和
+                方法1 for循环
+                <script type="text/javascript">
+                     function sumFactorial(num){
+                        var sum=0;
+                        for(var i= 0;i<num;i++){
+                           return sum+=factorial(num) ;
+                        }
+                     }
+                     console.log(sumFactorial(10));
+                </script>
+                方法2 while循环
+                <script type="text/javascript">
+                     function sumFactorial(num){
+                        if(isNaN(Number(num))) return;
+                        var sum=0,i=0;
+                        while(i<num;){
+                            i++;
+                           return sum+=factorial(num) ;
+                        }
+                     }
+                     console.log(sumFactorial(10));
+                </script>
+               
+
+        七、判断一个数是否是素数？
+            穷举法：
+            方法1 for循环
+            <script type="text/javascript">
+                function isPrime(num){
+                    if(isNaN(Number(num))) return false;
+                    for(var i=2;i<=Math.sqrt(num);i++){
+                        if(num%i==0)  return false;
+                    }
+                    return true;
+                }
+                console.log(isPrime(13));
+                console.log(isPrime(15));
+            </script>
+            方法2 while循环
+            <script type="text/javascript">
+                function isPrime(num){
+                    if(isNaN(Number(num))) return false;
+                    var i=2;
+                    while(i<=Math.sqrt(num)){
+                        if(num%i++==0)  return false;
+                    }
+                    return true;
+                }
+                console.log(isPrime(13));
+                console.log(isPrime(15));
+            </script>
+    </pre>
+</body>
+</html>

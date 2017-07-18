@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <h3>
+        1 求斐波那契数列Fibonacci中的第n个数是多少？   1 1 2 3 5 8 13 21 ？
+        2、输入某年某月某日，判断这一天是这一年的第几天？（闰年）（四年一闰，百年不闰，四百年在闰)
+    </h3>
+    <pre>
+        一 求斐波那契数列Fibonacci中的第n个数是多少？   1 1 2 3 5 8 13 21 ？
+        方法1 递归
+         <script type="text/javascript">
+             function fib(n) {
+                if (!(/^[+]?[0-9]+$/.test(n))){
+                  console.log("请传入正整数！");
+                  return 0;
+                }
+                if (n <= 1) {
+                    return n;
+                }
+                return fib(n - 1) + fib(n - 2);
+            }
+            console.log("斐波那契数列第10项为："+fib(10));//55
+        </script>
+          方法2 迭代
+          <script type="text/javascript">
+              function fib(count){
+                    var num1 = 1,num2=1,num3=2;
+                    for(var i=3;i<=count;i++){
+                        num3=num1+num2;
+                        num1=num2;
+                        num2=num3;
+                    }
+                    return num3;
+            }
+            console.log("斐波那契数列第10项为："+fib(10));//55
+          </script>
+          方法3 for循环
+          <script type="text/javascript">
+              function fib(count){
+                    var ary=[];
+                    ary[0]=ary[1]=1;
+                    for(var i=2;i<count;i++){
+                       ary[i]=ary[i-1]+ary[i-2];
+                    }
+                    return ary[ary.length-1];
+                }
+                 console.log("斐波那契数列第10项为："+fib(10));//55
+          </script>
+         方法4 while循环
+          <script type="text/javascript">
+              function fib(count){
+                    var ary=[],i=2;
+                    ary[0]=ary[1]=1;
+                    while(i<count){
+                       ary[i]=ary[i-1]+ary[i-2];
+                       i++;
+                    }
+                    return ary[ary.length-1];
+                }
+                 console.log("斐波那契数列第10项为："+fib(10));//55
+          </script>
+      
+      二、输入某年某月某日，判断这一天是这一年的第几天？（闰年）
+        （四年一闰，百年不闰，四百年在闰)
+         1 判断是否是闰年
+         <script type="text/javascript">
+            function isLeapYear(year)  
+            {  
+                return ((year%4==0&&year%100!=0)||(year%400)==0)?1:0;
+            }  
+         </script>
+         2 判断这一天是这一年的第几天？
+           方法1 for循环
+              <script>
+                  function getDay(year,month,day){
+                      var days=[31,28+isLeapYear(year),31,30,31,30,31,31,30,31,30,31];
+                      var curDays=days.slice(0,month-1);
+                      for(var i=0;i<month-1;i++){
+                          day+=curDays[i];
+                      }
+                      return day;
+                  }           
+                 console.log(getDay(2017,7,17));
+              </script>
+           方法2 while循环
+              <script>
+                  function getDay(year,month,day){
+                      var days=[31,28+isLeapYear(year),31,30,31,30,31,31,30,31,30,31];
+                      var curDays=days.slice(0,month-1),i=0;
+                      while(i<month-1){
+                          day+=curDays[i++];
+                      }
+                      return day;
+                  }           
+                 console.log(getDay(2017,7,17));
+              </script>
+          方法3 reduce归并(兼容处理见array.js文件)
+             <script type="text/javascript">
+                function getDay(year,month,day){
+                      var days=[31,28+isLeapYear(year),31,30,31,30,31,31,30,31,30,31];
+                      var curDays=days.slice(0,month-1),i=0;
+                      return curDays.reduce(function(pre,cur){ return pre+cur},day);
+                  }           
+                 console.log(getDay(2017,7,17));
+             </script>
+          方法4 eval方法
+             <script type="text/javascript">
+                function getDay(year,month,day){
+                      var days=[31,28+isLeapYear(year),31,30,31,30,31,31,30,31,30,31];
+                      var curDays=days.slice(0,month-1),i=0;
+                      return eval(curDays.join("+"))+day;
+                  }           
+                 console.log(getDay(2017,7,17));
+             </script>
+    </pre>
+</body>
+</html>

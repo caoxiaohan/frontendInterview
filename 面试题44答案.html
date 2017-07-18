@@ -340,10 +340,29 @@
 	         8.1.1 参数：参数为函数。
              8.1.2 返回值：数组的中的每一项从前往后递归计算的结果
              8.1.3 原数组是否发生改变：不变
+                <script type="text/javascript">
+                	   Array.prototype.myReduce = function myReduce(callBack, context) {
+				        context = context || window;
+				        if ("reduce" in Array.prototype) {
+				            this.reduce(callBack, context);
+				            return;
+				        }
+				        //IE6~8下自己编写回调执行的逻辑
+				        var res=0;
+				        var that=this;
+				        function preFn(n){
+				            	if(n<=1) return that[0];
+				            	return callBack.call(context,preFn(n-1),that[n-1], n-1, that);
+				        }				        
+				        var num=this.length-1;
+				       //if (typeof callBack === "function")
+				        	return callBack.call(context, preFn(num),this[num], num, this);	
+				    };
+                </script>
                 <script type="text/javascript">   
 			        var arr=[1,2,3,4,5];
 			        function fn(pre,cur,index,array){//item表示数组中的每一项元素，index表示元素对应的索引，array表示原数组。
-			            console.log(pre,cur)			        	
+			            console.log(pre,cur,index,array);			        	
 			        	return pre+cur;
 			        }
 			        /* 函数的返回值传给下一项的第一个参数
@@ -354,8 +373,10 @@
 					 10      5    
 	                 15            
 			        */
-                    console.log(arr.reduce(fn));//15
-                    console.log(arr);//[1,2,3,4,5]                
+			        // console.dir(fn.toString().match(/return\s+([^;]+)/)[1]);
+			        // console.dir(callBack.toString().match(/function[^(]+[(](.)+[)]/)[1]);
+                    console.log(arr.myReduce(18));//15
+                    //console.log(arr);//[1,2,3,4,5]                
 			    </script>  
 		  8.2 reduceRight()方法
 	         8.2.1 参数：参数为函数。
