@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>附加题138答案</title>
+</head>
+<body>
+    <h3>
+        一、截取字符串"我爱中华人民共和国"，中的"中华"
+        二、"abcoefoxyozzopp"查找字符串中所有o出现的位置
+        三、把字符串中所有的o替换成!
+        四、判断一个字符串中出现次数最多的字符，统计这个次数
+        五、给定一个字符串如：“abaasdffggghhjjkkgfddsssss3444343”问题如下： 
+          1、 字符串的长度 
+          2、 取出指定位置的字符，如：0,3,5,9等 
+          3、 查找指定字符是否在以上字符串中存在，如：i，c ，b等 
+          4、 替换指定的字符，如：g替换为22,ss替换为b等操作方法 
+          5、 截取指定开始位置到结束位置的字符串，如：取得1-5的字符串
+          6、 找出以上字符串中出现次数最多的字符和出现的次数 
+          7、 遍历字符串，并将遍历出的字符两头添加符号“@”输出至当前的文档页面。 
+    </h3>
+    <pre>
+        一、截取字符串"我爱中华人民共和国"，中的"中华"
+            方法1 slice(n,m) 
+                  参数：n表示获取字符串的起始字符串，m表示获取字符串的结束字符串,包含n不包含m
+                  返回值：如果n和m都是正数，返回字符串第n到m-1个字符。
+                          如果n是正数m是负数，返回字符串第n到第m-1+length个字符。
+                          如果n是负数m是正数，返回字符串第n+length到第m-1个字符。
+                          如果n和m都是负数，返回字符串第n+length到第m-1++legnth个字符
+                  原变量存储的字符串是否发生改变：不变  
+                  <script type="text/javascript">
+                      var str="我爱中华人民共和国";
+                      str.slice(2,4); //"中华"
+                      str.slice(2,-5);//"中华"
+                      str.slice(-7,4);//"中华"
+                      str.slice(-7,-5);//"中华"
+                  </script>
+             方法2 substring(n,m)
+                  参数：n表示获取字符串的起始字符串，m表示获取字符串的结束字符串,包含n不包含m
+                  返回值：如果n和m都是正数，返回字符串第n到m-1个字符。
+                            如果n是正数m是负数，返回字符串第0到第n-1个字符。
+                            如果n是负数m是正数，返回字符串第0到第m-1个字符。
+                            如果n和m都是负数，返回空字串""
+                  原变量存储的字符串是否发生改变：不变  
+                  <script type="text/javascript">
+                      var str="我爱中华人民共和国";
+                      str.substring(2,4); //"中华"
+                  </script> 
+             方法3  substr(n,m)
+                  参数：n表示获取字符串的起始字符串，m表示获取字符串的长度
+                  返回值：如果n和m都是正数，返回字符串第n到m-1个字符。
+                          如果n是正数m是负数，返回空字符串""。
+                          如果n是负数m是正数，返回字符串第n+length个位置开始取m个字符。
+                          如果n和m都是负数，返回空字串""
+                  原变量存储的字符串是否发生改变：不变  
+                  <script type="text/javascript">
+                       var str="我爱中华人民共和国";
+                       str.substr(2,2); //"中华"
+                       str.substr(-7,2);//"中华"
+                  </script>  
+              方法4 字符串下标
+                   <script type="text/javascript">
+                        var str="我爱中华人民共和国";
+                        str[2]+str[3];//"中华"
+                   </script>   
+              方法5 charAt(index)
+                  参数：index表示字符串索引，索引从0开始
+                  返回值：位置index处的字符
+                  原变量存储的字符串是否发生改变：不变
+                  <script type="text/javascript">
+                      var str ="我爱中华人民共和国";
+                      str.charAt(2)+str.charAt(3); //"中华"
+                  </script>             
+
+        二、"abcoefoxyozzopp"查找字符串中所有o出现的位置 
+            方法1 正则的test()方法
+                  test() 方法执行一个检索，用来查看正则表达式与指定的字符串是否匹配。返回 true 或 false。
+                  语法:reg.test(str)
+                  参数:str:用来与正则表达式匹配的字符串
+                  返回值:布尔值 true 或 false。             
+                  <script type="text/javascript">  
+                      function getIndexs(str,substr){
+                          var indexs=[],index=0;
+                          var reg = new RegExp(substr,"g");
+                          while(reg.test("abcoefoxyozzopp")){
+                             index=reg.lastIndex-1;
+                             indexs[indexs.length]=index;
+                          }
+                          return indexs;
+                      }                       
+                      getIndexs("abcoefoxyozzopp","o");//[3, 6, 9, 12]
+                  </script>
+              方法2 正则的exec()方法
+                    exec() 方法为指定的一段字符串执行搜索匹配操作。它的返回值是一个数组或者 null。
+                    语法:reg.exec(str)
+                    参数: str：要用正则表达式匹配的字符串。
+                    返回值：如果成功匹配，exec 方法返回一个数组，并且更新正则表达式对象的属性。
+                            如果匹配失败，exec 方法将返回  null。
+                  <script type="text/javascript">  
+                      function getIndexs(str,substr){
+                          var indexs=[],index=0;
+                          var reg = new RegExp(substr,"g");
+                          while(reg.exec(str)){
+                             index=reg.lastIndex-1;
+                             indexs[indexs.length]=index;
+                          }
+                          return indexs;
+                      }                       
+                      getIndexs("abcoefoxyozzopp","o");//[3, 6, 9, 12]
+                  </script>
+              方法3 字符串的indexOf()方法
+                  参数：两个参数、数字类型，indexOf(x,n)         代表从索引为n处开始查找x，n为可选参数，当省略n时代表从字符串第0个字符开始查找x。
+                  返回值：从字符串第n个字符从开始往后查找，x在字符串中第一次出现的位置。
+                  原字符串是否发生改变：不变
+                  <script type="text/javascript">  
+                      function getIndexs(str,substr){
+                          var indexs=[],index=0,start=0;
+                          while(index!=str.length-1){
+                             index=str.indexOf(substr,start);
+                             if(index==-1) break;
+                             indexs[indexs.length]=index;
+                             start=index+1;
+                          }
+                          return indexs;
+                      }                       
+                      getIndexs("abcoefoxyozzopp","o");//[3, 6, 9, 12]
+                  </script>    
+              方法4 字符串的lastIndexOf()方法
+                  参数：两个参数、数字类型，lastIndexOf(x,n)代表从索引为n处开始查找x，n为可选参数，当省略n时代表从字符串第length-1项开始向前查找x。
+                  返回值：从字符串第n项开始往前查找，x在字符串中跟第一次出现的位置。
+                  原字符串是否发生改变：不变
+                  <script type="text/javascript">   
+                      function getIndexs(str,substr){
+                          var indexs=[],index=0,start=str.length-1;
+                          do{
+                             index=str.lastIndexOf(substr,start);
+                             if(index==-1) break;
+                             indexs.unshift(index);
+                             start=index-1;
+                          }while(index)
+                          return indexs;
+                      }                       
+                      getIndexs("abcoefoxyozzopp","o");//[3, 6, 9, 12]
+                  </script>
+                方法5 字符串的match()方法
+                    参数：正则。
+                    返回值：返回一个数组，数组第一项是正则匹配的字符串
+                    原字符串是否发生改变：不变
+                    <script type="text/javascript">  
+                        function getIndexs(str,substr){
+                            var indexs=[],index=0,n=0,res=[];
+                            while(res=str.match(substr)){
+                               n=res.index;
+                               index+=index?n+1:n;
+                               indexs[indexs.length]=index;
+                               str=str.slice(n+1);                              
+                            }
+                            return indexs;
+                        }                       
+                        getIndexs("abcoefoxyozzopp","o");//[3, 6, 9, 12]
+                    </script>    
+                方法6 字符串的search()方法
+                    参数：正则。
+                    返回值：返回字符串第一个匹配项的索引，如果没有找到匹配项则返回-1。
+                    原字符串是否发生改变：不变
+                    <script type="text/javascript">  
+                        function getIndexs(str,substr){
+                            var indexs=[],index=0,n=0,res=[];
+                            while((n=str.search(substr))!==-1){
+                               index+=index?n+1:n;
+                               indexs[indexs.length]=index;
+                               str=str.slice(n+1);                              
+                            }
+                            return indexs;
+                        }                       
+                        getIndexs("abcoefoxyozzopp","o");//[3, 6, 9, 12]
+                    </script>    
+                 方法7 字符串的split()方法          
+                     参数：第一个参数可以是正则或字符串，第二个参数用来指定数组的长度。
+                     返回值：返回一个数组，按指定的字符串或正则拆分字符串存入数组
+                     原字符串是否发生改变：不变
+                     <script type="text/javascript">
+                        function getIndexs(str,substr){
+                            var indexs=[],index=0,n=0,arr=str.split(substr);
+                            for (var i = 0; i < arr.length-1; i++) {
+                                index+=index?arr[i].length+1:arr[i].length;
+                                indexs[indexs.length]=index;
+                            }
+                            return indexs;
+                        }                       
+                        getIndexs("abcoefoxyozzopp","o");//[3, 6, 9, 12]
+                     </script>
+                   方法8 数组的map()和filter()方法          
+                      8.1 map()方法
+                          参数：参数为函数。
+                          回值：对数组中的每一项运行参数中的函数，返回函数每次调用的结果组成的数组
+                          原数组是否发生改变：不变
+                      8.2 filter()方法
+                          参数：参数为函数。
+                          返回值：对数组中的每一项运行参数中的函数，如果该函数会返回true的项组成的数组
+                          原数组是否发生改变：不变
+                     <script type="text/javascript">
+                        function getIndexs(str,substr){
+                            var indexs=[],index=0,n=0,arr=str.split("");
+                            indexs=arr.map(function(item,i){if(item===substr) return i;}).filter(function (item){return item;});
+                            return indexs;
+                        }                       
+                        getIndexs("abcoefoxyozzopp","o");//[3, 6, 9, 12]
+                     </script>      
+
+        三、把字符串中所有的o替换成!
+            方法1 字符串的replace方法结合正则字面量替换
+                 <script type="text/javascript">
+                     var reg=/o/g;
+                     var str="abcoefoxyozzopp";
+                      str.replace(reg,"!");//"abc!ef!xy!zz!pp"
+                 </script>
+            方法2 字符串的replace方法结合正则实例替换
+                 <script type="text/javascript">
+                     var reg=new RegExp("o","g");
+                     var str="abcoefoxyozzopp";
+                      str.replace(reg,"!");//"abc!ef!xy!zz!pp"
+                 </script>
+            方法3 字符串的replace方法的回调函数替换
+                 <script type="text/javascript">
+                     var reg=/o/g;
+                     var str="abcoefoxyozzopp";
+                      str.replace(reg,function(){return "!"});//"abc!ef!xy!zz!pp"
+                 </script>
+            方法4 字符串的split和数组的join方法
+                  <script type="text/javascript">
+                     var str="abcoefoxyozzopp";
+                     str.split("o").join("!");//"abc!ef!xy!zz!pp"
+                  </script>
+            方法5 for循环遍历字符串替换
+                 <script type="text/javascript">
+                     var str="abcoefoxyozzopp",newStr="";
+                     for (var i = 0; i <str.length; i++) {
+                         newStr+=str[i]==="o"?"!":str[i];
+                     }
+                     console.log(newStr);//"abc!ef!xy!zz!pp"
+                 </script>           
+             方法6 数组的map方法 
+                  参数：参数为函数。
+                  返回值：对数组中的每一项运行参数中的函数，返回函数每次调用的结果组成的数组
+                  原数组是否发生改变：不变
+                 <script type="text/javascript">   
+                    var arr="abcoefoxyozzopp".split("");
+                    function fn(item,index,array){//item表示数组中的每一项元素，index表示元素对应的索引，array表示原数组。                
+                       return item==="o"?"!":item;
+                    }
+                    arr.map(fn).join("");//"abc!ef!xy!zz!pp"  
+                 </script>   
+
+        四、判断一个字符串中出现次数最多的字符，统计这个次数
+            当出现次数最多的字符中有多个时，全部输出。
+            方法1 遍历对象。
+            <script type="text/javascript">
+                function getMaxTime(str){
+                    var obj={},res={},max=0;
+                    for (var i = 0; i <str.length; i++) {
+                       obj[str[i]]?obj[str[i]]++:obj[str[i]]=1;
+                       max=obj[str[i]]>max?obj[str[i]]:max;
+                    } 
+                    for(var key in obj){
+                        if(obj[key]===max)  res[key]=max;
+                    }
+                    return res;
+                }
+                getMaxTime("abcoefoxyozzopppp");//{o: 4, p: 4}
+            </script>
+            方法2 字符串的match方法匹配。
+            <script type="text/javascript">
+                function getMaxTime(str){
+                    var obj={},res=[],max=0;
+                    for (var i = 0; i <str.length; i++) {
+                       obj[str[i]]?obj[str[i]]++:obj[str[i]]=1;
+                       max=obj[str[i]]>max?obj[str[i]]:max;
+                    } 
+                    var str = JSON.stringify(obj); 
+                    var reg=new RegExp("\"\\w\":"+max,"g");
+                    var res = str.match(reg)
+                    return res;
+                }
+                getMaxTime("abcoefoxyozzopppp");//{o: 4, p: 4}
+            </script>
+            方法3 正则的exec方法匹配。
+            <script type="text/javascript">
+                function getMaxTime(str){
+                    var obj={},res=[],max=0,temp=[];
+                    for (var i = 0; i <str.length; i++) {
+                       obj[str[i]]?obj[str[i]]++:obj[str[i]]=1;
+                       max=obj[str[i]]>max?obj[str[i]]:max;
+                    } 
+                    var str = JSON.stringify(obj); 
+                    var reg=new RegExp("\"\\w\":"+max,"g");
+                    while(temp=reg.exec(str)){
+                      res[res.length]=temp[0];
+                    }
+                    return res;
+                }
+                getMaxTime("abcoefoxyozzopppp");//{o: 4, p: 4}
+            </script>
+
+        五、给定一个字符串如：“abaasdffggghhjjkkgfddsssss3444343”问题如下： 
+          1、 字符串的长度 
+            <script type="text/javascript">
+                var str="abaasdffggghhjjkkgfddsssss3444343";
+                str.length;//33
+            </script>
+          2、 取出指定位置的字符，如：0,3,5,9等 
+            <script type="text/javascript">
+                var str="abaasdffggghhjjkkgfddsssss3444343";
+                //方法1 下标                
+                console.log(str[0],str[3],str[5],str[9]);//a a d g
+                //方法2 charAt()方法
+                console.log(str.charAt(0),str.charAt(3),str.charAt(5),str.charAt(9));//a a d g
+                //方法3 slice()方法
+                console.log(str.slice(0,1),str.slice(3,4),str.slice(5,6),str.slice(9,10));//a a d g
+                //方法4 substring()方法
+                console.log(str.substring(0,1),str.substring(3,4),str.substring(5,6),str.substring(9,10));//a a d g
+                //方法5 substr()方法
+                console.log(str.substr(0,1),str.substr(3,1),str.substr(5,1),str.substr(9,1));//a a d g
+            </script>
+          3、 查找指定字符是否在以上字符串中存在，如：i，c ，b等 
+            <script type="text/javascript">
+                var str="abaasdffggghhjjkkgfddsssss3444343";
+                //方法1 正则的test方法,返回true表示存在，返回false表示不存在。
+                console.log(/i/.test(str));//false
+                console.log(/c/.test(str));//false
+                console.log(/b/.test(str));//true
+                //方法2 正则的exec方法，返回数组表示存在，返回null表示不存在。
+                console.log(/i/.exec(str));//null
+                console.log(/c/.exec(str));//null
+                console.log(/b/.exec(str));//["b", index: 1, input: "abaasdffggghhjjkkgfddsssss3444343"]
+                //方法3 字符串的indexOf方法，返回非负整数表示存在，返回-1表示不存在
+                console.log(str.indexOf("i"));//-1
+                console.log(str.indexOf("c"));//-1
+                console.log(str.indexOf("b"));//1
+                //方法4 字符串的lastIndexOf方法，返回非负整数表示存在，返回-1表示不存在
+                console.log(str.lastIndexOf("i"));//-1
+                console.log(str.lastIndexOf("c"));//-1
+                console.log(str.lastIndexOf("b"));//1
+                //方法5 字符串的match方法，返回数组表示存在，返回null表示不存在。
+                console.log(str.match("i"));//null
+                console.log(str.match("c"));//null
+                console.log(str.match("b"));//["b", index: 1, input: "abaasdffggghhjjkkgfddsssss3444343"]
+                //方法6 字符串的search方法，返回非负整数表示存在，返回-1表示不存在
+                console.log(str.search("i"));//-1
+                console.log(str.search("c"));//-1
+                console.log(str.search("b"));//1
+                //方法7 字符串的split方法，返回的数字代表字符出现的次数，正整数表示存在，0表示不存在。
+                console.log(str.split("i").length-1);//0
+                console.log(str.split("c").length-1);//0
+                console.log(str.split("b").length-1);//1
+                //方法8 字符串的split结合数组some方法，返回的数字代表字符出现的次数，正整数表示存在，0表示不存在。
+                console.log(str.split("").some(function(item){return item==="i"}));//falsa
+                console.log(str.split("").some(function(item){return item==="c"}));//falsa
+                console.log(str.split("").some(function(item){return item==="b"}));//true
+            </script>
+          4、 替换指定的字符，如：g替换为22,ss替换为b等操作方法 
+             《详见本页中第三大题答案》共六种方案，此处仅列举一种方案
+              <script type="text/javascript">
+                  var str="abaasdffggghhjjkkgfddsssss3444343";
+                  str.replace(/g/g,"22").replace(/ss/g,"b");//"abaasdff222222hhjjkk22fddbbs3444343"
+              </script>
+          5、 截取指定开始位置到结束位置的字符串，如：取得1-5的字符串
+             《详见本页中第一大题答案》共五种方案，此处仅列举一种方案
+              <script type="text/javascript">
+                  var str="abaasdffggghhjjkkgfddsssss3444343";
+                  str.slice(1,6); //"baasd"
+                  str.slice(1,-27);//"baasd"
+                  str.slice(-32,6);//"baasd"
+                  str.slice(-32,-27);//"baasd"
+              </script>
+          6、 找出以上字符串中出现次数最多的字符和出现的次数 
+              《详见本页中第四大题答案》共三种方案，此处仅列举一种方案
+               <script type="text/javascript">
+                  function getMaxTime(str){
+                      var obj={},res={},max=0;
+                      for (var i = 0; i <str.length; i++) {
+                         obj[str[i]]?obj[str[i]]++:obj[str[i]]=1;
+                         max=obj[str[i]]>max?obj[str[i]]:max;
+                      } 
+                      for(var key in obj){
+                          if(obj[key]===max)  res[key]=max;
+                      }
+                      return res;
+                  }
+                  getMaxTime("abaasdffggghhjjkkgfddsssss3444343");//{s: 6}
+              </script>
+          7、 遍历字符串，并将遍历出的字符两头添加符号“@”输出至当前的文档页面。
+            《详见本页中第三大题答案》共六种方案，此处仅列举一种方案.
+              此题题意不清，理解为在每个字符两端插入@符号，并输出到文档。
+              <script type="text/javascript">
+                  var str="abaasdffggghhjjkkgfddsssss3444343";
+                  var newStr=str.replace(/\w/g,"@$&@");//"@a@@b@@a@@a@@s@@d@@f@@f@@g@@g@@g@@h@@h@@j@@j@@k@@k@@g@@f@@d@@d@@s@@s@@s@@s@@s@@3@@4@@4@@4@@3@@4@@3@"
+                  document.write(newStr);//网页中显示
+              </script>
+    </pre>
+</body>
+</html>

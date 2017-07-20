@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>面试题138答案</title>
+</head>
+<body>
+    <h3>
+       面试题138：什么是对象？面向对象和基于对象的区别，分别有哪些编程语言？This的规则？什么是json?json和对象字面量的区别？字符串有哪些方法，写出字符串方法的参数，字符串方法的返回值，执行字符串方法后字符串的值是否发生改变？常用的HTML方法有哪些？关于数组复习《面试题44答案》。关于json复习《面试题66答案》。关于Date和Math复习《面试题127答案》。
+    </h3>
+    <pre>
+       一 、什么是对象？面向对象和基于对象的区别，分别有哪些编程语言？
+           1 对象和类解释：
+			 1.1 对象：对象是人们要进行研究的任何事物，它不仅能表示具体的事物，还能表示抽象的规则、计划或事件。
+			         对象具有状态，一个对象用数据值来描述它的状态。对象还有操作，用于改变对象的状态，对象及其操作就是对象的行为。
+			         对象实现了数据和操作的结合，使数据和操作封装于对象的统一体中。
+			         万物皆对象：世间的一切事物都可以用对象来描述。
+			 1.2 类：具有相同特性（数据元素）和行为（功能）的对象的抽象就是类。
+			        因此，对象的抽象是类，类的具体化就是对象，也可以说类的实例是对象，类实际上就是一种数据类型。
+			         类具有属性，它是对象的状态的抽象，用数据结构来描述类的属性。
+			         类具有操作，它是对象的行为的抽象，用操作名和实现该操作的方法来描述。
+		  2 对象和类的关系：
+            类与对象的关系就如模具和铸件的关系，类的实力化的结果就是对象，而对对象的抽象就是类，类描述了一组有相同特性（属性）和相同行为的对象。
+          3 面向对象和基于对象的特点
+            3.1. 面向对象
+                 面向对象是一种编程思想，起初，“面向对象”是专指在程序设计中采用封装、继承、多态等设计方法，但面向对象的思想已经涉及到软件开发的各个方面，比如现在细分为了面向对象的分析(OOA)，面向对象的设计(OOD)，面向对象的编程实现(OOP) 
+                 面向对象的特征：封装、继承、多态。
+            3.2 基于对象
+                基于对象的编程语言没有提供象抽象、继承、重载等有关面向对象语言的许多功能。而是把其它语言所创建的复杂对象统一起来，从而形成一个非常强大的对象系统。
+                基于对象的编程语言还是具有一些面向对象的基本特征。它可以根据需要创建自己的对象，从而进一步扩大语言的应用范围，增强编写功能强大的Web文档。
+          4 面向对象和基于对象的区别
+　　        面向对象：可以创建自定义的类型、很好的支持继承和多态。
+            基于对象：无法创建自定义的类型、不能很好的支持继承和多态。
+          5 面向对象和基于对象语言举例
+            5.1 面向对象语言：java、c++、c#、smalltalk、Simula等
+            5.2 基于对象语言：javascript、BASIC
+                javascript语言是基于原型的继承，而通常面向对象语言是基于类的继承。
+                JS函数不支持重载，如果同时定义了多个同名函数，则以最后一个函数为准，因为后定义的函数会覆盖前面的同名函数。
+                js虽然不支持重载，但是可以通过判断参数个数或类型不同，在函数类执行不同的操作，从而达到模拟重载功能的目的
+        
+       二、This的规则？
+         this是谁和函数在哪定义和执行的没有任何的关系
+	      1、自执行函数中的this永远是window
+	         <script type="text/javascript">
+	         	 ;(function fn1(){
+		              console.log(this);//输出window
+		         })();
+	         </script>	        
+	      2、给元素的事件绑定方法，当触发事件执行方法的时候，方法中的this是当前的元素
+	            <body>
+	                <div id="div1"></div>
+	            </body>
+	            <script type="text/javascript">
+	                 var oDiv = document.getElementById("div1");
+	                 oDiv.onclick=function(){
+	                 	console.log(this);   //输出oDiv元素对象
+	                 }         
+	            </script>
+	      3、函数执行，我们看函数名前面是否有"."，有的话，"."前面是谁this就是谁，没有的话this就是window
+	         <script type="text/javascript">
+	         	 function fn3(){
+	                console.log(this);
+	            }
+	            fn3();//前面没有.  输出的this值为window
+	            obj={name:"cxh"}
+	            obj.fn =fn3;
+	            obj.fn();//函数前面有. 输出的this值为obj
+	         </script>	           
+	      4、在构造函数模式类中出现的this.xxx=xxx中的this是当前类的一个实例
+	          <script type="text/javascript">
+		          	 function Person(name,age){
+		               this.name = name;
+		               this.age = age;
+		               console.log(this);
+		           }
+		           person1 = new Person("zhangsan",21); //构造函数中的this是当前类Person的一个实例person1
+		           person2 = new Person("lisi",27); //构造函数中的this是当前类Person的一个实例person2
+	          </script>	          
+	      5、我们使用call和apply方法的第一个参数可以任意的修改this的指向
+	          <script type="text/javascript">
+		          	function fn5(){
+		              console.log(this);
+		           }
+		           fn5();//前面没有.  输出的this值为window
+		           fn5.call({name:"cxh"});//执行fn5，输出的this值为call方法的第一个参数{name:"cxh"}
+		           fn5.apply(document);//执行fn5，输出的this值为call方法的第一个参数document
+	          </script>	           
+          
+        三、什么是json?json和对象字面量的区别？
+            1 什么是json
+              JSON(JavaScript Object Notation, JS 对象标记) 是一种轻量级的数据交换格式。它基于 ECMAScript (w3c制定的js规范)的一个子集，采用完全独立于编程语言的文本格式来存储和表示数据。简洁和清晰的层次结构使得 JSON 成为理想的数据交换语言。 易于人阅读和编写，同时也易于机器解析和生成，并有效地提升网络传输效率
+            2 json和对象字面量的区别？
+              JSON中没有变量的概念也没有末尾分号
+			  JSON对象要求给属性加双引号，Javascript字面量属性可以没有引号，也可以是单引号或双引号。
+			   2.1 Javscript对象字面量的属性表示形式有3种
+			        <script type="text/javascript">
+			        	var obj1 = {name:"cxh"};
+					    var obj2 = {'name':"cxh"};
+					    var obj3 = {"name":"cxh"};
+			        </script>				   
+			   2.2 JSON对象属性的表示形式只有一种
+				    {"name":"cxh"}
+
+        四、字符串有哪些方法，写出字符串方法的参数，字符串方法的返回值，执行字符串方法后字符串的值是否发生改变？
+              1 字符串的特性
+		        1.1 length
+		            <script type="text/javascript">
+		            	var str="hello world";
+			            console.log(str.length); //11
+			            var str="你好";
+			            console.log(str.length); //2 通过length属性获取字符串长度时，一个双字节字符(比如汉字)也只算一个字符
+		            </script>		           
+		        1.2 下标
+		            <script type="text/javascript">
+		            	var str="hello world";
+		            	console.log(str[4]); //o 第4个下标(第5个字符)为字母o
+		            </script>		            
+		        1.3 字符串是不可变的。
+		            字符串一旦创建，它们的值就不能改变。
+		            要改变某个变量保存的字符串，首先要销毁原来的字符串，然后用另一个包含新址的字符串填充该变量。
+		            <script type="text/javascript">
+		            	var str="a";
+			            console.log(str); //"a"
+			            str+="b";
+			            console.log(str); //"ab"
+			            //虽然变量保存的字符串变了，但原的字符串"a"没变。
+		            </script>
+		           
+	          2 字符方法
+	            2.1 charAt(index)
+	                  参数：index表示字符串索引，索引从0开始
+	                  返回值：位置index处的字符
+	                  原变量存储的字符串是否发生改变：不变
+	                  <script type="text/javascript">
+	                  	  var str ="hello abc";
+		                  str.charAt(6); //"a"  
+		                  console.log(str);  //"hello abc"      
+	                  </script>	                  
+	            2.2 charCodeAt(index)
+	                  参数：index表示字符串索引，索引从0开始
+	                  返回值：位置index处的字符编码
+	                  原变量存储的字符串是否发生改变：不变
+	                  <script type="text/javascript">
+	                  	  var str ="hello abc";
+		                  str.charCodeAt(6); //97  "a"的十进制ascii码为97
+		                  console.log(str);  //"hello abc"
+	                  </script>	                  
+	          3 字符串操作方法
+	            3.1 concat(x)
+	                  参数：x表示拼接的字符串
+	                  返回值：原字符串和x拼接后的字符串
+	                  原变量存储的字符串是否发生改变：不变  
+	                  <script type="text/javascript">
+	                  	  var str="a";
+					      str.concat("b"); //"ab"
+					      console.log(str);  //"a"
+	                  </script>				      
+	            3.2 slice(n,m)
+	                  参数：n表示获取字符串的起始字符串，m表示获取字符串的结束字符串,包含n不包含m
+	                  返回值：如果n和m都是正数，返回字符串第n到m-1个字符。
+	                          如果n是正数m是负数，返回字符串第n到第m-1+length个字符。
+	                          如果n是负数m是正数，返回字符串第n+length到第m-1个字符。
+	                          如果n和m都是负数，返回字符串第n+length到第m-1++legnth个字符
+	                  原变量存储的字符串是否发生改变：不变  
+	                  <script type="text/javascript">
+	                  	 var str1="0123456789";
+					      str.slice(4,7); //"456"
+					      console.log(str);  //"0123456789"
+					      str.slice(4,-3); //"456" 等价于str.slice(4,-3+str.length)等价于str.slice(4,7)
+					      str.slice(-6,7); //"456" 等价于str.slice(-6+str.length,7)等价于str.slice(4,7) 
+					      str.slice(-6,-3); //"456" 等价于str.slice(-6+str.length,-3+str.length)等价于str.slice(4,7) 
+	                  </script>
+				     
+		        3.3 substring(n,m)
+	                  参数：n表示获取字符串的起始字符串，m表示获取字符串的结束字符串,包含n不包含m
+	                  返回值：如果n和m都是正数，返回字符串第n到m-1个字符。
+	                          如果n是正数m是负数，返回字符串第0到第n-1个字符。
+	                          如果n是负数m是正数，返回字符串第0到第m-1个字符。
+	                          如果n和m都是负数，返回空字串""
+	                  原变量存储的字符串是否发生改变：不变  
+	                  <script type="text/javascript">
+	                  	  var str="0123456789";
+					      str.substring(4,7); //"456"
+					      console.log(str);  //"0123456789"
+					      str.substring(4,-3); //"0123" 等价于str.substring(0,4)
+					      str.substring(-6,7); //"0123456" 等价于str.substring(0,7)
+					      str.substring(-6,-3); //"" 等价于str.substring(0,0) 
+	                  </script>				      
+			    3.4 substr(n,m)
+	                  参数：n表示获取字符串的起始字符串，m表示获取字符串的长度
+	                  返回值：如果n和m都是正数，返回字符串第n到m-1个字符。
+	                          如果n是正数m是负数，返回空字符串""。
+	                          如果n是负数m是正数，返回字符串第n+length个位置开始取m个字符。
+	                          如果n和m都是负数，返回空字串""
+	                  原变量存储的字符串是否发生改变：不变  
+	                  <script type="text/javascript">
+	                  	  var str="0123456789";
+					      str.substr(4,7); //"456789"
+					      console.log(str);  //"0123456789"
+					      str.substr(4,-3); //"" 等价于str.substr(4,0)
+					      str.substr(-6,7); //"456789" 等价于str.substr(-6+str.length,7)等价于str.substr(4,7) 
+					      str.substr(-6,-3); //"" 等价于str.substr(4,0) 
+	                  </script>
+		      4 字符串位置方法
+		        4.1 indexOf()
+				    参数：两个参数、数字类型，indexOf(x,n)代表从索引为n处开始查找x，n为可选参数，当省略n时代表从字符串第0个字符开始查找x。
+	                返回值：从字符串第n个字符从开始往后查找，x在字符串中第一次出现的位置。
+	                原字符串是否发生改变：不变
+	                <script type="text/javascript">   
+				        var str="01234512345";
+	                    console.log(str.indexOf(3));//3
+	                    console.log(str);//"01234512345"         
+	                    console.log(str.indexOf(3,5));//8  从字符串和第6项开始向后查找,只能找到str[7]=3, 返回索引8
+	                    console.log(str.indexOf(3,9));//-1  从字符串第9项也就是倒数第二项开始向后查找，最后两项都不是3，没找到所以返回-1
+	                    console.log(str.indexOf(6));//-1 从字符串第0项开始向后查找，没有找等于6的元素，所以返回-1
+				    </script> 		     
+	            4.2 lastIndexOf()
+				    参数：两个参数、数字类型，lastIndexOf(x,n)代表从索引为n处开始查找x，n为可选参数，当省略n时代表从字符串第length-1项开始向前查找x。
+	                返回值：从字符串第n项开始往前查找，x在字符串中跟第一次出现的位置。
+	                原字符串是否发生改变：不变
+	                <script type="text/javascript">   
+				        var str="01234512345";
+	                    console.log(str.lastIndexOf(3));//8
+	                    console.log(str);//"01234512345"           
+	                    console.log(str.lastIndexOf(3,5));//3  从字符串第5项开始向前只能找到str[3]=3, 返回索引3
+	                    console.log(str.lastIndexOf(3,9));//8  从字符串第8项也就是倒数第二项开始查找，往前查找找到首先找到arr[8]=3，返回索引8
+	                    console.log(str.lastIndexOf(6));//-1 从字符串最后一项开始向前找到，没有找找等于6的元素，所以返回-1
+				    </script> 		 
+	          5 trim()方法
+	            5.1 trim()
+	                参数：不需要参数。
+	                返回值：返回去掉首尾空格后的字符串。
+	                原字符串是否发生改变：不变
+	                <script type="text/javascript">
+	                	var str=" hello world ";
+		                str.trim(); //"hello world"
+		                console.log(str);  //" hello world "
+	                </script>	              
+	            5.2 trimLeft()
+	                参数：不需要参数。
+	                返回值：返回去掉首部空格后的字符串。
+	                原字符串是否发生改变：不变
+	                <script type="text/javascript">
+	                	var str=" hello world ";
+		                str.trimLeft(); //"hello world "
+		                console.log(str);  //" hello world "
+	                </script>	               
+	            5.3 trimRight()
+	                参数：不需要参数。
+	                返回值：返回去掉尾部空格后的字符串。
+	                原字符串是否发生改变：不变
+	                <script type="text/javascript">
+	                	var str=" hello world ";
+		                str.trimRight(); //" hello world"
+		                console.log(str);  //" hello world "
+	                </script>	                
+	            5.4 字符串大小写转换方法
+	          6 字符串大小写转换方法
+	            6.1 toLowerCase()
+	                参数：不需要参数。
+	                返回值：返回将全部字符转换成小写后的字符串。
+	                原字符串是否发生改变：不变
+	                <script type="text/javascript">
+	                	var str="Hello World";
+		                str.toLowerCase(); //"hello world"
+		                console.log(str);  //"Hello World "
+	                </script>	               
+	            6.2 toLocaleLowerCase()
+	                参数：不需要参数。
+	                返回值：返回将全部字符转换成小写后的字符串。
+	                        大部分情况下返回结果与toLowerCase()相同，少于语言会应用特殊规则
+	                原字符串是否发生改变：不变
+	                <script type="text/javascript">
+	                	var str="Hello World";
+		                str.toLocaleLowerCase(); //"hello world"
+		                console.log(str);  //"Hello World "
+	                </script>	               
+	            6.3 toUpperCase()
+	                参数：不需要参数。
+	                返回值：返回将全部字符转换成大写后的字符串。
+	                原字符串是否发生改变：不变
+	                <script type="text/javascript">
+	                	var str="Hello World";
+		                str.toLowerCase(); //"HELLO WORLD"
+		                console.log(str);  //"Hello World "
+	                </script>	               
+	            6.4 toLocaleUpperCase()
+	                参数：不需要参数。
+	                返回值：返回将全部字符转换成大写后的字符串。
+	                        大部分情况下返回结果与toUpperCase()相同，少于语言会应用特殊规则
+	                原字符串是否发生改变：不变
+	                <script type="text/javascript">
+	                	 var str="Hello World";
+		                str.toLowerCase(); //"HELLO WORLD"
+		                console.log(str);  //"Hello World "
+	                </script>	               
+	          7 字符串的模式匹配方法
+	            7.1 match()
+	                参数：正则。
+	                返回值：返回一个数组，数组第一项是正则匹配的字符串
+	                原字符串是否发生改变：不变
+	                <script type="text/javascript">
+	                	var str="cake wake";
+		                var reg=/[a-z]ake/
+		                var matches = str.match(reg);
+		                console.log(matches); //["cake", index: 0, input: "cake wake"]
+		                console.log(str);  //"cake wake"
+	                </script>	                
+	            7.2 search()
+	                参数：正则。
+	                返回值：返回字符串第一个匹配项的索引，如果没有找到匹配项则返回-1。
+	                原字符串是否发生改变：不变
+	                <script type="text/javascript">
+	                	var str="cake wake";
+		                var reg1=/ake/;
+		                var reg2=/abc/;
+		                str.search(reg1); //1
+		                str.search(reg2); //-1
+		                console.log(str);  //"cake wake"
+	                </script>	               
+	            7.3 replace(r,f)
+	                参数：第一个参数是正则或者字符串，第二个参数是函数或字符串。
+	                返回值：返回被替换后的字符串。
+	                原字符串是否发生改变：不变
+	                <script type="text/javascript">
+	                	var str="wife knife";
+		                str.replace("fe","ves"); //"wives knife";
+		                var reg=/fe/g;                
+		                str.replace(reg,"ves"); //"wives knives";               
+		                function fn(match){
+		                    return "ves";
+		                }
+		                str.replace(reg,fn); //"wives knives";  
+		                console.log(str);  //"cake wake"
+	                </script>	                
+	            7.4 split(r,n)
+	                参数：第一个参数可以是正则或字符串，第二个参数用来指定数组的长度。
+	                返回值：返回一个数组，按指定的字符串或正则拆分字符串存入数组
+	                原字符串是否发生改变：不变
+	                <script type="text/javascript">
+	                	var str="cake,wake,make";
+		                str.split(); //["cake,wake,make"],将整个字符串作为数组的第一个元素存入数组，数组的长度为1
+		                str.split(","); //["cake", "wake", "make"]
+		                str.split(",",2); //["cake", "wake"]
+		                var reg=/ake/
+		                str.split(reg); //["c", ",w", ",m", ""]                
+		                console.log(str);  //"cake,wake,make"
+	                </script>	              
+	          8 localeCompare();
+	                参数：被比较的字符。
+	                返回值：如果字符查相等，则返回0.
+	                        如果字符串字符编码小于字符串参数则返回-1；
+	                        如果字符串字符编码大于字符串参数则返回1；
+	                原字符串是否发生改变：不变
+	                <script type="text/javascript">
+	                	var str="coat";
+		                str.localeCompare("coat"); //0
+		                str.localeCompare("cake"); //1    
+		                str.localeCompare("make"); //-1           
+		                console.log(str);  //"coat"
+	                </script>	               
+	          9 fromCharCode();
+	                参数：字符编码(十进制数字)
+	                返回值：返回将十进制字符编码转换成字符后的字符串拼接 
+	                字符串是否发生改变：不变  
+	                字符串所有的方法，都不会修改字符串本身(字符串是不可变的)，操作完成会返回一个新的字符串.   
+	                <script type="text/javascript">
+	                	 var str=String.fromCharCode(97,98,99);          
+	                	 console.log(str);  //"abc"
+	                </script>	               
+	          10 HTML方法
+	             10.1 anchor()
+	                参数：a标签的name属性值。
+	                返回值：返回格式化的HTML标签字符串
+	                原字符串是否发生改变：不变
+	                <script type="text/javascript">
+	                	var str="a标签";
+		                var nme="cxh_a";
+		                str.anchor(name); //"<a name="cxh_a">a标签</a>"   
+		                document.write(str.anchor(name));//"a标签"以连接格式显示
+		                console.log(str);  //"a标签"
+	                </script>	                
+	             10.2 big()
+	                参数：不需要参数。
+	                返回值：返回格式化的HTML标签字符串,大号字体
+	                原字符串是否发生改变：不变
+	                 <script type="text/javascript">
+						var str="Hello world!"
+						str.big();//"<big>Hello world!</big>"
+						document.write(str.big());//"Hello world!"显示为大号字体
+						console.log(str);  //"Hello world!"
+					 </script>
+	             10.3 sub()
+	                参数：不需要参数。
+	                返回值：返回格式化的HTML标签字符串,小标
+	                原字符串是否发生改变：不变
+	                 <script type="text/javascript">
+						var str="Hello world!"
+						str.sub();//"<sup>Hello world!</sup>"
+						document.write(str.sub())//"Hello world!"作为下标
+						console.log(str);  //"Hello world!"
+					 </script>
+	             10.4 sup()
+	                参数：不需要参数。
+	                返回值：返回格式化的HTML标签字符串,上标
+	                原字符串是否发生改变：不变
+	                 <script type="text/javascript">
+						var str="Hello world!"
+						str.sup();//"<sup>Hello world!</sup>"
+						document.write(str.sup())//"Hello world!"作为上标
+						console.log(str);  //"Hello world!"
+					 </script>
+	             10.5 link()
+	                参数：超链接地址。
+	                返回值：返回格式化的HTML标签字符串,把字符串显示为超链接。
+	                原字符串是否发生改变：不变
+	                 <script type="text/javascript">
+						var str="波伏娃商城";
+						str.link("http://www.bofuwa.com");//"<a href="http://www.bofuwa.com">波伏娃商城</a>"
+						document.write(str.link("http://www.bofuwa.com"));//"波伏娃商城"显示为超链接
+						console.log(str);  //"波伏娃商城"
+					 </script>
+	             10.6 bold()
+	                参数：不需要参数。
+	                返回值：返回格式化的HTML标签字符串,粗体
+	                原字符串是否发生改变：不变
+	                 <script type="text/javascript">
+						var str="Hello world!"
+						str.bold();//"<bold>Hello world!</bold>"
+						document.write(str.bold())//"Hello world!"显示为粗体
+						console.log(str);  //"Hello world!"
+					 </script>
+
+	          其他方法的用法同上，尽量不要使用这些方法，因为它们创建的标记通常无法表达语义。  
+	          字符串所有的方法，都不会修改字符串本身(字符串是不可变的)，操作完成会返回一个新的字符串.     
+            </script>
+    </pre>
+</body>
+</html>
