@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>附加题139答案</title>
+</head>
+<body>
+    <h3>
+        一.将一个字符串数组输出为|分割的形式，比如“刘备|张飞|关羽”。使用两种方式实现
+        二.将一个字符串数组的元素的顺序进行反转。["a","b","c","d"] ["d","c","b","a"]。使用两种种方式实现。提示：第i个和第length-i-1个进行交换
+        三.找到数组中每个字母出现的次数["c","a","z","a","a"]
+        四.工资的数组[1500,1200,2000,2100,1800],把工资超过2000的删除 
+    </h3>
+    <pre>
+        一.将一个字符串数组输出为|分割的形式，比如“刘备|张飞|关羽”。使用两种方式实现
+           方法1 数组的join方法
+              <script type="text/javascript">
+                  var arr=["刘备","张飞","关羽"];
+                  arr.join("|");
+              </script>
+            方法2 数组的reduce方法(兼容处理见array.js)
+              <script type="text/javascript">
+                  var arr=["刘备","张飞","关羽"];
+                  arr.reduce(function(pre,cur){return pre+"|"+cur});
+              </script>
+            方法3 数组的toString方法结合字符串的replace方法
+              <script type="text/javascript">
+                  var arr=["刘备","张飞","关羽"];
+                  arr.toString().replace(/,/g,"|");
+              </script>
+            方法4 for循环
+              <script type="text/javascript">
+                   var arr = ["刘备","张飞","关羽"];
+                   var str = arr[0];
+                   for(var i=1;i<arr.length;i++){
+                       str+="|"+arr[i];
+                   }
+                   console.log(str);
+              </script>
+            方法5 while循环
+              <script type="text/javascript">
+                   var arr = ["刘备","张飞","关羽"];
+                   var str = arr[0],i=1;
+                   while(i<arr.length){
+                       str+="|"+arr[i++];
+                   }
+                   console.log(str);
+              </script>
+            方法6 foreach迭代(兼容处理见array.js)
+              <script type="text/javascript">
+                   var arr = ["刘备","张飞","关羽"];
+                   var str = "";
+                   arr.forEach(function(item,index){
+                      str+="|"+arr[index];
+                   });
+                   console.log(str.slice(1));
+              </script>
+
+        二.将一个字符串数组的元素的顺序进行反转。["a","b","c","d"] ["d","c","b","a"]。使用两种种方式实现。提示：第i个和第length-i-1个进行交换
+           方法1 数组的reverse()
+              <script type="text/javascript">
+                  var arr=["a","b","c","d"];
+                  arr.reverse();//["d", "c", "b", "a"]
+              </script>
+           方法2.1 for循环结合索引逆序取值并存入新数组。
+            <script>
+                var arr=["a","b","c","d"];
+                var newArr=[];
+                function myReverse(ary){
+                    for(var i=ary.length-1;i>=0;i--){                        
+                        newArr[newArr.length]=ary[i];
+                    }
+                    return newArr;
+                }
+                console.log(myReverse(arr));//["d", "c", "b", "a"]
+            </script>
+            方法2.2 for循环结合unshift逆序存入新数组。
+            <script>
+                var arr=["a","b","c","d"];
+                var newArr=[];
+                function myReverse(ary){
+                    for(var i=0;i<ary.length;i++){                        
+                        newArr.unshift(ary[i]);
+                    }
+                    return newArr;
+                }
+                console.log(myReverse(arr));//["d", "c", "b", "a"]
+            </script>
+            方法3 for循环遍历数组前半部分，交换两边的值。
+            <script>
+                var arr=["a","b","c","d"];
+                function myReverse(ary){
+                   for(var i=0;i<ary.length/2;i++){
+                       var temp = ary[i];
+                       ary[i] = ary[ary.length-1-i];
+                       ary[ary.length-1-i] = temp;
+                   }
+                   return ary;
+                }
+                console.log(myReverse(arr));//["d", "c", "b", "a"]
+            </script>
+           方法4 while结合pop方法逆序取值存入新数组。
+           <script>
+                var arr=["a","b","c","d"];
+                var newArr=[];
+                function myReverse(ary){
+                    while(ary.length)  newArr.push(ary.pop());
+                    return newArr;
+                }
+                console.log(myReverse(arr));//["d", "c", "b", "a"]
+            </script>
+            方法5 数组的map()方法(兼容处理见array.js)
+            <script type="text/javascript">
+                var arr=["a","b","c","d"];
+                function myReverse(ary){
+                    return  ary.map(function(item,index){return ary[ary.length-1-index];});
+                }
+                console.log(myReverse(arr));//["d", "c", "b", "a"]
+            </script>
+            方法6 foreach遍历逆序取值并存入新数组。
+            <script>
+                var arr=["a","b","c","d"];
+                function myReverse(ary){
+                    var newArr=[];
+                    arr.forEach(function(item,index){newArr.unshift(item);});
+                    return newArr;
+                }
+                console.log(myReverse(arr));//["d", "c", "b", "a"]
+            </script>
+
+        三.找到数组中每个字母出现的次数["c","a","z","a","a"]
+          方法1 循环遍历然后将每个字母作为键存入对象。
+              <script type="text/javascript">
+                  function getTimes(ary){
+                      var obj={};
+                      for (var i = 0; i <ary.length; i++) {
+                         obj[ary[i]]?obj[ary[i]]++:obj[ary[i]]=1;
+                      } 
+                      return obj;
+                  }
+                  getTimes(["c","a","z","a","a"]);//{c: 1, a: 3, z: 1}
+              </script>
+          方法2 先用sort排序然后用match捕获最后用map替换
+              <script type="text/javascript">
+                  function getTimes(ary){
+                      var arr = ary.sort().join("").match(/(.)\1*/g);//["aaa", "c", "z"]
+                      return arr.map(function(item){return item[0]+":"+item.length;});
+                  }
+                  getTimes(["c","a","z","a","a"]);//["a:3", "c:1", "z:1"]
+              </script>
+          方法3 先用sort排序然后用replace替换
+              <script type="text/javascript">
+                  function getTimes(ary){
+                      var str = ary.sort().join("").replace(/(.)\1*/g,function(){
+                          return arguments[1]+":"+arguments[0].length+",";
+                      });////"a:3,c:1,z:1，"
+                      return str.slice(0,str.length-1);
+                  }
+                  getTimes(["c","a","z","a","a"]);//"a:3,c:1,z:1"
+              </script>
+
+        四.工资的数组[1500,1200,2000,2100,1800],把工资超过2000的删除 
+           方法1 数组的filter方法
+              <script type="text/javascript">
+                 var arr=[1500,1200,2000,2100,1800];
+                 arr.filter(function(item){return item<2000;});//[1500, 1200, 1800]
+              </script>
+           方法2 for循环遍历
+              <script type="text/javascript">
+                 var arr=[1500,1200,2000,2100,1800];
+                  for(var i=0;i<arr.length;i++){
+                      if(arr[i]>=2000){
+                         arr[i]=arr[arr.length-1];
+                         arr.length-=1;
+                      }
+                  }
+                  console.log(arr);//[1500, 1200, 1800]
+              </script>
+           方法3 while循环遍历
+              <script type="text/javascript">
+                 var arr=[1500,1200,2000,2100,1800],i=0;
+                 while(i<arr.length){
+                      if(arr[i]>=2000){
+                         arr[i]=arr[arr.length-1];
+                         arr.length-=1;
+                      }
+                      i++;                     
+                  }
+                  console.log(arr);//[1500, 1200, 1800]
+              </script>
+           方法4 foreach循环遍历
+              <script type="text/javascript">
+                 var arr=[1500,1200,2000,2100,1800];
+                 arr.forEach(function(item,i){
+                       if(item>=2000){
+                         arr[i]=arr[arr.length-1];
+                         arr.length-=1;
+                      }
+                 })
+                  console.log(arr);//[1500, 1200, 1800]
+              </script>
+           方法5 replace结合正则
+              <script type="text/javascript">
+                 var arr=[1500,1200,2000,2100,1800];
+                 arr=arr.toString().replace(/(\d{5,}|[2-9]\d{3,})/g,"").replace(/(\W)\1+/g,"$1").split(",");
+                 console.log(arr);//[1500, 1200, 1800]
+              </script>
+    </pre>
+</body>
+</html>
