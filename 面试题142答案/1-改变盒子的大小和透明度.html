@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div style="width: 100px;height: 100px;background-color: pink;"></div>
+<script>
+    var div = document.getElementsByTagName("div")[0];
+    div.onmouseover = function () {
+        div.style.cssText = "width:200px;height:200px;background-color:blue;opacity:0.2;filter:alpha(opacity = 20)";
+    }
+
+</script>
+
+</body>
+</html>

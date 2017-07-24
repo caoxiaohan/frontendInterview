@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        body {
+            background: url(image/1.jpg) no-repeat;
+        }
+        #box {
+            height: 165px;
+            padding-top: 35px;
+            text-align: center;
+            background: rgba(255,255,255,0.3);
+        }
+        img {
+            cursor: pointer;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <img src="image/1.jpg" alt="" width="200px"/>
+        <img src="image/2.jpg" alt="" width="200px"/>
+        <img src="image/3.jpg" alt="" width="200px"/>
+        <img src="image/4.jpg" alt="" width="200px"/>
+        <img src="image/5.jpg" alt="" width="200px"/>
+    </div>
+
+    <script>
+        //需求：点击图片，body的背景图修改        
+        box.onclick = function (e) {
+             e= e||window.e;
+             e.target= e.target|| e.srcElement;
+            if(e.target.nodeName.toUpperCase()=="IMG") document.body.style.backgroundImage = "url("+e.target.src+")";
+        }
+    </script>
+
+</body>
+</html>

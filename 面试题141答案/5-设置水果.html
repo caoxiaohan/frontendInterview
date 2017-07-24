@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+    <button id="btn">选择鲤鱼</button><br><br>
+    <select id="sel" multiple>
+        <option value="0">香蕉</option>
+        <option value="1">苹果</option>
+        <option value="2">鲤鱼</option>
+        <option value="3">鸭梨</option>
+    </select>
+
+    <script>
+        //需求：点击识别水产，立刻把option对应的鲤鱼选择的属性设置为selected;
+        btn.onclick = function () {
+           sel.options[2].selected =sel.options[2].selected ===true?(btn.innerHTML="选择鲤鱼",false):(btn.innerHTML="去掉鲤鱼",true);
+        }
+    </script>
+</body>
+</html>

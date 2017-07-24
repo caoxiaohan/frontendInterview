@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        body {
+            font-family: "Helvetica", "Arial", serif;
+            background-color: pink;
+            margin: 1em 10%;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            float: left;
+            padding: 1em;
+            list-style: none;
+        }
+        #imagegallery li {
+            margin: 0px 20px 20px 0px;
+            padding: 0px;
+            display: inline;
+        }
+        #imagegallery li a img {
+            border: 0;
+        }
+    </style>
+
+</head>
+<body>
+<h2 id="sel" style="color: blue">
+    点击一个美女图片
+</h2>
+
+<ul id="imagegallery" >    
+    <li>
+        <a href="image/1.jpg" title="美女A">
+            <img src="image/1-small.jpg" width="100" alt="美女1"/>
+        </a>
+    </li>
+    <li>
+        <a href="image/2.jpg" title="美女B">
+            <img src="image/2-small.jpg" width="100" alt="美女2"/>
+        </a>
+    </li>
+    <li>
+        <a href="image/3.jpg" title="美女C">
+            <img src="image/3-small.jpg" width="100" alt="美女3"/>
+        </a>
+    </li>
+    <li>
+        <a href="image/4.jpg" title="美女D">
+            <img src="image/4-small.jpg" width="100" alt="美女4"/>
+        </a>
+    </li>
+    <div style="clear:both"></div>
+</ul>
+
+<img id="image" src="image/placeholder.png" width="450px"/>
+<script>
+    //1.获取事件源和相关元素
+    var ul = document.getElementById("imagegallery");
+    var aArr = ul.getElementsByTagName("a");
+    var img = document.getElementById("image");
+    var sel = document.getElementById("sel");
+    //2.绑定事件
+    for(var i=0;i<aArr.length;i++){
+        aArr[i].onclick = function () {
+            //3.书写事件驱动程序
+            img.src = this.href;
+            sel.innerHTML = this.title;
+            return false;
+        }
+    }
+
+</script>
+
+</body>
+</html>

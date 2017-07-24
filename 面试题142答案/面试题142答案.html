@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>面试题142答案</title>
+</head>
+<body>
+    <h3>
+      面试题142 举例说明js有哪几种弹出对话框？举例说明如何打开、管理、移动、改变窗口大小？举例说明定时器的用法？举例说明location对象、navigator对象、history对象的作用、常用属性和方法？innerHTML、innerText 、textContent的区别及兼容问题？HTML转移符有哪些？举例说明style.cssText的用法？
+    </h3>
+    <pre>
+
+一 举例说明js有哪几种弹出对话框？
+   1 alert警告对话框
+     1.1 作用
+        alert() 方法用于显示带有一条指定消息和一个 OK 按钮的警告框。
+     1.2 语法格式：
+         语法： alert(message);
+     1.3 参数说明：
+        message:要在 window 上弹出的对话框中显示的纯文本（而非 HTML 文本）
+     1.4 返回值：
+         没有返回值
+     1.5 示例：
+         见《对话框/alert警告对话框.html》
+   2 confirm确认对话框
+     2.1 作用
+        confirm 消息对话框通常用于允许用户做选择的动作，弹出对话框(包括一个确定按钮和一个取消按钮)。
+     2.2 语法格式：
+         语法： confirm(str);
+     2.3 参数说明：
+        str：在消息对话框中要显示的文本
+     2.4 返回值：
+         Boolean值（注: 通过返回值可以判断用户点击了什么按钮）
+     3.5 示例：
+         见《对话框/confirm确认对话框.html》
+   3 prompt对话框
+     3.1 作用
+		 prompt用于询问用户消息的对话框，有很好的的用户交互性，包含一个确定按钮，取消按钮和一个文本输入框，用户可在文本输入框输入要交互的信息。
+     3.2 语法格式：
+         prompt（str1，str2）；
+     3.3 参数说明：
+        str1：是要显示在消息对话框中的文本，是系统对用户的交互，不用户不可以修改；就像我们上面那张图里的“请输入你的成绩”就是str1；
+        str2：文本框中预先输入的内容，用户可以进行修改；对应我们上面那张图里的“100”就是文本框预先输入的，用户可以跟根据自己的情况在进行更改。当然str2 是可以省略的，当文本框并不需要实现输入一个值得时候可以省略。
+     3.4 返回值：
+         点击确定按钮，文本框中的内容作为函数返回值
+         点击取消按钮，返回NULL
+     3.5 示例：
+         见《对话框/promtp消息对话框.html》
+       
+二 举例说明如何打开、关闭、移动、改变窗口大小？
+   1 打开窗口
+     1.1 定义和用法
+		open() 方法用于打开一个新的浏览器窗口或查找一个已命名的窗口。
+	 1.2 语法
+		window.open(URL,name,features,replace)
+     1.3 参数	描述
+		1.3.1 URL	
+		      一个可选的字符串，声明了要在新窗口中显示的文档的 URL。如果省略了这个参数，或者它的值是空字符串，那么新窗口就不会显示任何文档。
+        1.3.2 name	
+              一个可选的字符串，该字符串是一个由逗号分隔的特征列表，其中包括数字、字母和下划线，该字符声明了新窗口的名称。这个名称可以用作标记 <a> 和 <form> 的属性 target 的值。如果该参数指定了一个已经存在的窗口，那么 open() 方法就不再创建一个新窗口，而只是返回对指定窗口的引用。在这种情况下，features 将被忽略。
+        1.3.3 features	
+              一个可选的字符串，声明了新窗口要显示的标准浏览器的特征。如果省略该参数，新窗口将具有所有标准特征。在窗口特征这个表格中，我们对该字符串的格式进行了详细的说明。
+        1.3.4 replace
+              一个可选的布尔值。规定了装载到窗口的 URL 是在窗口的浏览历史中创建一个新条目，还是替换浏览历史中的当前条目。支持下面的值：
+              true - URL 替换浏览历史中的当前条目。
+              false - URL 在浏览历史中创建新的条目。
+     1.4 提示和注释
+         重要事项：请不要混淆方法 Window.open() 与方法 Document.open()，这两者的功能完全不同。为了使您的代码清楚明白，请使用 Window.open()，而不要使用 open()。
+     1.5 实例
+         见《窗口/window.open打开窗口.html》
+  2 关闭窗口
+     2.1 定义和用法
+		close() 方法用于关闭浏览器窗口。
+	 2.2 语法
+		window.close()
+     2.3 说明
+		方法 close() 将关闭有 window 指定的顶层浏览器窗口。
+		某个窗口可以通过调用 self.close() 或只调用 close() 来关闭其自身。
+        只有通过 JavaScript 代码打开的窗口才能够由 JavaScript 代码关闭。
+        这阻止了恶意的脚本终止用户的浏览器。
+     2.4 实例
+         见《窗口/window.closes关闭窗口.html》
+  3 移动窗口
+     3.1 定义和用法
+		moveTo()方法可把窗口的左上角移动到一个指定的坐标。
+		moveBy()方法可相对窗口的当前坐标把它移动指定的像素。
+	 3.2 语法
+		window.moveTo(x,y)或window.moveBy(x,y)
+     3.3 参数	描述
+		3.3.1 x	
+		     窗口新位置的 x 坐标
+        3.3.2 y	
+             窗口新位置的 y 坐标
+     3.4 提示和注释
+         注释：出于安全方面的原因，浏览器限制此方法使其不能把窗口移出屏幕。
+     3.5 实例
+         见《窗口/window.moveTo移动窗口.html》和《窗口/window.moveBy移动窗口.html》
+  4 调整窗口大小
+     4.1 定义和用法
+		resizeTo() 方法用于把窗口大小调整为指定的宽度和高度。
+		resizeBy() 方法用于根据指定的像素来调整窗口的大小。
+	 4.2 语法
+		resizeTo(width,height)或resizeBy(width,height)
+     4.3 参数	描述
+		4.3.1 width
+		     必需。想要调整到的窗口的宽度。以像素计。
+        4.3.2 height	
+             可选。想要调整到的窗口的高度。以像素计。
+     4.4 实例
+         见《窗口/window.resizeTo调整窗口大小.html》和《窗口/window.resizeBy调整窗口大小.html》
+
+三 举例说明定时器的用法？
+   1、window.setTimeout([function],[interval]) 
+	  ->设置一个定时器,interval是我们设置的等待的时间(ms),当到达时间后执行对应的[function],执行完成后定时器停止
+	  ->执行一次
+	  <script type="text/javascript">
+	  		var count = 0;
+	        window.setTimeout(function () {
+	              count++;
+	              console.log(count); //1 仅输出一次
+	        }, 1000);
+	  </script>	           
+	2、 window.setInterval([function],[interval]) 
+	  ->设置一个定时器,interval是我们设置的等待的时间(ms),当到达时间后执行对应的[function],执行完成后,以后每隔这么长的时间,都会重新的执行[function] 
+	  ->执行多次
+	  <script type="text/javascript">
+	  		var count = 0;
+	        window.setInterval(function () {
+	              count++;
+	              console.log(count);//1 2 3 ... 每隔1秒输出一次，每次数字累加1
+	        }, 1000);
+	  </script>
+	           
+四、举例说明location对象、navigator对象、history对象、screen对象的作用、常用属性和方法？
+    1、location对象
+       1.1. 定义和用法
+            Location 对象包含有关当前 URL 的信息。
+            Location 对象是 Window 对象的一个部分，可通过 window.location 属性来访问。
+       1.2 Location 对象属性
+			属性	描述
+			hash	设置或返回从井号 (#) 开始的 URL（锚）。
+			host	设置或返回主机名和当前 URL 的端口号。
+			hostname	设置或返回当前 URL 的主机名。
+			href	设置或返回完整的 URL。
+			pathname	设置或返回当前 URL 的路径部分。
+			port	设置或返回当前 URL 的端口号。
+			protocol	设置或返回当前 URL 的协议。
+			search	设置或返回从问号 (?) 开始的 URL（查询部分）。
+	   1.3 Location 对象方法
+			属性	描述
+			assign()	加载新的文档。
+			reload()	重新加载当前文档。
+			replace()	用新的文档替换当前文档。
+	   1.4 示例
+           见《对象/location对象.html》
+    2、navigator对象
+       2.1. 定义和用法
+			Navigator 对象包含有关浏览器的信息。
+       2.2 Navigator 对象属性
+			属性	描述
+			appCodeName	返回浏览器的代码名。
+			appMinorVersion	返回浏览器的次级版本。
+			appName	返回浏览器的名称。
+			appVersion	返回浏览器的平台和版本信息。
+			browserLanguage	返回当前浏览器的语言。
+			cookieEnabled	返回指明浏览器中是否启用 cookie 的布尔值。
+			cpuClass	返回浏览器系统的 CPU 等级。
+			onLine	返回指明系统是否处于脱机模式的布尔值。
+			platform	返回运行浏览器的操作系统平台。
+			systemLanguage	返回 OS 使用的默认语言。
+			userAgent	返回由客户机发送服务器的 user-agent 头部的值。
+			userLanguage	返回 OS 的自然语言设置。
+       2.3 Navigator 对象方法
+			方法	描述
+			javaEnabled()	规定浏览器是否启用 Java。
+			taintEnabled()	规定浏览器是否启用数据污点 (data tainting)。
+	   2.4 示例
+           见《对象/navigator对象.html》
+    3、history对象
+       3.1. 定义和用法
+	       History 对象包含用户（在浏览器窗口中）访问过的 URL。
+	       History 对象是 window 对象的一部分，可通过 window.history 属性对其进行访问。
+       3.2 History 对象属性
+			属性	描述
+			length	返回浏览器历史列表中的 URL 数量。
+	   3.3 History 对象方法
+			方法	描述
+			back()	加载 history 列表中的前一个 URL。
+			forward()	加载 history 列表中的下一个 URL。
+			go(index)	加载 history 列表中的某个具体页面。
+			   当index=0时，表示刷新当前页面
+			   当index=1时，go(1)表示前进一页，等价于forward()
+			   当index=2时，go(2)表示前进两页
+			   当index>2时，依此类推
+			   当index=-1时，go(-1)表示后退一页，等价于back()
+			   当index=-2时，go(-2)表示前进两页
+			   当index<-2时，依此类推
+	   3.4 示例
+	       见《对象/history对象.html》
+	4、Screen 对象
+	   4.1. 定义和用法
+			Screen 对象包含有关客户端显示屏幕的信息。
+	   4.2 Screen 对象属性
+			属性	描述
+			availHeight	返回显示屏幕的高度 (除 Windows 任务栏之外)。
+			availWidth	返回显示屏幕的宽度 (除 Windows 任务栏之外)。
+			bufferDepth	设置或返回调色板的比特深度。
+			colorDepth	返回目标设备或缓冲器上的调色板的比特深度。
+			deviceXDPI	返回显示屏幕的每英寸水平点数。
+			deviceYDPI	返回显示屏幕的每英寸垂直点数。
+			fontSmoothingEnabled	返回用户是否在显示控制面板中启用了字体平滑。
+			height	返回显示屏幕的高度。
+			logicalXDPI	返回显示屏幕每英寸的水平方向的常规点数。
+			logicalYDPI	返回显示屏幕每英寸的垂直方向的常规点数。
+			pixelDepth	返回显示屏幕的颜色分辨率（比特每像素）。
+			updateInterval	设置或返回屏幕的刷新率。
+			width	返回显示器屏幕的宽度。
+	   4.3 示例
+	       见《对象/screen对象.html》
+
+五、innerHTML、outerHTML、innerText 、textContent的区别及兼容问题？
+    0 outerHTML
+      0.1 定义和用法
+			outerHTML 属性设置或返回开始和结束标签之间的 HTML.
+			除了包含innerHTML的全部内容外, 还包含对象标签本身。
+	  0.2 语法
+			htmlObject.outerHTML=HTML
+	  0.3 示例
+	      见《内容/outerHTML.html》
+    1 innerHTML
+      1.1 定义和用法
+			innerHTML 属性设置或返回开始和结束标签之间的 HTML。
+	  1.2 语法
+			htmlObject.innerHTML=HTML
+	  1.3 示例
+	      见《内容/innerHTML.html》
+	2 innerText
+      2.1 定义和用法
+		  innerText 属性设置或返回开始和结束标签之间的内容, 但它去除Html标签 。
+	  2.2 语法
+			htmlObject.innerText=text
+	  2.3 兼容性
+	      由于innerText并非W3C标准属性，因此我们无法在FireFox中使用它(修正：FF45+已经支持innerText属性)一般情况下我们可以使用textContent来代替innerText
+	  2.3 示例
+	      见《内容/innerText.html》
+	3 textContent
+      1.1 定义和用法
+		  textContent 属性设置或返回开始和结束标签之间的内容, 但它去除Html标签 。
+	  1.2 语法
+			htmlObject.textContent=text
+	  1.3 注意：
+         a). 对HTML标签是剔除不是解析，也不会出现CSS解析和渲染的处理，因此<br/>等元素是不生效的。
+         b). 不会剔除格式信息和合并连续的空格，因此\t、\r、\n和连续的空格将生效。
+      1.4 兼容性
+          浏览器支持：IE9~11、FireForx、Chrome
+	  1.5 示例
+	      见《内容/textContent.html》
+
+六、HTML转移符有哪些？
+    1 最常用的字符实体
+		显示结果	描述	实体名称	实体编号
+		 			空格	&nbsp;	&#160;
+		<			小于号	&lt;	&#60;
+		>			大于号	&gt;	&#62;
+		&			和号	&amp;	&#38;
+		"			引号	&quot;	&#34;
+		'			撇号	&apos; (IE不支持)	&#39;
+    2 其他一些常用的字符实体
+		显示结果	描述		实体名称	实体编号
+		￠			分			&cent;		&#162;
+		£			镑			&pound;		&#163;
+		¥			人民币		&yen;		&#165;
+		§			节			&sect;		&#167;
+		©			版权		&copy;		&#169;
+		®			注册商标	&reg;		&#174;
+		×			乘号		&times;		&#215;
+		÷			除号		&divide;	&#247;
+
+七、举例说明style.cssText的用法？
+    1 定义和用法
+	  cssText 属性设置或返回DOM对象的全部样式的字符串形式 。
+	2 语法
+			htmlObject.style.cssText=cssText;
+	3 注意：
+         a). cssText直接赋值会清空原来的样式，用+=赋值可以保留原来的样式。
+         b). IE会去掉原来样式中最后的分号，直接拼接字符串会出现问题，新拼接的字符串前面加上;可以解决IE的问题。
+	4 示例
+	   见《cssText.html》
+    </pre>
+</body>
+</html>

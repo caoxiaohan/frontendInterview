@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        ul{
+            list-style: none;
+        }
+        input {
+            width: 300px;
+            height: 36px;
+            padding-left: 5px;
+            color: #ccc;
+        }
+        label {
+            position: absolute;
+            top:10px;
+            left: 50px;
+            font-size: 12px;
+            color: #ccc;
+            cursor: text;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li>波伏娃:<input id="bfw" type="text" value="我是波伏娃"/></li>
+        <li style="position: relative;">淘宝:<label for="tb" id="tbLabel">我是淘宝</label><input id="tb" type="text"/></li>
+        <li>placeholder:<input type="text" placeholder="我是placeholder"/></li>
+    </ul>
+    
+    
+    
+
+    <script>
+         //需求:波伏娃的获取焦点。        
+        bfw.onfocus = function () { 
+            if(this.value === "我是波伏娃")  bfw.value = "";
+        }
+        bfw.onblur = function () {
+            if(this.value === "")  bfw.value = "我是波伏娃";
+        }
+
+        //需求：淘宝的获取焦点。
+        tb.oninput = function () {
+               tbLabel.style.display=this.value === ""?"block":"none";
+            }
+        }
+        
+    </script>
+
+</body>
+</html>

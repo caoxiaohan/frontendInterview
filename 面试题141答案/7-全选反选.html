@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .wrap {
+            width: 300px;
+            margin: 100px auto 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            border: 1px solid #c0c0c0;
+            width: 300px;
+        }
+
+        th,
+        td {
+            border: 1px solid #d0d0d0;
+            color: #404060;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #09c;
+            font: bold 16px "微软雅黑";
+            color: #fff;
+        }
+
+        td {
+            font: 14px "微软雅黑";
+        }
+
+        tbody tr {
+            background-color: #f0f0f0;
+        }
+
+        tbody tr:hover {
+            cursor: pointer;
+            background-color: #fafafa;
+        }
+    </style>
+
+    <script>
+
+        window.onload = function () {
+            //需求1：点击上面的的input，下面全选或者反选。
+            var inps = tbody.getElementsByTagName("input");
+            hInp.onclick = function () {
+                for(var i=0;i<inps.length;i++){
+                    inps[i].checked = this.checked;
+                }
+            }
+
+            //需求2：点击下面的的input，如果下面的全部选定了，上面的全选，否则相反。(运用事件委托，只需要给父元素tbody绑定onclick事件，则所有的input子元素也被绑定了onclick事件)
+            tbody.onclick = function () {
+                var bool = true;
+                for(var j=0;j<inps.length;j++){
+                    if(inps[j].checked === false) bool = false;
+                }
+                hInp.checked = bool;
+            }
+        }
+
+    </script>
+
+</head>
+<body>
+    <div class="wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="hInp" />
+                    </th>
+                    <th>菜名</th>
+                    <th>饭店</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                <tr>
+                    <td>
+                        <input type="checkbox" />
+                    </td>
+                    <td>地三鲜</td>
+                    <td>田老师</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" />
+                    </td>
+                    <td>西红柿鸡蛋</td>
+                    <td>田老师</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" />
+                    </td>
+                    <td>醋溜土豆丝</td>
+                    <td>田老师</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" />
+                    </td>
+                    <td>萝卜干炒黄豆儿</td>
+                    <td>田老师</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

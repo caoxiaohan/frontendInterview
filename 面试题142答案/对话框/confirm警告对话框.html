@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>confirm</title>
+		<script type="text/javascript">
+			function rec(){
+				var message=confirm ("你是皇帝吗？");
+				message==true?document.write("你是皇帝!"):document.write("你是臣子!");
+			}
+		</script>
+	</head>
+	<body>
+		<input name="button" type="button" onClick="rec()" value="点击我，弹出确认对话框" />
+	</body>
+</html>

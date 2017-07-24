@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>2-禁用文本框.</title>
+</head>
+<body>
+    账号: <input type="text" value="波伏娃商城..."/><button>禁用</button><br><br>
+    密码: <input type="password" value="bofuwa.com"/>
+
+    <script>
+        //1.获取事件源和相关元素
+        var inp = document.getElementsByTagName("input")[0];
+        var btn = document.getElementsByTagName("button")[0];
+        //2.绑定事件
+        btn.onclick = function () {
+            //3.书写事件驱动程序
+            inp.disabled=inp.disabled?(btn.innerHTML="禁用",false):(btn.innerHTML="启用","disabled");
+        }
+    </script>
+
+
+</body>
+</html>

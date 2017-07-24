@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>1-隐藏显示二维码</title>
+    <style>
+        .qrSmall {
+            width: 50px;
+            height: 50px;
+            background: url(images/bgs.png) no-repeat -159px -51px;
+            position: fixed;
+            right: 10px;
+            top: 40%;
+        }
+        #qr {
+            position: absolute;
+            top: 0;
+            left: -150px;
+            display: none;
+        }
+        .qrSmall a {
+            display: block;
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+            //1.获取事件源和相关元素
+            var a = document.getElementsByTagName("a")[0];
+            //2.绑定事件
+            a.onmouseover = function () {
+                //3.书写事件驱动程序
+                qr.style.display = 'block';
+            };
+            a.onmouseout = fn2;
+            //定义方法            
+            function fn2() {
+                qr.style.display = 'none';
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div class="qrSmall" >
+        <a href="#"></a>
+        <div id="qr">
+            <img src="images/456.png" alt=""/>
+        </div>
+    </div>
+
+</body>
+</html>

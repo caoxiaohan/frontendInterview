@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>cssText</title>
+	<style type="text/css">
+		#div1{
+			margin-left:100px;
+		}
+	</style>
+</head>
+<body>
+	<div id="div1"></div>
+	<script type="text/javascript">
+	    //cssText直接赋值会清空原来的样式，用+=赋值可以保留原来的样式。
+	    //IE会去掉原来样式中最后的分号，直接拼接字符串会出现问题，新拼接的字符串前面加上;可以解决IE的问题。
+		div1.style.cssText += ";width:400px;height: 300px;background-color: red;";
+	</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>面试题140答案</title>
+</head>
+<body>
+    <h3>
+      面试题140 DOM的节点类型有哪些？综合比较不同类型的nodeType,nodeName,nodeValue,parentNode,以及子节点? DOM级别有哪些？DOM可以做什么？DOM的兼容问题有哪些，举例说明？
+    </h3>
+    <pre>
+       一 、DOM的节点类型有哪些？
+			元素节点            　　Node.ELEMENT_NODE(1)
+			属性节点            　　Node.ATTRIBUTE_NODE(2)
+			文本节点            　　Node.TEXT_NODE(3)
+			CDATA节点             Node.CDATA_SECTION_NODE(4)
+			实体引用名称节点    　　 Node.ENTRY_REFERENCE_NODE(5)
+			实体名称节点        　　Node.ENTITY_NODE(6)
+			处理指令节点        　　Node.PROCESSING_INSTRUCTION_NODE(7)
+			注释节点            　 Node.COMMENT_NODE(8)
+			文档节点            　 Node.DOCUMENT_NODE(9)
+			文档类型节点        　　Node.DOCUMENT_TYPE_NODE(10)
+			文档片段节点        　　Node.DOCUMENT_FRAGMENT_NODE(11)
+			DTD声明节点            Node.NOTATION_NODE(12)
+
+       二、综合比较不同类型的nodeType,nodeName,nodeValue,parentNode,以及子节点? 
+	        nodeType节点类型   nodeName节点(标签)名称		nodeValue节点值     	parentNode           子节点
+			  元素节点	1	     大写标签名      	          	 null          document或Element       Document除外的任何类型
+			  文本节点	3	      #text	                 		文本文字          一个Element           没有子节点
+			  注释节点	8	      #comment	                 	注释内容        document或Element       没有子节点
+			  document	9	      #document	                 	null                  null              Document(至多一个）、Element(至多一个）、ProcessingInstruction或Comment
+	      注意事项：
+	      1在IE8及以下，不会将空格和Enter当做节点，但是标准浏览器会将其当做文本节点
+	      2在HTML中，元素节点的nodeName为标签的大写，但是在XHTML或者XML中，我们写的标签是大写nodeName就是大写，我们写的是小写，nodeName就是小写
+	      3文字节点中，我们看到的文字是节点的值，其实他属于逻辑节点，是被套在逻辑节点上的。
+        
+       二、DOM级别有哪些？
+            根据W3C DOM规范，DOM是HTML与XML的应用编程接口（API），DOM将整个页面映射为一个由层次节点组成的文件。有1级、2级、3级共3个级别。
+		  0、"0级"DOM
+			当阅读与DOM有关的材料时，可能会遇到参考0级DOM的情况。
+			需要注意的是并没有标准被称为0级DOM，它仅是DOM历史上一个参考点（0级DOM被认为是在Internet Explorer 4.0 与Netscape Navigator4.0支持的最早的DHTML）。
+		  1、1级DOM
+			1级DOM在1998年10月份成为W3C的提议，由DOM核心与DOM HTML两个模块组成。
+			DOM核心能映射以XML为基础的文档结构，允许获取和操作文档的任意部分。
+			DOM HTML通过添加HTML专用的对象与函数对DOM核心进行了扩展。
+		  2、2级DOM
+			鉴于1级DOM仅以映射文档结构为目标，DOM 2级面向更为宽广。通过对原有DOM的扩展，2级DOM通过对象接口增加了对鼠标和用户界面事件（DHTML长期支持鼠标与用户界面事件）、范围、遍历（重复执行DOM文档）和层叠样式表（CSS）的支持。
+			同时也对DOM 1的核心进行了扩展，从而可支持XML命名空间。 
+			2级DOM引进了几个新DOM模块来处理新的接口类型：
+				DOM视图：描述跟踪一个文档的各种视图（使用CSS样式设计文档前后）的接口；
+				DOM事件：描述事件接口；
+				DOM样式：描述处理基于CSS样式的接口；
+				DOM遍历与范围：描述遍历和操作文档树的接口； 
+		  3、3级DOM
+			3级DOM通过引入统一方式载入和保存文档和文档验证方法对DOM进行进一步扩展，DOM3包含一个名为“DOM载入与保存”的新模块，DOM核心扩展后可支持XML1.0的所有内容，包括XML Infoset、 XPath、和XML Base。 
+ 
+
+
+        三、DOM可以做什么？
+            详见《DOM可以做什么.doc》举例
+            1 找对象（元素）
+			2 设置元素的属性
+			3 设置元素的样式
+			4 动态创建和删除元素
+			5 事件—触发响应
+				事件源（事件的触发者）
+				事件名称
+				事件响应程序
+
+
+
+        四、DOM的兼容问题有哪些，举例说明？
+	      
+	             
+    </pre>
+</body>
+</html>

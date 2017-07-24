@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        button {
+            margin: 10px;
+        }
+        div {
+            width: 200px;
+            height: 200px;
+            font-size: 36px;
+            line-height:200px;
+            background-color: lightgreen;
+        }
+    </style>
+
+</head>
+<body>
+    <button id="btn">隐藏</button>
+    <div>
+        舍我其谁！
+    </div>
+
+    <script>
+        //1.获取事件源和相关元素
+        var btn = document.getElementById("btn");
+        var div = document.getElementsByTagName("div")[0];
+        //2.绑定事件
+        btn.onclick = function () {
+            //3.书写事件驱动程序
+            this.innerHTML === "隐藏"?(div.style.display = "none", btn.innerHTML = "显示"):( div.style.display = "block", btn.innerHTML = "隐藏");
+        }
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <a href="http://www.bofuwa.com" style="font-size:36px;margin:10px 140px;display: block" onclick="fn();return false;">切换</a>
+    <img id="img" src="image/3.jpg" width="400px"/>
+    <script>
+        var img = document.getElementById("img");
+        function fn(){
+             img.src=img.src.match("image/3.jpg")?"image/4.jpg":"image/3.jpg";//来回切换
+        }
+    </script>
+
+
+</body>
+</html>

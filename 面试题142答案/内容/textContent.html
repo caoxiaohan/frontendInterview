@@ -1,0 +1,26 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript">
+			function getTextContent()
+		  	{
+		  		alert(document.getElementById("tr1").textContent);
+		  	}
+		</script>
+	</head>
+	<body>
+		<table border="1">
+			<tr id="tr1">
+			<th>Firstname</th>
+			<th>Lastname</th>
+			</tr>
+			<tr id="tr2">
+			<td>Peter</td>
+			<td>Griffin</td>
+			</tr>
+		</table>
+		<br />
+		<input type="button" onclick="getTextContent()" 
+		value="获取textContent的值" />
+	</body>
+</html>

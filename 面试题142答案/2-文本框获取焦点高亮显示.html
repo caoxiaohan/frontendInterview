@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        input {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<form id="oForm">
+    <input type="text"/>
+    <input type="text"/>
+    <input type="text"/>
+    <input type="text"/>
+    <input type="text"/>
+    <button id="btn">设置</button>
+</form>
+<script>
+    //需求：点击设置按钮，让所有的input标签获取焦点后高亮显示
+    var inps = document.getElementsByTagName("input");
+    btn.onclick = function () {
+        for(var i=0;i<inps.length;i++){
+            inps[i].onfocus = function () {
+                this.style.cssText="border:2px solid red;background-color:#ccc";
+            }
+            inps[i].onblur = function () {
+                this.style.cssText="";
+            }
+        }
+        return false;
+    }
+
+
+
+</script>
+</body>
+</html>

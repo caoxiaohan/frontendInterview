@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <input type="text"/><br><br>
+    <input type="text"/><br><br>
+    <input type="text"/><br><br>
+    <input type="text"/><br><br>
+    <input type="text"/><br><br>
+    <input type="text"/><br><br>
+
+    <button id="set">赋值</button>&nbsp;&nbsp;<button id="get">取值</button><br><br>
+    <textarea id="ta"></textarea>
+
+    <script>
+        var inps = document.getElementsByTagName("input");
+        set.onclick = function () {
+            for(var i=0;i<inps.length;i++){
+                inps[i].value = i;
+            }
+        }
+        get.onclick = function () {
+            var str="";
+            for(var i=0;i<inps.length;i++){
+               str+=inps[i].value+"、";
+            }
+            ta.innerHTML=str.slice(0,str.length-1);
+        }
+    </script>
+</body>
+</html>
