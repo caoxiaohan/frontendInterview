@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        #box {
+            width: 500px;
+            margin: 200px auto;
+        }
+        ul {
+            width: 392px;
+            padding: 5px;
+            list-style: none;
+            border: 1px solid red;
+        }
+        li:hover {
+            background-color: red;
+        }
+        input {
+            width: 400px;
+        }
+        button {
+            width: 70px;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <input id="inp" type="text"/>
+        <button>索搜</button>
+    </div>
+
+    <script>
+        //需求：输入内容(输入事件，键盘弹起事件)
+        var arr = ["a","ab","abc","abcd","aa","aaa"];
+        inp.onkeyup = function () {
+            var str = "";
+            for(var i=0;i<arr.length;i++){
+                if(arr[i].indexOf(this.value)===0) str+="<li>"+arr[i]+"</li>";
+            }
+            if(box.children[2]) box.removeChild(box.children[2]);
+            if(this.value.length === 0 || str.length === 0)  return;
+            var ul = document.createElement("ul");
+            ul.innerHTML = str;
+            box.appendChild(ul);
+        }
+
+
+
+
+
+    </script>
+
+
+</body>
+</html>

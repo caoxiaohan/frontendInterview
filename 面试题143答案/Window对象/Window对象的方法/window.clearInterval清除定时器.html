@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>clearInterval</title>
+	<script language=javascript>
+		var int=self.setInterval("clock()",50)
+		function clock()
+		{
+		  var t=new Date()
+		  document.getElementById("clock").value=t
+		}
+	</script>
+</head>
+<body>
+<input type="text" id="clock" size="35" />
+<button onclick="int=window.clearInterval(int)">停止</button>
+</body>
+</html>

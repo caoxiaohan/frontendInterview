@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>screen对象</title>
+</head>
+<body>
+	<div id="example"></div>
+	<script>
+		txt = "<p>屏幕高度(除Windows任务栏之外): " + screen.availHeight + "</p>";
+		txt+= "<p>屏幕宽度(除Windows任务栏之外): " + screen.availWidth + "</p>";
+		txt+= "<p>屏幕高度: " + screen.height + "</p>";
+		txt+= "<p>屏幕宽度: " + screen.width + "</p>";
+		txt+= "<p>调色板的比特深度: " + screen.bufferDepth + "</p>";
+		txt+= "<p>目标设备调色板的比特深度: " + screen.colorDepth + "</p>";
+		txt+= "<p>屏幕每英寸水平点数: " + screen.deviceXDPI + "</p>";
+		txt+= "<p>屏幕每英寸垂直点数: " + screen.deviceYDPI + "</p>";
+		txt+= "<p>是否启动了字体平滑: " + screen.fontSmoothingEnabled + "</p>";
+		txt+= "<p>屏幕每英寸水平方向常规点数: " + screen.logicalXDPI + "</p>";
+		txt+= "<p>屏幕每英寸垂直方向常规点数: " + screen.logicalYDPI + "</p>";
+		txt+= "<p>屏幕的颜色分辨率: " + screen.pixelDepth + "</p>";
+		txt+= "<p>屏幕的刷新率: " + screen.updateInterval + "</p>";
+		document.getElementById("example").innerHTML=txt;
+	</script>
+</body>
+</html>

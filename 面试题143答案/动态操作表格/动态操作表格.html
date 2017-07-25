@@ -1,0 +1,38 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>js动态操作表格	</title>
+		<script type="text/javascript" src="table.js" charset="utf-8"></script>
+	</head>
+	<body onLoad="init();">
+		<table  id="table" align="center">  
+		     <tbody id="newbody"></tbody>  	 
+		</table> 
+	  	<div>
+		 	<table width="800px" border="1px" align="center">
+				<tr>
+					<td align="center"><input type="button" id="addRow" name="addRow" onClick="addRow();" value="添加行"/></td>
+					<td align="center"><input type="button" id="delRow" name="delRow" onClick="removeRow();" value="删除行"/></td>
+				</tr>
+			　　<tr>
+					<td align="center"><input type="button" id="delCell"　name="delCell"  onClick="removeCell();" value="删除列"/></td>
+					<td align="center"><input type="button"　id="addCell" name="addCell" onClick=" addCell();" value="添加列"/></td>
+				</tr>
+			　	<tr>
+					<td align="center" colspan="2"><input type="button" id="addRows"　name="addRows"  onClick="addRow_withInsert();" value="添加行"/></td>
+				</tr>
+			</table>
+	 	</div>
+	 	<div>
+		 	<table width="800px" border="1px" align="center">
+				<tr>
+					<td>从第<input type="text" id="beginRow" name="beginRow"  value=""/>行到<input type="text"  name="endRow"  id="endRow" value=""/>行</td><td rowspan="2"  id="test"><input type="button" name="hebing" id="hebing" value="合并" onClick="rebulid();"/></td>
+				</tr>
+			　　<tr>
+					<td>从第<input type="text" name="beginCol" id="beginCol" value=""/>列到<input type="text" name="endCol" id="endCol" value=""/>列</td>
+				</tr>
+			</table>
+	 	</div>
+	</body>
+</html>

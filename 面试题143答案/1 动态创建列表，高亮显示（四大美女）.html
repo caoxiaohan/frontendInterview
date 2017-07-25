@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        ul{
+            list-style: none;
+        }
+        li {
+            color: green;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <button id="btn">创建列表</button>
+    <ul id="oUl"></ul>
+
+    <script>
+        //需求：点击列表，添加四大美女，然后鼠标放到谁上面，谁高亮显示。
+        var arr = ["昭君出塞","西施浣纱","贵妃醉酒","貂蝉拜月"];
+        btn.onclick = function () {
+            for(var i=0;i<arr.length;i++){
+                var newLi = document.createElement("li");
+                newLi.innerHTML += (i+1)+" "+arr[i];
+                newLi.index=i;
+                oUl.appendChild(newLi);
+            }
+        }
+        var lis = oUl.children,preIndex=0;
+        oUl.onmouseover=function(e){
+            e=e||window.event;
+            e.target=e.target||e.srcElement;
+            if(e.target.nodeName.toUpperCase()==="LI"){
+                lis[preIndex].style.backgroundColor = "";
+                e.target.style.backgroundColor = "red";
+                preIndex=e.target.index;
+            }
+        }
+        oUl.onmouseout=function(e){
+            e=e||window.event;
+            e.target=e.target||e.srcElement;
+            if(e.target.nodeName.toUpperCase()==="LI"){
+                lis[preIndex].style.backgroundColor = "";
+            }
+        }
+
+
+    </script>
+
+
+</body>
+</html>

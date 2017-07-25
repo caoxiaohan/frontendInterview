@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Window对象</title>
+</head>
+<body>
+	<div id="example"></div>
+	<script>
+		txt = "<p>窗口是否已关闭: " + window.closed + "</p>";
+		txt+= "<p>窗口状态栏默认文本: " + window.defaultStatus + "</p>";
+		txt+= "<p>document对象的只读属性: " + window.document + "</p>";
+		txt+= "<p>窗口文档显示区的高度: " + window.innerheight + "</p>";
+		txt+= "<p>窗口文档显示区的宽度: " + window.innerwidth + "</p>";
+		txt+= "<p>窗口中的框架数量: " + window.length + "</p>";
+		txt+= "<p>窗口或对象的location对象: " + window.location + "</p>";
+		txt+= "<p>设置或返回窗口的名称: " + window.name + "</p>";
+		txt+= "<p>Navigator对象的只读引用: " + window.Navigator + "</p>";
+		txt+= "<p>返回对创建此窗口的窗口的引用: " + window.opener + "</p>";
+		txt+= "<p>窗口的外部高度: " + window.outerheight + "</p>";
+		txt+= "<p>窗口的外部宽度: " + window.outerwidth + "</p>";
+		txt+= "<p>设置或返回当前页面相对于窗口显示区左上角的 X 位置: " + window.pageXOffset + "</p>";
+		txt+= "<p>设置或返回当前页面相对于窗口显示区左上角的 Y 位置: " + window.pageYOffset + "</p>";
+		txt+= "<p>返回父窗口: " + window.parent + "</p>";
+		txt+= "<p>对 Screen 对象的只读引用: " + window.Screen + "</p>";
+		txt+= "<p>返回对当前窗口的引用,等价于 Window 属性: " + window.self + "</p>";
+		txt+= "<p>设置窗口状态栏的文本: " + window.status + "</p>";
+		txt+= "<p>返回最顶层的先辈窗口: " + window.top + "</p>";
+		txt+= "<p>window 属性等价于 self 属性，它包含了对窗口自身的引用: " + window.window + "</p>";
+		txt+= "<p>窗口的左上角在屏幕上的的 x 坐标(IE、Safari 和 Opera): " + window.screenLeft + "</p>";
+		txt+= "<p>窗口的左上角在屏幕上的的 x 坐标(Firefox和Safari): " + window.screenX + "</p>";
+		txt+= "<p>窗口的左上角在屏幕上的的 Y 坐标(IE、Safari和Opera): " + window.screenTop + "</p>";
+		txt+= "<p>窗口的左上角在屏幕上的的 Y 坐标(Firefox和Safari): " + window.screenY + "</p>";
+		document.getElementById("example").innerHTML=txt;
+	</script>
+</body>
+</html>

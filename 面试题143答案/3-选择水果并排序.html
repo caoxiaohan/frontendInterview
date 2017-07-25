@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        select {
+            width: 150px;
+            height: 200px;
+            background-color: pink;
+        }
+    </style>
+</head>
+<body>
+<form id="oForm">
+    <select size="10" name="l" id="left" multiple="multiple">
+        <option value="0">1香蕉</option>
+        <option value="1">2苹果</option>
+        <option value="2">3大鸭梨</option>
+        <option value="3">4草莓</option>
+    </select>
+    <input type="button" value=">>>"/>
+    <input type="button" value="<<<"/>
+    <input type="button" value=">"/>
+    <input type="button" value="<"/>
+    <select size="10" name="r" id="right" multiple="multiple"></select>
+</form>
+
+<script>
+    //需求：点击按钮把对应的选中项移动到另一侧。
+    oForm.onclick=function(e){
+        e=e||window.event;
+        var target =e.target||e.srcElement;
+        switch(target.value){
+            case ">>>":
+                sel(left,right);
+                break;
+            case "<<<":
+                sel(right,left);
+                break;
+            case ">":
+                sel(left,right,true);
+                break;
+            case "<":
+                sel(right,left,true);
+                break;
+        }
+    }
+    //选择水果
+    function sel(left,right,flag){
+         var opts = left.children;
+         for(var i=0;i<opts.length;){
+            if(flag){
+                if(opts[i].selected){
+                    opts[i].selected=false;
+                    right.appendChild(opts[i]);
+                    break;
+                }
+                i++;
+            }else{
+                right.appendChild(opts[i]);
+            }            
+        }
+        sort(right);
+    }
+    //排序,from为es6的新方法，将类数组转换成数组。
+    function sort(ele){
+        var ary = Array.from(ele.children).sort(function (a,b) {
+            return a.value-b.value;
+        });
+        for (var i = 0; i < ary.length; i++) {
+             ele.appendChild(ary[i]);
+        }
+    }
+</script>
+
+</body>
+</html>
