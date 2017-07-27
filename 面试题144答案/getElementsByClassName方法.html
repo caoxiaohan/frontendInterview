@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+    <p>获取样式为b e的列表并高亮显示</p>
+    <ul>
+    	<li class="a b c">a b c</li>
+    	<li class="a b d">a b d</li>
+    	<li class="a b e">a b e</li>
+    	<li  class="b c d">b c d</li>
+    	<li class="a b c d">a b c d</li>
+    	<li class="a b c d e">e d c b a</li>
+    </ul>
+	<script type="text/javascript">
+	     //从一组元素eles中选出包含某一个类名strClass的元素
+	    function getEle(strClass,eles){//获取只包括一个类的函数
+	      var a=[];
+	      var reg=new RegExp('\\b'+strClass+'\\b');
+	      for(var i=0;i<eles.length;i++){     
+	          if(reg.test(eles[i].className)){
+	            a.push(eles[i]);      
+	          }
+	      }
+	      return a;
+	    }
+	    //通过类名获取一组元素。类名可以是多个，比如第一个参数是"a1 a2 a3",则表示获取类名即是a1,还要是a2,a3的元素（交集）
+	    Document.prototype.myGetElementsByClassName=function (strClass){
+	       if(this.getElementsByClassName){
+	         return this.getElementsByClassName(strClass);
+	       }
+	       var aClass=[];
+	       aClass=strClass.split(' ');   
+	       var eles=this.getElementsByTagName('*');
+	       for(var i=0;i<aClass.length;i++){ 
+	            if(aClass[i].replace(/^\s+|\s+$/g,'').length>0) 
+	              eles=getEle(aClass[i],eles);
+	        }
+	        return eles;      
+	    }
+	    var lis = document.myGetElementsByClassName("b e");
+	    for(var i=0;i<lis.length;i++){
+	    	lis[i].style.backgroundColor="red";
+	    }
+  </script>       
+</body>
+</html>

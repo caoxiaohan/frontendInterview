@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>面试题144答案</title>
+</head>
+<body>
+    <h3>
+       面试题144 为何要进行url编码？哪些url字符需要编码，哪些url字符不需要编码?举例说url 编码和解码的几种方式的区别？
+    </h3>
+    <pre>
+一 、为何要进行url编码？
+     1 兼容处理非ASCII字符
+       不能在Url中包含任何非ASCII字符，例如中文。
+       因为浏览器默认支持的字符集不同，中文可能会造成乱码。
+       如果地址栏中包含中文，会经过编码后再会用统一的ASCII字符显示。
+     2 避免歧义（字符安全）。
+     例如：   
+      url：www.bofuwa.com?name=cxh&id=001 
+      从url中获取参数值的方法是从=后获取值，针对这个链接有两种情况
+      1).参数有两个name和id，值分别是cxh和001
+      2).参数只有一个name 值为cxh&id=001
+      显然这样会造成歧义。
+      为了避免歧义，我们需要就必须要讲值中的“=”或者“&”等特殊符号用其他符号代替，防止对=后面取值的方式造成影响，这个代替过程就是编码。
+      以第二种情况为例，进行URL的utf8编码后得到：
+      url：www.bofuwa.com?name=cxh%26id%3D001
+     3 保护数据隐私
+       url中可能包含隐私数据，如果表单get方式提交数据之间显示在地址栏过于直观，编码后一定程度保护数据隐私。
+
+二、哪些url字符需要编码，哪些url字符不需要编码?
+    1 url中不需要编码的字符
+      1.1 url中只允许包含英文字母（a-zA-Z）、数字（0-9）、-_.~4个特殊字符
+      1.2 所有保留字符（当这些保留字表示原有特殊含义时）
+          RFC3986中指定了以下字符为保留字符：! * ' ( ) ; : @ & = + $ , / ? # [ ]
+    2 url中需要编码的字符
+      除了上述字符之外的字符均需要编码，仅列举部分：
+      2.1 不安全字符（当普通数据中包含保留字时）：
+          还有一些字符，当他们直接放在Url中的时候，可能会引起解析程序的歧义。
+          2.1.1 字符（:/?#[]@）是用作分隔不同组件的。 
+          		例如：冒号用于分隔协议和主机，/用于分隔主机和路径，?用于分隔路径和查询参数，等等。
+          2.1.2 字符（!$&'()*+,;=）用于在每个组件中起到分隔作用的，如=用于表示查询参数中的键值对，&符号用于分隔查询多个键值对。
+      2.2 空格：
+           Url在传输的过程，或者用户在排版的过程，或者文本处理程序在处理Url的过程，都有可能引入无关紧要的空格，或者将那些有意义的空格给去掉。
+      2.3 引号以及<>：
+          引号和尖括号通常用于在普通文本中起到分隔Url的作用
+      2.4 #：
+          通常用于表示书签或者锚点
+      2.5 %：
+          百分号本身用作对不安全字符进行编码时使用的特殊字符，因此本身需要编码
+      2.6 {}|\^[]`~：
+          某一些网关或者传输代理会篡改这些字符
+
+三、举例说url 编码和解码的几种方式的区别？
+    1、escape 和 unescape
+      1.1 escape编码
+	      安全字符：0-9 A-Z a-z * @ - _ + . / 
+	      编码规则：1）ASCII字符：ASCII字符的两位十六进制数字，前面加上%
+	                2）非ASCII字符：unicode字符的4位十六进制数字，前面加上%u
+	      使用场合：这个方法是针对字符串使用的，不适用于URL。
+	      编码1：escape('http://www.bofuwa.com?name=cxh&email=hr@bofuwa.com')
+	　　　结果1："http%3A//www.bofuwa.com%3Fname%3Dcxh%26email%3Dhr@bofuwa.com"
+	　　　编码2：escape('曹')
+	　　　结果2："%u66F9"
+	  1.2 unesacpe解码
+          解码1：unescape("http%3A//www.bofuwa.com%3Fname%3Dcxh%26email%3Dhr@bofuwa.com")
+　　　    结果1："http://www.bofuwa.com?name=cxh&email=hr@bofuwa.com"
+　　　    解码2：unescape("%u66F9")
+　　　	  结果2："曹"
+     2、encodeURI 和 decodeURI
+       2.1 encodeURI编码
+          安全字符：0-9 A-Z a-z  - _ . ! ~ * ' ( )  ：;/?:@&=+$,#　　     
+          编码规则：1）ASCII字符：ASCII字符的两位十六进制数字，前面加上%
+	                2）非ASCII字符：采用UTF-8编码，每两位十六进制前面加上%
+	      适用场合：如果你需要编码整个URL，然后需要使用这个URL，那么用encodeURI
+                   encodeURI()是Javascript中真正用来对URL编码的函数。
+          编码1：encodeURI('http://www.bofuwa.com?name=cxh&email=hr@bofuwa.com')
+　　　    结果1："http://www.bofuwa.com?name=cxh&email=hr@bofuwa.com"
+		  编码2：encodeURI('曹')
+	　　　结果2："%E6%9B%B9"
+       2.2 decodeURI解码
+		 解码1：decodeURI("http%3A//www.bofuwa.com%3Fname%3Dcxh%26email%3Dhr@bofuwa.com")
+　　　   结果1："http%3A//www.baidu.com%3Fname%3Dzhang@xiao@jie%26order%3D1"
+         解码2：decodeURI("%E6%9B%B9")
+　　　	 结果2："曹"
+	3、encodeURIComponent 和 decodeURIComponent
+	   3.1 encodeURIComponent编码
+           安全字符： 0-9 A-Z a-z - _ . ! ~ * ' ( )
+           编码规则：1）ASCII字符：ASCII字符的两位十六进制数字，前面加上%
+	                2）非ASCII字符：采用UTF-8编码，每两位十六进制前面加上%
+	       使用场合：encodeURIComponent被用作对URI的一个组件进行编码
+		   编码1：encodeURIComponent('http://www.bofuwa.com?name=cxh&email=hr@bofuwa.com')
+           结果1："http%3A%2F%2Fwww.bofuwa.com%3Fname%3Dcxh%26email%3Dhr%40bofuwa.com"
+           编码2：encodeURIComponent('曹')
+	　　　 结果2："%E6%9B%B9"
+       3.2 decodeURIComponent解码
+           解码：decodeURIComponent("http%3A%2F%2Fwww.baidu.com%3Fname%3Dzhang%40xiao%40jie%26order%3D1")
+　　　	   结果："http://www.baidu.com?name=zhang@xiao@jie&order=1"
+		   解码2：decodeURIComponent("%E6%9B%B9")
+	　　　 结果2："曹"
+
+    </pre>
+</body>
+</html>
