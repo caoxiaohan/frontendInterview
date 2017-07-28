@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>手动焦点轮播图</title>
+<style type="text/css">
+	*{margin: 0;padding: 0;}	
+	#outer{position: relative;overflow:hidden;margin:10px auto;width: 600px;height: 400px;box-shadow:0 0 8px #ccc;}
+	#inner{position: absolute;z-index:1;width: 3600px;height: 400px;}
+	#inner div{ width:600px; height:400px; float:left; text-align:center; line-height:400px; font-size:100px;color:red }
+	#btn{position:absolute;z-index:3;left:0;bottom:10px;width: 600px;text-align: center;}
+	#btn span{display:inline-block;background:#eee;margin-left: 5px;width: 10px;height: 10px;border-radius:50%;cursor:pointer;}
+	#btn span:hover,
+	#btn span.on{background:red;}
+	.arrow{position:absolute;z-index:2;opacity:0.4;width: 40px;height: 40px;line-height: 40px;background:#000;text-decoration: none;font-size: 20px;color: #fff;text-align: center;}
+	.arrow:hover{opacity:0.6;}
+	#outer .arrow{display:none;}
+	#outer:hover .arrow{display:block;}
+	#prev{left:10px;top:50%;margin-top: -20px;}
+	#next{right:10px;top:50%;margin-top: -20px;}
+</style>
+</head>
+<body>
+<div id="outer">
+	<div id="inner" style="left:0;">
+        <div style="background:pink;">1</div>
+        <div style="background:green;" >2</div>
+        <div style="background:gray" >3</div>
+        <div style="background:orange" >4</div>
+        <div style="background:purple" >5</div>
+    	<div style="background:pink">1</div>	   
+	</div>
+	<div id="btn">
+		<span class="on"></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+	</div>
+	<a href="#" class="arrow" id="prev">&lt;</a>
+	<a href="#" class="arrow" id="next">&gt;</a>
+</div>
+
+<script type="text/javascript">
+var outer=document.getElementById('outer');
+var inner=document.getElementById('inner');
+var prev=document.getElementById('prev');
+var next=document.getElementById('next');
+var oSpans=document.getElementById('btn').getElementsByTagName("span"); //获取所有焦点
+var index=0; 
+function getCss(ele,attr){
+	if(window.getComputedStyle){
+		return parseFloat(getComputedStyle(ele,null)[attr]);	
+	}else{
+		if(attr=="opacity"){
+			var reg=/alpha\(opacity=(\d+(?:\.\d+)?)\)/;
+			if(reg.test(ele.style.filter)){
+				return RegExp.$1/100;
+			}else{
+				return 1;
+			}
+		}else{
+			return parseFloat(ele.currentStyle[attr]); 
+		}
+	}
+}
+function setCss(curEle, attr, value) {
+    var reg = /^(width|height|top|left|right|bottom|((margin|padding)(Left|Top|Right|Bottom)?))$/;
+    if (attr === "opacity") {
+        curEle["style"]["opacity"] = value;
+        curEle["style"]["filter"] = "alpha(opacity=" + value * 100 + ")";
+    } else if (attr === "float") {
+        curEle["style"]["cssFloat"] = value; //标准
+        curEle["style"]["styleFloat"] = value; //IE
+    } else if (reg.test(attr)) {
+        curEle["style"][attr] = /^[+-]?(\d|[1-9]\d+)(\.\d+)?$/.test(value) ? value + "px" : value;       
+    } else {
+        curEle["style"][attr] = value;
+    }
+};
+
+//当前div走的距离/需要走的总距离=当前消耗的时间/总时间
+function animate(ele,dire,target,duration){
+    window.clearInterval(inner.timer);  //但连续点击过快时，可清除动画积累  
+	var begin=getCss(ele,dire);
+	var change=target-begin;
+	var times=0;
+	var interval=15;
+	function step(){      
+		times+=interval;
+		if(times<duration){			
+			var val=times/duration*change+begin;
+			setCss(ele,dire,val);
+		}else{
+             //取消所有焦点的类样式，取消所有高亮显示。
+			 for(var i=0;i<oSpans.length;i++){
+		         oSpans.item(i).className="";		
+	         }
+            //给当前图片对应的焦点增加类样式，使得对应焦点高亮显示。
+            if(index>4){
+                 oSpans[0].className="on"
+            }else{
+                 oSpans[index].className="on";
+            }
+            setCss(ele,dire,target);           
+			window.clearInterval(inner.timer);                   
+		}
+       
+	}
+	inner.timer=window.setInterval(step,interval);   
+}
+
+
+//6张图片，索引小于0或大于5时再做越界判断。
+//当到达右边界(1.jpg)第六张时，下一步瞬间显示同名图片(1.jpg)第一张，动画切换到右侧相邻图片(2.jpg)第二张。
+next.onclick=function(){     
+	index++;
+	if(index>5){ //index=6,上一次index=5，上次图片已停留在第六张(1.jpg)。      
+		index=1;   //index修改为第二张图片(2.jpg)，为从第一张图片(1.jpg)向第二张图片(2.jpg)过渡动画做准备。
+		setCss(inner,'left',0); //从第六张图片(1.jpg)瞬间切换到第一张图(1.jpg)，两种图片相同均为1.jpg
+	}
+	animate(inner,"left",-600*index,1000); //从第一张图片(1.jpg)向第二张图片(2.jpg)过渡动画
+}
+
+//当到达左边界(1.jpg)第一张时，下一步瞬间切换到同名图片(1.jpg)第六张，动画切换到左侧相邻图片(5.jpg)第五张。
+prev.onclick=function(){      
+	index--;
+	if(index<0){//本次index=-1,上一次index=0，上次图片已停留在第一张(1.jpg)。       
+		index=4; ////index修改为第五张图片(5.jpg)，为从第六张图片(1.jpg)向第五张图片(5.jpg)过渡动画做准备。
+		setCss(inner,'left',-3000); //从第一张图片(1.jpg)瞬间切换到第六张图片(1.jpg)，两张图片相同均为1.jpg。
+	}
+	animate(inner,"left",-600*index,1000);//从第六张图片(1.jpg)向第五张图片(5.jpg)过渡动画
+}
+
+</script>
+
+</body>
+</html>

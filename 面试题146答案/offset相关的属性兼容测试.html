@@ -1,0 +1,87 @@
+<!doctype html>
+<html id="html">
+<head>
+<meta charset="utf-8">
+<title>盒子原理相关的属性</title>
+<style type="text/css">
+*{
+	margin:0px;
+	padding: 0px;
+	clear: both
+}
+html{
+	margin:7px;
+	padding:6px;	
+	border:5px gray solid;
+}
+
+body{
+	margin:12px;
+	padding:14px;
+	border:4px green solid;
+}
+div#outer{ width:300px;height:200px; margin:100px;border:10px pink dashed;padding:40px; background:yellow;}
+div#inner{width:150px;height:100px; margin:50px;border:5px red dashed;padding:20px; background:blue;overflow: hidden;}
+</style>	
+<script type="text/javascript" src="珠峰版offset.js"></script>
+<script type="text/javascript" src="正确版offset.js"></script>
+</head>
+<body id="body">
+<div id="outer">
+	<div id="inner">
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+	</div>
+</div>
+
+</body>
+</html>
+<script>
+
+
+
+
+
+
+//inner的父元素设置定位，则找到最接近inner的设置过定位的父元素
+console.log("<--inner的父元素设置定位，则找到最接近inner的设置过定位的父元素-->");
+outer.style.position = "relative"; //设置定位后，outer和inner才会产生偏移量的父子关系
+console.log("outer.style.position: ",outer.style.position);
+console.log("inner.offsetLeft: ",inner.offsetLeft);//90 , 40(outer的padding-left)+50(inner的margin-left)
+console.log("inner.offsetTop: ",inner.offsetTop);//90, 40(outer的padding-top)+50(inner的margin-top),  IE7及其以下版本50
+console.log("inner.offsetParent: ",inner.offsetParent.id);//outer
+//浏览器下测试结果为：
+console.log("珠峰版：",offset(inner)); 
+console.log("正确版：",utils.offset(inner)); 
+
+//inner的父元素没有设置定位，则找到body
+console.log("<------inner的父元素没有设置定位，则找到body------>");
+outer.style.position = "static"; 
+console.log("outer.style.position: ",outer.style.position);
+console.log("inner.offsetLeft: ",inner.offsetLeft);//241  141(outer.offsetLeft)+10(outer.clientLeft)+90(直接父元素设置过定位的inner.offsetLeft值)，,  IE7及其以下版本90 50
+console.log("inner.offsetTop: ",inner.offsetTop);//241 141(outer.offsetLeft)+10(outer.clientLeft)+90(直接父元素设置过定位的inner.offsettop值)，, IE7及其以下版本50
+console.log("inner.offsetParent: ",inner.offsetParent.id);//body
+
+
+//浏览器下测试结果为：
+console.log("珠峰版：",offset(inner)); 
+console.log("正确版：",utils.offset(inner)); 
+
+console.log(inner.style.left); 
+console.log(utils.getCss(inner,"left")); 
+
+</script>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>面试题146答案</title>
+</head>
+<body>
+    <h3>
+     面试题146 offset 家族各属性的含义和计算规则,可读性么？默认情况下所有的元素的offsetParent是什么，offsetParent和parentNode之间有什么关系，什么情况下offsetParent会改变不再是body？offsetLeft/offsetTop的兼容问题？获取offsetLeft/offsetTop的兼容写法？offsetTop /offsetLeft和style.top/style.left 的区别？动画原理?
+    </h3>
+    <pre>
+一、offset 家族各属性的含义和计算规则,可读性么？
+    offset家族的属性都是只读的。
+    <div id="outer">  
+        <div id="inner">  
+            <div id="center" style="padding:11px 12px;border: 3px solid red; width: 400px;height: 300px"></div>  
+        </div>  
+    </div> 
+    <script type="text/javascript">
+      var outer = document.getElementById("outer"),  
+        inner = document.getElementById("inner"),  
+        center = document.getElementById("center");  
+    </script> 
+    1 offsetWidth/offsetHeight（只读属性）
+      offsetWidth/offsetHeight=clientWidth/clientHeight + 左右/上下边框 （和内容是否溢出没有关系）(包含border)
+      offsetWidth/offsetHeight=width/height + 左右padding/上下padding+左右/上下边框 
+       <script type="text/javascript">
+        console.log(center.offsetWidth);   //430
+        console.log(center.offsetHeight);   //328
+        console.log(center.clientWidth);   //424 
+        console.log(center.clientHeight);   //322
+      </script>
+    2 offsetParent
+      当前元素的父级参照物，在同一个平面中，最外层的元素是里面所有元素的父级参照物（和html层级结构没有必然的联系）
+      ● 一般来说一个页面中所有元素的父级参照物都是body
+      <script type="text/javascript">
+        console.log(center.offsetParent);   //body  
+        console.log(inner.offsetParent);    //body  
+        console.log(outer.offsetParent);    //body  
+        console.log(document.body.offsetParent);    //null 
+      </script>
+      ● 想要改变父级参照物需要通过position定位来进行改变:absolute,relative,fixed中任意一个值都可以把父级参照物进行修改
+      <script type="text/javascript">
+        outer.style.position = "relative";  
+        inner.style.position = "relative";  
+        console.log(center.offsetParent);   //inner  
+        console.log(inner.offsetParent);    //outer  
+        console.log(outer.offsetParent);    //body  
+      </script>
+    3 offsetLeft/offsetTop（只读属性）
+      当前元素（外边框）距离其父级参照物（内边框）的偏移距离
+      <script type="text/javascript">
+        console.log(center.offsetLeft); //距离body左偏移距离  
+        console.log(inner.offsetLeft);  //距离body左偏移距离  
+        console.log(outer.offsetLeft);  //距离body左偏移距离 
+        outer.style.position = "relative";  
+        inner.style.position = "relative";  
+        console.log(center.offsetLeft); //距离inner左偏移距离   
+      </script>
+
+二、默认情况下所有的元素的offsetParent是什么，offsetParent和parentNode之间有什么关系，什么情况下offsetParent会改变不再是body？
+    默认情况下所有的元素的offsetParent是body.
+    当父元素的position值为:absolute,relative,fixed中任意一个值时，offsetParent变成parentNode。
+    当父元素或者祖先元素做了定位时，offsetParent会改变不再是body，而是最近接自己的祖先元素。
+    注意：IE7及其以下版本浏览器，存在兼容问题，见下一题。
+
+三、offsetLeft/offsetTop的兼容问题？
+    1 IE7及其以下版本浏览器，如果自身没有定位，不管父元素是否定位，offsetParent总是parentNode。
+    2 IE6~IE7版本浏览器，如果自身设置了定位，不管父元素是否定位，offsetParent总是html。
+    3 IE5浏览器，如果自身设置了定位，不管父元素是否定位，offsetParent总是body。
+    4 标准浏览器，不管自身是否定位，如果父级或祖先元素设置了定位，则offsetParent是最近定位的父级元素。
+    5 标准浏览器，不管自身是否定位，如果父级或祖先元素没有定位，则offsetParent是body。
+    6 IE8及其以上IE浏览器，如果父级或祖先元素没有定位，offsetLeft计算的是当前元素外边距到屏幕可视区间最左侧的距离。
+    7 chrome/safari/opera浏览器，如果父级或祖先元素没有定位，offsetLeft计算的是当前元素外边距到html外边距的距离，不包含html的marginLeft值。
+    8 chrome/safari/opera浏览器，如果父级或祖先元素没有定位，offsetLeft计算的是当前元素外边距到html外边距的距离同时还要减去boder的左边框宽度，不包含html的marginLeft值和body的borderLeft值。
+    9 IE8及其以上IE浏览器和所有非IE浏览器，如果父级或祖先元素有定位，offsetLeft计算的是当前元素外边距到最近定位父级元素内边距之间的距离。
+
+四、获取offsetLeft/offsetTop的兼容写法？
+    见《正确版offset.js》
+    计算规则统一为跟IE高版本浏览器一致
+    1 当父级元素存在定位时，计算当前元素外边框到最近定位父级元素内边框的距离   
+    2 当父级元素不做定位时，计算当前元素外边框到浏览器原点的垂直距离。
+
+五、offsetTop /offsetLeft和style.top/style.left 的区别？
+    style.top/style.left的本质就是定位，详见《定位》文件夹
+    1 offsetLeft的特点
+      1.1 offsetLeft是DOM元素的直接属性，形式如inner.offsetLeft
+      1.2 offsetLeft只读，不可写。
+      1.3 offsetLeft返回的值为数值类型，不带单位。
+      1.4 offsetLeft目的是用来计算元素的偏移量，而不是为了移动或定位元素。
+           IE8及其以上版本浏览器的计算规则最合理为：
+           1.4.1 当父级元素存在定位时，计算当前元素外边框到最近定位父级元素内边框的距离   
+           1.4.2 当父级元素不做定位时，计算当前元素外边框到浏览器原点的垂直距离。
+    2 style.left的特点
+      2.1 left是style的属性，形式如inner.style.left
+      2.2 style.left可读写
+          2.2.1、读取值有局限性，style.left只能读取行内样式
+          2.2.2、style.left更常用的功能是用来设置值，并不用来读取值。
+          2.2.3、获取样式的left值，用getComputedStyle方法或currentStyle属性代替
+                 标准浏览器下形式如：getComputedStyle(inner, null).left
+                 IE浏览器下形式为：inner.currentStyle.left
+      2.3、style.left返回的值为字符串类型
+          2.3.1 当没有设置行内样式时，返回的值为空字符串""
+          2.3.2 当设置了行内样式时，返回的值为字符串单位为px，如"13px"
+      2.4 style.left用来移动或定位元素，表示当前元素左上角的x坐标距离参照点的x坐标的距离。
+          2.4.1 当前元素没有设置定位时，style.left值不起作用
+          2.4.2 当前元素设置了相对定位时，参照点是当前元素的左上角，元素相对自己原来的位置向左移动style.left距离
+          2.4.3
+          当前元素设置了绝对定位时，相对于最近的已定位祖先元素，如果元素没有已定位的祖先元素，那么它的位置相对于最初的包含块。参照点是定位祖先元素或包含块的左上角。
+          2.4.4 当前元素设置了相对定位时，元素相对于浏览器窗口进行定位，参照点是浏览器视窗的左上角。
+          
+六、动画原理?
+    动画其实是 “位移”关于“时间”的函数：s=f(t)
+    以运输直线运动为例：
+    当前方块的位置=需要走的总距离*当前消耗的时间/总时间+起始位置
+             y =c*t/d + b;
+    </pre>
+</body>
+</html>
