@@ -1,0 +1,43 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+.tab{
+    width: 402px;
+    margin: 50px auto;
+    overflow: hidden;
+    height: 230px;
+}
+ul,li{
+    list-style: none;
+
+}
+.tab .tab_menu>ul{
+
+    padding: 1px;
+    overflow: hidden;
+}
+.tab .tab_menu li{
+    float: left;
+    border: 1px solid black;
+    margin-right: 10px;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    width: 50px;
+    cursor: pointer;
+    border-bottom: none;
+    -webkit-user-select: none;
+    position: relative;
+    top: 1px;
+    left: -1px;
+}
+.tab .tab_box>div{
+    width: 400px;
+    height: 200px;
+    border: 1px solid black;
+    border-top: pink;
+}
+.selected{
+    background-color: pink;
+}

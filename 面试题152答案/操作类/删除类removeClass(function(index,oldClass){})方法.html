@@ -1,0 +1,36 @@
+<html>
+<head>
+<meta charset="utf-8">
+	<script type="text/javascript" src="../jquery-1.11.1.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+	  $("button").click(function(){
+	  	$("p").removeClass(function (index,old){
+	  		if(!old) $("p:eq("+index+")").addClass('main');
+	  		else return old;
+	  	});
+	  });
+	});
+	</script>
+	<style type="text/css">
+	.intro
+	{
+	font-size:120%;
+	color:red;
+	}
+	.main
+	{
+	font-size:90%;
+	color:blue;
+	}
+	</style>
+</head>
+
+<body>
+	<h1>This is a heading</h1>
+	<p class="intro">This is a paragraph.</p>
+	<p>This is another paragraph.</p>
+	<p>This is another paragraph.</p>
+	<button>改变第一个段落的类</button>
+</body>
+</html>

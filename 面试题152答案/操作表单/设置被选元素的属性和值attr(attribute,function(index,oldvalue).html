@@ -1,0 +1,27 @@
+<html>
+<head>
+<meta charset="utf-8">
+<script type="text/javascript" src="../jquery-1.11.1.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $("button").click(function(){
+    $("img").attr("width",function(n,v){
+      return v-50;
+    });
+  });
+});
+</script>
+</head>
+<body>
+<img src="eg_smile.gif" width="128" height="128" />
+<br />
+<button>减少图像的宽度 50 像素</button>
+</body>
+</html>
+
+
+
+
+
+
+

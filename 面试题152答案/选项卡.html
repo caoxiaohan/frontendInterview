@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>选项卡</title>
+    <link type="text/css" href="选项卡.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="tab">
+        <div class="tab_menu">
+            <ul>
+                <li class="selected">时事</li>
+                <li>体育</li>
+                <li>娱乐</li>
+            </ul>
+        </div>
+        <div class="tab_box">
+            <div class="selected">时事</div>
+            <div>体育</div>
+            <div>娱乐</div>
+        </div>
+    </div>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script >
+        $(function(){
+            var $div_li=$("div.tab_menu ul li");
+            $div_li.click(function(){
+                $(this).addClass("selected")//当前元素li高亮
+                        .siblings().removeClass("selected")//去掉其他同辈li元素高亮
+            var index=$div_li.index(this);//获取当前元素的索引
+                $("div.tab_box>div")    //  选取子节点
+                        .eq(index).addClass("selected").show()//显示li对应的div
+                        .siblings().hide();//隐藏兄弟li对应的div
+            });
+        })
+    </script>
+</body>
+</html>

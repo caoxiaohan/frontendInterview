@@ -1,0 +1,855 @@
+
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>面试题152答案</title>
+</head>
+<body>
+    <h3>
+  面试题152 jQuery的特点?jQuery如何操作样式？jQuery各如何操作类？jQuery隐藏演示动画用法？jQuery入划入划出动画用法？jQuery淡入淡出动画用法？jQuery自定义动画用法？jQuery停止动画用法？jQuery如何操作节点？jQuery如何操作form表单？jQuery如何操作尺寸位置？
+附加题：写一个jQuery版选项卡
+    </h3>
+    <pre>
+一、jQuery的特点?
+    1.一款轻量级的js框架。
+	  JQuery核心js文件才几十kb，不会影响页面加载速度。与Extjs相比要轻便的多。
+	2.丰富的DOM选择器(CSS1-3 + XPath)
+	  JQuery的选择器用起来很方便，好比要找到某个dom对象的相邻元素js可能要写好几行代码，而JQuery一行代码就搞定了，再比如要将一个表格的隔行变色，JQuery也是一行代码搞定。
+	3.链式表达式。
+	  JQuery的链式操作可以把多个操作写在一行代码里，更加简洁。
+	4.事件、样式、动画支持。
+	  JQuery还简化了js操作css的代码，并且代码的可读性也比js要强。
+	5.Ajax操作支持。
+	  JQuery简化了AJAX操作，后台只需返回一个JSON格式的字符串就能完成与前台的通信。
+	6.跨浏览器兼容。
+	  JQuery基本兼容了现在主流的浏览器，不用再为浏览器的兼容问题而伤透脑筋。
+	7.插件扩展开发。
+	  JQuery有着丰富的第三方的插件，例如：树形菜单、日期控件、图片切换插件、弹出窗口等等基本前台页面上的组件都有对应插件，并且用JQuery插件做出来的效果很炫，并且可以根据自己需要去改写和封装插件，简单实用。
+	8.可扩展性强。
+	  JQuery提供了扩展接口：JQuery.extend(object),可以在JQuery的命名空间上增加新函数。JQuery的所有插件都是基于这个扩展接口开发的。
+	9.隐式迭代
+	  可以获取所有元素，遍历索引和相关值
+	  <script type="text/javascript">
+        	$("div").click(function() {
+			  $(this).css(
+			    "width", function(index, value) {return parseFloat(value) * 2;}
+			  );
+			});//将获取的所有样式的原来的宽度乘以2倍。
+        </script>
+
+二、jQuery如何操作样式？
+    jQuery操作样式用 css() 方法
+    1 定义
+      css() 方法设置或返回被选元素的一个或多个样式属性。
+    2 获取css样式
+      2.1 语法：css("propertyname");
+      2.2 参数	描述
+		  name	必需。规定 CSS 属性的名称。该参数可包含任何 CSS 属性。比如 "color"。
+      2.2 示例：
+          <script type="text/javascript">
+          		$("p").css("background-color");//返回首个匹配元素的 background-color 值：
+          </script>
+    3 设置css样式
+      3.1 语法：css("propertyname","value");
+      3.2 参数	描述
+		name	必需。规定 CSS 属性的名称。该参数可包含任何 CSS 属性，比如 "color"。
+		value	
+		可选。规定 CSS 属性的值。该参数可包含任何 CSS 属性值，比如 "red"。
+		如果设置了空字符串值，则从元素中删除指定属性。
+      3.3 示例：
+          <script type="text/javascript">
+          		$("p").css("background-color","yellow");//子将为所有匹配元素设置 background-color 值：
+          </script>
+    4 设置多个css样式
+      4.1 语法：css({"propertyname":"value","propertyname":"value",...});
+      4.2 参数	描述
+		{property:value}	
+		必需。规定要设置为样式属性的“名称/值对”对象。
+		该参数可包含若干对 CSS 属性名称/值。比如 {"color":"red","font-weight":"bold"}
+      4.3 示例：
+      	  <script type="text/javascript">
+      	  		$("p").css({
+				  "color":"white",
+				  "background-color":"#98bf21",
+				  "font-family":"Arial",
+				  "font-size":"20px",
+				  "padding":"5px"
+				  });//把“名/值对”对象设置为所有匹配元素的样式属性。
+      	  </script>
+   5 使用函数设置css样式
+     5.1 语法：$(selector).css(name,function(index,value))
+     5.2 参数	描述
+		name	必需。规定 CSS 属性的名称。该参数可包含任何 CSS 属性，比如 "color"。
+		function(index,value)	
+		规定返回 CSS 属性新值的函数。
+		index - 可选。接受选择器的 index 位置
+		oldvalue - 可选。接受 CSS 属性的当前值。
+     5.3 示例：
+        <script type="text/javascript">
+        	$("div").click(function() {
+			  $(this).css(
+			    "width", function(index, value) {return parseFloat(value) * 2;}
+			  );
+			});//将获取的所有样式的原来的宽度乘以2倍。
+        </script>
+
+三、jQuery如何操作类？
+    1 添加类
+      1.1 定义和用法
+          addClass() 方法向被选元素添加一个或多个类。
+          该方法不会移除已存在的 class 属性，仅仅添加一个或多个 class 属性。
+      1.2 提示：如需添加多个类，请使用空格分隔类名。
+      1.3 参数为字符串时：
+          1.3.1 语法：$(selector).addClass(class)
+          1.3.2 参数	描述
+                class	必需。规定一个或多个 class 名称。
+          1.3.3 示例： 
+                见《操作类/添加类addClass(class)方法.html》
+     1.4 参数为函数时：
+          1.4.1 语法：$(selector).addClass(function(index,oldclass))
+          1.4.2 参数	描述				
+				function(index,oldclass)	
+				必需。规定返回一个或多个待添加类名的函数。
+				index - 可选。选择器的 index 位置。
+				class - 可选。选择器的旧的类名。
+          1.4.3 示例： 
+                见《操作类/添加类addClass(function(index,oldclass){})方法.html》 
+    2 移除类
+      2.1 定义和用法
+		  removeClass() 方法从被选元素移除一个或多个类。
+      2.2 注释：如果没有规定参数，则该方法将从被选元素中删除所有类。
+      2.3 参数为字符串时
+          2.3.1 语法
+		        $(selector).removeClass(class)
+          2.3.2 参数	描述
+				class	
+				可选。规定要移除的 class 的名称。
+				如需移除若干类，请使用空格来分隔类名。
+				如果不设置该参数，则会移除所有类。
+          2.3.3 示例：
+                <script type="text/javascript">
+                	$(selector).removeClass(class);//移除指定的类
+                	$(selector).removeClass();//不加参数移除所有的类
+                </script>
+                见《操作类/删除类removeClass(class)方法.html》
+      2.4 参数为函数时
+          2.3.1 语法
+		        $(selector).removeClass(function(index,oldclass))
+          2.3.2 参数	描述
+				function(index,oldclass)	
+				必需。通过运行函数来移除指定的类。
+				index - 可选。接受选择器的 index 位置。
+				oldclass - 可选。接受选择器的旧的类值。
+          2.3.3 示例：
+                <script type="text/javascript">
+                	$(selector).removeClass(class);//移除指定的类
+                	$(selector).removeClass();//不加参数移除所有的类
+                </script>
+                见《操作类/删除类removeClass(function(index,oldclass){})方法.html》 
+    3 判断是否存在类
+      3.1 定义和用法
+	      hasClass() 方法检查被选元素是否包含指定的 class。
+      3.2 语法
+          $(selector).hasClass(class)
+	  3.3 参数	描述
+		  class	必需。规定需要在指定元素中查找的类。
+      3.4 示例： 
+          <script type="text/javascript">
+          		$("button").click(function(){
+				  alert($("p:first").hasClass("intro"));
+				});
+          </script>
+    4 切换类，有则删除，没有则添加
+      4.1 定义和用法
+		  toggleClass() 对设置或移除被选元素的一个或多个类进行切换。
+		  该方法检查每个元素中指定的类。如果不存在则添加类，如果已设置则删除之。这就是所谓的切换效果。
+          不过，通过使用 "switch" 参数，您能够规定只删除或只添加类。
+      4.2 第一个参数字符串时
+          4.2.1 语法
+				$(selector).toggleClass(class,switch)
+		  4.2.2 参数	描述
+				class	
+				必需。规定添加或移除 class 的指定元素。
+				如需规定若干 class，请使用空格来分隔类名。
+				switch	可选。布尔值。规定是否添加或移除 class。
+		  4.2.3 示例：
+		        见《操作类/切换类toggleClass(class,switch)方法.html》
+      4.3 第一个参数函数时
+          4.3.1 语法
+				$(selector).toggleClass(function(index,class),switch)
+		  4.3.2 参数	描述
+				function(index,class)	
+				必需。规定返回需要添加或删除的一个或多个类名的函数。
+				index - 可选。接受选择器的 index 位置。
+				class - 可选。接受选择器的当前的类。
+				switch	可选。布尔值。规定是否添加(true)或移除(false)类。
+		  4.3.3 示例：
+		        见《操作类/切换类toggleClass(function(index,class),switch)方法.html》
+
+
+四、jQuery隐藏显示动画用法？
+    当speed传值时，从上至下，从左到右逐渐显示。从下至上，从右到左逐渐隐藏。
+    当不传参数时，则直接显示或隐藏，没有渐变的动画效果。
+    1 显示动画show方法
+      1.1 定义和用法
+		  如果被选元素已被隐藏，则显示这些元素：
+	  1.2 语法
+			$(selector).show(speed,callback)
+	  1.3 参数	描述
+		  1.3.1 speed	
+			可选。规定元素从隐藏到完全可见的速度。默认为 "0"。
+			可能的值：
+			毫秒 （比如 1500）
+			"slow"
+			"normal"
+			"fast"
+			在设置速度的情况下，元素从隐藏到完全可见的过程中，会逐渐地改变其高度、宽度、外边距、内边距和透明度。
+		  1.3.2 callback	
+			可选。show 函数执行完之后，要执行的函数。
+			除非设置了 speed 参数，否则不能设置该参数。
+      1.4 提示和注释
+		  提示：如果元素已经是完全可见，则该效果不产生任何变化，除非规定了 callback 函数。
+		  注释：该效果适用于通过 jQuery 隐藏的元素，或在 CSS 中声明 display:none 的元素（但不适用于 visibility:hidden 的元素）。
+	  1.5 实例
+	      见《动画/显示show隐藏hide动画.html》
+    2 隐藏动画hide方法
+      2.1 定义和用法
+		  如果被选的元素已被显示，则隐藏该元素。
+      2.2 语法
+          $(selector).hide(speed,callback)
+      2.3 参数	描述
+		  2.3.1 speed	
+				可选。规定元素从可见到隐藏的速度。默认为 "0"。
+				可能的值：
+				毫秒 （比如 1500）
+				"slow"
+				"normal"
+				"fast"
+				在设置速度的情况下，元素从可见到隐藏的过程中，会逐渐地改变其高度、宽度、外边距、内边距和透明度。
+		  2.3.2 callback	
+				可选。hide 函数执行完之后，要执行的函数。
+				除非设置了 speed 参数，否则不能设置该参数。
+      2.4 提示和注释
+           提示：如果元素已经是完全可见，则该效果不产生任何变化，除非规定了 callback 函数。
+      2.5 实例
+	      见《动画/显示show隐藏hide动画.html》
+
+五、jQuery滑入滑出动画用法？
+    卷帘门效果，向下拉下来就是显示，向上卷起就是隐藏。
+    即使不传参数，第一个参数默认值也为400ms
+    1 滑入动画slideDown() 
+      1.1 定义和用法
+	      slideDown() 方法通过使用滑动效果，显示隐藏的被选元素。
+      1.2 语法
+          $(selector).slideDown(speed,callback)
+      1.3 参数	描述
+		  1.3.1 speed	
+		        可选。规定元素从隐藏到可见的速度（或者相反）。默认为 "normal"。
+				可能的值：
+				毫秒 （比如 1500）
+				"slow"
+				"normal"
+				"fast"
+				在设置速度的情况下，元素从隐藏到可见的过程中，会逐渐地改变其高度。
+		  1.3.2 callback	
+		        可选。slideDown 函数执行完之后，要执行的函数。
+		        除非设置了 speed 参数，否则不能设置该参数。
+      1.4 提示和注释
+		  提示：如果元素已经是完全可见，则该效果不产生任何变化，除非规定了 callback 函数。
+		  注释：该效果适用于通过 jQuery 隐藏的元素，或在 CSS 中声明 display:none 的元素（但不适用于 visibility:hidden 的元素）。
+	  1.5 示例：
+	      见《动画/滑入slideUp滑出slideDown动画.html》
+    2 滑出动画slideUp()
+      2.1 定义和用法
+		  通过使用滑动效果，隐藏被选元素，如果元素已显示出来的话。
+      2.2 语法
+		  $(selector).slideUp(speed,callback)
+      2.3 参数	描述
+		  2.3.1 speed	
+			可选。规定元素从可见到隐藏的速度（或者相反）。默认为 "normal"。
+			可能的值：
+			毫秒 （比如 1500）
+			"slow"
+			"normal"
+			"fast"
+			在设置速度的情况下，元素从可见到隐藏的过程中，会逐渐地改变其高度（这样会创造滑动效果）。
+		  2.3.2 callback	
+			可选。slideUp 函数执行完之后，要执行的函数。
+			除非设置了 speed 参数，否则不能设置该参数。
+	  2.4 提示和注释
+		  提示：如果元素已经隐藏，则该效果不产生任何变化，除非规定了 callback 函数。
+	  2.5 示例：
+	      见《动画/滑入slideUp滑出slideDown动画.html》
+
+六、jQuery淡入淡出动画用法？
+    1 淡入动画
+      1.1 定义和用法
+          fadeIn() 方法使用淡入效果来显示被选元素，假如该元素是隐藏的。
+      1.2 语法
+          $(selector).fadeIn(speed,callback)
+      1.3 参数	描述
+		  1.3.1 speed	
+				可选。规定元素从隐藏到可见的速度。默认为 "normal"。
+				可能的值：
+				毫秒 （比如 1500）
+				"slow"
+				"normal"
+				"fast"
+				在设置速度的情况下，元素从隐藏到可见的过程中，会逐渐地改变其透明度（这样会创造淡入效果）。
+		  1.3.2 callback	
+				可选。fadeIn 函数执行完之后，要执行的函数。
+				除非设置了 speed 参数，否则不能设置该参数。
+      1.4 提示和注释
+		  提示：如果元素已经显示，则该效果不产生任何变化，除非规定了 callback 函数。
+		  注释：该效果适用于通过 jQuery 隐藏的元素，或在 CSS 中声明 display:none 的元素（但不适用于 visibility:hidden 的元素）。
+	  1.5 实例
+	      《动画/淡入fadeIn淡出fadeOut动画.html》
+	2 淡出动画
+      2.1 定义和用法
+          fadeOut() 方法使用淡出效果来隐藏被选元素，假如该元素是隐藏的。
+      2.2 语法
+          $(selector).fadeOut(speed,callback)
+      2.3 参数	描述
+		  2.3.1 speed	
+				可选。规定元素从隐藏到可见的速度。默认为 "normal"。
+				可能的值：
+				毫秒 （比如 1500）
+				"slow"
+				"normal"
+				"fast"
+				在设置速度的情况下，元素从隐藏到可见的过程中，会逐渐地改变其透明度（这样会创造淡入效果）。
+		  2.3.2 callback	
+				可选。fadeOut 函数执行完之后，要执行的函数。
+				除非设置了 speed 参数，否则不能设置该参数。
+      2.4 提示和注释
+		  提示：如果元素已经显示，则该效果不产生任何变化，除非规定了 callback 函数。
+		  注释：该效果适用于通过 jQuery 隐藏的元素，或在 CSS 中声明 display:none 的元素（但不适用于 visibility:hidden 的元素）。
+	  2.5 实例
+	      《动画/淡入fadeIn淡出fadeOut动画.html》
+	3 淡入淡出切换动画
+	  3.1 定义和用法
+          jQuery fadeToggle() 方法可以在 fadeIn() 与 fadeOut() 方法之间进行切换。
+			如果元素已淡出，则 fadeToggle() 会向元素添加淡入效果。
+			如果元素已淡入，则 fadeToggle() 会向元素添加淡出效果。
+      3.2 语法
+          $(selector).fadeToggle(speed,callback);
+      3.3 参数	描述
+		  可选的 speed 参数规定效果的时长。它可以取以下值："slow"、"fast" 或毫秒。
+          可选的 callback 参数是 fading 完成后所执行的函数名称。
+	  3.4 实例
+	      《动画/淡入淡出切换fadeToggle动画.html》
+
+   
+七、jQuery自定义动画用法？
+    1 定义和用法
+      animate() 方法执行 CSS 属性集的自定义动画。
+      该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+      只有数字值可创建动画（比如 "margin:30px"）。字符串值无法创建动画（比如 "background-color:red"）。
+      注释：使用 "+=" 或 "-=" 来创建相对动画（relative animations）。
+    2 语法 1
+      $(selector).animate(styles,speed,easing,callback)
+    3 参数	描述
+      3.1 styles	
+		必需。规定产生动画效果的 CSS 样式和值。
+		可能的 CSS 样式值（提供实例）：
+		backgroundPosition
+		borderWidth
+		borderBottomWidth
+		borderLeftWidth
+		borderRightWidth
+		borderTopWidth
+		borderSpacing
+		margin
+		marginBottom
+		marginLeft
+		marginRight
+		marginTop
+		outlineWidth
+		padding
+		paddingBottom
+		paddingLeft
+		paddingRight
+		paddingTop
+		height
+		width
+		maxHeight
+		maxWidth
+		minHeight
+		minWidth
+		font
+		fontSize
+		bottom
+		left
+		right
+		top
+		letterSpacing
+		wordSpacing
+		lineHeight
+		textIndent
+		注释：CSS 样式使用 DOM 名称（比如 "fontSize"）来设置，而非 CSS 名称（比如 "font-size"）。
+      3.2 speed	
+		可选。规定动画的速度。默认是 "normal"。
+		可能的值：
+		毫秒 （比如 1500）
+		"slow"
+		"normal"
+		"fast"
+      3.3 easing	
+		可选。规定在不同的动画点中设置动画速度的 easing 函数。
+		内置的 easing 函数：
+		swing
+		linear
+		扩展插件中提供更多 easing 函数。
+     3.4 callback	
+		可选。animate 函数执行完之后，要执行的函数。
+		如需学习更多有关 callback 的内容，请访问我们的 jQuery Callback 这一章。
+    4 语法 2
+		$(selector).animate(styles,options)
+    5 参数	描述
+      5.1 styles	必需。规定产生动画效果的 CSS 样式和值（同上）。
+      5.2 options	
+		可选。规定动画的额外选项。
+		可能的值：
+		speed - 设置动画的速度
+		easing - 规定要使用的 easing 函数
+		callback - 规定动画完成之后要执行的函数
+		step - 规定动画的每一步完成之后要执行的函数
+		queue - 布尔值。指示是否在效果队列中放置动画。如果为 false，则动画将立即开始
+		specialEasing - 来自 styles 参数的一个或多个 CSS 属性的映射，以及它们的对应 easing 函数
+     6 实例 
+       见《动画/自定义动画animate.html》
+
+八、jQuery停止动画用法？
+    1 定义和用法
+	  stop() 方法停止当前正在运行的动画。
+    2 语法
+      $(selector).stop(stopAll,goToEnd)
+    3 参数	描述
+      stopAll	可选。规定是否停止被选元素的所有加入队列的动画。
+      goToEnd   可选。规定是否允许完成当前的动画。
+                      该参数只能在设置了 stopAll 参数时使用。
+    4 实例1：停止所有加入队列的动画，不允许完成当前动画。
+              $("#box").stop(true);
+      实例2，停止由于加入队列的对胡，允许完成当前动画。
+              $("#box").stop(true,true);
+      见《动画/停止动画stop.html》
+    
+
+九、jQuery如何操作节点？
+    1 $()动态创建元素 
+      1.1 创建新的元素
+           1.1.1 语法：jQuery(html,[ownerDocument])
+           1.1.2 实例
+                 $("<p id="test">My <em>new</em> text</p>").appendTo("body");
+      1.2 设置属性和事件
+           1.2.1 语法：jQuery(html,props)
+           1.2.2 实例：
+                 <script type="text/javascript">
+                 	$("<input>", {
+					  type: "text",
+					  val: "Test",
+					  focusin: function() {
+					    $(this).addClass("active");
+					  },
+					  focusout: function() {
+					    $(this).removeClass("active");
+					  }
+					}).appendTo("form");
+                 </script>                 
+    2 html()创建元素
+      2.1 定义和用法
+		  html() 方法返回或设置被选元素的内容 (inner HTML)。
+		   如果该方法未设置参数，则返回被选元素的当前内容。
+	  2.2 返回元素内容
+		  当使用该方法返回一个值时，它会返回第一个匹配元素的内容。
+		  2.2.1 语法
+		        $(selector).html()
+		  2.2.2 实例
+		        见《操作节点/返回元素内容html().html》
+	  2.3 设置元素内容
+          当使用该方法设置一个值时，它会覆盖所有匹配元素的内容。
+          2.3.1 语法
+                $(selector).html(content)
+          2.3.2 参数	描述
+                content	可选。规定被选元素的新内容。该参数可包含 HTML 标签。
+          2.3.3 实例
+                见《操作节点/设置元素内容html(content).html》
+      2.4 使用函数来设置元素内容
+          使用函数来设置所有匹配元素的内容。
+          2.4.1 语法
+                $(selector).html(function(index,oldcontent))
+          2.4.2 参数	描述
+				function(index,oldcontent)	
+				规定一个返回被选元素的新内容的函数。
+				index - 可选。接收选择器的 index 位置。
+				oldcontent - 可选。接收选择器的当前内容。
+		  2.4.3 实例
+		  	    见《操作节点/设置元素内容html(function(index,oldcontent)).html》
+    3 添加插入元素
+      3.1 append
+          3.1.1 定义和用法
+                append() 方法在被选元素的结尾（仍然在内部）插入指定内容。
+          3.1.2 提示：append() 和 appendTo() 方法执行的任务相同。不同之处在于：内容的位置和选择器。
+          3.1.3 当参数为字符串时
+               3.1.3.1 语法
+                       $(selector).append(content)
+		       3.1.3.2 参数	描述
+                       content	必需。规定要插入的内容（可包含 HTML 标签）。
+               3.1.3.3 实例
+                       见《操作节点/元素结尾添加子元素append.html》
+          3.1.4 当参数为函数时
+               3.1.4.1 语法
+                       $(selector).append(function(index,html))
+		       3.1.4.2 参数	描述
+						function(index,html)	
+						必需。规定返回待插入内容的函数。
+						index - 可选。接收选择器的 index 位置。
+						html - 可选。接收选择器的当前 HTML。
+               3.1.4.3 实例
+                       见《操作节点/元素结尾添加子元素append(function(index,html)).html》
+
+      3.2 appendTo
+          3.2.1 定义和用法
+                appendTo() 方法在被选元素的结尾（仍然在内部）插入指定内容。
+		  3.2.2 提示：append() 和 appendTo() 方法执行的任务相同。不同之处在于：内容和选择器的位置，以及 append() 能够使用函数来附加内容。
+		  3.2.3 语法
+			   $(content).appendTo(selector)
+		  3.2.4 参数	描述
+				content	必需。规定要插入的内容（可包含 HTML 标签）。
+				selector	必需。规定把内容追加到哪个元素上。
+		  3.2.5 实例
+		        见《操作节点/元素结尾添加子元素appendTo》
+	  3.3 prepend
+	      3.3.1 定义和用法
+                prepend() 方法在被选元素的开头（仍位于内部）插入指定内容。
+          3.3.2 提示：prepend() 和 prependTo() 方法作用相同。差异在于语法：内容和选择器的位置，以及 prependTo() 无法使用函数来插入内容。
+		  3.3.3 当参数为字符串时 
+		        3.3.3.1 语法
+		              $(selector).prepend(content)
+		        3.3.3.2 参数	描述
+		              content	必需。规定要插入的内容（可包含 HTML 标签）。
+		        3.3.3.3 示例
+		              见《操作节点/元素开头添加子元素prepend.html》
+		  3.3.4 当参数为函数时 
+		        3.3.4.1 语法
+		              $(selector).prepend(function(index,html))
+		        3.3.4.2 参数	描述
+		              function(index,html)	
+						必需。规定返回待插入内容的函数。
+					    index - 可选。接受选择器的 index 位置。
+						html - 可选。接受选择器的当前 HTML。
+		        3.3.4.3 示例
+		              见《操作节点/元素开头添加子元素prependTo (function(index,html){})》
+	  3.4 prependTo
+	      3.4.1 定义和用法
+                prependTo() 方法在被选元素的开头（仍位于内部）插入指定内容。
+          3.4.2 提示：prepend() 和 prependTo() 方法作用相同。差异在于语法：内容和选择器的位置，以及 prepend() 能够使用函数来插入内容。
+          3.4.3 语法
+                 $(content).prependTo(selector)
+          3.4.4 参数	描述
+				content	必需。规定要插入的内容（可包含 HTML 标签）。
+				selector	必需。规定在何处插入内容。
+		  3.4.5 实例
+		        见《操作节点/元素开头添加子元素prependTo》
+	  3.5 after
+	      3.5.1 定义和用法
+				after() 方法在被选元素后插入指定的内容。
+		  3.5.2 当参数为字符串时
+				3.5.2.1 语法
+				        $(selector).after(content)
+				3.5.2.2 参数	描述
+				        content	必需。规定要插入的内容（可包含 HTML 标签）。
+				3.5.2.3 实例
+				        见《操作节点/元素后面添加弟弟元素after.html》
+	      3.5.3 当参数为函数时
+				3.5.2.1 语法
+				       $(selector).after(function(index))
+				3.5.2.2 参数	描述
+						function(index)	
+						必需。规定返回待插入内容的函数。
+						index - 可选。接收选择器的 index 位置。
+				3.5.2.3 实例
+				        见《操作节点/元素后面添加弟弟元素after(function(index)).html》
+	  3.6 before
+	      3.6.1 定义和用法
+				before() 方法在被选元素前插入指定的内容。
+		  3.6.2 当参数为字符串时
+				3.6.2.1 语法
+				        $(selector).before(content)
+				3.6.2.2 参数	描述
+				        content	必需。规定要插入的内容（可包含 HTML 标签）。
+				3.6.2.3 实例
+				        见《操作节点/元素前面添加哥哥元素before.html》
+	      3.6.3 当参数为函数时
+				3.6.2.1 语法
+				       $(selector).before(function(index))
+				3.6.2.2 参数	描述
+						function(index)	
+						必需。规定返回待插入内容的函数。
+						index - 可选。接收选择器的 index 位置。
+				3.6.2.3 实例
+				        见《操作节点/元素前面添加哥哥元素before(function(index).html》
+
+    4 复制元素
+      4.1 定义和用法
+          clone() 方法生成被选元素的副本，包含子节点、文本和属性。
+      4.2 语法
+           $(selector).clone(includeEvents)
+      4.3 参数	描述
+          includeEvents	
+		  可选。布尔值。规定是否复制元素的所有事件处理。
+		  默认地，副本中不包含事件处理器。
+	  4.4 实例
+	      见《操作节点/复制元素clone.html》
+    5 清空元素
+      假设调用该方法的元素的含有垃圾的垃圾桶
+      5.1 empty 保留垃圾桶只倒掉里面的垃圾
+          5.1.1 定义和用法
+                empty() 方法从被选元素移除所有内容，包括所有文本和子节点。
+          5.1.2 语法
+                $(selector).empty()
+          5.1.3 实例
+                见《操作节点/清空元素empty.html》
+      5.2 remove 连垃圾桶和垃圾一起扔了。
+          5.2.1 定义和用法
+                remove() 方法移除被选元素，包括所有文本和子节点。
+                该方法不会把匹配的元素从 jQuery 对象中删除，因而可以在将来再使用这些匹配的元素。
+                 但除了这个元素本身得以保留之外，remove() 不会保留元素的 jQuery 数据。其他的比如绑定的事件、附加的数据等都会被移除。这一点与 detach() 不同。
+          5.2.2 语法
+                 $(selector).remove()
+          5.2.3 实例
+                见《操作节点/删除元素remove.html》
+
+十、jQuery如何操作form表单？
+    1 attr设置自定义属性
+      1.1 定义和用法
+          attr() 方法设置或返回被选元素的属性值。
+          根据该方法不同的参数，其工作方式也有所差异。
+      1.2 获取属性值
+          返回被选元素的属性值。
+          1.2.1 语法
+                 $(selector).attr(attribute)
+		  1.2.2 参数	        描述
+			   attribute	规定要获取其值的属性。
+		  1.2.3 实例
+		       见《操作表单/返回属性的值attr.html》
+	  1.3 设置属性/值
+          设置被选元素的属性和值。
+           1.3.1 语法
+                 $(selector).attr(attribute,value)
+		   1.3.2 参数	描述
+				attribute	规定属性的名称。
+				value	规定属性的值。
+		   1.3.3 实例
+		        见《操作表单/设置被选元素的属性和值attr(attribute,value)》
+	  1.4 使用函数来设置属性/值
+		  设置被选元素的属性和值。
+		  1.4.1 语法
+		        $(selector).attr(attribute,function(index,oldvalue))
+		  1.4.2 参数	描述
+				attribute	规定属性的名称。
+				function(index,oldvalue)	
+				规定返回属性值的函数。
+				该函数可接收并使用选择器的 index 值和当前属性值。
+		  1.4.3 实例 
+		        见《操作表单/设置被选元素的属性和值attr(attribute,function(index,oldvalue)》
+	  1.5 设置多个属性/值对
+          为被选元素设置一个以上的属性和值。
+          1.5.1 语法
+                 $(selector).attr({attribute:value, attribute:value ...})
+		  1.5.2 参数	描述
+		        attribute:value	规定一个或多个属性/值对。
+		  1.5.3 实例 
+		        见《操作表单/设置多个属性/值对attr({attribute:value, attribute:value ...})》
+    2 prop设置表单自带的属性
+      用法同attr，返回值会有所不同。
+      2.1 定义和用法
+		prop() 方法设置或返回被选元素的属性和值。
+		当该方法用于返回属性值时，则返回第一个匹配元素的值。
+		当该方法用于设置属性值时，则为匹配元素集合设置一个或多个属性/值对。
+      2.2 注意：prop() 方法应该用于检索属性值，例如 DOM 属性（如 selectedIndex, tagName, nodeName, nodeType, ownerDocument, defaultChecked, 和 defaultSelected）。
+         提示：如需检索 HTML 属性，请使用 attr() 方法代替。
+         提示：如需移除属性，请使用 removeProp() 方法。
+      2.3 语法
+		 返回属性的值：
+		 $(selector).prop(property)
+		 设置属性和值：
+		 $(selector).prop(property,value)
+		 使用函数设置属性和值：
+		 $(selector).prop(property,function(index,currentvalue))
+		 设置多个属性和值：
+		 $(selector).prop({property:value, property:value,...})
+	  2.4 参数	描述
+		  property	规定属性的名称。
+		  value	规定属性的值。
+		  function(index,currentvalue)	规定返回要设置的属性值的函数。
+		  index - 检索集合中元素的 index 位置。
+		  currentvalue - 检索被选元素的当前属性
+	  2.5 实例
+    3 removeAttr移除属性
+      3.1 定义和用法
+           removeAttr() 方法从被选元素中移除属性。
+      3.2 语法
+           $(selector).removeAttr(attribute)
+	  3.3 参数	描述
+		  attribute	必需。规定从指定元素中移除的属性。
+	  3.4 实例
+	      见《操作表单/移除属性removeAttr(attribute).html》
+	4 val设置或返回表单元素的value值
+	  4.1 定义和用法
+         val() 方法返回或设置被选元素的值。
+         元素的值是通过 value 属性设置的。该方法大多用于 input 元素。
+          如果该方法未设置参数，则返回被选元素的当前值。
+      4.2 返回 Value 属性
+          返回第一个匹配元素的 value 属性的值。
+          4.2.1 语法
+                $(selector).val()
+          4.2.2 实例
+                见《操作表单/获取Value属性的值val().html》
+      4.3 设置 Value 属性的值
+          4.3.1 语法 
+                $(selector).val(value)
+	      4.3.2 参数	描述
+			    value	设置 Value 属性的值。
+		  4.3.3 实例
+		        见《操作表单/设置Value属性的值val(value)》
+	  4.4 使用函数设置 Value 属性的值
+          4.4.1 语法
+                $(selector).val(function(index,oldvalue))
+		  4.4.2 参数	描述
+				function(index,oldvalue)	
+				规定返回要设置的值的函数。
+				index - 可选。接受选择器的 index 位置。
+				oldvalue - 可选。接受选择器的当前 Value 属
+		  4.4.3 实例
+		        见《操作表单/设置Value属性的值val(function(index,oldvalue)).html》
+    5 text设置或获取文本内容
+      5.1 定义和用法
+          text() 方法方法设置或返回被选元素的文本内容。
+      5.2 返回文本内容
+          当该方法用于返回一个值时，它会返回所有匹配元素的组合的文本内容（会删除 HTML 标记）。
+          5.2.1 语法
+                $(selector).text()
+          5.2.2 实例
+                见《操作表单/返回文本内容text().html》
+      5.3 设置文本内容
+          当该方法用于设置值时，它会覆盖被选元素的所有内容。
+          5.3.1 语法
+                $(selector).text(content)
+          5.3.2 参数	描述
+                content	规定被选元素的新文本内容。注释：特殊字符会被编码。
+          5.3.3 实例
+                见《操作表单/设置文本内容text(content).html》
+      5.4 使用函数设置文本内容
+          使用函数设置所有被选元素的文本内容。
+          5.4.1 语法
+                $(selector).text(function(index,oldcontent))
+          5.4.2 参数	描述
+                function(index,oldcontent)	
+				必需。规定返回被选元素的新文本内容的函数。
+				index - 可选。接受选择器的 index 位置。
+				html - 可选。接受选择器的当前内容。
+		  5.4.3 实例
+		        见《操作表单/设置文本内容text(function(index,oldcontent)).html》
+
+十一、jQuery如何操作尺寸位置？
+    1 高度操作height() 
+      1.1 定义和用法
+		  height() 方法返回或设置匹配元素的高度。
+      1.2 返回高度
+          返回第一个匹配元素的高度。
+          如果不为该方法设置参数，则返回以像素计的匹配元素的高度。
+          1.2.1 语法
+                 $(selector).height()
+          1.2.2 实例
+                《尺寸位置/高度操作height().html》
+      1.3 设置高度
+	      设置所有匹配元素的高度。
+          1.3.1 语法
+                $(selector).height(length)
+		  1.3.2 参数	描述
+				length	
+				可选。规定元素的高度。
+				如果没有规定长度单位，则使用默认的 px 单位。
+		  1.3.3 实例
+		       《尺寸位置/设置高度height(length).html》
+	  1.4 使用函数来设置高度
+          使用函数来设置所有匹配元素的高度。
+          1.4.1 语法
+                $(selector).height(function(index,oldheight))
+          1.4.2 参数	描述
+				function(index,oldheight)	
+				规定返回被选元素新高度的函数。
+				index - 可选。接受选择器的 index 位置
+				oldvalue - 可选。接受选择器的当前值。
+		  1.4.3 实例
+		        《尺寸位置/设置高度height(function(index,oldheight)).html》
+    2 宽度操作width() 
+       同上
+    3 设置或获取元素相对于文档的位置offset()
+      3.1 定义和用法
+          offset() 方法返回或设置匹配元素相对于文档的偏移（位置）。
+      3.2 返回偏移坐标
+          返回第一个匹配元素的偏移坐标。
+          该方法返回的对象包含两个整型属性：top 和 left，以像素计。此方法只对可见元素有效。
+          3.2.1 语法
+                 $(selector).offset()
+          3.2.2 实例
+                《尺寸位置/返回偏移坐标offset().html》
+      3.3 设置偏移坐标
+          设置所有匹配元素的偏移坐标。
+          3.3.1 语法
+                $(selector).offset(value)
+          3.3.2 参数	描述
+				value	
+				必需。规定以像素计的 top 和 left 坐标。
+				可能的值：
+				值对，比如 {top:100,left:0}
+				带有 top 和 left 属性的对象
+		  3.3.3 实例
+		        《尺寸位置/设置偏移坐标offset(value).html》
+	  3.4 使用函数来设置偏移坐标
+          使用函数来设置所有匹配元素的偏移坐标。
+          3.4.1 语法
+                $(selector).offset(function(index,oldoffset))
+          3.4.2 参数	描述
+				function(index,oldoffset)	
+				规定返回被选元素新偏移坐标的函数。
+				index - 可选。接受选择器的 index 位置
+				oldvalue - 可选。接受选择器的当前坐标。
+		  3.4.3 实例
+		        《尺寸位置/设置偏移坐标offset(function(index,oldoffset)).html》
+    4 获取最近定位父元素的位置position() 
+      4.1 定义和用法
+          position() 方法返回匹配元素相对于父元素的位置（偏移）。
+          该方法返回的对象包含两个整型属性：top 和 left，以像素计。
+          此方法只对可见元素有效。
+      4.2 语法
+          $(selector).position()
+      4.3 实例
+         《尺寸位置/设置偏移坐标position().html》
+    5 获取或设置垂直滚动的距离scrollTop() 
+      5.1 定义和用法
+		  scrollTop() 方法返回或设置匹配元素的滚动条的垂直位置。
+		  scroll top offset 指的是滚动条相对于其顶部的偏移。
+		  如果该方法未设置参数，则返回以像素计的相对滚动条顶部的偏移。
+      5.2 语法
+          $(selector).scrollTop(offset)
+      5.3 参数	描述
+		  offset	可选。规定相对滚动条顶部的偏移，以像素计。
+	  5.4 提示和注释
+		  注释：该方法对于可见元素和不可见元素均有效。
+		  注释：当用于获取值时，该方法只返回第一个匹配元素的 scroll top offset。
+		  注释：当用于设置值时，该方法设置所有匹配元素的 scroll top offset。
+	  5.5 实例
+	      《尺寸位置/获取或设置垂直滚动的距离scrollTop().html》
+    6 获取或者只水平滚动的距离scrollLeft() 
+      同上
+    7 尺寸相关方法对比
+      width() - 设置或返回元素的宽度
+	  height() - 设置或返回元素的高度
+	  innerWidth() - 返回元素的宽度（包含 padding）
+	  outerWidth() - 返回元素的宽度（包含 padding 和 border）
+	  outerHeight() - 返回元素的高度（包含 padding 和 border）
+</body>
+</html>

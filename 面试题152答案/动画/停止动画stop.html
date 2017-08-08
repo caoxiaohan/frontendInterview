@@ -1,0 +1,29 @@
+<html>
+<head>
+<meta charset="utf-8">
+<script type="text/javascript" src="../jquery-1.11.1.min.js"></script>
+<script type="text/javascript"> 
+$(document).ready(function(){
+  $("#start").click(function(){
+    $("#box").animate({height:500},2000);
+    $("#box").animate({width:800},2000);
+    $("#box").animate({height:100},2000);
+    $("#box").animate({width:100},2000);
+  });
+  $("#stop").click(function(){
+  	//$("#box").stop(true,true);
+    $("#box").stop(true);
+  });
+});
+</script>
+</head>
+
+<body>
+
+<p><button id="start">Start Animation</button><button id="stop">Stop Animation</button></p>
+
+<div id="box" style="background:#98bf21;height:100px;width:100px;position:relative">
+</div>
+ 
+</body>
+</html>

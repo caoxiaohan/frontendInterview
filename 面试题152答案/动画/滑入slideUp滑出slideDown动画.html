@@ -1,0 +1,29 @@
+<html>
+<head>
+<meta charset="utf-8">
+<script type="text/javascript" src="../jquery-1.11.1.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $(".btn1").click(function(){
+  	$("p").slideUp();
+  });
+  $(".btn2").click(function(){
+	  $("p").slideDown(1000,showColor);
+	  $("p").css("background-color","red");
+  });
+});
+function showColor()
+{
+$("p").css("background-color","green");
+}
+</script>
+</head>
+<body>
+<p>This is a paragraph.</p>
+<p>This is a paragraph.</p>
+<p>This is a paragraph.</p>
+<p>This is a paragraph.</p>
+<button class="btn1">slideUp</button>
+<button class="btn2">slideDown</button>
+</body>
+</html>

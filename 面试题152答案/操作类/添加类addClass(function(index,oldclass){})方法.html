@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>learning notes</title>
+    <script src="../jquery-1.11.1.min.js"></script>
+</head>
+<style>
+    .selected0{
+        background: #008744;
+    }
+    .selected1{
+        background: #0057e7;
+    }
+    .selected2{
+        background: #d62d20;
+    }
+    .old{
+    	color: pink;
+    }
+</style>
+<body>
+    <ul>
+        <li class="old">Hello 1</li>
+        <li>Hello 2</li>
+        <li>Hello 3</li>
+    </ul>
+    <button>只给原来没有样式的li元素添加类</button>
+<script> 
+    $("button").click(function(){
+	    $('ul li').addClass(function(n,old){
+	    	if(!old)  return 'selected' + n;
+	    });
+    });
+</script>
+</body>
+</html>
