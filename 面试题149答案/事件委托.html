@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        li {
+            height: 30px;
+            line-height: 30px;
+            margin: 3px 0;
+            background-color: pink;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<button id="btn">创建1个li</button>
+<ul id="oUl">
+    <li>第1个li</li>
+    <li>第2个li</li>
+    <li>第3个li</li>
+    <li>第4个li</li>
+</ul>
+<script>
+
+    var oLis = document.getElementsByTagName("li");
+    var count = oLis.length;
+    btn.onclick = function () {
+        var newLi = document.createElement("li");
+            newLi.innerHTML = "第"+(++count)+"个li";
+            oUl.appendChild(newLi);
+    }
+
+    //事件委托
+    oUl.onclick = function (e) {
+        e = e || window.event;
+        var target = e.target||e.srcElement;
+        if(target.tagName === "LI") alert(target.innerText);
+    }
+
+
+
+</script>
+
+</body>
+</html>

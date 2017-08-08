@@ -1,0 +1,200 @@
+
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>面试题147答案</title>
+</head>
+<body>
+    <h3>
+     面试题147 scrollTop/scrollLeft、scrollWidth/scrollHeight, clientWidth/clientHeight的兼容问题及兼容写法？如何判断是否声明DTD? 举例说明window.scrollTo 的用法？图解scroll相关属性？scrollWidth/scrollHeight 可读写吗，scrollTop/scrollLeft可读写吗及其取值范围？举例说明缓动动画的原理？
+    </h3>
+    <pre>
+一、scrollTop/scrollLeft、scrollWidth/scrollHeight, clientWidth/clientHeight的兼容问题及兼容写法
+    1 浏览器窗口获取值时的兼容问题及兼容写法
+      1.1 scrollTop/scrollLeft
+          1.1.1 chrome/safari/opera/firefox/IE9&IE9+等标准浏览器获取scrollTop/scrollLeft的写法:
+                var scrollTop = window.pageYOffset;
+                hrome/safari/opera/firefox/IE9&IE9+等标准浏览器，不管是否声明DTD，不管采用哪种模式，都支持window.pageYOffset获得卷曲高度。
+          1.1.2 chrome/safari/opera/firefox等非IE浏览器获取scrollTop/scrollLeft的写法
+                var scrollTop = document.body.scrollTop;
+                或者var scrollTop = window.pageYOffset;
+                非IE浏览器，不管是否声明DTD，不管采用哪种模式，都支持document.body.scrollTop或者window.pageYOffset获得卷曲高度。
+          1.1.3 IE7及以上版本浏览器获取scrollTop/scrollLeft的写法
+                E7及以上版本浏览器,不管是否声明DTD，不管采用哪种模式，都支持document.document.documentElement.scrollTop来获得卷曲高度。
+                var scrollTop = document.documentElement.scrollTop;
+          1.1.4 IE7以下版本浏览器获取scrollTop/scrollLeft的写法
+                最新版Edge浏览器，不管是否声明DTD，IE5版本始终为怪异模式，只支持document.body.scrollTop获得卷曲高度。
+                var scrollTop = document.body.scrollTop;
+          1.1.5 最终全兼容写法：var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+      1.2 scrollWidth/scrollHeight（不推荐使用）
+          1.2.1 在chrome/safari/opera浏览器中（不论哪种模式）
+               document.documentElement.scrollHeight 和document.body.scrollHeight的值相同。
+          1.2.2 在firefox浏览器中（不论哪种模式）
+               取document.documentElement.scrollHeight的值
+          1.2.3 在IE7及其以上浏览器标（不论哪种模式）
+              取document.documentElement.scrollHeight的值
+          1.2.4 在IE7以下版本浏览器的怪异模式中
+              取document.body.scrollHeight
+          1.2.5 最终的兼容写法
+              <script type="text/javascript">
+                  function getScoll(){
+                  	 var top = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+                  	 var left = window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft;
+                  	 var isQ=(/MSIE\s(5.0|6.0|7.0)/.test(navigator.userAgent)&&document.compatMode==="BackCompat");
+              		 var height = isQ?document.body.scrollHeight:document.documentElement.scrollHeight;
+              		 var width = isQ?document.body.scrollWidth:document.documentElement.scrollWidth;
+              		 return {"left":left,"top":top,"width":width,"height":height}
+                  }              	
+              </script>
+      1.3 clientWidth/clientHeight
+         1.3.1 在chrome/safari/opera/firefox浏览器中
+               1.3.1.1 标准模式下
+                    取document.documentElement.clientHeight的值
+               1.3.1.2 怪异模式下
+                    取document.body.clientHeight的值
+         1.3.2 在IE7及其以上浏览器标（不论哪种模式）
+              取document.documentElement.clientHeight的值
+         1.3.3 在IE7以下版本浏览器的怪异模式中
+              取document.body.clientHeight的值
+              此时document.documentElement.clientHeight的值为0
+         1.3.4 最终的兼容写法
+              <script type="text/javascript">
+                  function getClient(){
+                  	 var height,width;
+                  	 if("ActiveXObject" in window){//IE浏览器
+	              		height=document.documentElement.clientHeight||document.body.clientHeight;
+	              		width=document.documentElement.clientWidth||document.body.clientWidth;
+	                 }else{
+	                 	var isQ=document.compatMode==="BackCompat";
+	                 	height=isQ?document.body.clientHeight:document.documentElement.clientHeight;
+	                 	width=isQ?document.body.clientWidth:document.documentElement.clientWidth;
+	                 }
+                     return {"width":width,"height":height};
+	                    
+                  }
+                 	
+              </script>
+    2 DOM元素计算规则的兼容问题
+       2.1 client系列(与是否有滚动条无关,只有IE6以下版本浏览器受内容是否溢出影响)
+        2.1.1 当没有滚动条时
+             2.1.1.1 标准浏览器、IE7及其以上版本浏览器
+                     //css盒模型表示法(inner.style的属性)
+				     clientWidth=paddingLeft+width+paddingRight;
+				     clientHeight=paddingTop+height+paddingBottom;
+			 2.1.1.2 IE6及其以下版本浏览器(没有内容溢出时)
+			         //css盒模型表示法(inner.style的属性)
+			 		 clientWidth=width-borderLeft-borderRight;
+				     clientHeight=height-borderTop-borderBottom;
+		     2.1.1.3 IE6及其以下版本浏览器(有内容溢出时，即内容的宽度大于width-borderLeft-borderRight-paddingLeft-paddingRight时)
+			         //css盒模型表示法(inner.style的属性)
+			 		 clientWidth=内容的宽度+paddingLeft+paddingRight;
+				     clientHeight=内容的高度+paddingTop+paddingBottom;
+	    2.1.2 当有滚动条时
+	         2.1.2.1 标准浏览器、IE8及其以上版本浏览器
+	         		 //css盒模型表示法(inner.style的属性)
+				     clientWidth=paddingLeft+width+paddingRight-17;//17是各种浏览器的滚动条默认宽度
+				     clientHeight=paddingTop+height+paddingBottom-17;
+		     2.1.2.2 IE7浏览器
+		              //css盒模型表示法(inner.style的属性)
+		             clientWidth=paddingLeft+width+paddingRight;
+				     clientHeight=paddingTop+height+paddingBottom;
+			 2.1.2.3 IE6及其以下版本浏览器
+			          //css盒模型表示法(inner.style的属性)
+			 		 clientWidth=width-borderLeft-borderRight;
+				     clientHeight=height-borderTop-borderBottom;
+	  2.2 offset系列(与是否有滚动条无关,只有IE6以下版本浏览器受内容是否溢出影响)
+	     2.2.1 标准浏览器、IE7及其以上版本浏览器
+	            //js盒模型表示法(inner的属性)
+			   offsetWidth=clientLeft+clientWidth+clientRight;
+			   offsetHeight=clientTop+clientHeight+clientBottom;
+			    //css盒模型表示法(inner.style的属性)
+			   offsetWidth=borderLeft+paddingLeft+width+paddingRight+borderRight;
+			   offsetHeight=borderTop+paddingTop+height+paddingBottom+borderBottom;
+		 2.2.2 IE6及其以下版本的浏览器(没有内容溢出)
+		        //css盒模型表示法(inner.style的属性)
+			   offsetWidth=width;
+			   offsetHeight=height;
+		 2.2.3 IE6及其以下版本浏览器(有内容溢出时，即内容的宽度大于width-borderLeft-borderRight-paddingLeft-paddingRight时)
+		 		//js盒模型表示法(inner的属性)
+			   offsetWidth=clientLeft+clientWidth+clientRight;
+			   offsetHeight=clientTop+clientHeight+clientBottom;
+		 		//css盒模型表示法(inner.style的属性)
+		      offsetWidth=内容的宽度+paddingLeft+paddingRight+borderLeft+borderRight;
+		      offsetHeight=内容的高度+paddingTop+paddingBottom+borderTop+borderBottom;
+	 2.3 scroll系列(与内容是否溢出有关，且受滚动条影响)
+	    2.3.1 当没有溢出时
+	          scrollWidth=clientWidth;
+	          scrollHeight=clientHeight;
+        2.3.2 当有溢出时
+              2.3.2.1 当没有滚动条时
+                      2.3.2.1.1 标准浏览器、IE7及其以上版本浏览器
+                                scrollWidth=paddingLeft+内容的宽度（包含溢出部分）
+                                sdrollHeight=paddingTop+内容的高度（包含溢出部分）
+                      2.3.2.2.2 IE6及其以下版本浏览器
+                                scrollWidth=clientWidth;
+	          					scrollHeight=clientHeight;
+	          2.3.2.2 当有滚动条时
+	                  2.3.2.1.1 当纵向滚动条不在最底部，横向滚动条不在最右侧时
+                                scrollWidth=paddingLeft+内容的宽度（包含溢出部分）+paddingRight
+                                srollHeight=paddingTop+内容的高度（包含溢出部分）+paddingBottom
+                      2.3.2.2.2 当纵向滚动条在最底部，横向滚动条在最右侧时
+                                scrollWidth=clientWidth+scrollLeft;
+	          					scrollHeight=clientHeight+scrollLeft;
+
+二、如何判断是否声明DTD?
+    1 document.compatMode属性（推荐）
+      控制台输入document.compatMode回车
+      如果返回结果是"CSS1Compat"，则说明是标准模式，进行了DTD声明
+      如果返回结果是"BackCompat"，则说明是怪异模式，没有进行了DTD声明 
+    2 看html文档首行
+      如果html稳定首行有<!Doctype 字样，则说明进行了DTD声明
+      如果html稳定首行没有<!Doctype 字样，则说明没有进行了DTD声明
+    3 默认值
+      非IE浏览器、IE7及其以上版本浏览器测试，document.compatMode的默认值均为"CSS1Compat"。
+      Edge浏览器切换到IE5模式，document.compatMode的默认值均为"BackCompat"。
+
+三、举例说明window.scrollTo 的用法？
+    1 定义和用法
+	  scrollTo() 方法可把内容滚动到指定的坐标。
+    2 语法
+      scrollTo(xpos,ypos)
+	3 参数	描述
+	  xpos	必需。要在窗口文档显示区左上角显示的文档的 x 坐标。
+	  ypos	必需。要在窗口文档显示区左上角显示的文档的 y 坐标。
+    4 实例
+      见附件《window.scrollTo.html》
+
+四、图解scroll相关属性？
+    见附件《滚动条相关scroll属性》，拖动滚动条时观察控制台输出结果。
+
+五、scrollWidth/scrollHeight 可读写吗，scrollTop/scrollLeft可读写吗及其取值范围？
+    1 scrollWidth/scrollHeight  （只读属性）
+	 1.1 容器中内容没有溢出的情况下：和我们的clientWidth/clientHeight一模一样
+	 1.2 如果容器中内容有溢出，获取的结果如下规则：
+		 scrollWidth：真实内容的宽度（包含溢出）+左填充
+		 scrollHeight：真实内容的高度（包含溢出）+上填充
+	 1.3 获取到的结果都是“约等于”的值，因为：
+		 同一个浏览器，我们是否设置overflow="hidden"，对于最终的结果是有影响的（滚动条也占据宽度会影响）；
+		 在不同的浏览器中我们获取到的结果也是不相同的
+    2 scrollLeft/scrollTop（可读写属性）
+	  滚动条卷去的宽度/高度 
+	  2.1.之前我们学习的js盒子模型中：client系列/offset系列/scrollWidth/scrollHeight都是“只读”属性->只能通过属性获取值，不能通过属性修改元素的样式
+	  2.2.scrollTop/scrollLeft：滚动条卷曲的高度/宽度(这两个属性是唯一“可读写”属性)		 
+		   scrollTop的值是存在边界值（最大和最小值的），我们设置的值比最小值小或者比最大值大时都没用，起到效果的依然是边界的值。
+		   [最小值是零]
+			<script type="text/javascript">
+				box.scrollTop = -1000;  //直接回到容器顶部，没有超出  
+				console.log(box.scrollTop);  //0
+			</script>
+		   [最大值=真实的高度-当前容器屏幕的高度]
+			<script type="text/javascript">
+				var maxTop = box.scrollHeight - box.clientHeight;  
+				console.log(maxTop); 
+			</script>
+
+六、举例说明缓动动画的原理？
+    缓动动画的原理:    盒子本身的位置  +  步长 (不断变化的)
+    详见《缓动动画原理.html》
+    </pre>
+</body>
+</html>

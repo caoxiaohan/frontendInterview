@@ -1,0 +1,176 @@
+
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>面试题149答案</title>
+</head>
+<body>
+    <h3>
+    面试题149 举例说明client相关属性用法？Client、scroll、offset三大家族属性之间的关系，如有关系如何相互转换？举例说明事件传播有哪几个阶段，如何取消事件冒泡？举例说明事件委托的原理和优缺点？获取样式的兼容写法？
+    </h3>
+    <pre>
+一、举例说明client相关属性用法？
+    1、clientWidth/clientHeight
+       1.1 作为html或body的属性时，表示屏幕宽度
+       1.2 作为元素的属性时，表示内容的宽不包含border。
+		   clientWidth:width+左右padding
+		   clientHeight:height+上下padding
+	2、clientTop/clientLeft
+	   clientTop:上边框的高度
+	   clientLeft:左边框的宽度
+       不存在borderRightWidth和borderBottomWidth，这两属性的是都是undefined
+       如果想获取有边框和下边框的宽度，用兼容的getCss方法获取
+       getCss(inner, "borderRightWidth");
+       getCss(inner, "borderBottomWidth")
+
+二、Client、scroll、offset三大家族属性之间的关系，如有关系如何相互转换？
+    1 Client、scroll、offset三大家族属性之间的异同
+       1.1 共同点：
+           1.1.1 offset系列、client系列、scroll系统的属性都是元素的属性，不是样式style的属性。
+	     <script type="text/javascript">
+	     	console.dir(inner);//展开inner的属性列表，发现存在offset系列、client系列、scroll系统的属性
+	     	console.dir(inner.style);//展开style的属性列表，发现不存在offset系列、client系列、scroll系统的属性
+	     </script>
+	      1.1.2 都有width、heigth、top、left四个属性，没有bottom和right属性。
+	   1.2 不同点
+	      1.2.1 width和height值含义不同
+	            clientWidth/clientHeight主要用来计算元素的宽高（不包含边框不包含溢出），或浏览器窗口的宽高。
+	            offsetWidth/offsetHeight用来计算元素的宽高（包含边框但不包含溢出）
+	            scrollWidth/scrollHeight用来计算包含溢出内容的元素的宽高（不包含边框但包含溢出部分）
+	      1.2.2 top和left含义不同
+	            clinentX/clientY  鼠标距离可视区域左上角的距离
+	            clientLeft/clientTop分别表示左边框和上边框的宽度。
+	            offsetWidth/offsetHeight表示相对最近定位父级盒子的偏移量。
+                scrollTop/scrollLeft表示向下活向右滚动卷曲的高度和宽度
+          1.2.3 调用者不同
+                1.2.3.1 调用者是event对象
+                         表示事件对象相关的属性
+                         clientY/clientX/offsetX/offsetY
+                1.2.3.2 调用者是任意元素
+                        表示元素相关的属性
+                        clientTop/clientLeft/clientWidth/clientHeight/offsetTop/offsetLeft/offsetHeight/offsetWidth/scrollTop/scrollLeft/scrollTop/scrollWidth
+                1.2.3.3 调用者document.body或document.documentElement
+                        表示浏览器窗口相关的属性
+                        当clientWidth/clientHeight调用者是document.body或document.documentElement时表示浏览器窗口的宽高（前提是要清除html或body的margin和border值）。
+                        当scrollTop/scrollLeft的调用者是document.body或document.documentElement时表示浏览器滚动后卷曲的部分。
+	2 三大家族的相互转换
+     2.1 client系列(与是否有滚动条无关,只有IE6以下版本浏览器受内容是否溢出影响)
+        2.1.1 当没有滚动条时
+             2.1.1.1 标准浏览器、IE7及其以上版本浏览器
+                     //css盒模型表示法(inner.style的属性)
+				     clientWidth=paddingLeft+width+paddingRight;
+				     clientHeight=paddingTop+height+paddingBottom;
+			 2.1.1.2 IE6及其以下版本浏览器(没有内容溢出时)
+			         //css盒模型表示法(inner.style的属性)
+			 		 clientWidth=width-borderLeftWidth-borderRightWidth;
+				     clientHeight=height-borderTopWidth-borderBottomWidth;
+		     2.1.1.3 IE6及其以下版本浏览器(有内容溢出时，即内容的宽度大于width-borderLeftWidth-borderRightWidth-paddingLeft-paddingRight时)
+			         //css盒模型表示法(inner.style的属性)
+			 		 clientWidth=内容的宽度+paddingLeft+paddingRight;
+				     clientHeight=内容的高度+paddingTop+paddingBottom;
+	    2.1.2 当有滚动条时
+	         2.1.2.1 标准浏览器、IE8及其以上版本浏览器
+	         		 //css盒模型表示法(inner.style的属性)
+				     clientWidth=paddingLeft+width+paddingRight-17;//17是各种浏览器的滚动条默认宽度
+				     clientHeight=paddingTop+height+paddingBottom-17;
+		     2.1.2.2 IE7浏览器
+		              //css盒模型表示法(inner.style的属性)
+		             clientWidth=paddingLeft+width+paddingRight;
+				     clientHeight=paddingTop+height+paddingBottom;
+			 2.1.2.3 IE6及其以下版本浏览器
+			          //css盒模型表示法(inner.style的属性)
+			 		 clientWidth=width-borderLeftWidth-borderRightWidth;
+				     clientHeight=height-borderTopWidth-borderBottomWidth;
+	  2.2 offset系列(与是否有滚动条无关,只有IE6以下版本浏览器受内容是否溢出影响)
+	     2.2.1 标准浏览器、IE7及其以上版本浏览器
+	            //js盒模型表示法(inner的属性)
+			   offsetWidth=clientLeft+clientWidth+borderRightWidth;
+			   offsetHeight=clientTop+clientHeight+borderBottomWidth;
+			    //css盒模型表示法(inner.style的属性)
+			   offsetWidth=borderLeftWidth+paddingLeft+width+paddingRight+borderRightWidth;
+			   offsetHeight=borderTopWidth+paddingTop+height+paddingBottom+borderBottomWidth;
+		 2.2.2 IE6及其以下版本的浏览器(没有内容溢出)
+		        //css盒模型表示法(inner.style的属性)
+			   offsetWidth=width;
+			   offsetHeight=height;
+		 2.2.3 IE6及其以下版本浏览器(有内容溢出时，即内容的宽度大于width-borderLeftWidth-borderRightWidth-paddingLeft-paddingRight时)
+		 		//js盒模型表示法(inner的属性)
+			   offsetWidth=clientLeft+clientWidth+borderRightWidth;
+			   offsetHeight=clientTop+clientHeight+borderBottomWidth;
+		 		//css盒模型表示法(inner.style的属性)
+		      offsetWidth=内容的宽度+paddingLeft+paddingRight+borderLeftWidth+borderRightWidth;
+		      offsetHeight=内容的高度+paddingTop+paddingBottom+borderTopWidth+borderBottomWidth;
+	 2.3 scroll系列(与内容是否溢出有关，且受滚动条影响)
+	    2.3.1 当没有溢出时
+	          scrollWidth=clientWidth;
+	          scrollHeight=clientHeight;
+        2.3.2 当有溢出时
+              2.3.2.1 当没有滚动条时
+                      2.3.2.1.1 标准浏览器、IE7及其以上版本浏览器
+                                scrollWidth=paddingLeft+内容的宽度（包含溢出部分）
+                                sdrollHeight=paddingTop+内容的高度（包含溢出部分）
+                      2.3.2.2.2 IE6及其以下版本浏览器
+                                scrollWidth=clientWidth;
+	          					scrollHeight=clientHeight;
+	          2.3.2.2 当有滚动条时
+	                  2.3.2.1.1 当纵向滚动条不在最底部，横向滚动条不在最右侧时
+                                scrollWidth=paddingLeft+内容的宽度（包含溢出部分）+paddingRight
+                                srollHeight=paddingTop+内容的高度（包含溢出部分）+paddingBottom
+                      2.3.2.2.2 当纵向滚动条在最底部，横向滚动条在最右侧时
+                                scrollWidth=clientWidth+scrollLeft;
+	          					scrollHeight=clientHeight+scrollTop; 
+
+三、举例说明事件传播有哪几个阶段，、？
+    三个阶段：捕获（从外向内，不包含事件源），目标（当前事件源，捕获和冒泡按代码书写顺序），冒泡（从内向外，不包含事件源）
+      第一步输出捕获：html捕获--->body捕获--->outer捕获。（当前元素inner的三个父元素从外向内捕获）
+      第二步目标阶段：当前点击的事件源，目标元素为inner。如果inner冒泡代码写在inner捕获前面，则输出顺序为inner冒泡--->inner捕获。 如果inner冒泡代码写在inner捕获后面，则输出顺序为inner捕获--->inner冒泡
+      第三步输出冒泡：冒泡outer--->冒泡body--->冒泡html（当前元素inner的三个父元素从内向外冒泡）
+      最后输出顺序：第一阶段输出顺序--->第二阶段输出顺序--->第三阶段输出顺序。
+      注意：chrome浏览器有个例外，最外层捕获起始于body,html文档不捕获。
+
+
+四、如何取消事件冒泡？
+    1 取消事件冒泡
+	    标准浏览器章：e.stopPropagation();
+	    IE8&IE8-浏览器中：e.cancelBubble = true;
+	    兼容写法：e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true;
+	2 不需要取消冒泡的事件
+	  不是所有的事件都能冒泡。
+	  不冒泡的事件：blur、focus、load、unload、onmouseenter、onmouseleave
+	  见《事件冒泡测试.html》
+
+
+五、举例说明事件委托的原理和优缺点？
+   1 事件委托的原理
+     事件委托主要是利用了事件的冒泡传播机制,事件目标自身不绑定事件，而是把绑定任务委托给其父元素或者祖先元素，甚至根元素（document）。
+     假如一个容器中很多元素都需要绑定点击事件,传统的方案是获取到这些元素之后,循环一个个的绑定点击事件,但是现在不用了,我们可以把所有元素的点击事件委托给最外层的这个盒子进行处理。
+     如果事件目标只是绑定事件的父元素的部分子元素，则需要在事件方法内判断e.target||e.srcElement是否等于事件目标。
+
+   2 优缺点
+     2.1 优点：
+		 2.1.1 减少事件注册，节省内存。
+		       比如，在table上代理所有td的click事件。在ul上代理所有li的click事件。
+		 2.1.2 简化了dom节点更新时，相应事件的更新。
+		       比如，不用在新添加的li上绑定click事件。
+		 2.1.3 当删除某个li时，不用移解绑上面的click事件。
+	 2.2 缺点：
+		 2.2.1 事件委托基于冒泡，对于不冒泡的事件不支持。
+		       不冒泡的事件：blur、focus、load、unload、onmouseenter、onmouseleave
+		 2.2.2 层级过多，冒泡过程中，可能会被某层阻止掉。
+		 2.2.3 理论上委托会导致浏览器频繁调用处理函数，虽然很可能不需要处理。
+		       所以建议就近委托，比如在table上代理td，而不是在document上代理td。
+		 2.2.4 把所有事件都用代理就可能会出现事件误判。
+		       比如，在document中代理了所有button的click事件，另外的人在引用改js时，可能不知道，造成单击button触发了两个click事件。
+
+六、获取样式的兼容写法？
+    <script type="text/javascript">
+    	function getCss(curEle,attr){
+	        var val = typeof window.getComputedStyle == "function" ? getComputedStyle(curEle,null)[attr] : curEle.currentStyle[attr];
+	        if(!isNaN(parseFloat(val))) val = parseFloat(val);
+	        return val;
+	    };    
+    </script>
+    
+    </pre>
+</body>
+</html>

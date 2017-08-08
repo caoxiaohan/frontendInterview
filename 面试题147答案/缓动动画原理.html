@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            position: absolute;
+            left: 0px;
+        }
+    </style>
+</head>
+<body>
+<button id="btn">开始</button>
+<div id="box"></div>
+</body>
+</html>
+<script>
+    var target = 400;
+    var timer = null;
+    btn.onclick = function() {
+         timer = setInterval(function() {
+             // 盒子本身的位置  +  步长 (不断变化的)
+             var step = (target - box.offsetLeft) / 10;   // 步长
+             step =  step > 0 ? Math.ceil(step) : Math.floor(step);  // 步长取整
+             box.style.left = box.offsetLeft + step + "px";
+             if(box.offsetLeft == target) // 判断结束条件
+             {
+                 clearInterval(timer);
+                 alert("到目标了")
+             }
+         },30)
+
+    }
+</script>

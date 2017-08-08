@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        html,body, div {
+            margin: 0;
+            padding: 0;
+        }
+        #mark {
+            position: absolute;
+            top: 40%;
+            left: 40%;
+            width: 200px;
+            height: 200px;
+            background: red;
+        }
+    </style>
+</head>
+<body id="body">
+<div id="mark"></div>
+<script type="text/javascript">
+    document.documentElement.onmousedown = function (e) {
+        document.documentElement.onmousemove = function (e) {
+            e = e || window.event;        
+            mark.style.left =e.clientX + "px";
+            mark.style.top = e.clientY + "px";
+        };
+    };
+    document.documentElement.onmouseup = function (e) {
+        document.documentElement.onmousemove=null;
+    };
+</script>
+</body>
+</html>

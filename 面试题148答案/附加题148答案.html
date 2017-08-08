@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>附加题148答案</title>
+</head>
+<body>
+    <h3>
+        附加题：举例说明鼠标跟随和拖拽事件的原理
+    </h3>
+    <pre>
+一、举例说明鼠标跟随(极简版）的原理（IE6以下不兼容fixed定位）
+    见《鼠标跟随/鼠标跟随（极简版）.html》
+    1 将被鼠标跟随的小盒子的position值设置为fix
+      设置fixed定位的元素，不论父元素是否定位，当前元素都相对浏览器可视窗口左上角定位。
+    2 给html绑定鼠标以移动事件onmousemove
+      2.1 由于事件冒泡传播，在body区域内移动都会触onmousemove事件
+      2.2 获取兼容的事件对象 e = e || window.event;
+          不论是在body还是在div内移动鼠标，产生的事件对象都是同一个事件对象
+      2.3 获取当前鼠标的坐标，距离浏览器可视窗口左上角的坐标
+          event.clientY;
+          event.clientX;
+     2.4 修改当前盒子样式的left和top值，使得盒子左上角和鼠标重合
+          mark.style.left = e.clientX + "px";
+          mark.style.top = e.clientY + "px";
+
+二、举例说明鼠标跟随(简化版）的原理（IE6以下不兼容fixed定位）
+    见《鼠标跟随/鼠标跟随（简化版）.html》
+    1 将被鼠标跟随的小盒子的position值设置为fix
+      设置fixed定位的元素，不论父元素是否定位，当前元素都相对浏览器可视窗口左上角定位。
+    2 给html绑定鼠标以移动事件onmousemove
+      2.1 由于事件冒泡传播，在body区域内移动都会触onmousemove事件
+      2.2 获取兼容的事件对象 e = e || window.event;
+          不论是在body还是在div内移动鼠标，产生的事件对象都是同一个事件对象
+      2.3 获取当前鼠标的坐标，距离浏览器可视窗口左上角的坐标
+          event.clientY;
+          event.clientX;
+     2.4 修改当前盒子样式的left和top值，使得盒子中心和鼠标重合
+          mark.style.left = e.clientX-mark.offsetWidth/2 + "px";
+          mark.style.top = e.clientY-mark.offsetHeight/2 + "px";
+
+三、举例说明鼠标跟随(兼容版）的原理
+    见《鼠标跟随/鼠标跟随（兼容版）.html》
+    1 将被鼠标跟随的小盒子的position值设置为absolute
+      当父级元素都没有定位时，设置absolute定位的元素相对浏览器窗口首屏左上角定位。
+    2 给html绑定鼠标以移动事件onmousemove
+      2.1 由于事件冒泡传播，在body区域内移动都会触onmousemove事件
+      2.2 获取兼容的事件对象 e = e || window.event;
+          不论是在body还是在div内移动鼠标，产生的事件对象都是同一个事件对象
+      2.3 获取当前鼠标的坐标，距离浏览器首屏左上角的坐标
+          var top = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+          var left = window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft;
+          var pagey = event.pageY || top + event.clientY;
+          var pagex = event.pageX || left + event.clientX;
+     2.4 修改当前盒子样式的left和top值，使得盒子中心和鼠标重合
+          mark.style.left =pagex-mark.offsetWidth/2 + "px";
+          mark.style.top = pagey-mark.offsetHeight/2 + "px";
+
+四、举例说明拖拽事件的原理
+   见《鼠标拖拽/鼠标拖拽（兼容版）.html》
+     1 鼠标按下时绑定onmousemove事件
+       onmouseup事件绑定的方法内，绑定onmousemove事件
+       document.documentElement.onmousedown = function (e) {
+            document.documentElement.onmousemove = function (e) {
+               //onmusemove事件完全复制第一大题鼠标跟随的方法即可。
+            };
+        };
+       
+     2 鼠标抬起时解除onmousemove事件
+        document.documentElement.onmouseup = function (e) {
+            document.documentElement.onmousemove=null;
+        };    
+    </pre>
+</body>
+</html>

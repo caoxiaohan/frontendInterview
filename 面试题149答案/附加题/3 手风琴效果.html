@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        ul{list-style: none}
+        *{margin:0; padding:0;}
+        div{
+            width: 1150px;
+            height: 400px;
+            margin:50px auto;
+            border:1px solid red;
+            overflow: hidden;
+
+        }
+        div li {
+            width: 240px;
+            height: 400px;
+            float: left;
+        }
+        div ul {
+            width: 1300px;
+        }
+    </style>
+    <script src="js/animate.js"></script>
+</head>
+<body>
+<div id="oDiv">
+    <ul id="oUl">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+<script type="text/javascript">    
+        var oLis=document.getElementsByTagName("li"),preIndex=0;
+        for(var i=0;i<oLis.length;i++){
+            oLis[i].style.background="url(images/"+(i+1)+".jpg)"
+            oLis[i].onmousemove=function(e){
+                e=e|| window.event;
+                var target= e.target|| e.srcElement;
+                for(var j=0;j<oLis.length;j++){
+                    animate(oLis[j],{"width":100},3);
+                }
+                animate(this,{"width":800},3);
+            }
+        }
+        oDiv.onmouseout = function () {
+                for(var j=0;j<oLis.length;j++){
+                    animate(oLis[j],{"width":240});
+                }
+            }
+</script>
+</body>
+</html>

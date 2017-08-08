@@ -1,0 +1,366 @@
+
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>面试题151答案</title>
+</head>
+<body>
+    <h3>
+  面试题151 什么是jQuery?使用jQuery的步骤？jQuery各版本的浏览器支持情况？jQuery的入口函数有几种写法？jQuery入口函数与js入口函数的区别？jQuery函数的书写方式？jQuery对象和DOM对象的如何相互相互转换？JS跟jQuery的区别是什么？什么是jQuery选择器？jQuery选择器的分类？
+    </h3>
+    <pre>
+一、什么是jQuery?
+   Jquery是继prototype之后又一个优秀的Javascrīpt框架。它是轻量级的js库(压缩后只有21k) ，它兼容CSS3，还兼容各种浏览器 （IE 6.0+, FF 1.5+, Safari 2.0+, Opera 9.0+）。jQuery使用户能更方便地处理HTML documents、events、实现动画效果，并且方便地为网站提供AJAX交互。
+
+二、jQuery各版本的浏览器支持情况？
+    1 jQuery1.x支持IE6及其以上版本浏览器
+    2 jQuery2.x支持IE9及其以上版本浏览器
+    当浏览器版本小于IE9时就选择 1.9 版；反之IE9及以上版本和非IE浏览器随便选2.0 。可以使用下面的代码实现：
+    <!DOCTYPE html>
+	<html>
+	<head>
+	<meta charset="utf-8">
+	<title></title>
+	<!--[if lt IE 9]>
+	    <script src="jquery-1.9.0.js"></script>
+	<![endif]-->
+	<!--[if gte IE 9]><!-->
+	    <script src="jquery-2.0.0.js"></script>
+	<!--<![endif]-->
+	</head>
+	<body>
+	</body>
+	</html>
+
+三、使用jQuery的步骤？
+    1．引包
+       <script src="jquery-1.11.1.js"></script>
+	2．入口函数
+	   <script>
+	      //jquery的入口函数。  
+	      //文档加载完毕，图片不加载的时候就可以执行这个函数。	      
+	       $(function () {
+	       });
+	    </script>
+	3．功能实现代码（事件处理）
+	    <script type="text/javascript">
+	    	$(function () {
+	    		$("#oDiv").click(function(){
+	    			alert("测试");
+	    		})
+	        });
+	    </script>
+
+四  jQuery的入口函数有几种写法？jQuery入口函数与js入口函数的区别？
+    1 区别
+      1.1：书写个数不同
+	       Js入口函数只能出现一次，出现多次会存在事件覆盖的问题。
+	       jQuery的入口函数，可以出现任意多次，并不会存在事件覆盖问题。
+      1.2：执行时机不同
+	       Js入口函数是在所有的文件资源加载完成后，才执行。这些文件资源包括：页面文档、外部的js文件、外部的css文件、图片等。
+	       jQuery的入口函数，是在文档加载完成后，就执行。文档加载完成指的是：DOM树加载完成后，就可以操作DOM了，不用等到所有的外部资源都加载完成。	
+	       文档加载的顺序：从上往下，边解析边执行。
+	2 示例
+      2.1 js入口函数
+	      <script type="text/javascript">
+	      	 //原生js，入口函数。页面上所有内容加载完毕，会执行。
+	        //不仅文本加载完毕，而且图片也要加载完毕，在执行函数。
+	        window.onload = function () {
+	        }
+	      </script>
+	  2.2 jQuery入口函数
+		 <script>
+	      //jquery的入口函数。  
+	      //文档加载完毕，图片不加载的时候就可以执行这个函数。
+	      //第一种写法
+	       $(document).ready(function () {
+	       })
+	        //第二种写法。
+	       $(function () {
+	       });
+	    </script>
+
+
+   
+
+五、jQuery函数的书写方式？
+    1 $();
+    2 jQuery();
+    <script type="text/javascript">
+    	$(function(){}); // 调用入口函数
+    	jQuery(function(){}); // 调用入口函数
+    </script>
+  
+
+六、jQuery对象和DOM对象的如何相互相互转换？
+    1 jQuery对象转换成DOM对象
+      <script type="text/javascript">
+      	// 第一种方式
+		var div1 = $(div)[0]; // 此时就把jQuery对象$btn转换成了DOM对象btn1 （推荐使用此方式）
+		// 第二种方式
+		var div2 = $(div).get(0);// 此时就把jQuery对象$btn转换成了DOM对象btn2
+      </script>
+    2 DOM对象转换成jQuery对象
+      <script type="text/javascript">
+      	 var div1 = $(div);//$或jQuery函数返回的都是jQuery对象
+      </script>
+    
+七、JS跟jQuery的区别是什么？
+    Javascript是一门编程语言，用来编写浏览器客户端脚本。
+    Jquery是一个Javascript库，封装了Javascript开发中常用的功能。
+    1、加载DOM区别 
+       1.1 JavaScript：window.onload  
+	       <script type="text/javascript"> 	
+				function first(){ 
+					alert('first'); 
+				} 
+				function second(){ 
+					alert('second'); 
+				} 
+				window.onload = first; 
+				window.onload = second; 
+				//只会执行第二个window.onload；不过可以通过以下方法来进行改进： 
+				window.onload = function(){ 
+					first(); 
+					second(); 
+				} 
+	       </script>
+       1.2 Jquery：$(document).ready(); 
+	       <script type="text/javascript">        	
+				function first(){ 
+					alert('first'); 
+				} 
+				function second(){ 
+					alert('second'); 
+				} 
+				$(document).ready(function(){ 
+					first(); 
+				} 
+				$(document).ready(function(){ 
+					second(); 
+				} 
+				//两条均会执行
+	       </script>
+	2、获取ID 
+	   <script type="text/javascript">
+	   		//2.1 JavaScript： 
+				document.getElementById('idName'); 
+            //2.2 JQuery： 
+				$('#idName'); 
+	   </script>
+    3、获取Class 
+       <script type="text/javascript">
+       		//3.1 JavaScript：
+       		    document.getElementsByClassName("className")
+            //3.2 JQuery： 
+				$('.className'); 
+       </script>
+    4、获取TagName 
+       <script type="text/javascript">
+       		//4.1 JavaScript： 
+				document.getElementsByTagName('tagName');
+			//4.2 JQuery： 
+				$('tagName');
+       </script>
+	5、创建对象并加入文档中 
+	   5.1 JavaScript： 
+	       <script type="text/javascript">
+	       		var para = document.createElement('p'); 
+				//创建一个p元素 
+				document.body.appendElement(para); 
+				//将p元素追加为body的lastchild子节点，如果想将新创建的p元素插入到已存在的某个元素之前，可以使用insertBefore()方法 
+	       </script>
+       5.2 JQuery：
+           JQuery提供了4种将新元素插入到已有元素（内部）之前或者之后的方法：append()、appendTo()、prepend()、prependTo()。 
+           格式：$( html ); 
+           eg，html代码：<p>World!</p> 
+           <script type="text/javascript">
+           		$('p').append('<b>Hello!</b>'); 
+				//输出：<p>World!<b>Hello!</b></p> 
+				$('<b>Hello!</b>').appendTo('p'); //输出：同上 
+				$('p').prepend('<b>Hello!</b>'); 
+				//输出：<p><b>Hello!</b>World! </p> 
+				$('<b>Hello!</b>').prependTo('p'); 
+				//输出：同上 
+           </script>
+	6、插入新元素 
+	   6.1 JavaScript： 
+		   insertBefore() 语法格式：
+		   parentElement.insertBefore(newElement,targetElement) 
+		   eg, 将一个img元素插入一个段落之前。 
+		   html代码： 
+			<img src="image.jpg" id="imgs" /> 
+			<p>这是一段文字</p> 
+		   JavaScript代码： 
+		   <script type="text/javascript">
+		   		var imgs = document.getElementById('imgs'); 
+				var para = document.getElementsByTag('p'); 
+				para.parenetNode.insertBefore(imgs,para); 
+		   </script>
+	   6.2 JQuery： 
+		   JQuery提供了4种将新元素插入到已有元素（外部）之前或者之后的方法：after()、insertAfter()、before()、insertBefore()。 
+		   格式：$( html ); 
+		   eg，html代码：<p>World!</p> 
+		   JQuery代码:
+		   <script type="text/javascript">
+		   		$('p').after('<b>Hello!</b>'); 
+				//输出：<p>World! </p><b>Hello!</b> 
+				$('<b>Hello!</b>'). insertAfter ('p'); 
+				//输出：同上 
+				$('p').before('<b>Hello!</b>'); 
+				//输出：<b>Hello!</b><p>World! </p> 
+				$('<b>Hello!</b>').insertBefore('p'); 
+				//输出：同上 
+		   </script> 		
+	7、复制节点 
+	   <script type="text/javascript">
+	   		//7.1 JavaScript： 
+				oDiv.cloneNode()//只复制当前节点
+				oDiv.cloneNode(true)//被复制节点的子节点也一同复制到新建节点里去。
+				//这个方法只有一个布尔型的参数，它的可取值只能是true或者false。
+	        //7.2 JQuery： 
+				$(#oDiv).clone() //复制节点后，被复制的新元素并不具有任何行为 
+				$(#oDiv).clone(true) //复制节点内容及其绑定的事件 
+				//备注：该方法通常与appendTo()、prependTo()等方法结合使用。 
+	   </script>
+	8、删除节点 
+	   8.1 JavaScript：
+	       removeChild()方法将一个给定元素里删除一个子节点  
+	       <script type="text/javascript">
+	       		 var list=document.getElementById("myList");
+		  			list.removeChild(list.childNodes[0]);//移除第一个子节点	
+	       </script>		  
+	   8.2 JQuery： 
+	       8.2.1 remove()方法作用就是从DOM中删除所有匹配的元素
+	             连垃圾桶和垃圾一起删除。
+	             <script type="text/javascript">
+	             	 $("button").click(function(){
+						  $("p").remove();//移除所有P元素
+					   });
+	             </script>		     
+	       8.2.2 remove()方法还可以与其他的过滤选择器结合使用，非常方便。 
+	             eg，将ul li下的title不是"Hello"的li移除：
+	             <script type="text/javascript">
+	             	$('ul li').remove(li[title!='Hello']); 
+	             </script>
+		   8.2.3 empty()方法作用是清空节点的内容和所有子节点,原来的节点仍然保留。
+		        就像到了垃圾，垃圾桶还在。 
+			    <script type="text/javascript">
+			   		$(".btn1").click(function(){
+					  $("p").empty();//移除p元素的内容
+					});
+			   </script>
+	9、包裹节点 
+	   9.1 JavaScript：JavaScript暂无 
+       9.2 JQuery： 
+           <script type="text/javascript">
+           		wrap() //将匹配元素用其他元素的结构化标记单独包裹起来 
+				wrapAll() //将所有匹配的元素用一个元素包裹起来 
+				wrapInner() //将匹配元素的子内容用其他结构化的标记包裹起来 
+           </script>
+	10、属性操作：设置属性节点、查找属性节点 
+	   10.1 JavaScript： 
+			10.1.1、取得特性
+	          getAttribute()方法。
+	          <div id="div1" myId="div2"></div> 
+	          <script type="text/javascript">
+	          	 var oDiv = document.getElementById("div1");
+	             //通过元素.属性名的方式获取内置属性id值
+	               oDiv.id //"div1"
+	             //通过元素.属性名的方式获取自定义属性myId值
+	              oDiv.myId //"undefined" (IE除外)
+	             //通过getAttribute()方法获取内置属性id的值
+	              oDiv.getAttribute("id") //"div1"
+	             //通过getAttribute()方法获取自定义属性myId的值
+	              oDiv.getAttribute("myId") //"div2"
+	          </script>   	          
+	        10.1.2、设置特性
+	              设置属性值:setAttribute()方法
+	              <div id="div1"></div>
+	              <script type="text/javascript">
+	              	 //通过元素.属性名的方式设置内置属性id的值
+		              var oDiv = document.getElementById("div1");
+		              oDiv.id = "div2" //通过元素.属性名的方式设置内置属性id的值
+		              oDiv.id//id变成"div2"
+		              oDiv.getAttribute("id") //"div2"
+		             //通过元素.属性名的方式设置自定义属性myId的值
+		              oDiv.myId = "div3" //通过元素.属性名的方式设置自己定义属性myId的值
+		              oDiv.myId//"undefined" (IE除外)              
+		              oDiv.getAttribute("myId") //null (IE除外)
+	                  //通过setAttribute()方法设置内置属性id的值
+		              oDiv.setAttribute("id",'div4') //通过setAttribute()方法设置内置属性id的值
+		              oDiv.id//id变成"div4"
+		              oDiv.getAttribute("id") //"div4"
+		             //通过setAttribute()方法设置自定义属性myId的值
+		              oDiv.setAttribute("myId","div5") //"div5"
+		              oDiv.id//id变成"div5"
+		              oDiv.getAttribute("myId") //"div5"
+	              </script>	 
+	        10.1.3 删除属性
+		          deleteAttribute()方法。
+		          <div id="div1" myId="div2"></div>  
+		          <script type="text/javascript">
+		          	  var oDiv = document.getElementById("div1");
+		              //通过元素.属性名的方式获取内置属性id值
+		              delete oDiv.id //"div1"
+		              //通过元素.属性名的方式获取自定义属性myId值
+		              delete oDiv.myId //"undefined" (IE除外)
+		              //通过getAttribute()方法获取内置属性id的值
+		              oDiv.deleteAttribute("id") //"div1"
+		              //通过getAttribute()方法获取自定义属性myId的值
+		              oDiv.deleteAttribute("myId") //"div2"         
+		          </script>     
+		              
+	   10.2 JQuery： 
+			JQuery中设置和查找属性节点都是：attr() 。 
+			<script type="text/javascript">
+				$('p').attr('title'); //获取p元素的title属性； 
+				$('p').attr('title','My title'); //设置p元素的title属性 
+				$('p').attr('title':'My title','class':'myClass'); //当需要添加多个属性时，可以用"名：值"对的形式，中间用逗号隔开。 
+			</script>
+			Jquery中删除属性的方法removeAttr()
+			<script type="text/javascript">
+				$("button").click(function(){
+				  $("p").removeAttr("id");
+				});
+			</script>
+	11、替换节点 
+		11.1 JavaScript：该方法是将一个给定父元素里的一个子节点替换为另外一个节点。
+		     <script type="text/javascript">
+		     	document.getElementById("myList").replaceChild(newnode,oldnode);
+		     </script>
+		11.2 JQuery：replaceWith()、replaceAll() 
+			eg: <p>hello</p>想替换为：<h2>Hi</h2> 
+			JQuery代码：
+			<script type="text/javascript">
+				$('p') .replaceWith('<h2>Hi</h2>'); 
+				//或者可以写成： 
+				$('<h2>Hi</h2>').replaceAll('p'); 
+			</script> 
+	12、CSS-DOM操作
+	    12.1 JavaScript： 
+			格式：element.style.property 
+			CSS-DOM能够读取和设置style对象的属性，其不足之处是无法通过它来提取外部CSS设置的样式信息，而JQuery的.css()方法是可以的。 
+			注意点：CSS中的如"font-size"这样有"-"的，要使用首字母小写的驼峰式表示，如fontSize。
+			<script type="text/javascript">
+				document.getElementById("id").style.color="red"
+			</script>
+		12.2 JQuery： 
+			格式：$(selector).css() 
+			css()方法获取元素的样式属性 
+			此外，JQuery还提供了height()和width()分别用来获取元素的高度和宽度（均不带单位），而css(height)、css(width)返回高宽，且带单位。
+			<script type="text/javascript">
+				$(".btn1").click(function(){
+				  $("p").css("color","red");
+				});
+			</script>
+
+
+八、什么是jQuery选择器？
+    jQuery选择器就是一种获取页面中元素的方法。
+    jQuery实现了从CSS1到CSS3所有的选择器以及其他常用的选择器。
+
+九、jQuery选择器的分类？
+    见《jQuery常用的选择器分类及其用法》
+</body>
+</html>

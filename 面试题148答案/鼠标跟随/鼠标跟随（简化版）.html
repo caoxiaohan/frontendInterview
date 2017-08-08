@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        html,body, div {
+            margin: 0;
+            padding: 0;
+        }
+        #mark {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 200px;
+            height: 200px;
+            background: red;
+        }
+    </style>
+</head>
+<body id="body">
+<div id="mark"></div>
+<p>a</p>
+    <p>b</p><p>c</p><p>d</p><p>e</p><p>f</p><p>g</p><p>h</p><p>i</p><p>j</p><p>k</p>l<br>
+    m<br>o<br>p<br>q<br>r<br>s<br>t<br>u<br>v<br>w<br>x<br>y<br>z<br>A<br>B<br>C<br>D<br>E<br>F<br>G<br>H<br>I<br>J<br>K<br>L<p>M</p>N<br>O<br>P<br>Q<br>R<br>S<br>T<br>U<br>V<br>W<br>X<br>Y<br>Z<br>0<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9
+    9<br>8<br>7<br>6<br>5<br>4<br>3<br>2<br>1<br>0
+<script type="text/javascript">
+    document.documentElement.onmousemove = function (e) {
+        e = e || window.event;        
+        mark.style.left =e.clientX-mark.offsetWidth/2 + "px";
+        mark.style.top = e.clientY - mark.offsetHeight/2 + "px";
+    };
+</script>
+</body>
+</html>

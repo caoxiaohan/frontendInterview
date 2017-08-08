@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        body {
+            background: #000;
+        }
+
+        .wrap {
+            margin: 100px auto 0;
+            width: 630px;
+			height: 394px;
+            padding: 10px 0 0 10px;
+            background: #000;
+            overflow: hidden;
+            border: 1px solid #fff;
+        }
+
+        .wrap li {
+            float: left;
+            margin: 0 10px 10px 0;
+
+        }
+
+        .wrap img {
+            display: block;
+			border: 0;
+        }
+    </style>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script>
+        jQuery(window).ready(function () {
+            //需求：鼠标放入li中，其他的li半透明，当前盒子，opacity值为1；离开wrap的时候所有的li全部opacity值为1；
+            $(".wrap").find("li").mouseenter(function () {
+                $(this).css("opacity",1).siblings("li").css("opacity",0.2);
+            });
+            $(".wrap").mouseleave(function () {
+                $(".wrap li").css("opacity",1);
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="wrap">
+        <ul>
+            <li><a href="#"><img src="imgs/01.jpg" alt=""/></a></li>
+            <li><a href="#"><img src="imgs/02.jpg" alt=""/></a></li>
+            <li><a href="#"><img src="imgs/03.jpg" alt=""/></a></li>
+            <li><a href="#"><img src="imgs/04.jpg" alt=""/></a></li>
+            <li><a href="#"><img src="imgs/05.jpg" alt=""/></a></li>
+            <li><a href="#"><img src="imgs/06.jpg" alt=""/></a></li>
+        </ul>
+    </div>
+</body>
+</html>

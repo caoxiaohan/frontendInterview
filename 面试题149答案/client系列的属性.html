@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>client系列的属性</title>
+<style type="text/css">
+*{
+	margin:0px;
+	padding: 0px;
+	clear: both
+}
+html{
+	margin:7px;
+	padding:6px;	
+	border:5px gray solid;
+}
+
+body{
+	margin:12px;
+	padding:14px;
+	border:4px green solid;
+}
+div#outer{ width:300px;height:200px; margin:100px;border:10px pink dashed;padding:40px; background:yellow;}
+div#inner{ width:150px;height:100px; margin:50px;border:5px red dashed;padding:20px; background:blue;overflow: auto;}
+</style>	
+
+</head>
+<body>
+<div id="outer">
+	<div id="inner">
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+		DHTML is so cool!DHTML is so cool!DHTML is so cool!
+	</div>
+</div>
+
+</body>
+</html>
+<script>
+//注释内容为 标准浏览器下测量结果
+console.log("inner.clientWidth",inner.clientWidth);//173, 20(padding-left)+150(width)+20(padding-right)-滚动条的宽度(17)
+console.log("inner.clientHeight",inner.clientHeight);//140,(padding-topo)+100(height)+20(padding-bottom)
+console.log("inner.clientLeft",inner.clientLeft);//5,border-left
+console.log("inner.clientTop",inner.clientTop);//5,border-right
+console.log("inner.clientRight",inner.clientRight);//undefined
+console.log("inner.clientBottom",inner.clientBottom);//undefined
+console.log("inner.borderRightWidth",getCss(inner, "borderRightWidth"));//5
+console.log("inner.borderBottomWidth",getCss(inner, "borderBottomWidth"));//5
+console.log("document.documentElement.clientWidth",document.documentElement.clientWidth);//1263
+console.log("document.body.clientWidth",document.body.clientWidth);//1195
+
+function getCss(curEle,attr){
+        var val = typeof window.getComputedStyle == "function" ? getComputedStyle(curEle,null)[attr] : curEle.currentStyle[attr];
+        if(!isNaN(parseFloat(val))) val = parseFloat(val);
+        return val;
+    };    
+
+
+</script>

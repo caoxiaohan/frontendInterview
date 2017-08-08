@@ -1,0 +1,67 @@
+<!DOCTYPE html>  
+<html>  
+<head> 
+<meta charset="utf-8"> 
+<style>  
+div {  
+    width: 300px;  
+    height: 300px;  
+    border: 1px solid black;  
+    margin: 10px;  
+    float: left;  
+    padding: 30px;  
+    text-align: center;  
+    background-color: lightgray;  
+}  
+  
+p {  
+    background-color: pink;  
+}  
+</style>  
+</head>  
+<body>  
+<dl>
+    <dt>该实例演示了 onmousemove, onmouseenter 和 onmouseover 的不同。
+        <dd>mouseenter 事件在鼠标指针进入最外层div 元素时触发。</dd>
+        <dd>onmousemove 事件在鼠标移动到最外层div 元素上时触发。</dd>
+        <dd>onmouseover 事件在鼠标指针进入最外层div 元素时触发,唯一的区别是 onmouseenter 事件不支持冒泡 ,在子元素上也会触发(p 和 span)。</dd>
+    </dt>
+</dl>
+<ul>
+    <li>鼠标从最外层白色区域进入灰色盒子时，所有盒子内的数值都会自增。</li>
+    <li>鼠标从外层灰色盒子进入内层粉色盒子时，onmouseenter绑定的盒子内的数值不会自增。</li>
+</ul>
+  
+<div onmousemove="myMoveFunction()">  
+  <p>onmousemove: <br> <span id="move">0</span></p>  
+</div>  
+  
+<div onmouseenter="myEnterFunction()">  
+  <p>onmouseenter: <br> <span id="enter">0</span></p>  
+</div>  
+  
+<div onmouseover="myOverFunction()">  
+  <p>onmouseover: <br> <span id="over">0</span></p>  
+</div>  
+  
+<script>  
+x = 0;  
+y = 0;  
+z = 0;  
+  
+function myMoveFunction() {  
+    move.innerHTML = z+=1;  
+}  
+  
+function myEnterFunction() {  
+    enter.innerHTML = x+=1;  
+}  
+  
+function myOverFunction() {  
+    over.innerHTML = y+=1;  
+}  
+</script>  
+  
+</body>  
+</html>  
+        

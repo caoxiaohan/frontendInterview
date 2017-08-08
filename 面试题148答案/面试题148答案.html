@@ -1,0 +1,115 @@
+
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>面试题148答案</title>
+</head>
+<body>
+    <h3>
+    面试题148 事件对象常用属性有哪些？事件对象及其属性的兼容问题？screenX、pageX和clientX的区别？鼠标相关的常用事件有哪些？如何清除选中的内容？
+    </h3>
+    <pre>
+一、事件对象常用属性有哪些？
+    1、获取事件对象e：
+         1.1、标准浏览器下：e
+         1.2、IE浏览器下：window.event
+         1.3、事件绑定方法的最后一个参数:arguments[arguments.length-1];
+               详见附件《验证事件对象自动传参（最后一个参数）.html》
+      2、事件对象的常用属性及方法
+         2.1 通用鼠标/键盘属性
+            属性              描述
+            altKey          返回当事件被触发时，"ALT" 是否被按下。
+            button          返回当事件被触发时，哪个鼠标按钮被点击。
+            clientX         返回当事件被触发时，鼠标指针的水平坐标。
+            clientY         返回当事件被触发时，鼠标指针的垂直坐标。
+            ctrlKey         返回当事件被触发时，"CTRL" 键是否被按下。
+            metaKey         返回当事件被触发时，"meta" 键是否被按下。
+            relatedTarget   返回与事件的目标节点相关的节点。
+            screenX         返回当某个事件被触发时，鼠标指针的水平坐标。
+            screenY         返回当某个事件被触发时，鼠标指针的垂直坐标。
+            shiftKey         返回当事件被触发时，"SHIFT" 键是否被按下
+        2.2 标准 Event 属性和方法
+            2.2.1 标准 Event 属性
+                下面列出了 2 级 DOM 事件标准定义的属性。
+                    属性              描述
+                    bubbles         返回布尔值，指示事件是否是起泡事件类型。
+                    cancelable      返回布尔值，指示事件是否可拥可取消的默认动作。
+                    currentTarget   返回其事件监听器触发该事件的元素。
+                    eventPhase      返回事件传播的当前阶段。
+                    target          返回触发此事件的元素（事件的目标节点）。
+                    timeStamp       返回事件生成的日期和时间。
+                    type            返回当前 Event 对象表示的事件的名称。
+            2.2.2 标准 Event 方法
+                下面列出了 2 级 DOM 事件标准定义的方法。IE 的事件模型不支持这些方法：
+                    方法                  描述
+                    initEvent()         初始化新创建的 Event 对象的属性。
+                    preventDefault()    通知浏览器不要执行与事件关联的默认动作。
+                    stopPropagation()   不再派发事件。
+        2.3 IE 属性
+            除了上面的鼠标/事件属性，IE 浏览器还支持下面的属性：
+            属性          描述
+            cancelBubble    如果事件句柄想阻止事件传播到包容对象，必须把该属性设为 true。
+            fromElement     对于 mouseover 和 mouseout 事件，fromElement 引用移出鼠标的元素。
+            keyCode         对于 keypress 事件，该属性声明了被敲击的键生成的 Unicode 字符码。对于 keydown 和 keyup    
+                            事件，它指定了被敲击的键的虚拟键盘码。虚拟键盘码可能和使用的键盘的布局相关。
+            offsetX,offsetY 发生事件的地点在事件源元素的坐标系统中的 x 坐标和 y 坐标。
+            returnValue     如果设置了该属性，它的值比事件句柄的返回值优先级高。把这个属性设置为 
+                            fasle，可以取消发生事件的源元素的默认动作。
+            srcElement      对于生成事件的 Window 对象、Document 对象或 Element 对象的引用。
+            toElement       对于 mouseover 和 mouseout 事件，该属性引用移入鼠标的元素。
+            x,y             事件发生的位置的 x 坐标和 y 坐标，它们相对于用CSS动态定位的最内层包容元素。
+
+二、事件对象及其属性的兼容问题？
+     1、事件对象
+          除firefox之外的标准浏览器中：可以自动将事件对象传入最后一个参数，e或arguments[arguments.lenght-1]或window.event均可。
+          firefox浏览器中：只能通过e或arguments[arguments.lenght-1]获取事件对象。
+          IE8&IE8-浏览器中：只能通过window.event获取事件对象。
+          兼容写法：e=e||window.event;
+       2、事件源(当前鼠标是在哪个元素上操作的,那么事件源就是谁)
+          标准浏览器中：e.target 
+          IE8&IE8-浏览器中：e.srcElement
+          兼容写法：e.target = e.target || e.srcElement;
+       3、e.pageX/Y(鼠标距离HTML页面初始page第一屏原点的距离,包含滚动卷曲的距离)
+          标准浏览器中：e.pageX和e.pageY直接获取。
+          IE8&IE8-浏览器中:e.clientY + (document.documentElement.scrollTop || document.body.scrollTop)
+          兼容写法：e.pageY = e.pageY || (e.clientY + (document.documentElement.scrollTop || document.body.scrollTop));
+       4、e.offsetX/Y(鼠标距离事件源左上角的距离，不包含边框)
+          非firefox浏览器中：e.offsetX和e.offsetY直接获取。
+          firefox浏览器章：e.layerX和e.layer获取。
+          兼容写法：e.offsetX=e.offsetX||e.layerX;
+       5、阻止事件默认行为
+          标准浏览器：e.preventDefault();
+          IE8&IE8-浏览器中：e.returnValue=false;
+          兼容写法：e.preventDefault ? e.preventDefault() : e.returnValue = false;
+       6、阻止事件的冒泡传播
+          标准浏览器章：e.stopPropagation();
+          IE8&IE8-浏览器中：e.cancelBubble = true;
+          兼容写法：e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true;
+
+三、screenX、pageX和clientX的区别？
+    详见附件《图解事件对象的位置属性》文件夹
+
+四、鼠标相关的常用事件有哪些？
+    见《鼠标事件冒泡测试.html》
+    onmousedown 鼠标按钮被按下。
+    onmousemove 鼠标被移动。
+    onmouseenter 鼠标进入（ onmouseenter 事件不支持冒泡）
+    onmouseleave 鼠标离开（ onmouseleave 事件不支持冒泡）
+    onmouseout  鼠标从某元素移开。（在子元素上也会触发）
+    onmouseover 鼠标移到某元素之上。（在子元素上也会触发）
+    onmouseup 鼠标按键被松开。
+    onmousedown  鼠标按下
+
+五、如何清除选中的内容？
+    用户选择内容
+    标准浏览器用indow.getSelection()方法
+    IE8及其以下版本浏览器用document.selection属性
+    <script type="text/javascript">
+        //1 获取选中的内容
+        var selectText = window.getSelection?window.getSelection().toString():document.selection.createRange().text;
+        //2清除选中的内容
+         window.getSelection?window.getSelection().removeAllRanges():document.selection.empty();
+    </script>
+    </pre>
+</body>
+</html>

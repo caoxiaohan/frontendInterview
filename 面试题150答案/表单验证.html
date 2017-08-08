@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<style type="text/css">
+    body {
+        background: #ccc;
+    }
+
+    label {
+        width: 40px;
+        display: inline-block;
+    }
+
+    .container {
+        margin: 100px auto;
+        width: 400px;
+        padding: 50px;
+        line-height: 40px;
+        border: 1px solid #999;
+        background: #efefef;
+    }
+
+    span {
+        margin-left: 30px;
+        font-size: 12px;
+        padding:2px 20px 0;
+        color: #ccc;
+    }
+
+    .wrong {
+
+        color: red;
+        background: url(images/error.png) no-repeat;
+        
+    }
+
+    .right {
+        color: green;
+        background: url(images/right.png) no-repeat;
+    }
+
+    .pwd {
+        width: 220px;
+        height: 20px;
+        background: url("images/strong.jpg") no-repeat;
+    }
+    .str1{
+        background-position: 0 -20px;
+    }
+    .str2{
+        background-position: 0 -40px;
+    }
+    .str3{
+        background-position: 0 -60px;
+    }
+    .str4{
+        background-position: 0 -80px;
+    }
+</style>
+<body>
+<div class="container" id="oDiv">
+    <label>QQ</label><input type="text" id="qq" name="qq"><span>输入正确的QQ号码</span><br>
+    <label>手机</label><input type="text" id="mobile" name="手机号"><span>输入11位手机号码</span><br>
+    <label>邮箱</label><input type="text" id="email" name="邮箱"><span>输入正确邮箱</span><br>
+    <label>座机</label><input type="text" id="phone" name="座机"><span>输入您的座机</span><br>
+    <label>账号</label><input type="text" id="account" name="账号"><span>亲输入您的账号</span><br>
+    <label>密码</label><input type="text" id="password" name="密码"><span>请输入您的密码</span><br>
+    <div id="strength" class="pwd"></div>
+</div>
+</body>
+</html>
+<script>
+    var reg={"qq":/^[1-9]\d{4,10}$/,
+              "email":/^((13[0-9])|(15[^4,\D])|(18[0-9]))\d{8}$/,
+              "mobile":/^1[3|4|5|7|8]\d{9}$/,
+              "email":/^([1-9]\d{3,10}|[a-z][\w-.]{1,16}[a-z0-9])@((?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.){1,2}?)([a-z]{2,18}(?:\.[a-z]{2})?)$/i,
+              "phone":/^(0\d{2,3}\-)?[2-9]\d{6,7}(-\d{1,6})?$/,
+              "account":/^[a-zA-Z0-9_-]{3,16}$/,
+              "password":/^[a-zA-Z0-9_-]{6,18}/,
+          }
+    var inps = oDiv.getElementsByTagName("input"),txt="对不起，您输入有误",className="wrong";
+    for(var i=0;i<inps.length;i++){
+        inps[i].onblur=change;
+    }
+    function change(){
+        if(reg[this.id].test(this.value)) {
+            txt=this.name+"输入正确";
+            className="right";
+            if(this.id==="password") pwdStrength();
+        }
+        this.nextSibling.innerHTML = txt;
+        this.nextSibling.className = className;
+    }
+    function pwdStrength(){
+            strength.className = "pwd str1";
+            if(/^([a-z].*[A-Z])|([A-Z].*[a-z])$/.test(this.value)) {
+                strength.className = "pwd str2";
+            }
+            if(/^([a-z].*[0-9])|([A-Z].*[0-9])|[0-9].*[a-zA-Z]$/.test(this.value)) {
+                strength.className = "pwd str3";
+            }
+            if(/[A-Za-z0-9]+[_][A-Za-z0-9]*/ .test(this.value)) {
+                strength.className = "pwd str4";
+            }
+    }
+    
+
+
+</script>

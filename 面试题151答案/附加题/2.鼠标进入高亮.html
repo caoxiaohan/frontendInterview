@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script>
+        $(function () {
+            //需求；隔行变色。
+            $("li:odd").css("background","pink");
+            $("li:even").css("background","lightblue");
+            //鼠标进入变色，移开恢复
+            var color = "";
+            $("li").mouseenter(function () {
+                color = $(this).css("background");
+                $(this).css("background","gray");
+            });
+            $("li").mouseleave(function () {
+                $(this).css("background",color);
+            });
+        });
+    </script>
+</head>
+<body>
+
+    <ul>
+        <li>魂消香断玉环冷，锦裘绣帕不闻香.......</li>
+        <li>魂消香断玉环冷，锦裘绣帕不闻香.......</li>
+        <li>魂消香断玉环冷，锦裘绣帕不闻香.......</li>
+        <li>魂消香断玉环冷，锦裘绣帕不闻香.......</li>
+        <li>魂消香断玉环冷，锦裘绣帕不闻香.......</li>
+        <li>魂消香断玉环冷，锦裘绣帕不闻香.......</li>
+    </ul>
+
+</body>
+</html>
