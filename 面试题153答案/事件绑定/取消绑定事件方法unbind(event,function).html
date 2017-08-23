@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		button{font-size:20px;}
+	</style>
+	<script type="text/javascript" src="../jquery-1.11.1.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+		  $("p").click(function(){
+		    $(this).slideToggle();
+		  });
+		  $("button").click(function(){
+		    $("p").unbind();
+		  });
+		});
+	</script>
+</head>
+<body>
+<p>这是一个段落。</p>
+<p>这是另一个段落。</p>
+<p>点击任何段落可以令其消失。包括本段落。</p>
+<button>删除 p 元素的事件处理器</button>
+</body>
+</html>
+
+
+

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		button{font-size:20px;}
+	</style>
+	<script type="text/javascript" src="../jquery-1.7.1.min.js"></script>
+	</script>
+	<script>
+	$(document).ready(function(){
+	  $("#btn1").on("click",function(){
+		    $("#div1").css("background-color","pink");
+		  });
+		  $("#btn2").live("click",function(){
+		    $("#div2").css("background-color","pink");
+		  });
+	});
+	</script>
+</head>
+<body>
+
+<h4 style="color:green;">该实例演示了如何使用 on() 和 live()。</h4>
+<button id="btn1">on点击</button>
+<div id="div1" style="border:1px solid black;">这是一些文本。
+<p>点击此处，使用 <b>on() 方法来设置背景颜色</b>。</p>
+</div><br>
+<button id="btn2">live点击</button>
+<div id="div2" style="border:1px solid black;">这是一些文本。
+<p>点击此处，使用 <b>live() 方法来设置背景颜色</b>。</p>
+</div>
+<p><b>注意：</b>live() 方法在 jQuery 版本 1.7 中被废弃，在版本 1.9 中被移除。请使用 on() 方法代替。</p>
+</body>
+</html>
+
+

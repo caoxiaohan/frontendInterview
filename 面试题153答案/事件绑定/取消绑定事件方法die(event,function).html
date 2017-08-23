@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		button{font-size:20px;}
+	</style>
+	<script type="text/javascript" src="../jquery-1.6.2.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+		  $("p").live("click",function(){
+		    $(this).slideToggle();
+		  });
+		  $("button").click(function(){
+		    $("p").die();
+		  });
+		});
+	</script>
+</head>
+<body>
+<p>这是一个段落。</p>
+<p>这是另一个段落。</p>
+<p>请点击任意 p 元素，段落会消失。包括本段落。</p>
+<button>移除通过 live() 方法向 p 元素添加的事件处理程序</button>
+</body>
+</html>
+
+
+

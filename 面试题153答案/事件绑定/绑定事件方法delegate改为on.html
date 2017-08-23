@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		button{font-size:20px;}
+	</style>
+	<script type="text/javascript" src="../jquery-1.7.1.min.js"></script>
+	</script>
+<script>
+$(document).ready(function(){
+  $("#div1").on("click","button",function(){
+    $(this).next().css("background-color","pink");
+  });
+  $("#div2").delegate("button","click",function(){
+    $(this).next().css("background-color","pink");
+  });
+});
+</script>
+</head>
+<body>
+
+<h4 style="color:green;">This example demonstrates how to achieve the same effect using on() and delegate().</h4>
+<div id="div1">
+<button>on点击</button>
+<p>Click to set background color using the <b>on() method</b>.</p>
+</div>
+<div id="div2">
+<button>delegate点击</button>
+<p>Click to set background color using the <b>delegate() method</b>.</p>
+</div>
+
+</body>
+</html>
+
+

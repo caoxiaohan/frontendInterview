@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		button{font-size:20px;}
+	</style>
+	<script type="text/javascript" src="../jquery-1.11.1.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+		  $("input").select(function(){
+		    $("input").after("文本被选中！");
+		  });
+		  var e = jQuery.Event("select");
+		  $("button").click(function(){
+		    $("input").trigger(e);
+		  });
+		});
+	</script>
+</head>
+<body>
+<input type="text" name="FirstName" value="Hello World" />
+<br />
+<button>激活 input 域的 select 事件</button>
+</body>
+</html>

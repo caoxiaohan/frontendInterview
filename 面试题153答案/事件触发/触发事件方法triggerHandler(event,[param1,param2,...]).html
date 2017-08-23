@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		button{font-size:20px;}
+	</style>
+	<script type="text/javascript" src="../jquery-1.11.1.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+		  $("input").select(function(){
+		    $("input").after("发生 Input select 事件！");
+		  });
+		  $("button").click(function(){
+		    $("input").triggerHandler("select");
+		  });
+		});
+	</script>
+</head>
+<body>
+<input type="text" name="FirstName" value="Hello World" />
+<br />
+<button>激活 input 域的 select 事件</button>
+<p>请注意，与 trigger() 方法不同，triggerHandler() 方法不会引起所发生事件的默认行为（文本不会被选中）。</p>
+</body>
+</html>

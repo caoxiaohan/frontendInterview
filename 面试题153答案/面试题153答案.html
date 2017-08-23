@@ -1,0 +1,422 @@
+
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>面试题153答案</title>
+</head>
+<body>
+    <h3>
+  面试题153 什么是jQuery事件机制? jQuery常用事件有哪些？jQuery绑定事件的方式有哪些，对比优缺点？jQuery解除绑定事件的方式有哪些，对比异同？jQuery如何触发事件?jQuery事件对象有哪些？jQuery的链式写法，如何返回匹配元素之前的状态？举例说明jQuery的隐式迭代及each方法的用法？如何解决多库共存的问题？什么是jQuery的插件机制？如何使用第三方插件？如何制作插件？举例说明使用jQueryUI的步骤？
+    </h3>
+    <pre>
+一、什么是jQuery事件机制?
+    jQuery事件处理机制完全是基于javascript隐示的实现了浏览器兼容，对操作DOM事件进行封装，包括了：事件绑定、事件解绑、事件触发。
+
+二、jQuery常用事件有哪些？
+    click(handler) 				单击事件
+	blur(handler) 				失去焦点事件
+	mouseenter(handler) 		鼠标进入事件
+	mouseleave(handler)			鼠标离开事件
+	dbclick(handler) 			双击事件
+	change(handler) 改变事件，如：文本框值改变，下来列表值改变等
+	focus(handler) 				获得焦点事件
+	keydown(handler) 			键盘按下事件
+
+三、jQuery绑定事件的方式有哪些，对比优缺点？
+    1 bind
+      1.1 定义和用法
+		  bind() 方法为被选元素添加一个或多个事件处理程序，并规定事件发生时运行的函数。
+	  1.2 将事件和函数绑定到元素
+		  规定向被选元素添加的一个或多个事件处理程序，以及当事件发生时运行的函数。
+		  1.2.1 语法
+			   $(selector).bind(event,data,function)
+		  1.2.2 参数	描述
+				1.2.1 event	
+				      必需。规定添加到元素的一个或多个事件。
+				      由空格分隔多个事件。必须是有效的事件。
+				1.2.2 data	可选。规定传递到函数的额外数据。
+				1.2.3 function	必需。规定当事件发生时运行的函数。
+		  1.2.3 示例
+		        《事件/绑定事件方法bind(event,data,function).html》
+      1.3 将多个事件和函数绑定到元素
+          1.3.1 语法
+                $(selector).bind({event:function, event:function, ...})
+          1.3.2 参数	描述
+                {event:function, event:function, ...}	
+                必需。规定事件映射，其中包含一个或多个添加到元素的事件，以及当事件发生时运行的函数。
+          1.3.3 示例
+               《事件/绑定事件方法bind({event:function, event:function, ...}).html》
+
+    2 delegate
+      2.1 定义和用法
+          delegate() 方法为指定的元素（属于被选元素的子元素）添加一个或多个事件处理程序，并规定当这些事件发生时运行的函数。
+          使用 delegate() 方法的事件处理程序适用于当前或未来的元素（比如由脚本创建的新元素）。
+     2.2 语法
+         $(selector).delegate(childSelector,event,data,function)
+     2.3 参数	描述
+		 2.3.1 childSelector	必需。规定要附加事件处理程序的一个或多个子元素。
+		 2.3.2 event	
+		       必需。规定附加到元素的一个或多个事件。
+		       由空格分隔多个事件值。必须是有效的事件。
+		 2.3.3 data	可选。规定传递到函数的额外数据。
+		 2.3.4 function	必需。规定当事件发生时运行的函数。
+	 2.4 示例
+         《事件/绑定事件方法delegate(childSelector,event,data,function).html》
+    3 live
+      3.1 定义和用法
+          live() 方法为被选元素附加一个或多个事件处理程序，并规定当这些事件发生时运行的函数。
+          通过 live() 方法附加的事件处理程序适用于匹配选择器的当前及未来的元素（比如由脚本创建的新元素）。
+      3.2 语法
+          $(selector).live(event,data,function)
+	  3.3 参数	描述
+		  event	
+		    必需。规定附加到元素的一个或多个事件。
+		    由空格分隔多个事件。必须是有效的事件。
+		  data	可选。规定传递到该函数的额外数据。
+		  function	必需。规定当事件发生时运行的函数。
+	  3.4 示例
+	      《事件/绑定事件方法live(event,data,function).html》
+	4 on
+	  4.1 定义和用法
+	      on() 方法在被选元素及子元素上添加一个或多个事件处理程序。
+          自 jQuery 版本 1.7 起，on() 方法是 bind()、live() 和 delegate() 方法的新的替代品。该方法给 API 带来很多便利，我们推荐使用该方法，它简化了 jQuery 代码库。
+      4.2 注意：使用on()方法添加的事件处理程序适用于当前及未来的元素(比如由脚本 创建的新元素)。
+          提示：如需移除事件处理程序，请使用 off() 方法。
+          提示：如需添加只运行一次的事件然后移除，请使用 one() 方法。
+      4.3 语法
+          $(selector).on(event,childSelector,data,function,map)
+      4.4 参数	描述
+          4.4.1 event	必需。规定要从被选元素移除的一个或多个事件或命名空间。
+               由空格分隔多个事件值。必须是有效的事件。
+          4.4.2 childSelector	可选。规定只能添加到指定的子元素上的事件处理程序（且不是选择器本身，比如已废弃的 delegate() 方法）。
+          4.4.3 data	可选。规定传递到函数的额外数据。
+          4.4.4 function	可选。规定当事件发生时运行的函数。
+          4.4.5 map	规定事件映射 ({event:function, event:function, ...})，包含要添加到元素的一个或多个事件，以及当事件发生时运行的函数。
+     4.5 实例
+         4.5.1 《事件/绑定事件方法bind改为on.html》
+         4.5.2 《事件/绑定事件方法delegate改为on.html》
+         4.5.3 《事件/绑定事件方法live改为on.html》
+    5 对比
+      5.1 相同点：
+　　      5.1.1.都支持单元素多事件的绑定；空格相隔方式或者大括号替代方式;=
+　　      5.1.2.均是通过事件冒泡方式，将事件传递到document进行事件的响应；
+      5.2 不同点
+          5.2.1.bind()只能针对已经存在的元素进行事件的设置；但是live(),on(),delegate()均支持未来新添加元素的事件设置；
+          5.2.2.bind()函数在jquery1.7版本以前比较受推崇，1.7版本出来之后，官方已经不推荐用bind()，替代函数为on(),这也是1.7版本新添加的函数，同样，可以用来代替live()函数，live()函数在1.9版本已经删除；
+          5.3.3 delagate()利用事件委托减少事件绑定次数提高效率，支持动态创建出来的元素绑定事件！
+               live()函数和delegate()函数两者类似，但是live()函数在执行速度，灵活性和CSS选择器支持方面较delegate()差些
+          5.3.4.bind()支持Jquery所有版本；live()支持jquery1.8-；delegate()支持jquery1.4.2+；on()支持jquery1.7+；
+      5.3 综上，我们现在引用的jQuery版本肯定在jQuery1.7+以上，因此推荐使用on方法来绑定事件，on方法包含其他三个方法的优点。
+
+四  jQuery解除绑定事件的方式有哪些，对比异同？
+    1 unbind
+      1.1 定义和用法
+          unbind() 方法移除被选元素的事件处理程序。
+          该方法能够移除所有的或被选的事件处理程序，或者当事件发生时终止指定函数的运行。
+          ubind() 适用于任何通过 jQuery 附加的事件处理程序。
+      1.2 取消绑定元素的事件处理程序和函数
+          规定从指定元素上删除的一个或多个事件处理程序。
+          如果没有规定参数，unbind() 方法会删除指定元素的所有事件处理程序。
+          1.2.1 语法
+                $(selector).unbind(event,function)
+          1.2.2 参数	描述
+                event	
+					可选。规定删除元素的一个或多个事件
+					由空格分隔多个事件值。
+					如果只规定了该参数，则会删除绑定到指定事件的所有函数。
+				function	可选。规定从元素的指定事件取消绑定的函数名。
+		  1.2.3 实例
+		        《事件/取消绑定事件方法unbind(event,function).html》
+	  1.3 使用 Event 对象来取消绑定事件处理程序
+          规定要删除的事件对象。用于对自身内部的事件取消绑定（比如当事件已被触发一定次数之后，删除事件处理程序）。
+          如果未规定参数，则 unbind() 方法会删除指定元素的所有事件处理程序。
+          1.3.1 语法
+                $(selector).unbind(eventObj)
+          1.3.2 参数	描述
+                eventObj	可选。规定要使用的事件对象。这个 eventObj 参数来自事件绑定函数。
+          1.3.3 实例
+		        《事件/取消绑定事件方法unbind(eventObj).html》
+    2 undelegate
+      2.1 定义和用法
+          undelegate() 方法删除由 delegate() 方法添加的一个或多个事件处理程序。
+      2.2 语法
+          $(selector).undelegate(selector,event,function)
+      2.3 参数	描述
+		  selector	可选。规定需要删除事件处理程序的选择器。
+		  event	可选。规定需要删除处理函数的一个或多个事件类型。
+		  function	可选。规定要删除的具体事件处理函数。
+	  2.4 实例
+	      《事件/取消绑定事件方法undelegate(selector,event,function).html》
+    3 die
+      3.1 定义和用法
+          die() 方法移除所有通过 live() 方法向指定元素添加的一个或多个事件处理程序。
+      3.2 语法
+          $(selector).die(event,function)
+      3.3 参数	描述
+		  3.3.1 event	
+			必需。规定要移除的一个或多个事件处理程序。
+			由空格分隔多个事件值。必须是有效的事件。
+		  3.3.2 function	可选。规定要移除的特定函数。
+	  3.4 实例
+	      《事件/取消绑定事件方法die(event,function).html》
+	4 off
+      4.1 定义和用法
+			off() 方法通常用于移除通过 on() 方法添加的事件处理程序。
+			自 jQuery 版本 1.7 起，off() 方法是 unbind()、die() 和 undelegate() 方法的新的替代品。该方法给 API 带来很多便利，我们推荐使用该方法，它简化了 jQuery 代码库。
+     4.2  注意：如需移除指定的事件处理程序，当事件处理程序被添加时，选择器字符串必须匹配 on() 方法传递的参数。
+      提示：如需添加只运行一次的事件然后移除，请使用 one() 方法。
+     4.3 语法
+         $(selector).off(event,selector,function(eventObj),map)
+     4.4 参数	描述
+         event	必需。规定要从被选元素移除的一个或多个事件或命名空间。
+                由空格分隔多个事件值。必须是有效的事件。
+         selector	可选。规定添加事件处理程序时最初传递给 on() 方法的选择器。
+         function(eventObj)	可选。规定当事件发生时运行的函数。
+         map	规定事件映射 ({event:function, event:function, ...})，包含要添加到元素的一个或多个事件，以及当事件发生时运行的函数。
+     4.5 实例
+         4.5.1 《事件/解除绑定事件方法unbind改为off.html》
+         4.5.2 《事件/解除绑定事件方法undelegate改为off.html》
+         4.5.3 《事件/解除绑定事件方法die改为off.html》
+   5 比较：
+     5.1 与绑定事件一一对应
+	     unbind解除bind绑定的实际
+	     undelegate解除delagate绑定的实际
+	     die解除live绑定的实际
+	     off解除on绑定事件
+     5.2 不同的jQuery兼容情况不同
+         unbind()支持Jquery所有版本；die()支持jquery1.8-；undelegate()支持jquery1.4.2+；off()支持jquery1.7+；
+         如果需要同时支持off和die方法，需要引入jQuery1.7版本。
+
+五、jQuery如何触发事件?
+    1 简单事件触发
+      $(selector).click(); //触发 click事件
+    2 trigger方法触发事件，触发浏览器行为
+      2.1 定义和用法
+          trigger() 方法触发被选元素的指定事件类型。
+      2.2 触发事件
+          规定被选元素要触发的事件。
+           2.2.1 语法
+           $(selector).trigger(event,[param1,param2,...])
+           2.2.2 参数	描述
+			  event	
+				必需。规定指定元素要触发的事件。
+				可以使自定义事件（使用 bind() 函数来附加），或者任何标准事件。
+			  [param1,param2,...]	
+				可选。传递到事件处理程序的额外参数。
+				额外的参数对自定义事件特别有用。
+	       2.2.3 实例
+	          《事件/触发事件方法trigger(event,[param1,param2,...]).html》
+	  2.3 使用 Event 对象来触发事件
+           规定使用事件对象的被选元素要触发的事件。
+          2.3.1 语法
+               $(selector).trigger(eventObj)
+          2.3.2 参数	描述
+               eventObj	必需。规定事件发生时运行的函数。
+          2.3.3 实例
+               《事件/触发事件方法trigger(eventObj).html》
+    3 triggerHandler触发 事件响应方法，不触发浏览器行为
+      3.1 定义和用法
+          triggerHandler() 方法触发被选元素的指定事件类型。但不会执行浏览器默认动作，也不会产生事件冒泡。          
+     3.2 返回值
+         该方法的返回的是事件处理函数的返回值，而不是具有可链性的 jQuery 对象。此外，如果没有处理程序被触发，则这个方法返回 undefined。
+     3.3 语法
+         $(selector).triggerHandler(event,[param1,param2,...])
+     3.4 参数	描述
+		event	必需。规定指定元素要触发的事件。
+		[param1,param2,...]	可选。传递到事件处理程序的额外参数。
+     3.5 示例
+        《事件/触发事件方法triggerHandler(event,[param1,param2,...]).html》
+    4 比较
+      4.1 triggerHandler() 方法它不会触发事件（比如表单提交）的默认行为，
+      4.2 .trigger() 会操作 jQuery 对象匹配的所有元素，而 .triggerHandler() 只影响第一个匹配元素。
+      4.3 由 .triggerHandler() 创建的事件不会在 DOM 树中冒泡；如果目标元素不直接处理它们，则不会发生任何事情。
+  
+
+六、jQuery事件对象有哪些？
+    event.data 					传递给事件处理程序的额外数据
+	event.currentTarget 			等同于this，当前DOM对象
+	event.pageX 					鼠标相对于文档左部边缘的位置
+	event.target 					触发事件源，不一定===this
+	event.stopPropagation()；	阻止事件冒泡
+	event.preventDefault(); 	阻止默认行为
+	event.type 					事件类型：click，dbclick…
+	event.which 					鼠标的按键类型：左1 中2 右3
+	event.keyCode				键盘按键代码
+    
+七、jQuery的链式写法，如何返回匹配元素之前的状态？
+    1 链式编程原理：return this;
+      通常情况下，只有设置操作才能把链式编程延续下去。因为获取操作的时候，会返回获取到的相应的值，无法返回 this。
+    2 end()
+      2.1 定义和用法
+         end() 方法结束当前链条中的最近的筛选操作，并将匹配元素集还原为之前的状态。
+      2.2 语法 .end()
+      2.3 举例
+         <ul class="first">
+		   <li class="foo">list item 1</li>
+		   <li>list item 2</li>
+		   <li class="bar">list item 3</li>
+		</ul>
+		<ul class="second">
+		   <li class="foo">list item 1</li>
+		   <li>list item 2</li>
+		   <li class="bar">list item 3</li>
+		</ul>
+		<script>			
+			$('ul.first').find('.foo').css('background-color', 'red')
+			  .end().find('.bar').css('background-color', 'green');
+		</script>
+
+八、举例说明jQuery的隐式迭代及each方法的用法？
+    1 隐式迭代的意思是：在方法的内部会为匹配到的所有元素进行循环遍历，执行相应的方法；而不用我们再进行循环，简化我们的操作，方便我们调用。
+    2 each
+      2.1 定义和用法
+          each() 方法规定为每个匹配元素规定运行的函数。
+      2.2 提示：返回 false 可用于及早停止循环。
+      2.3 语法
+           $(selector).each(function(index,element))
+      2.4 参数	描述
+			function(index,element)	
+			必需。为每个匹配元素规定运行的函数。
+			index - 选择器的 index 位置
+			element - 当前的元素（也可使用 "this" 选择器）
+	  2.5 举例
+	        <button>输出每个列表项的值</button>
+			<ul>
+				<li>Coffee</li>
+				<li>Milk</li>
+				<li>Soda</li>
+			</ul>
+		    <script type="text/javascript">
+				$(document).ready(function(){
+				  $("button").click(function(){
+				    $("li").each(function(){
+				      alert($(this).text())
+				    });
+				  });
+				});
+			</script>
+
+九、如何解决多库共存的问题？
+    多库共存指的是：jQuery占用了$ 和jQuery这两个变量。当在同一个页面中引用了jQuery这个js库，并且引用的其他库（或者其他版本的jQuery库）中也用到了$或者jQuery这两个变量，那么，要保证每个库都能正常使用，这时候就有了多库共存的问题。
+    解决方案：
+    1 利用jQuery的实用函数$.noConflict();
+      这个函数归还$的名称控制权给另一个库，因此可以在页面上使用其他库。
+      这时，我们可以用"jQuery "这个名称调用jQuery的功能。
+      <script type="text/javascript">
+      	    $.noConflict();   
+			jQuery('#id').hide();
+			//或者给jQuery一个别名  
+			var $j=jQuery  
+			$j('#id').hide(); 
+      </script>
+    2  (function($){/*代码块*/})(jQuery)
+       整体上是一个闭包函数
+       2.1 前半部分 (function($){/*代码块*/})
+           这是一个函数声明，并用括号括起来够成一个表达式，表达式的返回值就是这个函数的引用。
+           在这个函数中用$作为参数。所以在代码块用可以使用$符号。
+       2.2 后半部分：(jQuery)
+          将jQuery对象参数传递给在前半半部分返回函数引用。
+       2.3 拆分写法
+           <script type="text/javascript">
+           	    //声明函数  
+				var fun=function($){/*代码块*/};  
+				//调用函数  
+				fun(jQuery);  
+           </script>
+           把全局的jQuery传递给形参$,这样在函数体内使用的$是局部变量$
+    3 jQuery(function($){/*代码块*/})
+      利用jQuery(callback)
+      允许你绑定一个在 DOM 文档载入完成后执行的函数。
+      该函数的作用如同 $(document).ready() 一样，
+	  例子,当DOM加载完成后，执行其中的函数：
+	  <script type="text/javascript">
+	  	 $(function(){
+		  // 文档就绪
+		 });
+		 jQuery(function(){
+		  // 文档就绪
+		 });
+		 jQuery(function($){
+		  // 文档就绪
+		 });
+	  </script>
+	  把全局的&传递给形参$,这样在函数体内使用的$是局部变量$
+
+十、什么是jQuery的插件机制？如何使用第三方插件？如何制作插件？
+    1 jQuery的插件主要分为3种类型：
+         1.1 封装对象的插件
+              这种插件将对象封装起来，用于对通过选择器获取的jQuery对象进行操做，是最常见的一种插件。
+              95%以上的jQuery插件都是封装对象方法的插件。
+              比如$("div").addClass("color","red");或者$("div").addClass("color","red");
+                  $("div").appendTo("body");或者$("div").appendTo("body");
+              通过jQuery选择获取的jQuery对象可以直接调用的方法就是封装对象的插件。
+         1.2 封装全局函数的插件
+             可以将独立的函数添加到jQuery命名空间之下。
+            比如：jQuery.noConflict(); 或者 $..noConflict();
+                  jQuery.ajax(); 或者 $.ajax();
+                  jQuery.trim(); 或者 $.trim();
+              上述方法可以直接通过jQuery.或者$.调用，都是jQuery内部作为全局函数的插件附加到内核上去嘚
+         1.3 选择器插件   
+             jQuery选择符解析首先会使用一组正则表达式来解析选择器，然后针对解析出的每个选择器符执行一个函数，称为选择器函数。
+             最后根据这个选择器函数的返回值是true还是false来决定是否保留这个元素。
+             jQuery已经提供了lt、gt和eq等选择器，但却没有提供between选择器。
+             比如可以自己写一个选择器插件$("div:between(2,5)")实现获取索引值为3、4的元素。
+      2 jQuery插件的基本要点
+          2.1 jQuery插件的文件名推荐命名为jquery.[插件名].js，以避免和其他Javascript库插件混淆。
+               比如命名为jquery.color.js.
+          2.2 所有的对象方法都应当附加到jQuery.fn对象上，而所有的全局函数都应当附加到jQuery对象本身。
+          2.3 在插件内部，this指向的是当前通过选择器获取的jQuery对象，而不像一般的方法那样如click()方法内部的this指向的是DOM元素。
+          2.4 可以通过this.each来遍历所有元素。
+          2.5 所有的方法或函数插件，都应当以分号结尾，否则压缩的时候可能出现问题。
+              为了稳妥可以在插件头部先加一个分号。
+          2.6 插件应该返回一个jQuery对象，以保证插件的可链式操作。
+              除非插件返回的是一些需要获取的量，例如字符串或数组等。
+          2.7 避免在插件内部使用$作为jQuery对象的别名，而应使用完整的jQuery来表示，这样可以避免冲突。
+              也可以利用闭包使插件内部继续使用$作为jQuery的别名。
+      3 jQuery插件中的闭包
+         3.1 插件闭包的描述：
+             jQuery内部函数可以访问它们所在的外部函数中声明的所有局部变量、参数和声明的其他内部函数，当内部函数在包含它们的外部函数之外被调用时，就会形成闭包。即内部函数会在外部函数返回后被执行。
+         3.2 插件闭包的意义：
+             利用闭包的特性，即可以避免内部临时变量影响全局空间，又可以在插件内部继续使用$作为jQuery的别名。
+         3.3 jQuery插件的形式
+              3.3.1 常见的jQuery闭包形式
+                    <script type="text/javascript">
+                          (function(){
+                              /*这里放代码*/
+                          })();
+                    </script>
+              3.3.2 常见的jQuery插件的结构
+                    <script type="text/javascript">
+                          //为了更好的兼容性，开始前有个分号
+                          :(function($){ //此处将$作为匿名函数的形参
+                              /*这里放置代码，可以使用$作为jQuery的缩写别名*/
+                              var foo;
+                              var cxh =funtion(){
+                                 //匿名函数内部可以访问foo
+                              }
+                              $.CXH=cxh;//可以在匿名函数的外部，通过jQuery.CXH()来访问内部定义的函数cxh();
+                          })(jQuery); //这里就将jQuery作为实参传递给匿名函数了。
+                    </script>
+       4 jQuery插件的机制
+          jQuery提供了两个用于扩展jQuery对功能的方法，即jQuery.fn.extend()方法和jQuery.extend()方法。
+          4.1 jQuery.fn.extend()方法
+              用于扩展第1种类型的插件---封装对象的插件。
+          4.2 jQuery.extend()方法
+              用户扩展后两种类型的插件---封装全局函数的插件和选择器插件。
+              jQuery.extend()方法除了用户扩展jQuery对象之外，还可以扩展已有的Object对象。
+              <script type="text/javascript">
+                  var obj1 ={a:1,b:2,c:3};
+                  var obj2 ={a:11,c:33};
+                  var obj = jQuery.extend(obj1,obj2);
+                  console.log(obj);//{a:11,b:2,c:33}
+              </script>
+        5 编写jQuery插件
+          源码详见《编写jQuery插件》
+          5.1 封装jQuery对象方法的插件
+          5.2 封装全局函数的插件
+          5.3 自定义选择器
+
+十一、举例说明使用jQueryUI的步骤？
+      详见《jQueryUI使用步骤.doc》
+</body>
+</html>

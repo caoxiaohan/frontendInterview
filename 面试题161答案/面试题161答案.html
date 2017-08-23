@@ -1,0 +1,534 @@
+
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>面试题161答案</title>
+</head>
+<body>
+    <h3>
+  面试题161 什么是B/S架构和C/S架构，以及各自的优缺点？服务器的分类？常见服务软件有哪些？什么是http协议？常见的http服务器和服务端开发语言有哪些？常见的数据库有哪些，数据库的特点？DBA和DBMS全称是什么？LAMP、LNMP、WAMP的全称是什么？如何修改nginx或者apche服务器的端口号？如何配置apache或者nginx服务器，使局域网中电脑或手机可以通过私有ip访问本机服务器？如何获取本机ip地址？哪些常见情况电脑或手机在同一局域网下？如何通过nginx或apache配置网站根目录？什么是动态网站以及动态网站的特点？什么是静态网站以及静态网站的特点？Php注释的格式？变量命名的规则？Php中单引号和双引号的区别？Php输出语句有哪几种方式及区别？Php中如何定义带构造函数的对象，如何获取对象的属性？Php中的循环语句和遍历对象语法？PHP中header函数的用法？举例说明get和post提交表单数据的区别？POST&GET错误处理？PHP文件上传处理？
+    </h3>
+    <pre>
+一、什么是B/S架构和C/S架构，以及各自的优缺点？
+    1 C/S架构 
+      1.1 定义：C/S是Client/Server这两个单词的首字母,指的是客户端,服务器架构的意思,很多常见的软件都是这种架构呢
+      1.2 举例：需要安装的软件，比如qq,360软件，手机app
+      1.3 优点:
+          性能较高:可以将一部分的计算工作放在客户端上,这样服务器只需要处理数据即可。
+          界面酷炫:客户端可以使用更多系统提供的效果,做出更为炫目的效果。
+      1.4 缺点:
+          更新软件:如果推出了新版本,不更新客户端无法登陆使用(一部分)
+          不同设备访问:如果使用其他的电脑,没有安装客户端的话就无法登陆软件(比如收发邮件)
+     2 B/S架构
+       2.1 定义：C/S是Browser/Server的这两个单词的首字母,指的是浏览器,服务器,是WEB兴起之后的一种架构。
+       2.2 举例：不需要下载安装，在浏览器上输入ip或者域名可以直接访问的网站，web app，浏览器导航链接图标。本质上都是访问网址路径。
+       2.3 优点
+           更新简洁:如果需要更新内容了,对开发人员而言需要更改服务器的内容,但是对用户而言只需要刷新浏览器即可。
+           多设备同步:所有数据都在网上,只要能够使用浏览器即可登录使用
+       2.4 缺点:
+           性能较低:相比于客户端应用性能较低,但是随着硬件性能的提升,这个差距在缩小
+           浏览器兼容:处理低版本的浏览器显示问题一直是前端开发人员头痛的问题之一,移动设备兼容性较好,ie6已经越来越少人用了
+
+二、服务器的分类？常见服务软件有哪些？
+    1 服务器的分类
+      1.1 按类型分:
+        文件服务器、数据库服务器、邮件服务器、Web 服务器等；
+      1.2 按软件分:
+        Apache服务器、Nginx 服务器、IIS服务器、Tomcat服务器、Node服务器等。
+      1.3 按操作系统分:
+        Linux服务器、Windows服务器等；
+    2 常见的服务器软件有：
+      文件服务器：Server-U、FileZilla、VsFTP等；
+      数据库服务器：Oracle、MySQL、PostgreSQL、MSSQL等；
+      邮件服务器：Postfix、Sendmail等；
+      HTTP 服务器：Apache、Nginx、IIS、Tomcat、NodeJS等；
+
+三、什么是http协议？常见的http服务器和服务端开发语言有哪些？
+    1 定义
+      超文本传输协议（HTTP，HyperText Transfer Protocol)是互联网上应用最为广泛的一种网络协议。所有的WWW文件都必须遵守这个标准。设计HTTP最初的目的是为了提供一种发布和接收HTML页面的方法。
+    2 常见的http服务器
+      Apache 49.1%
+      Nginx 34.7%
+      Microsoft-IIS 11.0%
+      LiteSpeed 2.9%
+      Google Servers 1.1%
+      Tomcat 0.5%
+      Node.js 0.3%
+      IdeaWebServer 0.3%
+      Apache Traffic Server 0.3%
+      Tengine 0.2%
+      Cowboy  0.1%
+      Lighttpd  0.1%
+      Oracle Servers 0.1%
+      IBM Servers 0.1%
+      使用率小于0.1%的http服务器
+      Zope
+      Gunicorn
+      Kangle
+      Jetty
+      WEBrick
+      Thin
+      Resin
+      Zeus
+      Hiawatha
+      Caddy
+      Tornado
+      Cherokee
+      Mongrel
+      Paste WSGI HTTP Server
+      Roxen
+      H2O
+      AOLserver
+      Waitress
+      IceWarp
+      CherryPy
+      Abyss
+      KomHttpServer
+      Yahoo Traffic Server
+      Twisted
+      WebSTAR
+      SAP J2EE Engine
+      NaviServer
+      Yaws
+      WebToB
+      Jexus
+      RaidenHTTPD
+      G-WAN
+      nxweb
+      AllegroServe
+      Orion
+      Monkey
+      Barracuda Server
+      BaseHTTPServer
+      CouchDB
+      Misultin
+      Virtuoso
+      Xitami
+      Caudium
+      Hunchentoot
+      WebHare
+      Wildcat
+      Blazix
+      FAPWS
+      Noelios Restlet Engine
+      Ada Web Server
+      Comanche
+      Lwan
+      Mongrel2
+      Swazoo
+      Tntnet
+      Trifork
+      TUX
+    3 服务端开发语言
+      PHP 82.7%
+      ASP.NET 14.9%
+      Java 2.6%
+      static files 1.5%
+      ColdFusion 0.6%
+      Ruby 0.5%
+      JavaScript 0.4%
+      Perl 0.4%
+      Python 0.2%
+      Erlang 0.1%
+      使用率小于0.1%的服务器端开发语言
+      Miva Script
+      Lasso
+      Lua
+      Scala
+      Tcl
+      C++
+      Smalltalk
+      Haskell
+      Lisp
+      Ada
+
+四  常见的数据库有哪些，数据库的特点？DBA和DBMS全称是什么？
+    1 常见的数据库
+      1.1 关系数据库
+          Oracle
+          MySQL
+          MariaDB
+          SqlServer
+          Access
+          DB2
+          postgreSQL
+          Informix
+          sybase
+       1.2 非关系数据库
+           1.2.1 赋值存储数据库
+                 Redis
+                 Memcached
+           1.2.2 文档存储数据库
+                 MongoDB
+                 CouchDB
+           1.2.3 列存储数据库
+                 HBase
+                 Cassandra
+           1.2.4 图数据库
+                FlockDB
+                Neo4j
+    2 数据库的特点
+      (1)实现数据共享。
+      数据共享包含所有用户可同时存取数据库中的数据，也包括用户可以用各种方式通过接口使用数据库，并提供数据共享。
+      (2)减少数据的冗余度。
+      同文件系统相比，由于数据库实现了数据共享，从而避免了用户各自建立应用文件。减少了大量重复数据，减少了数据冗余，维护了数据的一致性。
+      (3)数据的独立性。
+      数据的独立性包括数据库中数据库的逻辑结构和应用程序相互独立，也包括数据物理结构的变化不影响数据的逻辑结构。
+      (4)数据实现集中控制。
+      文件管理方式中，数据处于一种分散的状态，不同的用户或同一用户在不同处理中其文件之间毫无关系。利用数据库可对数据进行集中控制和管理，并通过数据模型表示各种数据的组织以及数据间的联系。
+      (5)数据一致性和可维护性，以确保数据的安全性和可靠性。
+    3 DBA和DBMS全称是什么
+      数据库管理员(data base administrator)
+	    数据库管理系统(data base management system)
+
+五、LAMP、LNMP、WAMP的全称是什么？如何修改nginx或者apche服务器的端口号？如何配置apache或者nginx服务器，使局域网中电脑或手机可以通过私有ip访问本机服务器？如何获取本机ip地址？哪些常见情况电脑或手机在同一局域网下？如何通过nginx或apache配置网站根目录？
+    1 LAMP、LNMP、WAMP的全称是什么
+      1.1 LAMP
+          Linux+Apache+Mysql/MariaDB+Perl/PHP/Python一组常用来搭建动态网站或者服务器的开源软件，本身都是各自独立的程序，但是因为常被放在一起使用，拥有了越来越高的兼容度，共同组成了一个强大的Web应用程序平台。
+      1.2 LNMP
+          LNMP代表的就是：Linux系统下Nginx+MySQL+Perl/PHP/Python这种网站服务器架构。
+          p通常指的是php.
+          Linux是一类Unix计算机操作系统的统称，是目前最流行的免费操作系统。代表版本有：debian、centos、ubuntu、fedora、gentoo等。
+          Nginx是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP代理服务器。
+          Mysql是一个小型关系型数据库管理系统。
+          PHP是一种在服务器端执行的嵌入HTML文档的脚本语言。
+      1.3 WAMP
+          WAMP指的是Windows下的Apache+Mysql/MariaDB+Perl/PHP/Python，一组常用来搭建动态网站或者服务器的开源软件，本身都是各自独立的程序，但是因为常被放在一起使用，拥有了越来越高的兼容度，共同组成了一个强大的Web应用程序平台。
+    2 如何修改nginx或者apche服务器的端口号？
+      假设安装的是phpstudy
+      2.1 修改nginx服务器的端口号
+          打开目录"D:\phpStudy\nginx\conf"
+          编辑"nginx.conf"文件
+          搜索listen
+          默认listen 80  表示服务器的端口号是80
+          可以将80修改为其他数字，如8080
+      2.2 修改apache服务器的端口号
+          打开目录"D:\phpStudy\Apache\conf"
+          编辑"httpd.conf"文件
+          搜索listen
+          默认listen 80  表示服务器的端口号是80
+          可以将80修改为其他数字，如8080
+    3 如何配置apache或者nginx服务器，使局域网中电脑或手机可以通过私有ip访问本机服务器？
+      3.1. 关闭防火墙
+      3.2  修改服务器配置文件
+           3.2.1 配置apache服务器
+                 apache服务器配置，使得局域网中的设备可以通过私有ip访问本机
+                 打开目录"D:\phpStudy\Apache\conf"
+                 编辑"httpd.conf"文件
+                 搜索Directory目录，添加"Allow from all"这句话
+                 DocumentRoot  "D:\phpStudy\WWW"
+                  <Directory />
+                      Options +Indexes +FollowSymLinks +ExecCGI
+                      AllowOverride All
+                      Order allow,deny
+                      Allow from all
+                      Require all granted
+                  </Directory>
+            3.2.2 配置nginx服务器
+                  nginx服务器配置，使得局域网中的设备可以通过私有ip访问本机
+                  打开目录"D:\phpStudy\nginx\conf"
+                  编辑"nginx.conf"文件
+                  搜索location目录，添加"autoindex  on"这句话
+                  location / {
+                    index  index.html index.htm index.php l.php;
+                    autoindex  on;
+                 }
+    4 如何获取本机ip地址？
+      打开命令行工具cmd
+      输入 ipconfig  然后回车
+      则显示以下内容，记下IPV4地址，则为本机私有IP,在局域网中IP地址。
+            C:\Users\Administrator>ipconfig
+            Windows IP 配置
+            无线局域网适配器 无线网络连接:
+             连接特定的 DNS 后缀 . . . . . . . :
+             本地链接 IPv6 地址. . . . . . . . : fe80::18fd:1565:ba15:4b2e%15
+             IPv4 地址 . . . . . . . . . . . . : 192.168.43.160
+             子网掩码  . . . . . . . . . . . . : 255.255.255.0
+             默认网关. . . . . . . . . . . . . : 192.168.43.1
+    5 哪些常见情况电脑或手机在同一局域网下？
+      同一个局域网中的设备（电脑或手机）可以访问这个私有ip
+      如果手机和电脑连接的是同一个wifi，则手机和电脑在同一个局域网中。
+      如果两个电脑之间用同一根网线连接，则两台电脑在同一个局域网中。
+      如果多台电脑之间用交换机或路由器连接，则多台电脑在同一个局域网中。
+      显然，手机和电脑连接的是同一个wifi，在同一个局域网中。
+      在手机浏览器中输入IPV4地址，192.168.43.160， 可以打开www目录。
+      此处IPV4地址需要查询自己的电脑，每个人的不同。
+    6 如何通过nginx或apache配置网站根目录？
+      假设安装的是phpstudy
+      6.1 修改nginx服务器的网站根目录
+          打开目录"D:\phpStudy\nginx\conf"
+          编辑"nginx.conf"文件
+          搜索server，找到sever下的root
+          默认 root   "d:/phpStudy/WWW";  
+          可以将网站根目录修改为其他路径
+      2.2 修改apache服务器的网站根目录
+          打开目录"D:\phpStudy\Apache\conf"
+          编辑"httpd.conf"文件
+          搜索DocumentRoot
+          默认DocumentRoot  "D:\phpStudy\WWW"
+          可以将网站根目录修改为其他路径
+
+六、什么是动态网站以及动态网站的特点？什么是静态网站以及静态网站的特点？
+    1 动态网站并不是指具有动画功能的网站，而是指网站内容可根据不同情况动态变更的网站，一般情况下动态网站通过数据库进行架构。
+       特点：
+      （1）动态网页以数据库技术为基础，可以大大降低网站维护的工作量；
+      （2）采用动态网页技术的网站可以实现更多的功能，如用户注册、用户登录、在线调查、用户管理、订单管理等等；
+      （3）动态网页实际上并不是独立存在于服务器上的网页文件，只有当用户请求时服务器才返回一个完整的网页；
+      （4）动态网页中的“？”对搜索引擎检索存在一定的问题，搜索引擎一般不可能从一个网站的数据库中访问全部网页，或者出于技术方面的考虑，搜索蜘蛛不去抓取网址中“？”后面的内容，因此采用动态网页的网站在进行搜索引擎推广时需要做一定的技术处理才能适应搜索引擎的要求
+     2 在网站设计中，纯粹HTML格式的网页通常被称为“静态网页”，早期的网站一般都是由静态网页制作的。
+       特点： 
+       （1）静态网页每个网页都有一个固定的URL，且网页URL以.htm、.html、.shtml等常见形式为后缀，而不含有“？”；
+      （2）网页内容一经发布到网站服务器上，无论是否有用户访问，每个静态网页的内容都是保存在网站服务器上的，也就是说，静态网页是实实在在保存在服务器上的文件，每个网页都是一个独立的文件；
+      （3）静态网页的内容相对稳定，因此容易被搜索引擎检索；
+      （4）静态网页没有数据库的支持，在网站制作和维护方面工作量较大，因此当网站信息量很大时完全依靠静态网页制作方式比较困难；
+      （5）静态网页的交互性较差，在功能方面有较大的限制
+    
+七、Php注释的格式？变量命名的规则？Php中单引号和双引号的区别？Php输出语句有哪几种方式及区别？
+    1 Php注释的格式
+      <?php
+        //这是单行注释
+        /*
+            这是多行注释
+        */
+      ?>
+    2 变量命名的规则
+      变量以$符号开头，其后是变量的名称
+      变量名称必须以字母或下划线开头
+      变量名称不能以数字开头
+      变量名称只能包含字母数字字符和下划线（A-z、0-9 以及_）
+      变量名称对大小写敏感
+    3 Php中单引号和双引号的区别
+      单引号:`` 内部的内容只是作为字符串
+      双引号:"" 如果内部是PHP的变量,那么会将该变量的值解析
+    4 Php输出语句有哪几种方式及区别
+      4.1 echo 常用的输出语句，例如：echo 'helloworld！';
+      4.2 print() 输出语句，有返回值。例如：print('helloworld！'); 输出成功返回1，失败返回0。 
+      4.3 printf(); 格式化输出字符串。例如：printf("%d,%f",12,12.3); 
+      4.4 print_r(); 输出数组、对象等复合数据类型。例如：print_r($array);
+      4.5 var_dump(); 可以判断一个变量的类型与长度,并输出变量的数值。例如：var_dump('helloworld！');
+      4.6 sprintf函数
+          此函数使用方法和printf一样，唯一不同的就是该函数把格式化的字符串写入一个变量中，而不是输出来。
+          例子：
+          <?php
+           sprintf("My name is %1\$s %1\$s","xshell", "net");  //你会发现没有任何东西输出的。
+           $out = sprintf("My name is %1\$s %2\$s","xshell", "net");
+           echo $out;  //输出 My name is xshell net
+          ?>
+
+八、Php中如何定义带构造函数的对象，如何获取对象的属性？Php中的循环语句和遍历对象语法？PHP中header函数的用法？
+    1  Php中如何定义带构造函数的对象，如何获取对象的属性
+       <script type="text/javascript">
+            class person{
+              // 私有属性,外部无法访问
+              var $name = 'cxh';
+              // 定义方法 用来获取属性
+              function getName(){
+                 return $this->name;
+              }
+              // 构造函数,可以传入参数
+              function person($name){
+                 $this->name = $name
+              }
+          }
+          // 定义了构造函数 需要使用构造函数初始化对象
+          $p = new person('c');
+          // 调用对象方法,获取对象名
+          $pName = $p->getName();//c
+       </script>
+    2  Php中的循环语句和遍历对象语法
+       2.1 PHP for 循环
+           如果您已经提前确定脚本运行的次数，可以使用 for 循环。
+           2.1.1 语法
+            for (init counter; test counter; increment counter) {
+              code to be executed;
+            }
+           2.1.2 参数：
+            init counter：初始化循环计数器的值
+            test counter：: 评估每个循环迭代。如果值为 TRUE，继续循环。如果它的值为 FALSE，循环结束。
+            increment counter：增加循环计数器的值
+           2.1.3 实例
+            下面的例子显示了从 0 到 10 的数字：
+            <?php 
+            for ($x=0; $x<=10; $x++) {
+              echo "数字是：$x <br>";
+            } 
+            ?>
+       2.2 PHP foreach 循环
+          foreach 循环只适用于数组，并用于遍历数组中的每个键/值对。
+          2.2.1 语法
+              foreach ($array as $value) {
+                code to be executed;
+              }
+          每进行一次循环迭代，当前数组元素的值就会被赋值给 $value 变量，并且数组指针会逐一地移动，直到到达最后一个数组元素。
+          下面的例子演示的循环将输出给定数组（$colors）的值：
+          实例
+          <?php 
+            $colors = array("red","green","blue","yellow"); 
+            foreach ($colors as $value) {
+              echo "$value <br>";
+            }
+          ?>
+    3  PHP中header函数的用法
+      3.1 定义和用法
+          header() 函数向客户端发送原始的 HTTP 报头。
+          认识到一点很重要，即必须在任何实际的输出被发送之前调用 header() 函数（在 PHP 4 以及更高的版本中，您可以使用输出缓存来解决此问题）：
+          <html>
+          <?php
+          // 结果出错
+          // 在调用 header() 之前已存在输出
+          header('Location: http://www.example.com/');
+          ?>
+      3.2 语法
+          header(string,replace,http_response_code)
+      3.3 参数  描述
+          string  必需。规定要发送的报头字符串。
+          replace 
+          可选。指示该报头是否替换之前的报头，或添加第二个报头。
+          默认是 true（替换）。false（允许相同类型的多个报头）。
+          http_response_code  可选。把 HTTP 响应代码强制为指定的值。（PHP 4 以及更高版本可用）
+      3.4 提示和注释
+          注释：从 PHP 4.4 之后，该函数防止一次发送多个报头。这是对头部注入攻击的保护措施。
+      3.5 例子
+          <1>  重定向功能，这种最常见 
+              <?php 
+              Header("Location: http://www.php.net"); 
+              ?> 
+          <2>  强制用户每次访问这个页面时获取最新资料，而不是使用存在客户端的缓存。
+              <?php 
+                //告诉浏览器此页面的过期时间(用格林威治时间表示)，只要是已经过去的日期即可。 
+                header("Expires: Mon, 26 Jul 1970 05:00:00 GMT"); 
+                //告诉浏览器此页面的最后更新日期(用格林威治时间表示)也就是当天,目的就是强迫浏览器获取最新资料 
+                header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT"); 
+                //告诉客户端浏览器不使用缓存 
+                header("Cache-Control: no-cache, must-revalidate"); 
+                //参数（与以前的服务器兼容）,即兼容HTTP1.0协议 
+                header("Pragma: no-cache"); 
+                //输出MIME类型 
+                header("Content-type: application/file"); 
+                //文件长度 
+                header("Content-Length: 227685"); 
+                //接受的范围单位 
+                header("Accept-Ranges: bytes"); 
+                //缺省时文件保存对话框中的文件名称 
+                header("Content－Disposition: attachment; filename=$filename"); 
+              ?>
+          <3>  输出状态值到浏览器，主要用于访问权限控制 
+              <?php 
+                header('HTTP/1.1 401 Unauthorized'); 
+                header('status: 401 Unauthorized'); 
+              ?>   
+           比如要限制一个用户不能访问该页，则可设置状态为404，如下所示，这样浏览器就显示为即该页不存在 
+              <?php 
+                header('HTTP/1.1 404 Not Found'); 
+                header("status: 404 Not Found"); 
+              ?> 
+
+九、举例说明get和post提交表单数据的区别？POST&GET错误处理？
+    1 $_GET变量（数组）：
+      get这个词，常常出现在这里：<form  action=”formTest.php”  method=”get” >.....</form>
+      这叫做“表单以get方式提交数据”
+     则$_GET这个预定义数组变量，就是指以这种方式提交的所有数据的集合（数组）
+    实际上，在网页中，以get方式提交数据有多种形式：
+    1.1 形式一：
+        <form  action=”formTest.php”  method=”get” >
+            项目1： <input type=”text”   name=”uName”   />
+            项目2： <input type=”password”   name=”uPswd”   />
+            <input type=”submit”  value=”提交”  />
+        </form>
+        其作用是：用户填写表单数据，并提交后，会将数据发送（提交）给页面formTest.php，其实也可以理解为“打开”该网页（formTest.php），还可以理解为“请求”该网页（formTest.php) 
+    1.2 形式二：
+        <a  href=”formTest.php?uName=test1&uPswd=123”  > 文字。。。</a>
+        其作用是：用户点击链接后，会将数据发送（提交）给页面formTest.php，其实也可以理解为“打开”该网页（formTest.php），还可以理解为“请求”该网页（formTest.php)，这种请求也是get请求
+    1.3 形式三：
+        <script>
+            location.href = “formTest.php?uName=test1&uPswd=123”;    //利用location对象的属性href
+        </script>
+        其作用是：当该行语句执行的时候（通常其实是在函数中），会将数据发送（提交）给页面formTest.php，其实也可以理解为“打开”该网页（formTest.php），还可以理解为“请求”该网页（formTest.php)，这种请求也是get请求
+    1.4 形式四：
+        <script>
+             location.assign( “formTest.php?uName=test1&uPswd=123”);  //利用location对象的方法assign()
+        </script>
+        其作用是：当该行语句执行的时候（通常其实是在函数中），会将数据发送（提交）给页面formTest.php，其实也可以理解为“打开”该网页（formTest.php），还可以理解为“请求”该网页（formTest.php)，这种请求也是get请求
+    不管哪种形式的get提交过来的数据，获取数据是一样的：
+    （在formTest.php网页中）
+    <?php
+    $v1 = $_GET[‘uName’]; //单引号也可以用双引号，本质是一个字符串，其实是数组的键名（下标）
+    $v2 = $_GET[‘uPswd’];   //该键名必须跟提交的时候的名字完全一致（区分大小写）
+    ?>
+
+    2 $_POST变量（数组）
+     类似$_GET变量（数组），$_POST代表页面通过post方式提交过来的数据所形成的数组。
+      post提交数据，通常只有一种形式：
+      <form  action=”formTest.php”  method=”post” >
+          项目1： <input type=”text”   name=”uName”   />
+          项目2： <input type=”password”   name=”uPswd”   />
+          <input type=”submit”  value=”提交”  />
+      </form>
+      其作用是：用户填写表单数据，并提交后，会将数据发送（提交）给页面formTest.php，其实也可以理解为“打开”该网页（formTest.php），还可以理解为“请求”该网页（formTest.php) 
+      接收post数据的形式为：
+      （在formTest.php网页中）
+      <?php
+          $v1 = $_POST[‘uName’];  //单引号也可以用双引号，本质是一个字符串，其实是数组的键名（下标）
+          $v2 = $_POST[‘uPswd’];  //该键名必须跟提交的时候的名字完全一致（区分大小写）
+          也可以显示所有post数据：
+           var_dump($_POST)
+       ?>
+       通常，网页中的form表单，一般都用post方式。
+    3 get和post提交表单数据的区别
+      3.1.get是从服务器上获取数据，post是向服务器传送数据。 
+      3.2.get是把参数数据队列加到提交表单的ACTION属性所指的URL中，值和表单内各个字段一一对应，在URL中可以看到。
+         post是通过HTTPpost机制，将表单内各个字段与其内容放置在HTML HEADER内一起传送到ACTION属性所指的URL地址。用户看不到这个过程。 
+      3.3.对于get方式，服务器端用Request.QueryString获取变量的值，对于post方式，服务器端用Request.Form获取提交的数据。 
+      3.4.get传送的数据量较小，不能大于2KB。post传送的数据量较大，一般被默认为不受限制。但理论上，IIS4中最大量为80KB，IIS5中为100KB。 
+      3.5.get安全性非常低，post安全性较高。
+    4 POST&GET错误处理
+      如果直接访问，会因为$_GET或$_POST不存在对应的key而报错.
+      array_key_exists() 函数检查某个数组中是否存在指定的键名，如果键名存在则返回 true，如果键名不存在则返回 false。
+      if(array_key_exists('name', $_GET)){
+          //如果有数据 再去读取
+      }else{
+          // 反之 可以执行一些 其他的逻辑
+      }
+
+十、PHP文件上传处理？
+    1 说明：
+      提交表单时，浏览器自动将表单内的数据，传输到服务器端，文件型也会包含在内。
+      服务器角度：
+      在接受浏览器的请求时，处理好表单内数据。
+    2 表单数据分类：
+      根据数据类型不同（2种），采用不同的处理方法：
+      2.1，字符串类型，存储在$_POST变量中（内存中）
+      2.2，文件型数据，存储到上传临时目录中。
+    3 实例：
+      3.1 创建一个文件上传表单
+          <form action="upload_file.php" method="post"
+          enctype="multipart/form-data">
+          <label for="file">Filename:</label>
+          <input type="file" name="file" id="file" /> 
+          <br />
+          <input type="submit" name="submit" value="Submit" />
+          </form>
+          属性说明
+            <form> 标签的 enctype 属性规定了在提交表单时要使用哪种内容类型。在表单需要二进制数据时，比如文件内容，请使用 "multipart/form-data"。
+            <input> 标签的 type="file" 属性规定了应该把输入作为文件来处理。举例来说，当在浏览器中预览时，会看到输入框旁边有一个浏览按钮。 
+      4.2 创建上传脚本
+          <?php
+          if ($_FILES["file"]["error"] > 0)
+            {
+            echo "Error: " . $_FILES["file"]["error"] . "<br />";
+            }
+          else
+            {
+            echo "Upload: " . $_FILES["file"]["name"] . "<br />";
+            echo "Type: " . $_FILES["file"]["type"] . "<br />";
+            echo "Size: " . ($_FILES["file"]["size"] / 1024) . " Kb<br />";
+            echo "Stored in: " . $_FILES["file"]["tmp_name"];
+            }
+          ?>
+          属性说明：
+          $_FILES["file"]["name"] - 被上传文件的名称
+          $_FILES["file"]["type"] - 被上传文件的类型
+          $_FILES["file"]["size"] - 被上传文件的大小，以字节计
+          $_FILES["file"]["tmp_name"] - 存储在服务器的文件的临时副本的名称
+          $_FILES["file"]["error"] - 由文件上传导致的错误代码
+</html>

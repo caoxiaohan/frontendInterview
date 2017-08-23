@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		button{font-size:20px;}
+	</style>
+	<script type="text/javascript" src="../jquery-1.11.1.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+		  var x=0;
+		  $("p").click(function(e){
+		    $("p").animate({fontSize:"+=5px"});
+		    x++;
+		    if (x>=2)
+		      {
+		      $(this).unbind(e);
+		      }
+		  });
+		});
+	</script>
+</head>
+<body>
+<p style="font-size:20px;">点击这个段落可以增加其大小。只能增加两次。</p>
+</body>
+</html>
+
+

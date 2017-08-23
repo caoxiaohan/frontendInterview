@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="../jquery-1.11.1.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+	  $("button").bind({
+	    click:function(){$("p").slideToggle();},
+	    mouseover:function(){$("body").css("background-color","red");},  
+	    mouseout:function(){$("body").css("background-color","#FFFFFF");}  
+	  });
+	});
+	</script>
+</head>
+<body>
+<p>This is a paragraph.</p>
+<button>请点击这里</button>
+</body>
+</html>
+

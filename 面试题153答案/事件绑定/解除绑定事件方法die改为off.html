@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		button{font-size:20px;}
+	</style>
+	<script type="text/javascript" src="../jquery-1.7.1.min.js"></script>
+	<script>
+		$(document).ready(function(){
+		  $("p.test1").on("click",function(){
+		    $(this).css("background-color","pink");
+		  });
+		  $("#btn1").click(function(){
+		    $("p.test1").off();
+		  });
+		  $("p.test2").live("click",function(){  // live()方法在Jquery 1.9中已经移除
+		    $(this).css("background-color","yellow");
+		  });
+		  $("#btn2").click(function(){
+		    $("p.test2").die();
+		  });
+		});
+	</script>
+</head>
+<body>
+
+<h4 style="color:green;">该事件演示了如何使用 off() 和 die() 方法来达到相同的效果。</h4>
+
+<p class="test1">点击段落修改背景颜色。</p>
+<p class="test1">点击以下按钮再点击这个段落 ( click 事件被移除)。</p>
+
+<button id="btn1">使用 off() 方法移除 click 事件</button>
+
+<p class="test2">点击段落修改背景颜色。</p>
+<p class="test2">点击以下按钮再点击这个段落 ( click 事件被移除)。</p>
+
+<button id="btn2">使用 die() 方法移除 click 事件</button>
+
+</body>
+</html>

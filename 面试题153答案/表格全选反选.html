@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .wrap {
+            width: 300px;
+            margin: 100px auto 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            border: 1px solid #c0c0c0;
+        }
+
+        th,
+        td {
+            border: 1px solid #d0d0d0;
+            color: #404060;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #09c;
+            font: bold 16px "微软雅黑";
+            color: #fff;
+        }
+
+        td {
+            font: 14px "微软雅黑";
+        }
+
+        tbody tr {
+            background-color: #f0f0f0;
+        }
+
+        tbody tr:hover {
+            cursor: pointer;
+            background-color: #fafafa;
+        }
+    </style>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script>
+        $(function () { 
+            var $inps=$("#tbody input:checkbox"),$ca=$("#CheckedAll"); 
+            //直接让下面的所有按钮和上面的按钮属性值一模一样          
+            $ca.click(function () {                
+                $inps.prop("checked",$(this).prop("checked"));
+            });
+            //遍历所有复选框，当有一个未被选中时，则将flag赋值为false           
+            $inps.click(function () {
+               var flag=true;
+               $inps.each(function(){
+                    if(!this.checked) flag=false;
+               });
+               $ca.prop("checked",flag);
+            });
+        })
+    </script>
+</head>
+
+<body>
+    <div class="wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="CheckedAll"/>
+                    </th>
+                    <th>课程名称</th>
+                    <th>所属学院</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                <tr>
+                    <td>
+                        <input type="checkbox"/>
+                    </td>
+                    <td>JavaScript</td>
+                    <td>前端与移动开发学院</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox"/>
+                    </td>
+                    <td>css</td>
+                    <td>前端与移动开发学院</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox"/>
+                    </td>
+                    <td>html</td>
+                    <td>前端与移动开发学院</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox"/>
+                    </td>
+                    <td>jQuery</td>
+                    <td>前端与移动开发学院</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
