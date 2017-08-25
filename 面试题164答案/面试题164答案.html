@@ -1,0 +1,50 @@
+
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>面试题164答案</title>
+</head>
+<body>
+    <h3>
+ 164 举例说明jQuery中ajax的步骤?js模板引擎的原理？举例说明js模板引擎的用法？
+    </h3>
+    <pre>
+一、举例说明jQuery中ajax的步骤?
+    见《jQueryAjax》
+    1 jQuery load() 方法
+      1.1 定义
+	      jQuery load() 方法是简单但强大的 AJAX 方法。
+	      load() 方法从服务器加载数据，并把返回的数据放入被选元素中。
+      1.2 语法
+     	  $(selector).load(URL,data,callback);
+      1.3 参数
+	      必需的 URL 参数规定您希望加载的 URL。
+		  可选的 data 参数规定与请求一同发送的查询字符串键/值对集合。
+		  可选的 callback 参数是 load() 方法完成后所执行的函数名称。
+	2 jQuery $.get() 方法
+	  2.1 定义
+	      $.get() 方法通过 HTTP GET 请求从服务器上请求数据。
+	  2.2 语法
+	      $.get(URL,callback);
+	  2.3 参数
+	       必需的 URL 参数规定您希望请求的 URL。
+           可选的 callback 参数是请求成功后所执行的函数名。
+	3 jQuery $.post() 方法
+	  3.1 定义
+	      $.post() 方法通过 HTTP POST 请求从服务器上请求数据。
+	  3.2 语法
+	      $.post(URL,data,callback);
+	  3.3 参数
+	      必需的 URL 参数规定您希望请求的 URL。
+		  可选的 data 参数规定连同请求发送的数据。
+		  可选的 callback 参数是请求成功后所执行的函数名。
+
+二、js模板引擎的原理？
+    见《ajaxJSON》
+
+三、举例说明js模板引擎的用法？
+    见《ajaxDemo/ajax.js》
+
+
+
+</html>

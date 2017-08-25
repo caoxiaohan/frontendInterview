@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>json文件</title>
+<script type="text/javascript">
+	window.onload = function(){
+		var btn = document.getElementById('btn');
+		btn.onclick = function(){
+			showBookInfo();
+		}
+		function showBookInfo(){
+			var xhr = null;
+			if(window.XMLHttpRequest){
+				xhr = new XMLHttpRequest();
+			}else{
+				xhr = new ActiveXObject('Microsoft.XMLHTTP');
+			}
+			xhr.open('get','data.json');
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState == 4 && xhr.status == 200){
+					var data = JSON.parse(xhr.responseText);
+					console.log(data);
+					var total = data.total;
+					var list = data.data;
+					var tag = '';
+					for(var i=0;i<total;i++){
+						var book = list[i];
+						tag += '<tr><td>'+book.name+'</td><td>'+book.category+'</td><td>'+book.desc+'</td></tr>';
+					}
+					var tbody = document.createElement('tbody');
+					tbody.innerHTML = tag;
+					document.getElementById('bookInfo').appendChild(tbody);
+				}
+			}
+			xhr.send(null);
+		}
+	
+	}
+
+</script>
+</head>
+<body>
+	<input type="button" value="获取书籍信息" id="btn">
+	<div>
+		<table id="bookInfo">
+
+		</table>
+	</div>
+</body>
+</html>

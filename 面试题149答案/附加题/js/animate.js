@@ -13,7 +13,6 @@ function animate(curEle,obj,interval,fn){
             setCss(curEle, key, start);
             if(Math.ceil(start)!==obj[key]) flag=false;
         }
-
         if(flag){
             window.clearInterval(curEle.timer);
             if(fn && typeof fn==="function")fn();

@@ -1,0 +1,256 @@
+
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>面试题162答案</title>
+</head>
+<body>
+    <h3>
+ 面试题162 常见的网络传输协议有哪些?http协议的组成？http请求报文的组成？http响应报文的组成？常见的响应状态码含义？Php如何保持上传文件？如何设置上传文件大小？什么是ajax？使用ajax的步骤以及兼容处理？
+    </h3>
+    <pre>
+一、常见的网络传输协议有哪些?
+    1 HTTP 是“超文本传输协议（Hypertext Transfer Protocol）”，是用于从WWW服务器传输超文本到本地浏览器的传送协议。
+	2 FTP（File Transfer Protocal），是文件传输协议的简称，主要功能是完成从一个系统到另一个系统完整的文件拷贝。
+	3 SMTP（Simple Mail Transfer Protocol）即简单邮件传输协议,它是一组用于由源地址到目的地址传送邮件的规则，由它来控制信件的中转方式。
+	4 TCP（Transmission Control Protocol：传输控制协议；面向连接，可靠传输
+    5 UDP（User Datagram Protocol）：用户数据报协议；面向无连接，不可靠传输
+
+二、http协议的组成？
+    从客户端发出的请求：Request
+    从服务器返回的响应：Response
+
+三、http请求报文的组成？
+    1 请求行
+      1.1 请求方法: POST、GET、PUT、DELETE
+      1.2 请求URL
+      1.3 协议及版本
+    2 请求头
+        Accept	指定客户端能够接收的内容类型
+            Accept: text/plain, text/html
+		Accept-Charset	浏览器可以接受的字符编码集。
+		    Accept-Charset: iso-8859-5
+		Accept-Encoding	指定浏览器可以支持的web服务器返回内容压缩编码类型。	    Accept-Encoding: compress, gzip
+		Accept-Language	浏览器可接受的语言	
+		    Accept-Language: en,zh
+		Accept-Ranges	以请求网页实体的一个或者多个子范围字段             	    Accept-Ranges: bytes
+		Authorization	HTTP授权的授权证书	
+		    Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
+		Cache-Control	指定请求和响应遵循的缓存机制	
+		    Cache-Control: no-cache
+		Connection	表示是否需要持久连接。（HTTP 1.1默认进行持久连接）	     Connection: close
+		Cookie	HTTP请求发送时，会把保存在该请求域名下的所有cookie值一起发送给web服务器。	
+		     Cookie: $Version=1; Skin=new;
+		Content-Length	请求的内容长度	
+		     Content-Length: 348
+		Content-Type	请求的与实体对应的MIME信息	
+		     Content-Type: application/x-www-form-urlencoded
+		Date	请求发送的日期和时间	
+		     Date: Tue, 15 Nov 2010 08:12:31 GMT
+		Expect	请求的特定的服务器行为	
+		     Expect: 100-continue
+		From	发出请求的用户的Email	
+		     From: user@email.com
+		Host	指定请求的服务器的域名和端口号	
+		     Host: www.zcmhi.com
+		If-Match	只有请求内容与实体相匹配才有效	
+		     If-Match: “737060cd8c284d8af7ad3082f209582d”
+		If-Modified-Since	如果请求的部分在指定时间之后被修改则请求成功，未被修改则返回304代码	    If-Modified-Since: Sat, 29 Oct 2010 19:43:31 GMT
+		If-None-Match	如果内容未改变返回304代码，参数为服务器先前发送的Etag，与服务器回应的Etag比较判断是否改变	
+		     If-None-Match: “737060cd8c284d8af7ad3082f209582d”
+		If-Range	如果实体未改变，服务器发送客户端丢失的部分，否则发送整个实体。参数也为Etag	
+		     If-Range: “737060cd8c284d8af7ad3082f209582d”
+		If-Unmodified-Since	只在实体在指定时间之后未被修改才请求成功	     If-Unmodified-Since: Sat, 29 Oct 2010 19:43:31 GMT
+		Max-Forwards	限制信息通过代理和网关传送的时间	
+		     Max-Forwards: 10
+		Pragma	用来包含实现特定的指令	
+		     Pragma: no-cache
+		Proxy-Authorization	连接到代理的授权证书	
+		     Proxy-Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
+		Range	只请求实体的一部分，指定范围	
+		     Range: bytes=500-999
+		Referer	先前网页的地址，当前请求网页紧随其后,即来路	
+		     Referer: http://www.zcmhi.com/archives/71.html
+		TE	客户端愿意接受的传输编码，并通知服务器接受接受尾加头信息	     TE: trailers,deflate;q=0.5
+		Upgrade	向服务器指定某种传输协议以便服务器进行转换（如果支持）	     Upgrade: HTTP/2.0, SHTTP/1.3, IRC/6.9, RTA/x11
+		User-Agent	User-Agent的内容包含发出请求的用户信息	
+		     User-Agent: Mozilla/5.0 (Linux; X11)
+		Via	通知中间网关或代理服务器地址，通信协议	
+		     Via: 1.0 fred, 1.1 nowhere.com (Apache/1.1)
+		Warning	关于消息实体的警告信息	
+		     Warn: 199 Miscellaneous warning
+    3 请求体
+      提交给服务器的数据
+
+四  http响应报文的组成？
+    1 状态行
+      1.1 协议及版本
+      1.2 状态码及描述
+    2 响应头
+      Accept-Ranges	表明服务器是否支持指定范围请求及哪种类型的分段请求	    Accept-Ranges: bytes
+      Age	从原始服务器到代理缓存形成的估算时间（以秒计，非负）	
+          Age: 12
+      Allow	对某网络资源的有效的请求行为，不允许则返回405	
+          Allow: GET, HEAD
+      Cache-Control	告诉所有的缓存机制是否可以缓存及哪种类型	            Cache-Control: no-cache
+      Content-Encoding	web服务器支持的返回内容压缩编码类型。	            Content-Encoding: gzip
+      Content-Language	响应体的语言	
+          Content-Language: en,zh
+      Content-Length	响应体的长度	
+          Content-Length: 348
+      Content-Location	请求资源可替代的备用的另一地址	
+          Content-Location: /index.htm
+      Content-MD5	返回资源的MD5校验值	
+          Content-MD5: Q2hlY2sgSW50ZWdyaXR5IQ==
+      Content-Range	在整个返回体中本部分的字节位置	
+          Content-Range: bytes 21010-47021/47022
+      Content-Type	返回内容的MIME类型	
+          Content-Type: text/html; charset=utf-8
+      Date	原始服务器消息发出的时间	
+          Date: Tue, 15 Nov 2010 08:12:31 GMT
+      ETag	请求变量的实体标签的当前值	
+         ETag: “737060cd8c284d8af7ad3082f209582d”
+      Expires	响应过期的日期和时间	
+         Expires: Thu, 01 Dec 2010 16:00:00 GMT
+      Last-Modified	请求资源的最后修改时间	
+         Last-Modified: Tue, 15 Nov 2010 12:45:26 GMT
+      Location	用来重定向接收方到非请求URL的位置来完成请求或标识新的资源	Location: http://www.zcmhi.com/archives/94.html
+      Pragma	包括实现特定的指令，它可应用到响应链上的任何接收方	        Pragma: no-cache
+      Proxy-Authenticate	它指出认证方案和可应用到代理的该URL上的参数	    Proxy-Authenticate: Basic
+      refresh	应用于重定向或一个新的资源被创造，在5秒之后重定向（由网景提出，被大部分浏览器支持）
+          Refresh: 5; url=http://www.zcmhi.com/archives/94.html
+      Retry-After	如果实体暂时不可取，通知客户端在指定时间之后再次尝试	Retry-After: 120
+      Server	web服务器软件名称	
+          Server: Apache/1.3.27 (Unix) (Red-Hat/Linux)
+      Set-Cookie	设置Http Cookie	
+          Set-Cookie: UserID=JohnDoe; Max-Age=3600; Version=1
+      Trailer	指出头域在分块传输编码的尾部存在	
+          Trailer: Max-Forwards
+      Transfer-Encoding	文件传输编码	
+          Transfer-Encoding:chunked
+      Vary	告诉下游代理是使用缓存响应还是从原始服务器请求	
+          Vary: *
+      Via	告知代理客户端响应是通过哪里发送的	
+          Via: 1.0 fred, 1.1 nowhere.com (Apache/1.1)
+      Warning	警告实体可能存在的问题	
+          Warning: 199 Miscellaneous warning
+      WWW-Authenticate	表明客户端请求实体应该使用的授权方案	            WWW-Authenticate: Basic
+    3 响应主体
+      从服务器返回的数据
+   
+
+五、常见的响应状态码含义？
+    1 最常用的状态码
+      200 - 请求成功
+	  301 - 资源（网页等）被永久转移到其它URL
+	  404 - 请求的资源（网页等）不存在
+	  500 - 内部服务器错误
+	2 状态码分类
+	  1**	信息，服务器收到请求，需要请求者继续执行操作
+	  2**	成功，操作被成功接收并处理
+	  3**	重定向，需要进一步的操作以完成请求
+	  4**	客户端错误，请求包含语法错误或无法完成请求
+	  5**	服务器错误，服务器在处理请求的过程中发生了错误
+	3 状态码详细说明
+	  100	Continue	继续。客户端应继续其请求
+	  101	Switching Protocols	切换协议。服务器根据客户端的请求切换协议。只能切换到更高级的协议，例如，切换到HTTP的新版本协议
+	  200	OK	请求成功。一般用于GET与POST请求
+	  201	Created	已创建。成功请求并创建了新的资源
+	  202	Accepted	已接受。已经接受请求，但未处理完成
+	  203	Non-Authoritative Information	非授权信息。请求成功。但返回的meta信息不在原始的服务器，而是一个副本
+	  204	No Content	无内容。服务器成功处理，但未返回内容。在未更新网页的情况下，可确保浏览器继续显示当前文档
+	  205	Reset Content	重置内容。服务器处理成功，用户终端（例如：浏览器）应重置文档视图。可通过此返回码清除浏览器的表单域
+	  206	Partial Content	部分内容。服务器成功处理了部分GET请求
+	  300	Multiple Choices	多种选择。请求的资源可包括多个位置，相应可返回一个资源特征与地址的列表用于用户终端（例如：浏览器）选择
+	  301	Moved Permanently	永久移动。请求的资源已被永久的移动到新URI，返回信息会包括新的URI，浏览器会自动定向到新URI。今后任何新的请求都应使用新的URI代替
+	  302	Found	临时移动。与301类似。但资源只是临时被移动。客户端应继续使用原有URI
+	  303	See Other	查看其它地址。与301类似。使用GET和POST请求查看
+	  304	Not Modified	未修改。所请求的资源未修改，服务器返回此状态码时，不会返回任何资源。客户端通常会缓存访问过的资源，通过提供一个头信息指出客户端希望只返回在指定日期之后修改的资源
+	  305	Use Proxy	使用代理。所请求的资源必须通过代理访问
+	  306	Unused	已经被废弃的HTTP状态码
+	  307	Temporary Redirect	临时重定向。与302类似。使用GET请求重定向
+	  400	Bad Request	客户端请求的语法错误，服务器无法理解
+	  401	Unauthorized	请求要求用户的身份认证
+	  402	Payment Required	保留，将来使用
+	  403	Forbidden	服务器理解请求客户端的请求，但是拒绝执行此请求
+	  404	Not Found	服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置"您所请求的资源无法找到"的个性页面
+	  405	Method Not Allowed	客户端请求中的方法被禁止
+	  406	Not Acceptable	服务器无法根据客户端请求的内容特性完成请求
+	  407	Proxy Authentication Required	请求要求代理的身份认证，与401类似，但请求者应当使用代理进行授权
+	  408	Request Time-out	服务器等待客户端发送的请求时间过长，超时
+	  409	Conflict	服务器完成客户端的PUT请求是可能返回此代码，服务器处理请求时发生了冲突
+	  410	Gone	客户端请求的资源已经不存在。410不同于404，如果资源以前有现在被永久删除了可使用410代码，网站设计人员可通过301代码指定资源的新位置
+	  411	Length Required	服务器无法处理客户端发送的不带Content-Length的请求信息
+	  412	Precondition Failed	客户端请求信息的先决条件错误
+	  413	Request Entity Too Large	由于请求的实体过大，服务器无法处理，因此拒绝请求。为防止客户端的连续请求，服务器可能会关闭连接。如果只是服务器暂时无法处理，则会包含一个Retry-After的响应信息
+	  414	Request-URI Too Large	请求的URI过长（URI通常为网址），服务器无法处理
+	  415	Unsupported Media Type	服务器无法处理请求附带的媒体格式
+	  416	Requested range not satisfiable	客户端请求的范围无效
+	  417	Expectation Failed	服务器无法满足Expect的请求头信息
+	  500	Internal Server Error	服务器内部错误，无法完成请求
+	  501	Not Implemented	服务器不支持请求的功能，无法完成请求
+	  502	Bad Gateway	充当网关或代理的服务器，从远端服务器接收到了一个无效的请求
+	  503	Service Unavailable	由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中
+	  504	Gateway Time-out	充当网关或代理的服务器，未及时从远端服务器获取请求
+	  505	HTTP Version not supported	服务器不支持请求的HTTP协议的版本，无法完成处理
+
+六、Php如何保持上传文件？
+    详见《保存上传文件》
+    
+七、如何设置上传文件大小？
+    修改php.ini文件
+    在大概794行
+    file_uploads = On   ; 是否允许上传文件 On/Off 默认是On
+	upload_max_filesize = 64M       ; 上传文件的最大限制
+	post_max_size = 64M             ; 通过Post提交的最多数据
+    
+八、什么是ajax？
+    1 定义
+      AJAX:(Asynchronous JavaScript and XML)并不是一项新技术,其实是多种技术的综合，包括Javascript、XHTML和CSS、DOM、XML和XMLHttpRequest.
+    2 优点
+      2.1 减轻服务器负担，按需要获得数据。
+	  2.2 无刷新更新页面，减少用户的实际和心理的等待时间。
+	  2.3 更好的用户体验。
+	  2.4 减轻宽带的负担。
+	  2.5 主流浏览器支持
+    3 缺点
+      3.1 AJAX大量使用了Javascript和AJAX引擎，而这个取决于浏览器的支持。IE5.0及以上、Mozilla1.0、NetScape7及以上版本才支持，Mozilla虽然也支持AJAX，但是提供XMLHttpRequest的方式不一样。所以，使用AJAX的程序必须测试针对各个浏览器的兼容性。 
+      3.2 AJAX更新页面内容的时候并没有刷新整个页面，因此，网页的后退功能是失效的；有的用户还经常搞不清楚现在的数据是旧的还是已经更新过的。这个就需要在明显位置提醒用户“数据已更新”。
+      3.3 对主流媒体的支持没有FLASH、Java Applet好。 
+      3.4 一些手持设备（如手机、PDA等）现在还不能很好的支持Ajax。
+      3.5 对搜索引擎支持不好。
+
+
+九、使用ajax的步骤以及兼容处理？
+    详见《ajaxDemo》
+    1 建立XMLHTTPRequest对象
+       if (window.XMLHttpRequest)
+		{
+			// IE7+, Firefox, Chrome, Opera, Safari 浏览器执行的代码
+			xmlhttp=new XMLHttpRequest();
+		}
+		else
+		{	
+			//IE6, IE5 浏览器执行的代码
+			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+    2 注册回调函数
+      当服务器回应我们了,我们想要执行什么逻辑
+	  xmlhttp.onreadystatechange=callback;
+    3  使用open方法设置服务器端交互的基本信息
+       //第一个参数表示http的请求方式，支持所有http的请求方式，主要使用get和post
+	    //第二个参数表示请求的url地址，get方式请求的参数也在url中
+	    //第三个参数表示采用异步还是同步方式交互，true表示异步
+        xmlhttp.open("GET","gethint.php?q="+str,true);
+    4 设置发送的数据，开始和服务器端交互
+      //同步方式下，send这句话会在服务器段数据回来后才执行完
+      //异步方式下，send这句话会立即完成执行
+		xmlhttp.send();
+    5 在回调函数中判断交互是否结束，响应是否正确，并根据需要获取服务器端返回的数据，更新页面的内容
+       //判断对象的状态是交互完成
+	   if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		{
+			document.getElementById("txtHint").innerHTML=xmlhttp.responseText;
+		}
+
+</html>
