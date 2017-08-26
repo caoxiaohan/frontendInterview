@@ -1,0 +1,33 @@
+<html>
+<head>
+<meta charset="utf-8">
+<script type="text/javascript" src="ajax.js"></script>
+<script>
+function showHint(str)
+{
+	if (str.length==0) return;
+	var obj = {
+				url:"posthint.php",
+				param:"q="+str,
+				type:'post',
+				dataType:'text',
+				success:function(data){
+					console.log(data);
+					document.getElementById("txtHint").innerHTML=data;
+				}
+			};
+	ajax(obj);
+	
+}
+</script>
+</head>
+<body>
+
+<p><b>在输入框中输入一个姓名:</b></p>
+<form> 
+姓名: <input type="text" onkeyup="showHint(this.value)">
+</form>
+<p>返回值: <span id="txtHint"></span></p>
+
+</body>
+</html>

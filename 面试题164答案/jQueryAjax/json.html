@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <title>Document</title>
+     <script type="text/javascript" src='jquery-1.11.1.min.js'></script>
+     <script type="text/javascript">
+        $(document).ready(function(){
+          $("button").click(function(){
+            $.getJSON("employees.json",function(result){
+              $.each(result, function(i, field){
+                $("p").append(field + " ");
+              });
+            });
+          });
+        });
+    </script>
+</head>
+
+<body>
+
+<button>获得 JSON 数据</button>
+<p></p>
+
+</body>
+</html>

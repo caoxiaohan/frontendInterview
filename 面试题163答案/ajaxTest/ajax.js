@@ -17,7 +17,7 @@
 		   xhr.send(null);
 		}else if(type == 'post'){
 		   xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-		   xhr.send(json.data);
+		   xhr.send(json.param);
 		}
 
 		//第四步：指定回调函数

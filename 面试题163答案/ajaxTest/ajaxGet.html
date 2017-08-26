@@ -5,8 +5,8 @@
 <script>
 function showHint(str)
 {
-	if (str.length==0) return;
-	var param = {
+	if (str.length==0)	return;
+	var obj = {
 				url:"gethint.php?q="+str,
 				type:'get',
 				dataType:'text',
@@ -15,7 +15,7 @@ function showHint(str)
 					document.getElementById("txtHint").innerHTML=data;
 				}
 			};
-	ajax(param);
+	ajax(obj);
 	
 }
 </script>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="jquery-1.11.1.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#b01").click(function(){
+  var obj =	{url:"ajax.txt",async:false}
+  htmlobj=$.ajax(obj);
+  $("#myDiv").html(htmlobj.responseText);
+  });
+});
+</script>
+</head>
+<body>
+
+<div id="myDiv"><h2>通过 AJAX 改变文本</h2></div>
+<button id="b01" type="button">改变内容</button>
+
+</body>
+</html>
