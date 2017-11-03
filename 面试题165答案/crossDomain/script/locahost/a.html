@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>a</title>
+</head>
+<body>
+	<script type="text/javascript">
+		function loadScript(url, func) {
+		  var head = document.head || document.getElementByTagName('head')[0];
+		  var script = document.createElement('script');
+			  script.src = url;
+			  script.onload = script.onreadystatechange = function(){
+			    if(!this.readyState || this.readyState=='loaded' || this.readyState=='complete'){
+			      func();
+			      script.onload = script.onreadystatechange = null;
+			    }
+			  };
+		  		head.appendChild(script);
+		}
+		window.bofuwa = {
+		  sug: function(data){
+		    document.body.innerHTML=JSON.stringify(data);
+		  }
+		}
+		loadScript('http://www.bofuwa.com/other/script/data.js',function(){console.log('loaded')});
+		//可以在chorme调试面板的source中看到script引入的内容
+	</script>
+</body>
+</html>

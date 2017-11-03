@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>bootstrap响应式菜单</title>
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css">
+    <style type="text/css">
+        body{padding:50px 0 0 0;}
+    </style>
+</head>
+<body>
+<!--代码-->
+<div class="navbar navbar-default" role="navigation">
+  <div class="navbar-header">
+     　<!-- .navbar-toggle样式用于toggle收缩的内容，即nav-collapse collapse样式所在元素 -->
+       <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+         <span class="sr-only">Toggle Navigation</span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </button>
+       <!-- 确保无论是宽屏还是窄屏，navbar-brand都显示 -->
+       <a href="##" class="navbar-brand">涵林学院</a>
+  </div>
+  <!-- 屏幕宽度小于768px时，div.navbar-responsive-collapse容器里的内容都会隐藏，显示icon-bar图标，当点击icon-bar图标时，再展开。屏幕大于768px时，默认显示。 -->
+  <div class="collapse navbar-collapse navbar-responsive-collapse">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="##">网站首页</a></li>
+            <li><a href="##">系列教程</a></li>
+            <li><a href="##">名师介绍</a></li>
+            <li><a href="##">成功案例</a></li>
+            <li><a href="##">关于我们</a></li>
+        </ul>
+  </div>
+</div>
+    <!-- Bootstrap 的所有JS组件都是依赖JQUERY的 -->
+    <script type="text/javascript" src="lib/jquery.min.js"></script>
+    <!-- 引入Bootstrap核心js文件 -->
+    <script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>a</title>
+</head>
+<body>
+	<script type="text/javascript">				
+		var socket = new WebSocket('ws://www.bofuwa.com');//http->ws; https->wss
+		socket.send('hello WebSocket');
+		socket.onmessage = function(event){
+		    document.body.innerHTML = event.data;
+		}
+	</script>
+</body>
+</html>

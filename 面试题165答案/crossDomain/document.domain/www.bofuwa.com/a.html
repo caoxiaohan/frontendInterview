@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>a</title>
+</head>
+<body>
+	<script type="text/javascript">
+          	  document.domain = 'bofuwa.com';
+			  var ifr = document.createElement('iframe');
+			  ifr.src = 'http://edu.bofuwa.com/b.html';
+			  ifr.display = none;
+			  document.body.appendChild(ifr);
+			  ifr.onload = function(){
+				  var doc = ifr.contentDocument || ifr.contentWindow.document;
+				  //在这里操作doc，也就是b.html
+				  ifr.onload = null;
+			  };
+    </script>
+</body>
+</html>

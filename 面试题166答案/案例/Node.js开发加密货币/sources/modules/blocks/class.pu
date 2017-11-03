@@ -1,0 +1,152 @@
+@startuml ../../../styles/images/modules/blocks/blocks-class.png
+skinparam BorderColor #blue\9932CC
+skinparam backgroundcolor AntiqueWhite/white
+
+title
+区块链相关类图及其关联关系
+
+end title
+footer copyright (c) imfly 2016.07.23 http://bitcoin-on-nodejs.ebookchain.org
+header 《Nodejs开发加密货币》分析用图：《区块链》
+
+' logic/block.js
+package logic {
+  Class Block {
+    - genesisblock: {}
+    - scope: {}
+    ====
+    .. private methods ..
+    -milestones
+    -getAddressByPublicKey
+
+    .. public methods ..
+    +create(data): block
+    +sign(block, keypair): hash('hex')
+    +getBytes(block): bufferData
+    +verifySignature(block): boolean
+    +dbSave(block, cb): void
+    +objectNormalize(block): block
+    +getId(block): bignumId
+    +getHash(block): hash
+    +calculateFee(block): 10000000
+    +dbRead(raw): block
+  }
+}
+
+package modules {
+  ' modules/blocks.js
+  Class Blocks {
+    - modules: {}
+    - library: {}
+
+    - lastBlock
+    - milestones
+    - blocksDataFields
+    - loaded
+    - isActive
+
+    --
+
+    .. private methods ..
+    -attachApi: ()
+    -saveGenesisBlock: (cb)
+    -deleteBlock: (blockId, cb)
+    -list: (filter, cb)
+    -getById: (id, cb)
+    -saveBlock: (block, cb)
+    -popLastBlock: (oldLastBlock, cb)
+    -getIdSequence: (height, cb)
+    -readDbRows: (rows)
+    -applyTransaction: (block, transaction, sender, cb)
+
+    .. public methods ..
+    +getCommonBlock: (peer, height, cb)
+    +count: (cb)
+    +loadBlocksData: (filter, options, cb)
+    +loadBlocksPart: (filter, cb)
+    +loadBlocksOffset: (limit, offset, verify, cb)
+    +loadLastBlock: (cb)
+    +getLastBlock
+    +processBlock: (block, broadcast, cb)
+    +simpleDeleteAfterBlock: (blockId, cb)
+    +loadBlocksFromPeer: (peer, lastCommonBlockId, cb)
+    +deleteBlocksBefore: (block, cb)
+    +generateBlock: (keypair, timestamp, cb)
+    +sandboxApi: (call, args, cb)
+
+    .. events ..
+    +onReceiveBlock: (block)
+    +onBind: (scope)
+    +cleanup: (cb)
+
+    .. shared methods..
+    +getBlock: (req, cb)
+    +getBlocks:  (req, cb)
+    +getHeight: (req, cb)
+    +getFee: (req, cb)
+    +getMilestone: (req, cb)
+    +getReward: (req, cb)
+    +getSupply: (req, cb)
+    +getStatus:  (req, cb)
+  }
+
+  ' modules/loader.js
+  Class Loader {
+    - modules
+    - library
+    - loaded
+    - isActive
+    - loadingLastBlock
+    - genesisBlock
+    - total
+    - blocksToSync
+    - syncIntervalId
+
+    --
+
+    .. private methods ..
+
+    - attachApi()
+    - syncTrigger(turnOn)
+    - loadFullDb(peer, cb)
+    - findUpdate(lastBlock, peer, cb)
+    - loadBlocks(lastBlock, cb)
+    - loadSignatures(cb)
+    - loadUnconfirmedTransactions(cb)
+    - loadBlockChain()
+
+    .. public methods ..
+    + syncing()
+    + sandboxApi(call, args, cb)
+
+    .. events ..
+    + onPeerReady()
+    + onBind(scope)
+    + onBlockchainReady()
+
+    .. shared methods..
+    + status(req, cb)
+    + sync(req, cb)
+  }
+}
+' relationship
+Blocks -up-> crypto: <<require>>
+Blocks -up-> ed25519: <<require>>
+Blocks -up-> Router: <<require>>
+Blocks -up-> slots: <<require>>
+
+Blocks -up-> balancesSequence
+Blocks --> dbSequence
+Blocks -down-> genesisblock
+Blocks -down-> dbLite
+Blocks -down-> transaction
+
+Blocks <-left- Loader: syncing
+note bottom: 主要用来处理区块链同步的模块
+Blocks -left-> Block: dbRead(rows[i]))
+
+Block -up-> scheme
+Block -down-> dbLite
+Block -left-> genesisblock
+Block -right-> transaction
+@enduml

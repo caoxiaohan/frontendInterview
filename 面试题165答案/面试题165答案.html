@@ -1,0 +1,92 @@
+
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>面试题165答案</title>
+</head>
+<body>
+    <h3>
+ 165 什么是同源策略?举例说明有几种跨域解决方案？什么是jsonp？jQuery中jsonp的用法？举例说明瀑布流实现的原理？
+    </h3>
+    <pre>
+一、什么是同源策略?
+    1 定义
+	  同源策略是浏览器的一种安全策略。
+	  所谓同源是指，域名、协议、端口完全相同
+	2 意义
+	  在这个策略下，web浏览器允许一个页面的脚本访问另一个页面里的数据，但是也只有当两个页面有相同的源时才能访问。
+	  源是由URI，主机名，端口号组合而成的。
+	  这个策略可以阻止一个页面上的恶意脚本通过页面的DOM对象获得访问另一个页面上敏感信息的权限。
+    3 举例
+      下面给出了与URL"http://www.bofuwa.com/a.js"的对比。
+      等价于："http://www.bofuwa.com:80/a.js"		
+      编号	url	                             说明	                是否允许通信
+      3.1 http://www.bofuwa.com/b.js         同一域名下             允许
+      3.2 http://www.bofuwa.com/b/b.js       同一域名不同文件夹     允许
+      3.3 http://www.bofuwa.com:8080/a.js    同一域名不同端口号     不允许
+      3.4 https://www.bofuwa.com/b.js        同一域名不同协议	    不允许
+      3.5 http://59.110.50.100/b.js          域名与域名对应的ip地址	不允许
+      3.6 http://edu.bofuwa.com/b.js         主域名相同，子域名不同	不允许
+      3.7 http://www.b.com/b.js              不同域名	            不允许
+		不像其他浏览器，IE在计算源的时候没有包括端口。
+
+
+二、举例说明有几种跨域解决方案？
+    例子见《corssDomain》文件夹
+    1 通过jsonp跨域
+      详见第三和第四大题。
+      在js中，我们直接用XMLHttpRequest请求不同域上的数据时，是不可以的。但是，在页面上引入不同域上的js脚本文件却是可以的，jsonp正是利用这个特性来实现的。
+    2 通过修改document.domain来跨子域
+      因为不同的子域名，子域名和顶级域名之间都是不同源的。
+      如果在将所有子域名的document.domain统一设置为所属的顶级域名，则可以跨域         
+    3 使用window.name来进行跨域
+      详见《crossDomain/document.domain》
+    4 使用HTML5中新引进的window.postMessage方法来跨域传送数据
+      IE8+和标准浏览器支持
+    5 websocket
+      websocket是一种浏览器的API，它的目标是在一个单独的持久连接上提供全双工、双向通信。
+      web sockets不受同源策略的限制.
+    6 动态创建script
+      script标签不受同源策略的限制
+    7 利用location.hash来进行传值
+      假设域名bofuwa.com下的文件a.html要和caoxiaohan.com域名下的b.html传递信息。
+      7.1 a.html首先创建自动创建一个隐藏的iframe，iframe的src指向caoxiaohan.com域名下的b.html页面
+      7.2 b.html响应请求后再将通过修改a.html的hash值来传递数据
+    8 通过CORS跨域
+      CORS就是使用自定义的HTTP头部让浏览器与服务器进行沟通，从而决定请求或响应是应该成功，还是应该失败。
+      被访问远程服务器中必须添加头部header("Access-Control-Allow-Origin:*");
+      xhr2兼容IE10及其以上版本
+      IE 8 9都是XDomainRequest,IE10及其以上版本和标准浏览器使用的是XHR2(XMLHttpRequest),需要做兼容处理。
+      而IE7以下版本不支持CORS。
+
+三、什么是jsonp？
+    详见《crossDomain/jsonp/locahost/jsonp.html》和《crossDomain/jsonp/www.bofuwa.com/jsonp.php》
+    JSONP(JSON with Padding 是JSON的一种“使用模式”，可用于解决主流浏览器的跨域数据访问
+    的问题。
+    由于同源策略，一般来说不同源的服务器沟通，而 HTML 的<script> 元素是一个例外。
+    利用 <script元素的这个开放策略，网页可以得到从其他来源动态产生的 JSON 资料，而这种
+    使用模式就是所谓的 JSONP。
+    用 JSONP 抓到的资料并不是 JSON，而是任意的JavaScript，用 JavaScript 直译器执行而不
+    是用 JSON 解析器解析。
+
+四、jQuery中jsonp的用法？
+    详见《crossDomain/jsonp/locahost/jQueryJsonp.html》和《crossDomain/jsonp/www.bofuwa.com/jsonp.php》
+    jsonp/locahost下的文件放到本地服务器中
+    jsonp/www.bofuwa.com下的文件放到远程云服务器中
+
+五、举例说明瀑布流实现的原理？
+    1 原理
+        瀑布流布局的原理是：先通过计算出一排能够容纳几列元素，然后寻找各列之中所有元素高度之和的最小者，并将新的元素添加到该列上，然后继续寻找所有列的各元素之和的最小者，继续添加至该列上，如此循环下去，直至所有元素均能够按要求排列为止。
+    2 特点
+      由于新的图片总是添加到高度和最小的列，所以每列高度相差不大。
+      参差不齐的多栏布局格式错落有致。
+      定宽而不定高的设计让页面区别于传统的矩阵式图片布局模式。
+      巧妙的利用视觉层级，视线的任意流动又缓解了视觉疲劳。
+    3 实现方式
+      详见《waterFall》
+      3.1 原生js
+      3.2 jQuery
+      3.3 css3
+
+
+</html>

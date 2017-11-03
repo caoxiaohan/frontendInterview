@@ -1,0 +1,343 @@
+
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>面试题167答案</title>
+</head>
+<body>
+    <h3>
+面试题167 什么是bootstrap?bootstrap的特点？使用bootstrap的步骤？使用bootstrap时需要引入哪些js和css文件，引入顺序及其每个文件的作用分别是什么？如何让IE使用最新的渲染引擎工作？如何让IE9以下版本浏览器兼容html5新标签和媒体查询功能？举例说明如何使用viewport元标签控制布局？举例说明bootstrap中container类和container-fluid
+类的区别？举例说明媒体查询@media的用法及注意事项？什么是栅格系统，栅格系统的作用及用法？常用web字体格式及不同浏览器兼容情况?如何使用@font-face自定义字体？如何使用Glyphicons 图标字体？如何使用bootstrap按钮？如何使用
+Icomoon图标字体？如何使用bootstrap导航条？如何根据屏幕尺寸设置元素是否隐藏？响应式布局的原理？举例用bootstrap做一个响应式菜单？
+
+    </h3>
+    <pre>
+一、什么是bootstrap,bootstrap的特点？
+    1 什么是bootstrap
+	     Bootstrap是Twitter推出的一个用于前端开发的开源工具包,是基于 HTML、CSS、JavaScript 的前端框架。
+	  2 bootstrap的特点
+	    2.1 优点
+          2.1.1 灵活简洁，代码优雅，美观大方
+          2.1.2 栅格系统：响应式设计
+                可以根据用户屏幕尺寸调整页面，方便做响应式布局。
+          2.1.3 CSS模块化：提供一套优雅的 HTML+CSS 编码规范
+                Bootstrap预先定义了很多CSS类，使用的时候直接给class赋予对应的类名。
+                例如：button按钮，直接添加btn类名即可。
+          2.1.4 javascript插件:让我们的 Web 开发更简单，更快捷
+                不用自己写js，只需参照官方文档实例即可，使web开发更简单。
+                例如：模态框，只要按要求设置好class，data-toggle，data-target即可。
+          2.1.5 生态圈火，不断地更新迭代
+      2.2 缺点
+          2.2.1 存在浏览器兼容问题
+                2.2.1.1 盒模型问题
+                        问题：Bootstrap将所有的元素盒模型都设置成了border-box，这是IE混杂模式下的盒模型，光这点就导致了不能兼容IE。
+                        解决：让IE浏览器按最新版本渲染
+                              <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                2.2.1.2 Bootstrap使用了html5新标签以及css3新语法
+                        问题：IE8及其以下版本IE浏览器不支持html5新标签以及css3新语法
+                        解决：引入html5shiv.js文件，<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+                2.2.1.3 Bootstrap判断用户屏幕尺寸用到了媒体查询
+                        问题：IE8及其以下版本IE浏览器不支持媒体查询功能
+                        解决：引入respond.js文件，<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+          2.2.2 依赖jQuery
+                Bootstrap框架中的所有JS组件都依赖于jQuery实现。
+                使用Bootstrap前必须引入jQuery文件。
+                引入其他文件，势必导致加载速度变慢，影响用户体验。
+    
+
+
+二、使用bootstrap时需要引入哪些js和css文件，引入顺序及其每个文件的作用分别是什么？如何让IE使用最新的渲染引擎工作？如何让IE9以下版本浏览器兼容html5新标签和媒体查询功能？
+    详见《使用bootstrap的步骤.doc》和《code/引用bootstrap（兼容完整版）.html》
+
+三、举例说明如何使用viewport元标签控制布局？
+    详见《viewport属性说明.doc》和《code/设置viewport.html》
+
+四、举例说明bootstrap中container类和container-fluid类的区别？
+    详见《container和container-fluid类的区别》、《container(引入bootstrap).html》和《container-fluid（引入bootstrap).html》
+
+五、例说明媒体查询@media的用法及注意事项？
+    《code/模拟container类实现媒体查询(未引入bootstrap).html》
+    注意：
+     1当查询条件为min-width时，表示当可视窗口宽度大于等于min-width时，触发下面的样式设置。
+     2 如果存在多个min-width查询条件，应当按照min-width值从小到大的顺序书写。
+     3当查询条件为max-width时，表示当可视窗口宽度小于等于max-width时，触发下面的样式设置。
+     4 如果存在多个max-width查询条件，应当按照max-width值从大到小的顺序书写。
+
+ 六、什么是栅格系统，栅格系统的作用及用法？
+     1 什么是栅格系统：
+       网页栅格系统：  
+       栅格系统的实现原理非常简单，仅仅是通过定义容器大小，平分12份，再调整内外边距，最后结合媒体查询，就制作出了强大的响应式栅格系统。
+     3 栅格系统的用法如下：（详见《栅格系统基本用法.html》)
+      3.1、添加数据行(.row)必须包含在容器（.container）中，以便为其赋予合适的对齐方式和内距(padding)。如：
+      <div class="container">
+        <div class="row"></div>
+      </div>
+      3.2、在行(.row)中可以添加列(.column)，但列数之和不能超过平分的总列数，比如12。如：
+      <div class="container">
+      <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-8"></div>
+      3.3、具体内容应当放置在列容器（column）之内，而且只有列（column）才可以作为行容器(.row)的直接子元素
+      3.4、通过设置内距（padding）从而创建列与列之间的间距。然后通过为第一列和最后一列设置负值的外距（margin）来抵消内距(padding)的影响 
+
+七、常用web字体格式及不同浏览器兼容情况?
+    1 常用web字体
+      1.1、TureTpe(.ttf)格式：
+        .ttf字体是Windows和Mac的最常见的字体，是一种RAW格式，因此他不为网站优化,支持这种字体的浏览器有【IE9+,Firefox3.5+,Chrome4+,Safari3+,Opera10+,iOS Mobile Safari4.2+】；
+      1.2、OpenType(.otf)格式：
+        .otf字体被认为是一种原始的字体格式，其内置在TureType的基础上，所以也提供了更多的功能,支持这种字体的浏览器有【Firefox3.5+,Chrome4.0+,Safari3.1+,Opera10.0+,iOS Mobile Safari4.2+】；
+      1.3、Web Open Font Format(.woff)格式：
+        .woff字体是Web字体中最佳格式，他是一个开放的TrueType/OpenType的压缩版本，同时也支持元数据包的分离,支持这种字体的浏览器有【IE9+,Firefox3.5+,Chrome6+,Safari3.6+,Opera11.1+】；
+      1.4、Embedded Open Type(.eot)格式：
+        .eot字体是IE专用字体，可以从TrueType创建此格式字体,支持这种字体的浏览器有【IE4+】；
+      1.5、SVG(.svg)格式：
+        .svg字体是基于SVG字体渲染的一种格式,支持这种字体的浏览器有【Chrome4+,Safari3.1+,Opera10.0+,iOS Mobile Safari3.2+】。
+    2 浏览器兼容性
+　　使用CSS3的@font-face属性可以实现在网页中嵌入任意字体，但是IE只支持微软自有的EOT格式字体，而其他浏览器都不支持这一字体格式，其它浏览器可以设置TTF(TrueType)和OTF(OpenType)两种字体作为自定义字体，浏览器对@font-face属性及各种字体格式支持详的细情况如下：
+    Browser @font-face  TrueType  WOFF   EOT SVG  SVGZ
+     IE        4+          9+      9+     4+     
+     Firefox   3.5+        3.5+    3.6+       
+     Chrome    4+           4+      6+        4+    6+
+     safari    3.1+        3.1+     6+        3.1+  3.1+
+     opear     10+         10+     11.1+      10+   10+
+
+八、如何使用@font-face自定义字体？
+    1 @font-face的语法规则：
+      <style type="text/css">
+            @font-face {
+              font-family: <YourWebFontName>;
+              src: <source> [<format>][,<source> [<format>]]*;
+              [font-weight: <weight>];
+              [font-style: <style>];
+            }
+      </style>
+    2 参数说明
+      2.1、YourWebFontName:此值指的就是你自定义的字体名称，最好是使用你下载的默认字体，他将被引用到你的Web元素中的font-family。如“font-family:"YourWebFontName";”
+      2.2、source:此值指的是你自定义的字体的存放路径，可以是相对路径也可以是绝路径；
+      2.3、format：此值指的是你自定义的字体的格式，主要用来帮助浏览器识别，其值主要有以下几种类型：truetype,opentype,truetype-aat,embedded-opentype,avg等；
+      2.4、weight和style:这两个值大家一定很熟悉，weight定义字体是否为粗体，style主要定义字体样式，如斜体。
+    3 浏览器支持
+      支持@font-face的浏览器版本：IE4+、Firefox3.5+、chrome4+、safari3.1+、opera10+。
+    4 兼容各浏览器的写法？
+      <style type="text/css">
+        @font-face {
+            font-family: 'YourWebFontName';
+            src: url('YourWebFontName.eot'); /* IE9 Compat Modes */
+            src: url('YourWebFontName.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+                 url('YourWebFontName.woff') format('woff'), /* Modern Browsers */
+                 url('YourWebFontName.ttf')  format('truetype'), /* Safari, Android, iOS */
+                 url('YourWebFontName.svg#YourWebFontName') format('svg'); /* Legacy iOS */
+        }
+      </style>
+    5 示例
+      见《@font-face自定义字体.html》
+
+九、如何使用Glyphicons 图标字体？
+    1 打开bootstrap中文网站并选择组件菜单则跳转到下面链接：
+      http://v3.bootcss.com/components/
+    2 创建一个html文件，在头部引入bootstrap.min.css样式表
+    3 在html文件body内创建几个span标签，给span标签添加类
+      类名对照网址http://v3.bootcss.com/components/
+      每个小图标上都备注有两个类名，第一类名统一命名为"glyphicon"，第二个类名以"glyphicon-"开头。
+      喜欢哪个图标，就把图标下面备注的两个类名一起复制粘贴过来。
+      <span class="glyphicon glyphicon-search"></span>
+      <span class="glyphicon glyphicon-asterisk"></span>
+      <span class="glyphicon glyphicon-plus"></span>
+      <span class="glyphicon glyphicon-cloud"></span>
+    4 实例见《Glyphicons 图标字体.html》
+
+十、如何使用bootstrap按钮？
+    1 打开bootstrap中文网站并选择组件菜单则跳转到下面链接：
+      http://v3.bootcss.com/components/
+    2 在右侧菜单选择“按钮式下拉菜单”跳转到下列锚点
+      http://v3.bootcss.com/components/#btn-dropdowns
+    3 创建一个html文件，在头部引入bootstrap.min.css样式表
+    4 在html文件body内创建几个button标签，给button标签添加类
+      类名对照网址http://v3.bootcss.com/components/#btn-dropdowns
+      每个按钮上都备注有两个类名，第一类名统一命名为"btn"，第二个类名以"btn-"开头。
+      喜欢哪个按钮，就把按钮下面备注的两个类名一起复制粘贴过来。
+       <button class="btn btn-info">信息按钮</button><br><br>
+      <button class="btn btn-danger">危险按钮</button><br><br>
+      <button class="btn btn-warning">警告按钮</button><br><br>
+      <button class="btn btn-success">成功按钮</button><br><br>
+      <button class="btn btn-primary">首要按钮</button><br><br>
+      <button class="btn">Boostrap默认按钮</button><br><br>
+      <button>浏览器默认按钮</button>
+    5 实例见《bootstrap按钮.html》
+
+十一、如何使用Icomoon图标字体？
+    详见《Ico图标字体.doc》
+
+十二、如何使用bootstrap导航条？
+    1 打开bootstrap中文网站并选择组件菜单则跳转到下面链接：
+      http://v3.bootcss.com/components/
+    2 在右侧菜单选择“导航条”跳转到下列锚点
+      http://v3.bootcss.com/components/#navbar
+    3 创建一个html文件，在头部引入bootstrap.min.css样式表
+    4 在html文件body内创建一个div标签，给div标签添加类
+      类名对照网址http://v3.bootcss.com/components/#navbar
+      每个按钮上都备注有两个类名，第一类名统一命名为"navbar"或"nav"，第二个类名以"navbar-"或"nav-"开头。
+      喜欢哪个导航条，就把导航条下面备注的两个类名一起复制粘贴过来。
+      <!--基本导航条-->
+      <div class="navbar navbar-default" role="navigation">
+           <ul class="nav navbar-nav">
+              <li class="active"><a href="##">网站首页</a></li>
+              <li><a href="##">系列教程</a></li>
+              <li><a href="##">名师介绍</a></li>
+              <li><a href="##">成功案例</a></li>
+              <li><a href="##">关于我们</a></li>
+           </ul>
+      </div>
+    5 实例见《bootstrap导航.html》
+
+十三、如何根据屏幕尺寸设置元素是否隐藏？
+    1 参数说明 
+                    超小屏幕(<768px) 小屏幕(≥768px) 中等屏幕(≥992px) 大屏幕(≥1200px)
+      .visible-xs-*    可见            隐藏            隐藏             隐藏
+      .visible-sm-*    隐藏            可见            隐藏             隐藏
+      .visible-md-*    隐藏            隐藏            可见             隐藏
+      .visible-lg-*    隐藏            隐藏            隐藏             可见
+      .hidden-xs       隐藏            可见            可见             可见
+      .hidden-sm       可见            隐藏            可见             可见
+      .hidden-md       可见            可见            隐藏             可见
+      .hidden-lg       可见            可见            可见             隐藏
+    2 实例见《Boostrap隐藏.html》
+十四、响应式布局的原理？
+     1.布局及设置meta标签
+       1.1 使用 viewport meta 标签在手机浏览器上控制布局
+           <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+       1.2 通过快捷方式打开时全屏显示
+           <meta name="apple-mobile-web-app-capable" content="yes" />
+       1.3 隐藏状态栏
+           <meta name="apple-mobile-web-app-status-bar-style" content="blank" />
+      1.4 iPhone会将看起来像电话号码的数字添加电话连接，应当关闭
+          <meta name="format-detection" content="telephone=no" />
+     2.通过媒体查询来设置样式media query
+       2.1 设备特性
+            2.1.1 width：浏览器宽度
+            2.1.2 height：浏览器高度
+            2.1.3 device-width：设备屏幕分辨率的宽度值
+            2.1.4 device-height：设备屏幕分辨率的高度值
+            2.1.5 orientation：：屏幕横竖屏定向。landscape 是横向，portrait 是纵向【ipad 相反】
+            2.1.6 device-pixel-ratio：定义输入设备屏幕的可视宽度与可见高度比率。
+        2.2 不同设备的媒体查询
+            2.2.1 iPhone4
+              <script type="text/javascript">
+                 /* iPhone 4 ———– */
+                 @media
+                 only screen and (-webkit-min-device-pixel-ratio : 1.5),
+                 only screen and (min-device-pixel-ratio : 1.5) {
+                  /* Styles */
+                 }
+                 /* iPhone 4 ———– */
+                @media
+                only screen and (-webkit-min-device-pixel-ratio : 1.5),
+                only screen and (min-device-pixel-ratio : 1.5) {
+                /* Styles */
+                }
+              </script>
+            2.2.3 Smartphones
+              <script type="text/javascript">
+                 /* Smartphones (portrait and landscape) ———– */
+                  @media only screen
+                  and (min-device-width : 320px)
+                  and (max-device-width : 480px) {
+                  /* Styles */
+                  }
+                  /* Smartphones (landscape) ———– */
+                  @media only screen
+                  and (min-width : 321px) {
+                  /* Styles */
+                  }
+                  /* Smartphones (portrait) ———– */
+                  @media only screen
+                  and (max-width : 320px) {
+                  /* Styles */
+                  }
+              </script>
+            2.2.4 iPads
+              <script type="text/javascript">
+                  /* iPads (portrait) ———– */
+                  @media only screen
+                  and (min-device-width : 768px)
+                  and (max-device-width : 1024px)
+                  and (orientation : portrait) {
+                  /* Styles */
+                  }
+                  /* iPads (portrait and landscape) ———– */
+                  @media only screen
+                  and (min-device-width : 768px)
+                  and (max-device-width : 1024px) {
+                  /* Styles */
+                  }
+                  /* iPads (landscape) ———– */
+                  @media only screen
+                  and (min-device-width : 768px)
+                  and (max-device-width : 1024px)
+                  and (orientation : landscape) {
+                  /* Styles */
+                  }
+                  /* iPads (portrait) ———– */
+                  @media only screen
+                  and (min-device-width : 768px)
+                  and (max-device-width : 1024px)
+                  and (orientation : portrait) {
+                  /* Styles */
+                  }
+              </script>
+            2.2.4 Desktops
+              <script type="text/javascript">
+                /* Desktops and laptops ———– */
+                @media only screen
+                and (min-width : 1224px) {
+                /* Styles */
+                }
+              </script>          
+            2.2.5 Large screens
+              <script type="text/javascript">
+                /* Large screens ———– */
+                @media only screen
+                and (min-width : 1824px) {
+                /* Styles */
+                }
+              </script>  
+     3 隐藏不重要的列
+       <style type="text/css">
+         @media only screen and (max-width: 800px) {
+         table td:nth-child(2),
+         table th:nth-child(2) {display: none;}
+        }
+        @media only screen and (max-width: 640px) {
+         table td:nth-child(4),
+         table th:nth-child(4),
+         table td:nth-child(7),
+         table th:nth-child(7),
+         table td:nth-child(8),
+         th:nth-child(8){display: none;}
+        }
+       </style> 
+     4 宽度不固定设置百分比
+       <style type="text/css">
+          #head{width:100%;}
+          #content{width:50%;}
+       </style>
+     5 设置字体单位为rem
+       <style type="text/css">
+         html{font-size:100%;}
+        @media (min-width:640px){body{font-size:1rem;}}
+        @media (min-width:960px){body{font-size:1.2rem;}}
+        @media (min-width:1200px){body{font-size:1.5rem;}}
+       </style>
+     6 图片处理
+       如下设置后ID为wrap内的图片会根据wrap的宽度改变已达到等宽扩充，height为auto的设置是为了保证图片原始的高宽比例，以至于图片不会失真。
+       <style type="text/css">
+           #wrap img{
+              max-width:100%;
+              height:auto;
+          }
+       </style>
+       
+十五、举例用bootstrap做一个响应式菜单？
+
+
+</html>

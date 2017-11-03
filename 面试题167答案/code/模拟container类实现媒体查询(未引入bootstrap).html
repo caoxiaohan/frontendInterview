@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>模拟container类实现媒体查询(未引入bootstrap)</title>
+	<style type="text/css">
+		div{
+			background-color: pink;
+		}		
+		.container {
+		  padding-right: 15px;
+		  padding-left: 15px;
+		  margin-right: auto;
+		  margin-left: auto;
+		}
+		
+		 /* 媒体查询 当使用min-width作为判断条件一定要从小到大，其原因是CSS从上往下执行 */	    
+	    @media (min-width: 768px) and (max-width: 992px) {
+	      /*这里的代码只有当(min-width: 1280px)满足时才会执行*/
+	      .container {
+	        width: 750px;
+	      }
+	    }
+	    
+	    @media (min-width: 992px) {
+	      /*这里的代码只有当(min-width: 1280px)满足时才会执行*/
+	      .container {
+	        width: 972px;
+	      }
+	    }
+	    
+	    @media (min-width: 1200px) {
+	      /*这里的代码只有当(min-width: 1280px)满足时才会执行*/
+	      .container {
+	        width: 1170px;
+	      }
+	    }
+	</style>
+</head>
+<body>
+     <div class="container">
+        <h3>this is container</h3>
+    </div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>JSONP 实例</title>
+    <script src="jquery.min.js"></script>    
+</head>
+<body>
+<div id="divCustomers"></div>
+<script>
+$.getJSON("http://www.bofuwa.com/other/jsonp/jsonp.php?jsoncallback=?", function(data) {
+    
+    var html = '<ul>';
+    for(var i = 0; i < data.length; i++)
+    {
+        html += '<li>' + data[i] + '</li>';
+    }
+    html += '</ul>';
+    
+    $('#divCustomers').html(html); 
+});
+</script>
+</body>
+</html>

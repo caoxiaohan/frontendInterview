@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>a</title>
+</head>
+<body>
+	<script type="text/javascript">
+		function createCORS(method, url){
+		    var xhr = new XMLHttpRequest();//标准浏览器
+		    if('withCredentials' in xhr){
+		        xhr.open(method, url, true);
+		    }else if(typeof XDomainRequest != 'undefined'){
+		        var xhr = new XDomainRequest();//IE
+		        xhr.open(method, url);
+		    }else{
+		        xhr = null;
+		    }
+		    return xhr;
+		}
+		var request = createCORS('get', 'http://www.bofuwa.com/other/cors/cors.php');
+		if(request){
+		    request.onload = function(){
+		       document.body.innerHTML=request.responseText;
+		    };
+		    request.send();
+		}
+	</script>
+</body>
+</html>

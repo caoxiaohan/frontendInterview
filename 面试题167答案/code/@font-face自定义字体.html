@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>@font-face自定义字体</title>
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css">
+	<style type="text/css">
+	      @font-face {
+		    font-family: 'CXH1';
+		    src: url('fonts/MiFie-Web/MiFie-Web-Font.eot');
+		    src: url('fonts/MiFie-Web/MiFie-Web-Font.eot?#iefix') format('embedded-opentype'),
+			 url('fonts/MiFie-Web/MiFie-Web-Font.woff') format('woff'),
+			 url('fonts/MiFie-Web/MiFie-Web-Font.ttf') format('truetype'),
+			 url('fonts/MiFie-Web/MiFie-Web-Font.svg#CXH1') format('svg');
+		    font-weight: normal;
+		    font-style: normal;
+		  }
+		  @font-face {
+		    font-family: 'CXH2';
+		    src: url('fonts/midnight_in_october/Midnight in October - TTF.ttf') format('truetype');
+		    font-weight: normal;
+		    font-style: normal;
+		  }
+		  h1.cxh1 {
+		      font-family: 'CXH1'
+		   }
+		  h2.cxh2 {
+		      font-family: 'CXH2'
+		   }
+	</style>
+</head>
+<body>
+      <h1>h1 without @font-face Demo</h1>
+      <h1 class="cxh1">h1 with CXH1 @font-face Demo</h1>
+      <h2>h2 without @font-face Demo</h2>
+      <h2 class="cxh2">h2 with CXH2 @font-face Demo</h2>      
+</body>
+</html>

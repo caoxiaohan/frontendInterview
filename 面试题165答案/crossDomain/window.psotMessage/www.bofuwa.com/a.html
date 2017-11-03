@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>a</title>
+</head>
+<body>
+    <iframe id="iframe" src="http://edu.bofuwa.com"></iframe>
+	<script type="text/javascript">
+		function onLoad(){
+			var ifram = document.getElementById("iframe");
+			var win = iframe.contentWindow;//获取window对象
+			win.postMessage("我来自www页面",'http://edu.bofuwa.com')
+		}
+	</script>
+</body>
+</html>
